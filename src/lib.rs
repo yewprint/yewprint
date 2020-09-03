@@ -1,4 +1,7 @@
 mod app;
+mod buttons;
+mod forms;
+
 use wasm_bindgen::prelude::*;
 
 macro_rules! log {
