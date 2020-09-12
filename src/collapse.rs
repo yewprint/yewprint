@@ -4,12 +4,12 @@ use yew::prelude::*;
 use yew::services::*;
 
 pub struct Collapse {
-    height: Option<String>,
+    height: Height,
     translated: bool,
     disable_transition: bool,
     overflow_visible: bool,
     render_children: bool,
-    height_when_open: Option<i32>,
+    height_when_open: Option<String>,
     animation_state: AnimationState,
     contents_ref: NodeRef,
     callback_delayed_state_change: Callback<()>,
@@ -30,6 +30,7 @@ pub struct Props {
     pub transition_duration: Duration,
 }
 
+#[derive(Copy, Clone, Debug)]
 enum AnimationState {
     OpenStart,
     Opening,
@@ -39,6 +40,13 @@ enum AnimationState {
     Closed,
 }
 
+#[derive(Copy, Clone, Debug)]
+enum Height {
+    Zero,
+    Auto,
+    Full,
+}
+
 impl Component for Collapse {
     type Message = ();
     type Properties = Props;
@@ -46,9 +54,9 @@ impl Component for Collapse {
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
         Collapse {
             height: if props.is_open {
-                Some("auto".to_string())
+                Height::Auto
             } else {
-                None
+                Height::Zero
             },
             disable_transition: false,
             overflow_visible: false,
@@ -84,7 +92,7 @@ impl Component for Collapse {
                     AnimationState::Closed | AnimationState::Closing => {}
                     _ => {
                         self.animation_state = AnimationState::ClosingStart;
-                        self.height = self.height_when_open.as_ref().map(|x| format!("{}px", x));
+                        self.height = Height::Full;
                         self.translated = true;
                     }
                 }
@@ -101,7 +109,7 @@ impl Component for Collapse {
         match self.animation_state {
             AnimationState::OpenStart => {
                 self.animation_state = AnimationState::Opening;
-                self.height = self.height_when_open.as_ref().map(|x| format!("{}px", x));
+                self.height = Height::Full;
                 self.handle_delayed_state_change = Some(Box::new(TimeoutService::spawn(
                     self.props.transition_duration,
                     self.callback_delayed_state_change.clone(),
@@ -110,7 +118,7 @@ impl Component for Collapse {
             }
             AnimationState::ClosingStart => {
                 self.animation_state = AnimationState::Closing;
-                self.height = Some("0px".to_string());
+                self.height = Height::Zero;
                 self.handle_delayed_state_change = Some(Box::new(TimeoutService::spawn(
                     self.props.transition_duration,
                     self.callback_delayed_state_change.clone(),
@@ -119,7 +127,7 @@ impl Component for Collapse {
             }
             AnimationState::Opening => {
                 self.animation_state = AnimationState::Open;
-                self.height = Some("auto".to_string());
+                self.height = Height::Auto;
                 true
             }
             AnimationState::Closing => {
@@ -135,7 +143,7 @@ impl Component for Collapse {
         let client_height = self.contents_ref.cast::<Element>().unwrap().client_height();
 
         if self.render_children {
-            self.height_when_open = Some(client_height);
+            self.height_when_open = Some(format!("{}px", client_height));
         }
 
         match self.animation_state {
@@ -145,13 +153,17 @@ impl Component for Collapse {
     }
 
     fn view(&self) -> Html {
-        let mut container_style = String::new();
-        container_style.push_str("border: red 2px solid;");
-        if let Some(ref height) = self.height {
-            container_style.push_str("height: ");
-            container_style.push_str(height);
-            container_style.push_str("; ");
-        }
+        let mut container_style = String::with_capacity(15);
+        match (self.height, self.height_when_open.as_ref()) {
+            (Height::Zero, _) => container_style.push_str("height: 0px; "),
+            (Height::Auto, _) => container_style.push_str("height: auto; "),
+            (Height::Full, Some(height)) => {
+                container_style.push_str("height: ");
+                container_style.push_str(height.as_str());
+                container_style.push_str("; ");
+            }
+            _ => unreachable!("height_when_open was undefined while height is full"),
+        };
         if self.overflow_visible {
             container_style.push_str("overflow-y: visible; ");
         }
@@ -159,13 +171,13 @@ impl Component for Collapse {
             container_style.push_str("transition: none 0s ease 0s; ");
         }
 
-        let mut content_style = String::new();
+        let mut content_style = String::with_capacity(31);
         if !self.translated {
             content_style.push_str("transform: translateY(0px); ");
         } else if let Some(ref height_when_open) = self.height_when_open {
-            content_style.push_str(&format!("transform: translateY(-{}px); ", height_when_open));
+            content_style.push_str(&format!("transform: translateY(-{}); ", height_when_open));
         } else {
-            unreachable!();
+            unreachable!("height_when_open was undefined while translated is set");
         }
         if self.disable_transition {
             content_style.push_str("transition: none 0s ease 0s; ");
