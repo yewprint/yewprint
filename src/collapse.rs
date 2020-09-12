@@ -1,15 +1,19 @@
 use std::time::Duration;
 use web_sys::Element;
 use yew::prelude::*;
-use yew::services::timeout::*;
+use yew::services::*;
 
 pub struct Collapse {
     height: Option<String>,
+    translated: bool,
+    disable_transition: bool,
+    overflow_visible: bool,
+    render_children: bool,
     height_when_open: Option<i32>,
     animation_state: AnimationState,
     contents_ref: NodeRef,
     callback_delayed_state_change: Callback<()>,
-    handle_delayed_state_change: Option<TimeoutTask>,
+    handle_delayed_state_change: Option<Box<dyn Task>>,
     props: Props,
     link: ComponentLink<Self>,
 }
@@ -46,6 +50,10 @@ impl Component for Collapse {
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
         Collapse {
             height: None,
+            disable_transition: false,
+            overflow_visible: false,
+            translated: false,
+            render_children: props.is_open || props.keep_children_mounted,
             height_when_open: None,
             animation_state: if props.is_open {
                 AnimationState::Open
@@ -63,6 +71,24 @@ impl Component for Collapse {
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
             Message::DelayedStateChange => match self.animation_state {
+                AnimationState::OpenStart => {
+                    self.animation_state = AnimationState::Opening;
+                    self.height = self.height_when_open.as_ref().map(|x| format!("{}px", x));
+                    self.handle_delayed_state_change = Some(Box::new(TimeoutService::spawn(
+                        self.props.transition_duration,
+                        self.callback_delayed_state_change.clone(),
+                    )));
+                    true
+                }
+                AnimationState::ClosingStart => {
+                    self.animation_state = AnimationState::Closing;
+                    self.height = Some("0px".to_string());
+                    self.handle_delayed_state_change = Some(Box::new(TimeoutService::spawn(
+                        self.props.transition_duration,
+                        self.callback_delayed_state_change.clone(),
+                    )));
+                    true
+                }
                 AnimationState::Opening => {
                     crate::log!("open");
                     self.animation_state = AnimationState::Open;
@@ -72,6 +98,7 @@ impl Component for Collapse {
                 AnimationState::Closing => {
                     crate::log!("closed");
                     self.animation_state = AnimationState::Closed;
+                    self.render_children = false;
                     true
                 }
                 _ => false,
@@ -87,7 +114,8 @@ impl Component for Collapse {
                     _ => {
                         crate::log!("openstart");
                         self.animation_state = AnimationState::OpenStart;
-                        self.height = self.height_when_open.as_ref().map(|x| format!("{}px", x));
+                        self.render_children = true;
+                        self.translated = false;
                     }
                 }
             } else {
@@ -97,6 +125,7 @@ impl Component for Collapse {
                         crate::log!("closingstart");
                         self.animation_state = AnimationState::ClosingStart;
                         self.height = self.height_when_open.as_ref().map(|x| format!("{}px", x));
+                        self.translated = true;
                     }
                 }
             }
@@ -111,69 +140,40 @@ impl Component for Collapse {
     fn rendered(&mut self, _first_render: bool) {
         let client_height = self.contents_ref.cast::<Element>().unwrap().client_height();
 
-        if client_height > 0 {
-            self.height_when_open = Some(client_height);
-        }
-
         match self.animation_state {
-            AnimationState::OpenStart => {
+            AnimationState::OpenStart | AnimationState::ClosingStart => {
                 crate::log!("openstart -> opening {}", client_height);
-                self.animation_state = AnimationState::Opening;
-                //self.height = Some(format!("{}px", client_height));
                 self.height_when_open = Some(client_height);
-                self.handle_delayed_state_change =
-                    Some(yew::services::timeout::TimeoutService::spawn(
-                        self.props.transition_duration,
-                        self.callback_delayed_state_change.clone(),
-                    ));
-            }
-            AnimationState::ClosingStart => {
-                crate::log!("closingstart -> closing {}", client_height);
-                self.animation_state = AnimationState::Closing;
-                self.height = Some("0px".to_string());
-                self.height_when_open = Some(client_height);
-                self.handle_delayed_state_change =
-                    Some(yew::services::timeout::TimeoutService::spawn(
-                        self.props.transition_duration,
-                        self.callback_delayed_state_change.clone(),
-                    ));
+                self.link.send_message(Message::DelayedStateChange);
             }
             _ => {}
         }
     }
 
     fn view(&self) -> Html {
-        let is_content_visible = !matches!(self.animation_state, AnimationState::Closed);
-        crate::log!("is_content_visible: {}", is_content_visible);
-        let should_render_children = is_content_visible || self.props.keep_children_mounted;
-        let display_with_transform = is_content_visible
-            && !matches!(
-                self.animation_state,
-                AnimationState::Closing | AnimationState::ClosingStart
-            );
-        let is_auto_height = matches!(self.height.as_deref(), Some("auto"));
-
         let mut container_style = String::new();
-        if is_content_visible {
-            if let Some(ref height) = self.height {
-                container_style.push_str("height: ");
-                container_style.push_str(height);
-                container_style.push_str("; ");
-            }
+        container_style.push_str("border: red 2px solid;");
+        if let Some(ref height) = self.height {
+            container_style.push_str("height: ");
+            container_style.push_str(height);
+            container_style.push_str("; ");
         }
-        if is_auto_height {
+        if self.overflow_visible {
             container_style.push_str("overflow-y: visible; ");
+        }
+        if self.disable_transition {
             container_style.push_str("transition: none 0s ease 0s; ");
         }
-        container_style.push_str("border: red 2px solid;");
 
         let mut content_style = String::new();
-        if display_with_transform {
+        if !self.translated {
             content_style.push_str("transform: translateY(0px); ");
         } else if let Some(ref height_when_open) = self.height_when_open {
             content_style.push_str(&format!("transform: translateY(-{}px); ", height_when_open));
+        } else {
+            crate::log!("translated but height unknown");
         }
-        if is_auto_height {
+        if self.disable_transition {
             content_style.push_str("transition: none 0s ease 0s; ");
         }
 
@@ -182,11 +182,11 @@ impl Component for Collapse {
                 <div
                     class="bp3-collapse-body"
                     style={content_style}
-                    aria-hidden={!is_content_visible && self.props.keep_children_mounted}
+                    aria-hidden={!self.render_children}
                     ref={self.contents_ref.clone()}
                 >
                     {
-                        if should_render_children {
+                        if self.render_children {
                             self.props.children.clone()
                         } else {
                             Default::default()
