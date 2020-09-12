@@ -6,7 +6,6 @@ use yew::services::*;
 pub struct Collapse {
     height: Height,
     translated: bool,
-    disable_transition: bool,
     overflow_visible: bool,
     render_children: bool,
     height_when_open: Option<String>,
@@ -58,7 +57,6 @@ impl Component for Collapse {
             } else {
                 Height::Zero
             },
-            disable_transition: false,
             overflow_visible: false,
             translated: false,
             render_children: props.is_open || props.keep_children_mounted,
@@ -132,7 +130,9 @@ impl Component for Collapse {
             }
             AnimationState::Closing => {
                 self.animation_state = AnimationState::Closed;
-                self.render_children = false;
+                if !self.props.keep_children_mounted {
+                    self.render_children = false;
+                }
                 true
             }
             _ => false,
@@ -140,9 +140,8 @@ impl Component for Collapse {
     }
 
     fn rendered(&mut self, _first_render: bool) {
-        let client_height = self.contents_ref.cast::<Element>().unwrap().client_height();
-
         if self.render_children {
+            let client_height = self.contents_ref.cast::<Element>().unwrap().client_height();
             self.height_when_open = Some(format!("{}px", client_height));
         }
 
@@ -153,7 +152,7 @@ impl Component for Collapse {
     }
 
     fn view(&self) -> Html {
-        let mut container_style = String::with_capacity(15);
+        let mut container_style = String::with_capacity(30);
         match (self.height, self.height_when_open.as_ref()) {
             (Height::Zero, _) => container_style.push_str("height: 0px; "),
             (Height::Auto, _) => container_style.push_str("height: auto; "),
@@ -167,20 +166,14 @@ impl Component for Collapse {
         if self.overflow_visible {
             container_style.push_str("overflow-y: visible; ");
         }
-        if self.disable_transition {
-            container_style.push_str("transition: none 0s ease 0s; ");
-        }
 
-        let mut content_style = String::with_capacity(31);
+        let mut content_style = String::with_capacity(40);
         if !self.translated {
             content_style.push_str("transform: translateY(0px); ");
         } else if let Some(ref height_when_open) = self.height_when_open {
             content_style.push_str(&format!("transform: translateY(-{}); ", height_when_open));
         } else {
             unreachable!("height_when_open was undefined while translated is set");
-        }
-        if self.disable_transition {
-            content_style.push_str("transition: none 0s ease 0s; ");
         }
 
         html! {
