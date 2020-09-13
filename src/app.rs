@@ -2,7 +2,7 @@ use crate::buttons::Button;
 use crate::collapse::Collapse;
 use crate::forms::controls::Switch;
 use crate::icon::IconName;
-use crate::tree::{NodeData, Tree};
+use crate::tree::*;
 use yew::prelude::*;
 
 const DARK_BG_COLOR: &str = "#30404d";
@@ -15,15 +15,14 @@ pub struct App {
     counter: i64,
     dark_theme: bool,
     collapsed: bool,
-    tree: id_tree::Tree<NodeData<i32>>,
-    node_dir1_id: id_tree::NodeId,
+    tree: TreeData<i32>,
 }
 
 pub enum Msg {
     AddOne,
     ToggleLight,
     ToggleCollapse,
-    ExpandNode(id_tree::NodeId),
+    ExpandNode(NodeId),
 }
 
 impl Component for App {
@@ -31,10 +30,10 @@ impl Component for App {
     type Properties = ();
 
     fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
-        let mut tree = id_tree::TreeBuilder::new().build();
+        let mut tree = TreeBuilder::new().build();
         let root_id = tree
             .insert(
-                id_tree::Node::new(NodeData {
+                Node::new(NodeData {
                     icon: None,
                     label: "".into(),
                     is_selected: false,
@@ -45,12 +44,12 @@ impl Component for App {
                     on_expand: None,
                     data: 0,
                 }),
-                id_tree::InsertBehavior::AsRoot,
+                InsertBehavior::AsRoot,
             )
             .unwrap();
         let dir1 = tree
             .insert(
-                id_tree::Node::new(NodeData {
+                Node::new(NodeData {
                     icon: Some(IconName::FolderClose),
                     label: "Directory 1".into(),
                     is_selected: false,
@@ -61,11 +60,11 @@ impl Component for App {
                     on_expand: Some(link.callback(|(node_id, _)| Msg::ExpandNode(node_id))),
                     data: 1,
                 }),
-                id_tree::InsertBehavior::UnderNode(&root_id),
+                InsertBehavior::UnderNode(&root_id),
             )
             .unwrap();
         tree.insert(
-            id_tree::Node::new(NodeData {
+            Node::new(NodeData {
                 icon: Some(IconName::Document),
                 label: "File 1".into(),
                 is_selected: false,
@@ -76,12 +75,12 @@ impl Component for App {
                 on_expand: None,
                 data: 2,
             }),
-            id_tree::InsertBehavior::UnderNode(&root_id),
+            InsertBehavior::UnderNode(&root_id),
         )
         .unwrap();
         tree.insert(
-            id_tree::Node::new(NodeData {
-                icon: None,
+            Node::new(NodeData {
+                icon: Some(IconName::Tag),
                 label: "File 2".into(),
                 is_selected: false,
                 is_expanded: false,
@@ -91,7 +90,7 @@ impl Component for App {
                 on_expand: None,
                 data: 3,
             }),
-            id_tree::InsertBehavior::UnderNode(&dir1),
+            InsertBehavior::UnderNode(&dir1),
         )
         .unwrap();
 
@@ -100,8 +99,7 @@ impl Component for App {
             counter: 0,
             dark_theme: true,
             collapsed: true,
-            tree,
-            node_dir1_id: dir1,
+            tree: tree.into(),
         }
     }
 
@@ -111,9 +109,8 @@ impl Component for App {
             Msg::ToggleLight => self.dark_theme ^= true,
             Msg::ToggleCollapse => self.collapsed ^= true,
             Msg::ExpandNode(node_id) => {
-                crate::log!("{:?}", node_id);
-                crate::log!("{:?}", self.node_dir1_id);
-                let node = self.tree.get_mut(&node_id).unwrap();
+                let mut tree = self.tree.borrow_mut();
+                let node = tree.get_mut(&node_id).unwrap();
                 node.data_mut().is_expanded ^= true;
             }
         }
