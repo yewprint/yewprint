@@ -1,10 +1,11 @@
 #![recursion_limit = "512"]
 
 mod app;
-mod buttons;
-mod collapse;
-mod forms;
-mod tree;
+pub mod buttons;
+pub mod collapse;
+pub mod forms;
+pub mod icon;
+pub mod tree;
 
 use wasm_bindgen::prelude::*;
 

@@ -13,3 +13,7 @@ crate-type = ["cdylib"]
 wasm-bindgen = "^0.2"
 yew = "0.17"
 web-sys = "0.3"
+
+[build-dependencies]
+regex = { version = "1", default-features = false, features = ["std"] }
+heck = "0.3"

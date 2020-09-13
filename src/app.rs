@@ -1,6 +1,7 @@
-use crate::buttons::*;
-use crate::collapse::*;
-use crate::forms::controls::*;
+use crate::buttons::Button;
+use crate::collapse::Collapse;
+use crate::forms::controls::Switch;
+use crate::tree::Tree;
 use yew::prelude::*;
 
 const DARK_BG_COLOR: &str = "#30404d";
@@ -78,6 +79,7 @@ impl Component for App {
                     </Button>
                     <Collapse
                         is_open=!self.collapsed
+                        keep_children_mounted=true
                     >
                         <pre class="bp3-code-block">
                             <div>{"[INFO]: Installing wasm-bindgen..."}</div>
@@ -97,6 +99,9 @@ impl Component for App {
                             <div>{"[2020-09-07 20:39:46] - 127.0.0.1 - 200 - GET /static/wasm_bg.wasm"}</div>
                         </pre>
                     </Collapse>
+                </div>
+                <div>
+                    <Tree />
                 </div>
             </div>
         }
