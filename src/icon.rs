@@ -2,6 +2,12 @@ use yew::prelude::*;
 
 include!(concat!(env!("OUT_DIR"), "/icon_svg_paths.rs"));
 
+impl Default for IconName {
+    fn default() -> Self {
+        IconName::Blank
+    }
+}
+
 pub const SIZE_STANDARD: i32 = 16;
 pub const SIZE_LARGE: i32 = 20;
 
@@ -21,7 +27,7 @@ pub struct Props {
     #[prop_or(16)]
     pub icon_size: i32,
     #[prop_or_default]
-    pub onclick: Callback<MouseEvent>,
+    pub onclick: Option<Callback<MouseEvent>>,
 }
 
 impl Component for Icon {
@@ -59,23 +65,18 @@ impl Component for Icon {
         } else {
             SIZE_STANDARD
         };
+        let icon_string = format!("{:?}", self.props.icon);
 
         html! {
-            <span class="bp3-icon" onclick={self.props.onclick.clone()}>
+            <span class=class onclick?={self.props.onclick.clone()}>
                 <svg
-                    fill={self.props.color.clone().unwrap_or_default()}
-                    data-icon={format!("{:?}", self.props.icon)}
+                    fill?={self.props.color.clone()}
+                    data-icon={icon_string.clone()}
                     width={self.props.icon_size}
                     height={self.props.icon_size}
                     viewBox={format!("0 0 {x} {x}", x=pixel_grid_size)}
                 >
-                    {
-                        if let Some(title) = self.props.title.clone() {
-                            html!(<desc>{title}</desc>)
-                        } else {
-                            Default::default()
-                        }
-                    }
+                    <desc>{self.props.title.clone().unwrap_or_else(|| icon_string)}</desc>
                     {
                         paths.iter()
                             .map(|x| html! {
