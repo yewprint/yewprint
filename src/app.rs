@@ -1,7 +1,7 @@
 use crate::buttons::Button;
 use crate::collapse::Collapse;
 use crate::forms::controls::Switch;
-use crate::icon::IconName;
+use crate::icon::*;
 use crate::tree::*;
 use crate::Intent;
 use yew::prelude::*;
@@ -24,6 +24,7 @@ pub enum Msg {
     ToggleLight,
     ToggleCollapse,
     ExpandNode(NodeId),
+    SelectNode(NodeId),
 }
 
 impl Component for App {
@@ -39,12 +40,11 @@ impl Component for App {
                     icon_color: None,
                     icon_intent: None,
                     label: "".into(),
+                    secondary_label: None,
                     is_selected: false,
                     is_expanded: false,
                     has_caret: true,
                     disabled: false,
-                    on_collapse: None,
-                    on_expand: None,
                     data: 0,
                 }),
                 InsertBehavior::AsRoot,
@@ -57,12 +57,11 @@ impl Component for App {
                     icon_color: None,
                     icon_intent: None,
                     label: "Directory 1".into(),
+                    secondary_label: None,
                     is_selected: false,
                     is_expanded: false,
                     has_caret: true,
                     disabled: false,
-                    on_collapse: Some(link.callback(|(node_id, _)| Msg::ExpandNode(node_id))),
-                    on_expand: Some(link.callback(|(node_id, _)| Msg::ExpandNode(node_id))),
                     data: 1,
                 }),
                 InsertBehavior::UnderNode(&root_id),
@@ -74,12 +73,11 @@ impl Component for App {
                 icon_color: None,
                 icon_intent: None,
                 label: "File 1".into(),
+                secondary_label: None,
                 is_selected: false,
                 is_expanded: false,
                 has_caret: false,
                 disabled: false,
-                on_collapse: None,
-                on_expand: None,
                 data: 2,
             }),
             InsertBehavior::UnderNode(&root_id),
@@ -91,12 +89,11 @@ impl Component for App {
                 icon_color: None,
                 icon_intent: Some(Intent::Primary),
                 label: "File 2".into(),
+                secondary_label: Some(html!(<Icon icon=IconName::EyeOpen />)),
                 is_selected: false,
                 is_expanded: false,
                 has_caret: false,
                 disabled: false,
-                on_collapse: None,
-                on_expand: None,
                 data: 3,
             }),
             InsertBehavior::UnderNode(&dir1),
@@ -120,7 +117,18 @@ impl Component for App {
             Msg::ExpandNode(node_id) => {
                 let mut tree = self.tree.borrow_mut();
                 let node = tree.get_mut(&node_id).unwrap();
-                node.data_mut().is_expanded ^= true;
+                let data = node.data_mut();
+                data.is_expanded ^= true;
+                data.icon = Some(if data.is_expanded {
+                    IconName::FolderOpen
+                } else {
+                    IconName::FolderClose
+                })
+            }
+            Msg::SelectNode(node_id) => {
+                let mut tree = self.tree.borrow_mut();
+                let node = tree.get_mut(&node_id).unwrap();
+                node.data_mut().is_selected ^= true;
             }
         }
         true
@@ -183,7 +191,12 @@ impl Component for App {
                     </Collapse>
                 </div>
                 <div>
-                    <Tree<i32> tree=self.tree.clone() />
+                    <Tree<i32>
+                        tree=self.tree.clone()
+                        on_collapse=Some(self.link.callback(|(node_id, _)| Msg::ExpandNode(node_id)))
+                        on_expand=Some(self.link.callback(|(node_id, _)| Msg::ExpandNode(node_id)))
+                        onclick=Some(self.link.callback(|(node_id, _)| Msg::SelectNode(node_id)))
+                    />
                 </div>
             </div>
         }

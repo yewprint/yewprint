@@ -47,6 +47,12 @@ pub struct Props<T: Clone> {
     #[prop_or_default]
     pub is_expanded: bool,
     pub tree: TreeData<T>,
+    #[prop_or_default]
+    pub on_collapse: Option<Callback<(id_tree::NodeId, MouseEvent)>>,
+    #[prop_or_default]
+    pub on_expand: Option<Callback<(id_tree::NodeId, MouseEvent)>>,
+    #[prop_or_default]
+    pub onclick: Option<Callback<(id_tree::NodeId, MouseEvent)>>,
 }
 
 pub struct NodeData<T> {
@@ -58,8 +64,7 @@ pub struct NodeData<T> {
     pub is_expanded: bool,
     pub is_selected: bool,
     pub label: yew::virtual_dom::VNode,
-    pub on_collapse: Option<Callback<(id_tree::NodeId, MouseEvent)>>,
-    pub on_expand: Option<Callback<(id_tree::NodeId, MouseEvent)>>,
+    pub secondary_label: Option<yew::virtual_dom::VNode>,
     pub data: T,
 }
 
@@ -111,13 +116,26 @@ impl<T: Clone> Tree<T> {
             let data = node.data();
             let on_collapse = {
                 let node_id = node_id.clone();
-                data.on_collapse
-                    .clone()
-                    .map(move |x| x.reform(move |event| (node_id.clone(), event)))
+                self.props.on_collapse.clone().map(move |x| {
+                    x.reform(move |event: MouseEvent| {
+                        event.stop_propagation();
+                        (node_id.clone(), event)
+                    })
+                })
             };
             let on_expand = {
                 let node_id = node_id.clone();
-                data.on_expand
+                self.props.on_expand.clone().map(move |x| {
+                    x.reform(move |event: MouseEvent| {
+                        event.stop_propagation();
+                        (node_id.clone(), event)
+                    })
+                })
+            };
+            let onclick = {
+                let node_id = node_id.clone();
+                self.props
+                    .onclick
                     .clone()
                     .map(move |x| x.reform(move |event| (node_id.clone(), event)))
             };
@@ -133,8 +151,10 @@ impl<T: Clone> Tree<T> {
                     is_expanded=data.is_expanded
                     is_selected=data.is_selected
                     label=data.label.clone()
+                    secondary_label=data.secondary_label.clone()
                     on_collapse=on_collapse
                     on_expand=on_expand
+                    onclick=onclick
                     depth=depth
                 >
                     {inner_nodes}
@@ -164,8 +184,10 @@ pub struct TreeNodeProps {
     pub is_expanded: bool,
     pub is_selected: bool,
     pub label: yew::virtual_dom::VNode,
+    pub secondary_label: Option<yew::virtual_dom::VNode>,
     pub on_collapse: Option<Callback<MouseEvent>>,
     pub on_expand: Option<Callback<MouseEvent>>,
+    pub onclick: Option<Callback<MouseEvent>>,
     pub children: html::Children,
     pub depth: u32,
 }
@@ -192,12 +214,16 @@ impl Component for TreeNode {
     }
 
     fn view(&self) -> Html {
+        let mut container_class = Classes::from("bp3-tree-node");
+        if self.props.is_selected {
+            container_class.push("bp3-tree-node-selected");
+        }
         let mut content_class = Classes::from("bp3-tree-node-content");
         content_class.push(&format!("bp3-tree-node-content-{}", self.props.depth));
 
         html! {
-            <li class="bp3-tree-node">
-                <div class=content_class>
+            <li class=container_class>
+                <div class=content_class onclick?={self.props.onclick.clone()}>
                     {
                         if self.props.has_caret {
                             let mut class = Classes::from("bp3-tree-node-caret");
@@ -235,6 +261,13 @@ impl Component for TreeNode {
                         intent=self.props.icon_intent,
                     />
                     <span class="bp3-tree-node-label">{self.props.label.clone()}</span>
+                    {
+                        if let Some(label) = self.props.secondary_label.clone() {
+                            html!(<span class="bp3-tree-node-secondary-label">{label}</span>)
+                        } else {
+                            html!()
+                        }
+                    }
                 </div>
                 <Collapse is_open=self.props.is_expanded>
                     {self.props.children.clone()}
