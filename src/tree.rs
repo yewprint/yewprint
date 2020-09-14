@@ -143,58 +143,61 @@ impl<T: Clone + PartialEq + 'static> Component for Tree<T> {
 impl<T: Clone> Tree<T> {
     fn render_children(&self, node_id: &NodeId, depth: u32) -> yew::virtual_dom::VNode {
         let tree = self.props.tree.borrow();
-        let mut nodes = Vec::new();
 
-        for node_id in tree.children_ids(node_id).unwrap() {
-            let node = tree.get(node_id).unwrap();
-            let data = node.data();
-            let on_collapse = {
-                let node_id = node_id.clone();
-                self.props.on_collapse.clone().map(move |x| {
-                    x.reform(move |event: MouseEvent| {
-                        event.stop_propagation();
-                        (node_id.clone(), event)
+        let nodes = tree
+            .children_ids(node_id)
+            .unwrap()
+            .map(|node_id| {
+                let node = tree.get(node_id).unwrap();
+                let data = node.data();
+                let on_collapse = {
+                    let node_id = node_id.clone();
+                    self.props.on_collapse.clone().map(move |x| {
+                        x.reform(move |event: MouseEvent| {
+                            event.stop_propagation();
+                            (node_id.clone(), event)
+                        })
                     })
-                })
-            };
-            let on_expand = {
-                let node_id = node_id.clone();
-                self.props.on_expand.clone().map(move |x| {
-                    x.reform(move |event: MouseEvent| {
-                        event.stop_propagation();
-                        (node_id.clone(), event)
+                };
+                let on_expand = {
+                    let node_id = node_id.clone();
+                    self.props.on_expand.clone().map(move |x| {
+                        x.reform(move |event: MouseEvent| {
+                            event.stop_propagation();
+                            (node_id.clone(), event)
+                        })
                     })
-                })
-            };
-            let onclick = {
-                let node_id = node_id.clone();
-                self.props
-                    .onclick
-                    .clone()
-                    .map(move |x| x.reform(move |event| (node_id.clone(), event)))
-            };
-            let inner_nodes = self.render_children(node_id, depth + 1);
+                };
+                let onclick = {
+                    let node_id = node_id.clone();
+                    self.props
+                        .onclick
+                        .clone()
+                        .map(move |x| x.reform(move |event| (node_id.clone(), event)))
+                };
+                let inner_nodes = self.render_children(node_id, depth + 1);
 
-            nodes.push(html! {
-                <TreeNode
-                    disabled=data.disabled
-                    has_caret=data.has_caret
-                    icon=data.icon
-                    icon_color=data.icon_color.clone()
-                    icon_intent=data.icon_intent
-                    is_expanded=data.is_expanded
-                    is_selected=data.is_selected
-                    label=data.label.clone()
-                    secondary_label=data.secondary_label.clone()
-                    on_collapse=on_collapse
-                    on_expand=on_expand
-                    onclick=onclick
-                    depth=depth
-                >
-                    {inner_nodes}
-                </TreeNode>
-            });
-        }
+                html! {
+                    <TreeNode
+                        disabled=data.disabled
+                        has_caret=data.has_caret
+                        icon=data.icon
+                        icon_color=data.icon_color.clone()
+                        icon_intent=data.icon_intent
+                        is_expanded=data.is_expanded
+                        is_selected=data.is_selected
+                        label=data.label.clone()
+                        secondary_label=data.secondary_label.clone()
+                        on_collapse=on_collapse
+                        on_expand=on_expand
+                        onclick=onclick
+                        depth=depth
+                    >
+                        {inner_nodes}
+                    </TreeNode>
+                }
+            })
+            .collect::<Html>();
 
         html! {
             <ul class="bp3-tree-node-list">
