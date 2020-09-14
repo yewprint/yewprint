@@ -17,6 +17,8 @@ pub struct App {
     dark_theme: bool,
     collapsed: bool,
     tree: TreeData<i32>,
+    callback_expand_node: Callback<(NodeId, MouseEvent)>,
+    callback_select_node: Callback<(NodeId, MouseEvent)>,
 }
 
 pub enum Msg {
@@ -94,11 +96,13 @@ impl Component for App {
         .unwrap();
 
         App {
-            link,
             counter: 0,
             dark_theme: true,
             collapsed: true,
             tree: tree.into(),
+            callback_expand_node: link.callback(|(node_id, _)| Msg::ExpandNode(node_id)),
+            callback_select_node: link.callback(|(node_id, _)| Msg::SelectNode(node_id)),
+            link,
         }
     }
 
@@ -186,9 +190,9 @@ impl Component for App {
                 <div>
                     <Tree<i32>
                         tree=self.tree.clone()
-                        on_collapse=Some(self.link.callback(|(node_id, _)| Msg::ExpandNode(node_id)))
-                        on_expand=Some(self.link.callback(|(node_id, _)| Msg::ExpandNode(node_id)))
-                        onclick=Some(self.link.callback(|(node_id, _)| Msg::SelectNode(node_id)))
+                        on_collapse=Some(self.callback_expand_node.clone())
+                        on_expand=Some(self.callback_expand_node.clone())
+                        onclick=Some(self.callback_select_node.clone())
                     />
                 </div>
             </div>
