@@ -85,6 +85,23 @@ impl<T: Default> Default for NodeData<T> {
     }
 }
 
+impl<T: Clone> Clone for NodeData<T> {
+    fn clone(&self) -> Self {
+        Self {
+            disabled: self.disabled,
+            has_caret: self.has_caret,
+            icon: self.icon,
+            icon_color: self.icon_color.clone(),
+            icon_intent: self.icon_intent,
+            is_expanded: self.is_expanded,
+            is_selected: self.is_selected,
+            label: self.label.clone(),
+            secondary_label: self.secondary_label.clone(),
+            data: self.data.clone(),
+        }
+    }
+}
+
 impl<T: Clone + PartialEq + 'static> Component for Tree<T> {
     type Message = ();
     type Properties = Props<T>;
