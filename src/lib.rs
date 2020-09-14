@@ -8,6 +8,8 @@ pub mod forms;
 pub mod icon;
 pub mod tree;
 
+use yew::virtual_dom::Classes;
+
 #[cfg(feature = "dev")]
 #[macro_export]
 macro_rules! log {
@@ -32,9 +34,15 @@ pub enum Intent {
     Danger,
 }
 
-impl From<Intent> for &'static str {
+impl From<Intent> for Classes {
     fn from(intent: Intent) -> Self {
-        match intent {
+        Classes::from(intent.as_ref())
+    }
+}
+
+impl AsRef<str> for Intent {
+    fn as_ref(&self) -> &'static str {
+        match self {
             Intent::Primary => "bp3-intent-primary",
             Intent::Success => "bp3-intent-success",
             Intent::Warning => "bp3-intent-warning",

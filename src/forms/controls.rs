@@ -8,7 +8,9 @@ pub struct Switch {
 pub struct Props {
     #[prop_or_default]
     pub checked: bool,
+    #[prop_or_default]
     pub onclick: Callback<MouseEvent>,
+    #[prop_or_default]
     pub label: String,
 }
 

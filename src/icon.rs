@@ -55,12 +55,9 @@ impl Component for Icon {
     }
 
     fn view(&self) -> Html {
-        let mut class = "bp3-icon ".to_string();
-        class.push_str(self.props.class.as_str());
-        class.push_str(" ");
-        if let Some(intent) = self.props.intent {
-            class.push_str(intent.into());
-        }
+        let mut class = Classes::from("bp3-icon");
+        class.push(self.props.class.as_str());
+        class = class.extend(&self.props.intent);
 
         let paths = if self.props.icon_size == SIZE_STANDARD {
             icon_svg_paths_16(self.props.icon)

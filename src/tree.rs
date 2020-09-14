@@ -192,16 +192,16 @@ impl Component for TreeNode {
     }
 
     fn view(&self) -> Html {
-        let mut content_class = "bp3-tree-node-content ".to_string();
-        content_class.push_str(&format!("bp3-tree-node-content-{}", self.props.depth));
+        let mut content_class = Classes::from("bp3-tree-node-content");
+        content_class.push(&format!("bp3-tree-node-content-{}", self.props.depth));
 
         html! {
             <li class="bp3-tree-node">
                 <div class=content_class>
                     {
                         if self.props.has_caret {
-                            let mut class = "bp3-tree-node-caret ".to_string();
-                            class.push_str(if self.props.is_expanded {
+                            let mut class = Classes::from("bp3-tree-node-caret");
+                            class.push(if self.props.is_expanded {
                                 "bp3-tree-node-caret-open"
                             } else {
                                 "bp3-tree-node-caret-closed"
@@ -209,7 +209,7 @@ impl Component for TreeNode {
 
                             html! {
                                 <Icon
-                                    class=class
+                                    class=class.to_string()
                                     icon=IconName::ChevronRight
                                     onclick={
                                         if self.props.disabled {

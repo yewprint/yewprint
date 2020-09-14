@@ -8,6 +8,7 @@ pub struct Button {
 pub struct Props {
     #[prop_or_default]
     pub title: String,
+    #[prop_or_default]
     pub onclick: Callback<MouseEvent>,
     pub children: html::Children,
 }
@@ -35,7 +36,9 @@ impl Component for Button {
 
     fn view(&self) -> Html {
         html! {
-            <button class="bp3-button" onclick={self.props.onclick.clone()}>{self.props.children.clone()}</button>
+            <button class="bp3-button" onclick={self.props.onclick.clone()}>
+                {self.props.children.clone()}
+            </button>
         }
     }
 }
