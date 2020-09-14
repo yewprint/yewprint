@@ -14,6 +14,7 @@ Installation
 ### Prerequisites
 
  *  wasm-pack
+ *  cargo-watch
  *  Rust nightly
 
 ### Use as a library
