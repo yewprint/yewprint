@@ -68,6 +68,23 @@ pub struct NodeData<T> {
     pub data: T,
 }
 
+impl<T: Default> Default for NodeData<T> {
+    fn default() -> Self {
+        Self {
+            disabled: false,
+            has_caret: false,
+            icon: None,
+            icon_color: None,
+            icon_intent: None,
+            is_expanded: false,
+            is_selected: false,
+            label: Default::default(),
+            secondary_label: None,
+            data: Default::default(),
+        }
+    }
+}
+
 impl<T: Clone + PartialEq + 'static> Component for Tree<T> {
     type Message = ();
     type Properties = Props<T>;
@@ -170,26 +187,26 @@ impl<T: Clone> Tree<T> {
     }
 }
 
-pub struct TreeNode {
+struct TreeNode {
     props: TreeNodeProps,
 }
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct TreeNodeProps {
-    pub disabled: bool,
-    pub has_caret: bool,
-    pub icon: Option<IconName>,
-    pub icon_color: Option<String>,
-    pub icon_intent: Option<Intent>,
-    pub is_expanded: bool,
-    pub is_selected: bool,
-    pub label: yew::virtual_dom::VNode,
-    pub secondary_label: Option<yew::virtual_dom::VNode>,
-    pub on_collapse: Option<Callback<MouseEvent>>,
-    pub on_expand: Option<Callback<MouseEvent>>,
-    pub onclick: Option<Callback<MouseEvent>>,
-    pub children: html::Children,
-    pub depth: u32,
+struct TreeNodeProps {
+    disabled: bool,
+    has_caret: bool,
+    icon: Option<IconName>,
+    icon_color: Option<String>,
+    icon_intent: Option<Intent>,
+    is_expanded: bool,
+    is_selected: bool,
+    label: yew::virtual_dom::VNode,
+    secondary_label: Option<yew::virtual_dom::VNode>,
+    on_collapse: Option<Callback<MouseEvent>>,
+    on_expand: Option<Callback<MouseEvent>>,
+    onclick: Option<Callback<MouseEvent>>,
+    children: html::Children,
+    depth: u32,
 }
 
 impl Component for TreeNode {

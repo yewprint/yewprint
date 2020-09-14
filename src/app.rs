@@ -36,16 +36,8 @@ impl Component for App {
         let root_id = tree
             .insert(
                 Node::new(NodeData {
-                    icon: None,
-                    icon_color: None,
-                    icon_intent: None,
-                    label: "".into(),
-                    secondary_label: None,
-                    is_selected: false,
-                    is_expanded: false,
-                    has_caret: true,
-                    disabled: false,
                     data: 0,
+                    ..Default::default()
                 }),
                 InsertBehavior::AsRoot,
             )
@@ -54,15 +46,10 @@ impl Component for App {
             .insert(
                 Node::new(NodeData {
                     icon: Some(IconName::FolderClose),
-                    icon_color: None,
-                    icon_intent: None,
                     label: "Directory 1".into(),
-                    secondary_label: None,
-                    is_selected: false,
-                    is_expanded: false,
                     has_caret: true,
-                    disabled: false,
                     data: 1,
+                    ..Default::default()
                 }),
                 InsertBehavior::UnderNode(&root_id),
             )
@@ -70,15 +57,9 @@ impl Component for App {
         tree.insert(
             Node::new(NodeData {
                 icon: Some(IconName::Document),
-                icon_color: None,
-                icon_intent: None,
                 label: "File 1".into(),
-                secondary_label: None,
-                is_selected: false,
-                is_expanded: false,
-                has_caret: false,
-                disabled: false,
                 data: 2,
+                ..Default::default()
             }),
             InsertBehavior::UnderNode(&root_id),
         )
@@ -86,15 +67,11 @@ impl Component for App {
         tree.insert(
             Node::new(NodeData {
                 icon: Some(IconName::Tag),
-                icon_color: None,
                 icon_intent: Some(Intent::Primary),
                 label: "File 2".into(),
                 secondary_label: Some(html!(<Icon icon=IconName::EyeOpen />)),
-                is_selected: false,
-                is_expanded: false,
-                has_caret: false,
-                disabled: false,
                 data: 3,
+                ..Default::default()
             }),
             InsertBehavior::UnderNode(&dir1),
         )
