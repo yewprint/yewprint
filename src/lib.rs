@@ -23,3 +23,22 @@ pub fn run_app() -> Result<(), wasm_bindgen::JsValue> {
 
     Ok(())
 }
+
+#[derive(Debug, Copy, Clone, PartialEq)]
+pub enum Intent {
+    Primary,
+    Success,
+    Warning,
+    Danger,
+}
+
+impl From<Intent> for &'static str {
+    fn from(intent: Intent) -> Self {
+        match intent {
+            Intent::Primary => "bp3-intent-primary",
+            Intent::Success => "bp3-intent-success",
+            Intent::Warning => "bp3-intent-warning",
+            Intent::Danger => "bp3-intent-danger",
+        }
+    }
+}

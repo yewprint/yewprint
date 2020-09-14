@@ -3,6 +3,7 @@ use crate::collapse::Collapse;
 use crate::forms::controls::Switch;
 use crate::icon::IconName;
 use crate::tree::*;
+use crate::Intent;
 use yew::prelude::*;
 
 const DARK_BG_COLOR: &str = "#30404d";
@@ -35,6 +36,8 @@ impl Component for App {
             .insert(
                 Node::new(NodeData {
                     icon: None,
+                    icon_color: None,
+                    icon_intent: None,
                     label: "".into(),
                     is_selected: false,
                     is_expanded: false,
@@ -51,6 +54,8 @@ impl Component for App {
             .insert(
                 Node::new(NodeData {
                     icon: Some(IconName::FolderClose),
+                    icon_color: None,
+                    icon_intent: None,
                     label: "Directory 1".into(),
                     is_selected: false,
                     is_expanded: false,
@@ -66,6 +71,8 @@ impl Component for App {
         tree.insert(
             Node::new(NodeData {
                 icon: Some(IconName::Document),
+                icon_color: None,
+                icon_intent: None,
                 label: "File 1".into(),
                 is_selected: false,
                 is_expanded: false,
@@ -81,6 +88,8 @@ impl Component for App {
         tree.insert(
             Node::new(NodeData {
                 icon: Some(IconName::Tag),
+                icon_color: None,
+                icon_intent: Some(Intent::Primary),
                 label: "File 2".into(),
                 is_selected: false,
                 is_expanded: false,

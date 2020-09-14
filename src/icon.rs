@@ -1,3 +1,4 @@
+use crate::Intent;
 use yew::prelude::*;
 
 include!(concat!(env!("OUT_DIR"), "/icon_svg_paths.rs"));
@@ -24,6 +25,8 @@ pub struct Props {
     pub title: Option<String>,
     #[prop_or_default]
     pub color: Option<String>,
+    #[prop_or_default]
+    pub intent: Option<Intent>,
     #[prop_or(16)]
     pub icon_size: i32,
     #[prop_or_default]
@@ -54,6 +57,10 @@ impl Component for Icon {
     fn view(&self) -> Html {
         let mut class = "bp3-icon ".to_string();
         class.push_str(self.props.class.as_str());
+        class.push_str(" ");
+        if let Some(intent) = self.props.intent {
+            class.push_str(intent.into());
+        }
 
         let paths = if self.props.icon_size == SIZE_STANDARD {
             icon_svg_paths_16(self.props.icon)

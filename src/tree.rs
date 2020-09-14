@@ -1,5 +1,6 @@
 use crate::collapse::Collapse;
 use crate::icon::{Icon, IconName};
+use crate::Intent;
 pub use id_tree::*;
 use std::cell::{Ref, RefCell, RefMut};
 use std::rc::Rc;
@@ -18,15 +19,6 @@ impl<T> PartialEq for TreeData<T> {
 }
 
 impl<T> TreeData<T> {
-    pub fn new() -> Self {
-        let tree = id_tree::Tree::new();
-
-        Self {
-            tree: Rc::new(RefCell::new(tree)),
-            version: 0,
-        }
-    }
-
     pub fn borrow(&self) -> Ref<id_tree::Tree<NodeData<T>>> {
         self.tree.borrow()
     }
@@ -61,6 +53,8 @@ pub struct NodeData<T> {
     pub disabled: bool,
     pub has_caret: bool,
     pub icon: Option<IconName>,
+    pub icon_color: Option<String>,
+    pub icon_intent: Option<Intent>,
     pub is_expanded: bool,
     pub is_selected: bool,
     pub label: yew::virtual_dom::VNode,
@@ -134,6 +128,8 @@ impl<T: Clone> Tree<T> {
                     disabled=data.disabled
                     has_caret=data.has_caret
                     icon=data.icon
+                    icon_color=data.icon_color.clone()
+                    icon_intent=data.icon_intent
                     is_expanded=data.is_expanded
                     is_selected=data.is_selected
                     label=data.label.clone()
@@ -160,23 +156,16 @@ pub struct TreeNode {
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct TreeNodeProps {
-    #[prop_or_default]
     pub disabled: bool,
-    #[prop_or_default]
     pub has_caret: bool,
-    #[prop_or_default]
     pub icon: Option<IconName>,
-    #[prop_or_default]
+    pub icon_color: Option<String>,
+    pub icon_intent: Option<Intent>,
     pub is_expanded: bool,
-    #[prop_or_default]
     pub is_selected: bool,
-    #[prop_or_default]
     pub label: yew::virtual_dom::VNode,
-    #[prop_or_default]
     pub on_collapse: Option<Callback<MouseEvent>>,
-    #[prop_or_default]
     pub on_expand: Option<Callback<MouseEvent>>,
-    #[prop_or_default]
     pub children: html::Children,
     pub depth: u32,
 }
@@ -239,7 +228,12 @@ impl Component for TreeNode {
                             }
                         }
                     }
-                    <Icon class="bp3-tree-node-icon" icon=self.props.icon.unwrap_or_default() />
+                    <Icon
+                        class="bp3-tree-node-icon"
+                        icon=self.props.icon.unwrap_or_default()
+                        color=self.props.icon_color.clone(),
+                        intent=self.props.icon_intent,
+                    />
                     <span class="bp3-tree-node-label">{self.props.label.clone()}</span>
                 </div>
                 <Collapse is_open=self.props.is_expanded>
