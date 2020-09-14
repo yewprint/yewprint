@@ -86,7 +86,7 @@ impl Component for Icon {
                             .map(|x| html! {
                                 <path d=x fillRule="evenodd" />
                             })
-                            .collect::<Vec<_>>()
+                            .collect::<Html>()
                     }
                 </svg>
             </span>
