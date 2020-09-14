@@ -95,7 +95,7 @@ impl<T: Clone + PartialEq + 'static> Component for Tree<T> {
         let nodes = if let Some(root_id) = tree.root_node_id() {
             self.render_children(root_id, 0)
         } else {
-            Default::default()
+            html!()
         };
 
         html! {
