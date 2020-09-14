@@ -46,7 +46,7 @@ impl Component for App {
             .insert(
                 Node::new(NodeData {
                     icon: Some(IconName::FolderClose),
-                    label: "Directory 1".into(),
+                    label: "Big directory".into(),
                     has_caret: true,
                     data: 1,
                     ..Default::default()
@@ -54,26 +54,42 @@ impl Component for App {
                 InsertBehavior::UnderNode(&root_id),
             )
             .unwrap();
-        tree.insert(
-            Node::new(NodeData {
-                icon: Some(IconName::Document),
-                label: "File 1".into(),
-                data: 2,
-                ..Default::default()
-            }),
-            InsertBehavior::UnderNode(&root_id),
-        )
-        .unwrap();
+        for i in 0..100 {
+            let dir2 = tree
+                .insert(
+                    Node::new(NodeData {
+                        icon: Some(IconName::FolderClose),
+                        label: format!("Directory {}", i + 1).into(),
+                        has_caret: true,
+                        data: 1,
+                        ..Default::default()
+                    }),
+                    InsertBehavior::UnderNode(&dir1),
+                )
+                .unwrap();
+            for i in 0..100 {
+                tree.insert(
+                    Node::new(NodeData {
+                        icon: Some(IconName::Document),
+                        label: format!("File {}", i + 1).into(),
+                        data: i,
+                        ..Default::default()
+                    }),
+                    InsertBehavior::UnderNode(&dir2),
+                )
+                .unwrap();
+            }
+        }
         tree.insert(
             Node::new(NodeData {
                 icon: Some(IconName::Tag),
                 icon_intent: Some(Intent::Primary),
-                label: "File 2".into(),
+                label: "Outer file".into(),
                 secondary_label: Some(html!(<Icon icon=IconName::EyeOpen />)),
                 data: 3,
                 ..Default::default()
             }),
-            InsertBehavior::UnderNode(&dir1),
+            InsertBehavior::UnderNode(&root_id),
         )
         .unwrap();
 
@@ -122,7 +138,7 @@ impl Component for App {
             (LIGHT_FG_COLOR, LIGHT_BG_COLOR)
         };
         let style = format!(
-            "height: 100vh; padding: 10px; background-color: {}; color: {}",
+            "min-height: 100vh; padding: 10px; background-color: {}; color: {}",
             bg_color, fg_color
         );
         let class = if self.dark_theme { "bp3-dark" } else { "" };
