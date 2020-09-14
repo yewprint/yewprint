@@ -3,6 +3,8 @@ use crate::icon::{Icon, IconName};
 use crate::Intent;
 pub use id_tree::*;
 use std::cell::{Ref, RefCell, RefMut};
+use std::collections::hash_map::DefaultHasher;
+use std::hash::{Hash, Hasher};
 use std::rc::Rc;
 use yew::prelude::*;
 
@@ -176,6 +178,9 @@ impl<T: Clone> Tree<T> {
                         .map(move |x| x.reform(move |event| (node_id.clone(), event)))
                 };
                 let inner_nodes = self.render_children(node_id, depth + 1);
+                let mut hasher = DefaultHasher::new();
+                node_id.hash(&mut hasher);
+                let key = hasher.finish();
 
                 html! {
                     <TreeNode
@@ -192,6 +197,7 @@ impl<T: Clone> Tree<T> {
                         on_expand=on_expand
                         onclick=onclick
                         depth=depth
+                        key=key
                     >
                         {inner_nodes}
                     </TreeNode>
