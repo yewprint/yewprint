@@ -4,6 +4,7 @@ use crate::Intent;
 pub use id_tree::*;
 use std::cell::{Ref, RefCell, RefMut};
 use std::collections::hash_map::DefaultHasher;
+use std::collections::HashMap;
 use std::hash::{Hash, Hasher};
 use std::rc::Rc;
 use yew::prelude::*;
@@ -42,6 +43,7 @@ impl<T> From<id_tree::Tree<NodeData<T>>> for TreeData<T> {
 
 pub struct Tree<T: Clone> {
     props: Props<T>,
+    previous_expanded_state: RefCell<HashMap<u64, bool>>,
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -50,11 +52,11 @@ pub struct Props<T: Clone> {
     pub is_expanded: bool,
     pub tree: TreeData<T>,
     #[prop_or_default]
-    pub on_collapse: Option<Callback<(id_tree::NodeId, MouseEvent)>>,
+    pub on_collapse: Option<Callback<(NodeId, MouseEvent)>>,
     #[prop_or_default]
-    pub on_expand: Option<Callback<(id_tree::NodeId, MouseEvent)>>,
+    pub on_expand: Option<Callback<(NodeId, MouseEvent)>>,
     #[prop_or_default]
-    pub onclick: Option<Callback<(id_tree::NodeId, MouseEvent)>>,
+    pub onclick: Option<Callback<(NodeId, MouseEvent)>>,
 }
 
 pub struct NodeData<T> {
@@ -109,7 +111,10 @@ impl<T: Clone + PartialEq + 'static> Component for Tree<T> {
     type Properties = Props<T>;
 
     fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        Tree { props }
+        Tree {
+            props,
+            previous_expanded_state: Default::default(),
+        }
     }
 
     fn update(&mut self, _msg: Self::Message) -> ShouldRender {
@@ -136,7 +141,9 @@ impl<T: Clone + PartialEq + 'static> Component for Tree<T> {
 
         html! {
             <div class="bp3-tree">
-                {nodes}
+                <ul class="bp3-tree-node-list">
+                    {nodes}
+                </ul>
             </div>
         }
     }
@@ -145,42 +152,28 @@ impl<T: Clone + PartialEq + 'static> Component for Tree<T> {
 impl<T: Clone> Tree<T> {
     fn render_children(&self, node_id: &NodeId, depth: u32) -> yew::virtual_dom::VNode {
         let tree = self.props.tree.borrow();
+        let node = tree.get(node_id).unwrap();
+        let children = node.children();
 
-        let nodes = tree
-            .children_ids(node_id)
-            .unwrap()
+        let nodes = children
+            .iter()
             .map(|node_id| {
+                let key = {
+                    let mut hasher = DefaultHasher::new();
+                    node_id.hash(&mut hasher);
+                    hasher.finish()
+                };
                 let node = tree.get(node_id).unwrap();
                 let data = node.data();
-                let on_collapse = {
-                    let node_id = node_id.clone();
-                    self.props.on_collapse.clone().map(move |x| {
-                        x.reform(move |event: MouseEvent| {
-                            event.stop_propagation();
-                            (node_id.clone(), event)
-                        })
-                    })
+                let previous_is_expanded = self
+                    .previous_expanded_state
+                    .borrow_mut()
+                    .insert(key, data.is_expanded);
+                let inner_nodes = if !data.is_expanded && !previous_is_expanded.unwrap_or(true) {
+                    Default::default()
+                } else {
+                    self.render_children(node_id, depth + 1)
                 };
-                let on_expand = {
-                    let node_id = node_id.clone();
-                    self.props.on_expand.clone().map(move |x| {
-                        x.reform(move |event: MouseEvent| {
-                            event.stop_propagation();
-                            (node_id.clone(), event)
-                        })
-                    })
-                };
-                let onclick = {
-                    let node_id = node_id.clone();
-                    self.props
-                        .onclick
-                        .clone()
-                        .map(move |x| x.reform(move |event| (node_id.clone(), event)))
-                };
-                let inner_nodes = self.render_children(node_id, depth + 1);
-                let mut hasher = DefaultHasher::new();
-                node_id.hash(&mut hasher);
-                let key = hasher.finish();
 
                 html! {
                     <TreeNode
@@ -193,10 +186,11 @@ impl<T: Clone> Tree<T> {
                         is_selected=data.is_selected
                         label=data.label.clone()
                         secondary_label=data.secondary_label.clone()
-                        on_collapse=on_collapse
-                        on_expand=on_expand
-                        onclick=onclick
+                        on_collapse=self.props.on_collapse.clone()
+                        on_expand=self.props.on_expand.clone()
+                        onclick=self.props.onclick.clone()
                         depth=depth
+                        node_id=node_id.clone()
                         key=key
                     >
                         {inner_nodes}
@@ -205,20 +199,19 @@ impl<T: Clone> Tree<T> {
             })
             .collect::<Html>();
 
-        html! {
-            <ul class="bp3-tree-node-list">
-                {nodes}
-            </ul>
-        }
+        return nodes;
     }
 }
 
 struct TreeNode {
     props: TreeNodeProps,
+    handler_caret_click: Callback<MouseEvent>,
+    handler_click: Callback<MouseEvent>,
 }
 
-#[derive(Clone, PartialEq, Properties)]
+#[derive(Clone, Properties)]
 struct TreeNodeProps {
+    node_id: NodeId,
     disabled: bool,
     has_caret: bool,
     icon: Option<IconName>,
@@ -228,27 +221,85 @@ struct TreeNodeProps {
     is_selected: bool,
     label: yew::virtual_dom::VNode,
     secondary_label: Option<yew::virtual_dom::VNode>,
-    on_collapse: Option<Callback<MouseEvent>>,
-    on_expand: Option<Callback<MouseEvent>>,
-    onclick: Option<Callback<MouseEvent>>,
+    on_collapse: Option<Callback<(id_tree::NodeId, MouseEvent)>>,
+    on_expand: Option<Callback<(id_tree::NodeId, MouseEvent)>>,
+    onclick: Option<Callback<(id_tree::NodeId, MouseEvent)>>,
     children: html::Children,
     depth: u32,
 }
 
+impl PartialEq for TreeNodeProps {
+    fn eq(&self, other: &Self) -> bool {
+        self.node_id == other.node_id
+            && self.disabled == other.disabled
+            && self.has_caret == other.has_caret
+            && self.icon == other.icon
+            && self.icon_color == other.icon_color
+            && self.icon_intent == other.icon_intent
+            && self.is_expanded == other.is_expanded
+            && self.is_selected == other.is_selected
+            && self.label == other.label
+            && self.secondary_label == other.secondary_label
+            && self.on_collapse == other.on_collapse
+            && self.on_expand == other.on_expand
+            && self.onclick == other.onclick
+            && self.depth == other.depth
+            && (!other.is_expanded || self.children == other.children)
+    }
+}
+
+enum TreeNodeMessage {
+    CaretClick(MouseEvent),
+    Click(MouseEvent),
+}
+
 impl Component for TreeNode {
-    type Message = ();
+    type Message = TreeNodeMessage;
     type Properties = TreeNodeProps;
 
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        TreeNode { props }
+    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+        TreeNode {
+            handler_caret_click: link.callback(TreeNodeMessage::CaretClick),
+            handler_click: link.callback(TreeNodeMessage::Click),
+            props,
+        }
     }
 
-    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
-        true
+    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+        if self.props.disabled {
+            return false;
+        }
+
+        match msg {
+            TreeNodeMessage::CaretClick(event) => {
+                if self.props.is_expanded {
+                    if let Some(on_collapse) = self.props.on_collapse.as_ref() {
+                        event.stop_propagation();
+                        on_collapse.emit((self.props.node_id.clone(), event));
+                    }
+                } else if let Some(on_expand) = self.props.on_expand.as_ref() {
+                    event.stop_propagation();
+                    on_expand.emit((self.props.node_id.clone(), event));
+                }
+            }
+            TreeNodeMessage::Click(event) => {
+                if let Some(onclick) = self.props.onclick.as_ref() {
+                    onclick.emit((self.props.node_id.clone(), event));
+                }
+            }
+        }
+
+        false
     }
 
     fn change(&mut self, props: Self::Properties) -> ShouldRender {
         if self.props != props {
+            // crate::log!(
+            //     "rerender {:?} {} {:?}",
+            //     self.props.node_id,
+            //     self.props.children == props.children,
+            //     self.props.icon,
+            // );
             self.props = props;
             true
         } else {
@@ -266,7 +317,7 @@ impl Component for TreeNode {
 
         html! {
             <li class=container_class>
-                <div class=content_class onclick?={self.props.onclick.clone()}>
+                <div class=content_class onclick=self.handler_click.clone()>
                     {
                         if self.props.has_caret {
                             let mut class = Classes::from("bp3-tree-node-caret");
@@ -280,15 +331,7 @@ impl Component for TreeNode {
                                 <Icon
                                     class=class.to_string()
                                     icon=IconName::ChevronRight
-                                    onclick={
-                                        if self.props.disabled {
-                                            None
-                                        } else if self.props.is_expanded {
-                                            self.props.on_collapse.clone()
-                                        } else {
-                                            self.props.on_expand.clone()
-                                        }
-                                    }
+                                    onclick=self.handler_caret_click.clone()
                                 />
                             }
                         } else {
@@ -313,7 +356,9 @@ impl Component for TreeNode {
                     }
                 </div>
                 <Collapse is_open=self.props.is_expanded>
-                    {self.props.children.clone()}
+                    <ul class="bp3-tree-node-list">
+                        {self.props.children.clone()}
+                    </ul>
                 </Collapse>
             </li>
         }
