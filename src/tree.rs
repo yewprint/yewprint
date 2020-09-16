@@ -155,7 +155,7 @@ impl<T: Clone> Tree<T> {
         let node = tree.get(node_id).unwrap();
         let children = node.children();
 
-        let nodes = children
+        children
             .iter()
             .map(|node_id| {
                 let key = {
@@ -197,9 +197,7 @@ impl<T: Clone> Tree<T> {
                     </TreeNode>
                 }
             })
-            .collect::<Html>();
-
-        return nodes;
+            .collect::<Html>()
     }
 }
 
@@ -221,9 +219,9 @@ struct TreeNodeProps {
     is_selected: bool,
     label: yew::virtual_dom::VNode,
     secondary_label: Option<yew::virtual_dom::VNode>,
-    on_collapse: Option<Callback<(id_tree::NodeId, MouseEvent)>>,
-    on_expand: Option<Callback<(id_tree::NodeId, MouseEvent)>>,
-    onclick: Option<Callback<(id_tree::NodeId, MouseEvent)>>,
+    on_collapse: Option<Callback<(NodeId, MouseEvent)>>,
+    on_expand: Option<Callback<(NodeId, MouseEvent)>>,
+    onclick: Option<Callback<(NodeId, MouseEvent)>>,
     children: html::Children,
     depth: u32,
 }
