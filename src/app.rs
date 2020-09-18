@@ -56,7 +56,7 @@ impl Component for App {
                 InsertBehavior::UnderNode(&root_id),
             )
             .unwrap();
-        for i in 0..100 {
+        for i in 0..500 {
             let dir2 = tree
                 .insert(
                     Node::new(NodeData {
@@ -69,7 +69,7 @@ impl Component for App {
                     InsertBehavior::UnderNode(&dir1),
                 )
                 .unwrap();
-            for i in 0..100 {
+            for i in 0..500 {
                 tree.insert(
                     Node::new(NodeData {
                         icon: Some(IconName::Document),
