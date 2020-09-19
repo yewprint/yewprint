@@ -1,3 +1,5 @@
+![Demo](https://github.com/cecton/blueprint-rs/blob/main/demo.mp4?raw=true)
+
 blueprint-rs
 ============
 
