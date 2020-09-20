@@ -2,6 +2,7 @@ use crate::buttons::Button;
 use crate::collapse::Collapse;
 use crate::forms::controls::Switch;
 use crate::icon::*;
+use crate::menu::*;
 use crate::tree::*;
 use crate::Intent;
 use yew::prelude::*;
@@ -19,6 +20,7 @@ pub struct App {
     tree: TreeData<i32>,
     callback_expand_node: Callback<(NodeId, MouseEvent)>,
     callback_select_node: Callback<(NodeId, MouseEvent)>,
+    doc_menu: DocMenu,
 }
 
 pub enum Msg {
@@ -27,6 +29,7 @@ pub enum Msg {
     ToggleCollapse,
     ExpandNode(NodeId),
     SelectNode(NodeId),
+    GoToMenu(DocMenu),
 }
 
 impl Component for App {
@@ -102,6 +105,7 @@ impl Component for App {
             tree: tree.into(),
             callback_expand_node: link.callback(|(node_id, _)| Msg::ExpandNode(node_id)),
             callback_select_node: link.callback(|(node_id, _)| Msg::SelectNode(node_id)),
+            doc_menu: DocMenu::Tree,
             link,
         }
     }
@@ -127,6 +131,9 @@ impl Component for App {
                 let node = tree.get_mut(&node_id).unwrap();
                 node.data_mut().is_selected ^= true;
             }
+            Msg::GoToMenu(doc_menu) => {
+                self.doc_menu = doc_menu;
+            }
         }
         true
     }
@@ -149,53 +156,93 @@ impl Component for App {
 
         html! {
             <div class={class} style={style}>
-                <p> {"Counter: "} { self.counter }</p>
                 <div>
-                    <Button onclick=self.link.callback(|_| Msg::AddOne)>{ "Add 1" }</Button>
+                    <Menu>
+                        <MenuItem text={html!("Button")} onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Button)) />
+                        <MenuItem text={html!("Collapse")} onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Collapse)) />
+                        <MenuItem text={html!("Icon")} onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Icon)) />
+                        <MenuItem text={html!("Menu")} onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Menu)) />
+                        <MenuItem text={html!("Switch")} onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Switch)) />
+                        <MenuItem text={html!("Tree")} onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Tree)) />
+                    </Menu>
                 </div>
-                <div>
-                    <Switch
-                        onclick=self.link.callback(|_| Msg::ToggleLight)
-                        checked=self.dark_theme
-                        label="Dark theme"
-                    />
-                </div>
-                <div>
-                    <Button onclick=self.link.callback(|_| Msg::ToggleCollapse)>
-                        {"Toggle collapse"}
-                    </Button>
-                    <Collapse
-                        is_open=!self.collapsed
-                        keep_children_mounted=true
-                    >
-                        <pre class="bp3-code-block">
-                            <div>{"[INFO]: Installing wasm-bindgen..."}</div>
-                            <div>{"[INFO]: Optional fields missing from Cargo.toml: 'description', 'repository', and 'license'. These are not necessary, but recommended"}</div>
-                            <div>{"[INFO]: :-) Done in 0.69s"}</div>
-                            <div>{"[INFO]: :-) Your wasm pkg is ready to publish at /home/cecile/repos/blueprint-rs/./static."}</div>
-                            <div>{"     Index: enabled, Upload: disabled, Cache: disabled, Cors: enabled, Range: enabled, Sort: enabled, Threads: 3"}</div>
-                            <div>{"          Auth: disabled, Compression: disabled"}</div>
-                            <div>{"         https: disabled, Cert: , Cert-Password: "}</div>
-                            <div>{"          Root: /home/cecile/repos/blueprint-rs,"}</div>
-                            <div>{"    TryFile404: "}</div>
-                            <div>{"       Address: http://0.0.0.0:8000"}</div>
-                            <div>{"    ======== [2020-09-07 20:39:46] ========"}</div>
-                            <div>{"[2020-09-07 20:39:46] - 127.0.0.1 - 200 - GET /"}</div>
-                            <div>{"[2020-09-07 20:39:46] - 127.0.0.1 - 200 - GET /static/blueprint.css"}</div>
-                            <div>{"[2020-09-07 20:39:46] - 127.0.0.1 - 200 - GET /static/wasm.js"}</div>
-                            <div>{"[2020-09-07 20:39:46] - 127.0.0.1 - 200 - GET /static/wasm_bg.wasm"}</div>
-                        </pre>
-                    </Collapse>
-                </div>
-                <div>
-                    <Tree<i32>
-                        tree=self.tree.clone()
-                        on_collapse=Some(self.callback_expand_node.clone())
-                        on_expand=Some(self.callback_expand_node.clone())
-                        onclick=Some(self.callback_select_node.clone())
-                    />
-                </div>
+                {
+                    match self.doc_menu {
+                        DocMenu::Button => html! {
+                            <div>
+                                <p> {"Counter: "} { self.counter }</p>
+                                <div>
+                                    <Button onclick=self.link.callback(|_| Msg::AddOne)>{ "Add 1" }</Button>
+                                </div>
+                            </div>
+                        },
+                        DocMenu::Switch => html! {
+                            <div>
+                                <Switch
+                                    onclick=self.link.callback(|_| Msg::ToggleLight)
+                                    checked=self.dark_theme
+                                    label="Dark theme"
+                                />
+                            </div>
+                        },
+                        DocMenu::Collapse => html! {
+                            <div>
+                                <Button onclick=self.link.callback(|_| Msg::ToggleCollapse)>
+                                    {"Toggle collapse"}
+                                </Button>
+                                <Collapse
+                                    is_open=!self.collapsed
+                                    keep_children_mounted=true
+                                >
+                                    <pre class="bp3-code-block">
+                                        <div>{"[INFO]: Installing wasm-bindgen..."}</div>
+                                        <div>{"[INFO]: Optional fields missing from Cargo.toml: 'description', 'repository', and 'license'. These are not necessary, but recommended"}</div>
+                                        <div>{"[INFO]: :-) Done in 0.69s"}</div>
+                                        <div>{"[INFO]: :-) Your wasm pkg is ready to publish at /home/cecile/repos/blueprint-rs/./static."}</div>
+                                        <div>{"     Index: enabled, Upload: disabled, Cache: disabled, Cors: enabled, Range: enabled, Sort: enabled, Threads: 3"}</div>
+                                        <div>{"          Auth: disabled, Compression: disabled"}</div>
+                                        <div>{"         https: disabled, Cert: , Cert-Password: "}</div>
+                                        <div>{"          Root: /home/cecile/repos/blueprint-rs,"}</div>
+                                        <div>{"    TryFile404: "}</div>
+                                        <div>{"       Address: http://0.0.0.0:8000"}</div>
+                                        <div>{"    ======== [2020-09-07 20:39:46] ========"}</div>
+                                        <div>{"[2020-09-07 20:39:46] - 127.0.0.1 - 200 - GET /"}</div>
+                                        <div>{"[2020-09-07 20:39:46] - 127.0.0.1 - 200 - GET /static/blueprint.css"}</div>
+                                        <div>{"[2020-09-07 20:39:46] - 127.0.0.1 - 200 - GET /static/wasm.js"}</div>
+                                        <div>{"[2020-09-07 20:39:46] - 127.0.0.1 - 200 - GET /static/wasm_bg.wasm"}</div>
+                                    </pre>
+                                </Collapse>
+                            </div>
+                        },
+                        DocMenu::Tree => html! {
+                            <div>
+                                <Tree<i32>
+                                    tree=self.tree.clone()
+                                    on_collapse=Some(self.callback_expand_node.clone())
+                                    on_expand=Some(self.callback_expand_node.clone())
+                                    onclick=Some(self.callback_select_node.clone())
+                                />
+                            </div>
+                        },
+                        DocMenu::Icon => html! {
+                            <div>
+                                <Icon icon=IconName::Print />
+                            </div>
+                        },
+                        DocMenu::Menu => html!(),
+                    }
+                }
             </div>
         }
     }
+}
+
+#[derive(Debug, Copy, Clone)]
+pub enum DocMenu {
+    Button,
+    Collapse,
+    Icon,
+    Menu,
+    Switch,
+    Tree,
 }

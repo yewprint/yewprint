@@ -6,6 +6,7 @@ pub mod buttons;
 pub mod collapse;
 pub mod forms;
 pub mod icon;
+pub mod menu;
 pub mod tree;
 
 use yew::virtual_dom::Classes;
