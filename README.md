@@ -22,7 +22,7 @@ Installation
 ### Use as a library
 
 ```toml
-blueprint-rs = { git = "https://github.com/cecton/blueprint-rs.git", branch = "main" }
+yewprint = { git = "https://github.com/cecton/yewprint.git", branch = "main" }
 ```
 
 ### Development server

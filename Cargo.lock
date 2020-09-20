@@ -29,18 +29,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "blueprint-rs"
-version = "0.1.0"
-dependencies = [
- "heck",
- "id_tree",
- "regex",
- "wasm-bindgen",
- "web-sys",
- "yew",
-]
-
-[[package]]
 name = "boolinator"
 version = "2.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -608,4 +596,16 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn",
+]
+
+[[package]]
+name = "yewprint"
+version = "0.1.0"
+dependencies = [
+ "heck",
+ "id_tree",
+ "regex",
+ "wasm-bindgen",
+ "web-sys",
+ "yew",
 ]
