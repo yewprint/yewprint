@@ -13,11 +13,19 @@ a star to let me know you are interested in this project.
 Installation
 ------------
 
+## Development
+
+This section will walk you through setting up the environment required to modify
+the source of `yewprint`.
+
 ### Prerequisites
 
- *  wasm-pack
- *  cargo-watch
- *  Rust nightly
+- [Rust](https://rustup.rs/)
+  - [wasm-pack](https://github.com/rustwasm/wasm-pack)
+  - [simple-http-server](https://github.com/TheWaWaR/simple-http-server)
+  - [cargo-watch](https://github.com/passcod/cargo-watch)
+
+> You may encounter issues when running this command on MacOS. Refer to this issue for more details [cargo-watch/issues/129](https://github.com/passcod/cargo-watch/issues/129)
 
 ### Use as a library
 
@@ -28,7 +36,6 @@ yewprint = { git = "https://github.com/cecton/yewprint.git", branch = "main" }
 ### Development server
 
 ```
-rustup override set nightly
 ./dev.sh
 ```
 
