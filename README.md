@@ -49,11 +49,13 @@ Roadmap
      -  [ ] Complete Button API
      -  [ ] AnchorButton
  -  [ ] [ButtonGroup](https://blueprintjs.com/docs/#core/components/button-group)
+     -  depends on: Button
  -  [ ] [Callout](https://blueprintjs.com/docs/#core/components/callout)
  -  [ ] [Card](https://blueprintjs.com/docs/#core/components/card)
  -  [x] [Collapse](https://blueprintjs.com/docs/#core/components/collapse)
  -  [ ] [CollapsibleList](https://blueprintjs.com/docs/#core/components/collapsible-list)
  -  [ ] [Divider](https://blueprintjs.com/docs/#core/components/divider)
+     -  depends on: ButtonGroup
  -  [ ] [EditableText](https://blueprintjs.com/docs/#core/components/editable-text)
  -  [ ] [Hotkeys](https://blueprintjs.com/docs/#core/components/hotkeys)
  -  [x] [Icon](https://blueprintjs.com/docs/#core/components/icon)
@@ -81,6 +83,7 @@ Roadmap
  -  [ ] [RangeSlider](https://blueprintjs.com/docs/#core/components/sliders.range-slider)
  -  [ ] [MultiSlider](https://blueprintjs.com/docs/#core/components/sliders.multi-slider)
  -  [x] [Switch](https://blueprintjs.com/docs/#core/components/switch)
+     -  [ ] Complete Switch API
  -  [ ] [FileInput](https://blueprintjs.com/docs/#core/components/file-input)
  -  [ ] [NumericInput](https://blueprintjs.com/docs/#core/components/numeric-input)
  -  [ ] [InputGroup](https://blueprintjs.com/docs/#core/components/text-inputs.input-group)
