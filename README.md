@@ -35,6 +35,7 @@ rustup override set nightly
 Roadmap
 -------
 
+ -  [ ] Doc web-site designed with the library itself (like https://blueprintjs.com) including link to the Yew library
  -  [ ] [FocusStyleManager](https://blueprintjs.com/docs/#core/accessibility.focus-management)
  -  [ ] [Classes & Typography (and bp3- prefix)](https://blueprintjs.com/docs/#core/classes)
      -  [HTML elements](https://blueprintjs.com/docs/#core/components/html)
