@@ -1,0 +1,25 @@
+sudo: false
+language: rust
+cache: cargo
+os:
+  - linux
+
+rust:
+  - stable
+
+# NOTE: disable Travis' cache for now because it makes the Windows build fail
+cache:
+  directories:
+
+before_script:
+  - rustup component add rustfmt-preview clippy
+
+# NOTE: will only run rustfmt and clippy if the branch is not main (and not for tags)
+script:
+  - [ "$TRAVIS_BRANCH" != main ] && [ "$TRAVIS_BRANCH" != "$TRAVIS_TAG" ] && \
+    rustfmt --check **/*.rs
+  - [ "$TRAVIS_BRANCH" != main ] && [ "$TRAVIS_BRANCH" != "$TRAVIS_TAG" ] && \
+    cargo clippy --all-targets --all-features -- -D warnings
+  - cargo build
+  - cargo test
+  - cargo doc
