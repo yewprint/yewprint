@@ -39,6 +39,14 @@ yewprint = { git = "https://github.com/cecton/yewprint.git", branch = "main" }
 ./dev.sh
 ```
 
+#### Troubleshooting
+
+ -  I can't install `cargo-watch` on OSX.
+
+    This happens on some machines. Try installing the
+    [pre-compiled binary](https://github.com/passcod/cargo-watch/releases)
+    instead.
+
 Roadmap
 -------
 
