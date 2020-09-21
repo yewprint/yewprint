@@ -25,7 +25,13 @@ the source of `yewprint`.
   - [simple-http-server](https://github.com/TheWaWaR/simple-http-server)
   - [cargo-watch](https://github.com/passcod/cargo-watch)
 
-> You may encounter issues when running this command on MacOS. Refer to this issue for more details [cargo-watch/issues/129](https://github.com/passcod/cargo-watch/issues/129)
+#### Troubleshooting
+
+ -  I can't install `cargo-watch` on OSX.
+
+    This happens on some machines. Try installing the
+    [pre-compiled binary](https://github.com/passcod/cargo-watch/releases)
+    instead.
 
 ### Use as a library
 
@@ -38,14 +44,6 @@ yewprint = { git = "https://github.com/cecton/yewprint.git", branch = "main" }
 ```
 ./dev.sh
 ```
-
-#### Troubleshooting
-
- -  I can't install `cargo-watch` on OSX.
-
-    This happens on some machines. Try installing the
-    [pre-compiled binary](https://github.com/passcod/cargo-watch/releases)
-    instead.
 
 Roadmap
 -------
