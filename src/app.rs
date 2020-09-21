@@ -1,5 +1,5 @@
 use crate::buttons::Button;
-use crate::collapse::Collapse;
+use crate::collapse::doc::*;
 use crate::forms::controls::Switch;
 use crate::icon::*;
 use crate::menu::*;
@@ -15,14 +15,12 @@ pub struct App {
     link: ComponentLink<Self>,
     counter: i64,
     dark_theme: bool,
-    collapsed: bool,
     doc_menu: DocMenu,
 }
 
 pub enum Msg {
     AddOne,
     ToggleLight,
-    ToggleCollapse,
     GoToMenu(DocMenu),
 }
 
@@ -34,7 +32,6 @@ impl Component for App {
         App {
             counter: 0,
             dark_theme: true,
-            collapsed: true,
             doc_menu: DocMenu::Tree,
             link,
         }
@@ -44,7 +41,6 @@ impl Component for App {
         match msg {
             Msg::AddOne => self.counter += 1,
             Msg::ToggleLight => self.dark_theme ^= true,
-            Msg::ToggleCollapse => self.collapsed ^= true,
             Msg::GoToMenu(doc_menu) => {
                 self.doc_menu = doc_menu;
             }
@@ -99,35 +95,7 @@ impl Component for App {
                                 />
                             </div>
                         },
-                        DocMenu::Collapse => html! {
-                            <div>
-                                <Button onclick=self.link.callback(|_| Msg::ToggleCollapse)>
-                                    {"Toggle collapse"}
-                                </Button>
-                                <Collapse
-                                    is_open=!self.collapsed
-                                    keep_children_mounted=true
-                                >
-                                    <pre class="bp3-code-block">
-                                        <div>{"[INFO]: Installing wasm-bindgen..."}</div>
-                                        <div>{"[INFO]: Optional fields missing from Cargo.toml: 'description', 'repository', and 'license'. These are not necessary, but recommended"}</div>
-                                        <div>{"[INFO]: :-) Done in 0.69s"}</div>
-                                        <div>{"[INFO]: :-) Your wasm pkg is ready to publish at /home/cecile/repos/blueprint-rs/./static."}</div>
-                                        <div>{"     Index: enabled, Upload: disabled, Cache: disabled, Cors: enabled, Range: enabled, Sort: enabled, Threads: 3"}</div>
-                                        <div>{"          Auth: disabled, Compression: disabled"}</div>
-                                        <div>{"         https: disabled, Cert: , Cert-Password: "}</div>
-                                        <div>{"          Root: /home/cecile/repos/blueprint-rs,"}</div>
-                                        <div>{"    TryFile404: "}</div>
-                                        <div>{"       Address: http://0.0.0.0:8000"}</div>
-                                        <div>{"    ======== [2020-09-07 20:39:46] ========"}</div>
-                                        <div>{"[2020-09-07 20:39:46] - 127.0.0.1 - 200 - GET /"}</div>
-                                        <div>{"[2020-09-07 20:39:46] - 127.0.0.1 - 200 - GET /static/blueprint.css"}</div>
-                                        <div>{"[2020-09-07 20:39:46] - 127.0.0.1 - 200 - GET /static/wasm.js"}</div>
-                                        <div>{"[2020-09-07 20:39:46] - 127.0.0.1 - 200 - GET /static/wasm_bg.wasm"}</div>
-                                    </pre>
-                                </Collapse>
-                            </div>
-                        },
+                        DocMenu::Collapse => html!(<CollapseDoc />),
                         DocMenu::Tree => html!(<TreeDoc />),
                         DocMenu::Icon => html! {
                             <div>
