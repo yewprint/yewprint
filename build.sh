@@ -11,14 +11,19 @@ if ! [ -f core.tgz ]; then
 fi
 
 # cleanup
-mkdir -p static
-rm -fR static/.gitignore static/*
+mkdir -p public
+rm -fR public/.gitignore public/*
+
+# copy index.html
+cp static/index.html public/
+
+# download blueprint css
+bsdtar xOf core.tgz package/lib/css/blueprint.css > public/blueprint.css
 
 # build
-bsdtar xOf core.tgz package/lib/css/blueprint.css > static/blueprint.css
-wasm-pack build --no-typescript --target web --out-name wasm --out-dir ./static "${options[@]}" "$@"
+wasm-pack build --no-typescript --target web --out-name wasm --out-dir ./public "${options[@]}" "$@"
 rc=$?
 
-rm -fR static/{.gitignore,package.json}
+rm -fR public/{.gitignore,package.json,README.md}
 
 exit $rc
