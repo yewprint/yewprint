@@ -1,3 +1,3 @@
 [build]
 publish = "public"
-command = "export DEBIAN_FRONTEND=noninteractive && apt-get install -y --no-install-recommends bsdtar curl build-essential ca-certificates && curl -sSL https://sh.rustup.rs | sh -s -- -q -y && export PATH=$HOME/.cargo/bin:$PATH && curl -sSL https://github.com/rustwasm/wasm-pack/releases/download/v0.9.1/wasm-pack-v0.9.1-x86_64-unknown-linux-musl.tar.gz | tar xzO wasm-pack-v0.9.1-x86_64-unknown-linux-musl/wasm-pack > /usr/local/bin/wasm-pack && chmod +x /usr/local/bin/wasm-pack && ./build.sh"
+command = "curl -sSL https://sh.rustup.rs | sh -s -- -q -y && export PATH=$HOME/.cargo/bin:$PATH && curl -sSL https://github.com/rustwasm/wasm-pack/releases/download/v0.9.1/wasm-pack-v0.9.1-x86_64-unknown-linux-musl.tar.gz | tar xzO wasm-pack-v0.9.1-x86_64-unknown-linux-musl/wasm-pack > /usr/local/bin/wasm-pack && chmod +x /usr/local/bin/wasm-pack && ./build.sh"
