@@ -93,3 +93,32 @@ impl Component for Icon {
         }
     }
 }
+
+#[cfg(feature = "dev")]
+pub mod doc {
+    use super::*;
+
+    pub struct IconDoc {}
+
+    impl Component for IconDoc {
+        type Message = ();
+        type Properties = ();
+
+        fn create(_: Self::Properties, _link: ComponentLink<Self>) -> Self {
+            IconDoc {}
+        }
+        fn update(&mut self, _msg: Self::Message) -> ShouldRender {
+            true
+        }
+        fn change(&mut self, _props: Self::Properties) -> ShouldRender {
+            true
+        }
+        fn view(&self) -> Html {
+            html! {
+                <div>
+                    <Icon icon=IconName::Print />
+                </div>
+            }
+        }
+    }
+}
