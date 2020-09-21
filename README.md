@@ -13,6 +13,12 @@ a star to let me know you are interested in this project.
 Installation
 ------------
 
+## Use as a library (in your project)
+
+```toml
+yewprint = { git = "https://github.com/cecton/yewprint.git", branch = "main" }
+```
+
 ## Development
 
 This section will walk you through setting up the environment required to modify
@@ -25,7 +31,7 @@ the source of `yewprint`.
   - [simple-http-server](https://github.com/TheWaWaR/simple-http-server)
   - [cargo-watch](https://github.com/passcod/cargo-watch)
 
-#### Troubleshooting
+### Troubleshooting
 
  -  I can't install `cargo-watch` on OSX.
 
@@ -33,13 +39,7 @@ the source of `yewprint`.
     [pre-compiled binary](https://github.com/passcod/cargo-watch/releases)
     instead.
 
-### Use as a library
-
-```toml
-yewprint = { git = "https://github.com/cecton/yewprint.git", branch = "main" }
-```
-
-### Development server
+### Run the development server
 
 ```
 ./dev.sh
