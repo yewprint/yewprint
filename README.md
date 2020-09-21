@@ -26,10 +26,10 @@ the source of `yewprint`.
 
 ### Prerequisites
 
-- [Rust](https://rustup.rs/)
-  - [wasm-pack](https://github.com/rustwasm/wasm-pack)
-  - [simple-http-server](https://github.com/TheWaWaR/simple-http-server)
-  - [cargo-watch](https://github.com/passcod/cargo-watch)
+ *  [Rust (stable)](https://rustup.rs/)
+ *  [wasm-pack](https://github.com/rustwasm/wasm-pack)
+ *  [simple-http-server](https://github.com/TheWaWaR/simple-http-server)
+ *  [cargo-watch](https://github.com/passcod/cargo-watch)
 
 ### Troubleshooting
 
