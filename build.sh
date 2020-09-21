@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ ${#@} == 0 ]; then
-	options=(--release)
+	options=(--release -- --features dev)
 else
 	options=()
 fi
