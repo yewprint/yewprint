@@ -1,7 +1,7 @@
 use crate::buttons::Button;
 use crate::collapse::doc::*;
 use crate::forms::controls::doc::SwitchDoc;
-use crate::icon::*;
+use crate::icon::doc::*;
 use crate::menu::*;
 use crate::tree::doc::*;
 use yew::prelude::*;
@@ -92,11 +92,7 @@ impl Component for App {
                             />),
                         DocMenu::Collapse => html!(<CollapseDoc />),
                         DocMenu::Tree => html!(<TreeDoc />),
-                        DocMenu::Icon => html! {
-                            <div>
-                                <Icon icon=IconName::Print />
-                            </div>
-                        },
+                        DocMenu::Icon => html!(<IconDoc />),
                         DocMenu::Menu => html!(),
                     }
                 }
