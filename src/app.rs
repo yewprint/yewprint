@@ -1,6 +1,6 @@
 use crate::buttons::Button;
 use crate::collapse::doc::*;
-use crate::forms::controls::Switch;
+use crate::forms::controls::doc::SwitchDoc;
 use crate::icon::*;
 use crate::menu::*;
 use crate::tree::doc::*;
@@ -14,8 +14,8 @@ const LIGHT_FG_COLOR: &str = "#182026";
 pub struct App {
     link: ComponentLink<Self>,
     counter: i64,
-    dark_theme: bool,
     doc_menu: DocMenu,
+    dark_theme: bool,
 }
 
 pub enum Msg {
@@ -39,8 +39,8 @@ impl Component for App {
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
-            Msg::AddOne => self.counter += 1,
             Msg::ToggleLight => self.dark_theme ^= true,
+            Msg::AddOne => self.counter += 1,
             Msg::GoToMenu(doc_menu) => {
                 self.doc_menu = doc_menu;
             }
@@ -86,15 +86,10 @@ impl Component for App {
                                 </div>
                             </div>
                         },
-                        DocMenu::Switch => html! {
-                            <div>
-                                <Switch
-                                    onclick=self.link.callback(|_| Msg::ToggleLight)
-                                    checked=self.dark_theme
-                                    label="Dark theme"
-                                />
-                            </div>
-                        },
+                        DocMenu::Switch => html! (<SwitchDoc
+                            dark_theme=self.dark_theme
+                            onclick=self.link.callback(|_| Msg::ToggleLight)
+                            />),
                         DocMenu::Collapse => html!(<CollapseDoc />),
                         DocMenu::Tree => html!(<TreeDoc />),
                         DocMenu::Icon => html! {
