@@ -18,7 +18,7 @@ rm -fR public/.gitignore public/*
 cp static/index.html public/
 
 # download blueprint css
-bsdtar xOf core.tgz package/lib/css/blueprint.css > public/blueprint.css
+tar xzOf core.tgz package/lib/css/blueprint.css > public/blueprint.css
 
 # build
 wasm-pack build --no-typescript --target web --out-name wasm --out-dir ./public "${options[@]}" "$@"
