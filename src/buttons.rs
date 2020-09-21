@@ -42,3 +42,48 @@ impl Component for Button {
         }
     }
 }
+
+#[cfg(feature = "dev")]
+pub mod doc {
+    use super::*;
+
+    pub struct ButtonDoc {
+        link: ComponentLink<Self>,
+        counter: i64,
+    }
+
+    pub enum Msg {
+        AddOne,
+    }
+
+    impl Component for ButtonDoc {
+        type Message = Msg;
+        type Properties = ();
+
+        fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
+            ButtonDoc { counter: 0, link }
+        }
+
+        fn update(&mut self, msg: Self::Message) -> ShouldRender {
+            match msg {
+                Msg::AddOne => self.counter += 1,
+            }
+            true
+        }
+
+        fn change(&mut self, _props: Self::Properties) -> ShouldRender {
+            true
+        }
+
+        fn view(&self) -> Html {
+            html! {
+                <div>
+                    <p> {"Counter: "} { self.counter }</p>
+                    <div>
+                        <Button onclick=self.link.callback(|_| Msg::AddOne)>{ "Add 1" }</Button>
+                    </div>
+                </div>
+            }
+        }
+    }
+}
