@@ -1,6 +1,4 @@
-sudo: false
 language: rust
-cache: cargo
 os:
   - linux
 
@@ -16,8 +14,8 @@ before_script:
 
 # NOTE: will only run rustfmt and clippy if the branch is not main (and not for tags)
 script:
-  - '[ "$TRAVIS_BRANCH" != main ] && [ "$TRAVIS_BRANCH" != "$TRAVIS_TAG" ] && rustfmt --check **/*.rs'
-  - '[ "$TRAVIS_BRANCH" != main ] && [ "$TRAVIS_BRANCH" != "$TRAVIS_TAG" ] && cargo clippy --all-targets --all-features -- -D warnings'
+  - 'if [ "$TRAVIS_BRANCH" != main ] && [ "$TRAVIS_BRANCH" != "$TRAVIS_TAG" ]; then rustfmt --check **/*.rs; fi'
+  - '[ "$TRAVIS_BRANCH" != main ] && [ "$TRAVIS_BRANCH" != "$TRAVIS_TAG" ]; then cargo clippy --all-targets --all-features -- -D warnings; fi'
   - cargo build
   - cargo test
   - cargo doc
