@@ -64,11 +64,11 @@ impl Elevation {
     fn as_css_class(&self) -> &'static str {
         use Elevation::*;
         match self {
-            Level0 => ".bp3-elevation-0",
-            Level1 => ".bp3-elevation-1",
-            Level2 => ".bp3-elevation-2",
-            Level3 => ".bp3-elevation-3",
-            Level4 => ".bp3-elevation-4",
+            Level0 => "bp3-elevation-0",
+            Level1 => "bp3-elevation-1",
+            Level2 => "bp3-elevation-2",
+            Level3 => "bp3-elevation-3",
+            Level4 => "bp3-elevation-4",
         }
     }
 }
@@ -86,20 +86,19 @@ pub struct CardProps {
     #[prop_or_default]
     pub elevation: Elevation,
     #[prop_or_default]
-    pub onclick: Option<Callback<MouseEvent>>,
+    pub onclick: Callback<MouseEvent>,
     #[prop_or(false)]
     pub interactive: bool,
     pub children: html::Children,
 }
 
 pub struct Card {
-    props: CardProps,
-    link: ComponentLink<Self>
+    props: CardProps
 }
 
 impl Card {
-    const BASE_CSS_CLASS: &'static str = ".bp3-card";
-    const INTERACTIVE_CSS_CLASS: &'static str = ".bp3-interactive";
+    const BASE_CSS_CLASS: &'static str = "bp3-card";
+    const INTERACTIVE_CSS_CLASS: &'static str = "bp3-interactive";
 
     fn classes(&self) -> String {
         let mut combined_classes = format!("{} {}", Self::BASE_CSS_CLASS, self.props.elevation.as_css_class());
@@ -122,8 +121,8 @@ impl Component for Card {
     type Message = ();
     type Properties = CardProps;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
-        Self { props, link }
+    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
+        Self { props }
     }
 
     fn update(&mut self, _msg: Self::Message) -> bool {
@@ -141,7 +140,7 @@ impl Component for Card {
 
     fn view(&self) -> Html {
         html!{
-            <div class=self.classes() {onclick=self.props.onclick.clone().unwrap_or("")}>
+            <div class=self.classes() onclick={self.props.onclick.clone()}>
                 {self.props.children.clone()}
             </div>
         }
@@ -152,27 +151,17 @@ impl Component for Card {
 pub mod doc {
     use super::*;
 
-    pub struct CardDoc {
-        link: ComponentLink<Self>,
-        elevation: Elevation,
-    }
-
-    pub enum Msg {
-        AddOne,
-    }
+    pub struct CardDoc {}
 
     impl Component for CardDoc {
         type Message = ();
         type Properties = ();
 
-        fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
-            CardDoc { link, elevation: Elevation::Level0 }
+        fn create(_: Self::Properties, _link: ComponentLink<Self>) -> Self {
+            CardDoc {}
         }
 
         fn update(&mut self, _msg: Self::Message) -> ShouldRender {
-            match msg {
-                Msg::AddOne => self.elevation = Elevation::from_value_clamped(self.elevation as u8 + 1),
-            }
             true
         }
 
@@ -181,11 +170,13 @@ pub mod doc {
         }
 
         fn view(&self) -> Html {
+            let source = crate::include_example!("example.rs");
+
             html! {
-                <Card elevation={Elevation::Level0}>
-                    <p>This is a card component with elevation {self.elevation as u8}.
-                    Click the card to increase the elevation.</p>
-                </Card>
+                <div>
+                    <h1>{"Card"}</h1>
+                    <div>{source}</div>
+                </div>
             }
         }
     }
