@@ -86,7 +86,7 @@ Roadmap
  -  [ ] [Spinner](https://blueprintjs.com/docs/#core/components/spinner)
  -  [ ] [Tabs](https://blueprintjs.com/docs/#core/components/tabs)
  -  [ ] [Tag](https://blueprintjs.com/docs/#core/components/tag)
- -  [ ] [Text](https://blueprintjs.com/docs/#core/components/text)
+ -  [x] [Text](https://blueprintjs.com/docs/#core/components/text)
  -  [x] [Tree](https://blueprintjs.com/docs/#core/components/tree)
      -  depends on: Collapse, Icon
  -  [ ] [FormGroup](https://blueprintjs.com/docs/#core/components/form-group)
