@@ -124,7 +124,7 @@ impl Component for Card {
         if self.props.interactive {
             class.push("bp3-interactive");
         }
-        class.extend(self.props.class.as_str());
+        class.extend(&self.props.class);
 
         html! {
             <div class=class onclick={self.props.onclick.clone()}>
