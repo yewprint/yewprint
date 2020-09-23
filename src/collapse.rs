@@ -25,7 +25,7 @@ pub struct Props {
     pub children: html::Children,
     #[prop_or_default]
     pub keep_children_mounted: bool,
-    #[prop_or_else(|| Duration::from_millis(200))]
+    #[prop_or(Duration::from_millis(200))]
     pub transition_duration: Duration,
 }
 
@@ -236,6 +236,7 @@ pub mod doc {
         fn view(&self) -> Html {
             html! {
                 <div>
+                    <h1>{"Collapse"}</h1>
                     <Button onclick=self.link.callback(|_| Msg::ToggleCollapse)>
                         {"Toggle collapse"}
                     </Button>

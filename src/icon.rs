@@ -116,6 +116,7 @@ pub mod doc {
         fn view(&self) -> Html {
             html! {
                 <div>
+                    <h1>{"Icon"}</h1>
                     <Icon icon=IconName::Print />
                 </div>
             }

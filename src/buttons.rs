@@ -78,6 +78,7 @@ pub mod doc {
         fn view(&self) -> Html {
             html! {
                 <div>
+                    <h1>{"Button"}</h1>
                     <p> {"Counter: "} { self.counter }</p>
                     <div>
                         <Button onclick=self.link.callback(|_| Msg::AddOne)>{ "Add 1" }</Button>

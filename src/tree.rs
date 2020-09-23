@@ -481,6 +481,7 @@ pub mod doc {
         fn view(&self) -> Html {
             html! {
                 <div>
+                    <h1>{"Tree"}</h1>
                     <Tree<i32>
                         tree=self.tree.clone()
                         on_collapse=Some(self.callback_expand_node.clone())

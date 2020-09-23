@@ -86,6 +86,7 @@ pub mod doc {
         fn view(&self) -> Html {
             html! {
                 <div>
+                    <h1>{"Switch"}</h1>
                     <Switch
                         onclick=self.props.onclick.clone()
                         checked=self.props.dark_theme
