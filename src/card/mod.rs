@@ -64,11 +64,11 @@ impl Elevation {
     fn as_css_class(&self) -> &'static str {
         use Elevation::*;
         match self {
-            Level0 => ".bp3-elevation-0",
-            Level1 => ".bp3-elevation-1",
-            Level2 => ".bp3-elevation-2",
-            Level3 => ".bp3-elevation-3",
-            Level4 => ".bp3-elevation-4",
+            Level0 => "bp3-elevation-0",
+            Level1 => "bp3-elevation-1",
+            Level2 => "bp3-elevation-2",
+            Level3 => "bp3-elevation-3",
+            Level4 => "bp3-elevation-4",
         }
     }
 }
@@ -93,13 +93,12 @@ pub struct CardProps {
 }
 
 pub struct Card {
-    props: CardProps,
-    link: ComponentLink<Self>
+    props: CardProps
 }
 
 impl Card {
-    const BASE_CSS_CLASS: &'static str = ".bp3-card";
-    const INTERACTIVE_CSS_CLASS: &'static str = ".bp3-interactive";
+    const BASE_CSS_CLASS: &'static str = "bp3-card";
+    const INTERACTIVE_CSS_CLASS: &'static str = "bp3-interactive";
 
     fn classes(&self) -> String {
         let mut combined_classes = format!("{} {}", Self::BASE_CSS_CLASS, self.props.elevation.as_css_class());
@@ -122,8 +121,8 @@ impl Component for Card {
     type Message = ();
     type Properties = CardProps;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
-        Self { props, link }
+    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
+        Self { props }
     }
 
     fn update(&mut self, _msg: Self::Message) -> bool {
@@ -153,26 +152,18 @@ pub mod doc {
     use super::*;
 
     pub struct CardDoc {
-        link: ComponentLink<Self>,
         elevation: Elevation,
     }
 
-    pub enum Msg {
-        IncreaseElevation,
-    }
-
     impl Component for CardDoc {
-        type Message = Msg;
+        type Message = ();
         type Properties = ();
 
-        fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
-            CardDoc { link, elevation: Elevation::Level0 }
+        fn create(_: Self::Properties, _link: ComponentLink<Self>) -> Self {
+            CardDoc { elevation: Elevation::Level0 }
         }
 
-        fn update(&mut self, msg: Self::Message) -> ShouldRender {
-            match msg {
-                Msg::IncreaseElevation => self.elevation = Elevation::from_value_clamped(self.elevation as u8 + 1),
-            }
+        fn update(&mut self, _msg: Self::Message) -> ShouldRender {
             true
         }
 

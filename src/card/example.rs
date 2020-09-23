@@ -31,7 +31,8 @@ impl Component for Example {
 
     fn view(&self) -> Html {
         html! {
-                <Card elevation={self.elevation} onclick=self.link.callback(|_| Msg::IncreaseElevation)>
+                <Card elevation={self.elevation} onclick=self.link.callback(|_| Msg::IncreaseElevation)
+                        interactive=true>
                     <p>{format!(
                         "This is a card component with elevation {}. Click the card to increase the elevation.",
                         self.elevation as u8)}
