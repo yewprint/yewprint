@@ -1,6 +1,6 @@
 use yew::prelude::*;
 
-#[derive(Clone, PartialEq, Eq, Debug)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
 #[repr(u8)]
 pub enum Elevation {
     Level0 = 0,
@@ -144,6 +144,49 @@ impl Component for Card {
             <div class=self.classes() {onclick=self.props.onclick.clone().unwrap_or("")}>
                 {self.props.children.clone()}
             </div>
+        }
+    }
+}
+
+#[cfg(feature = "dev")]
+pub mod doc {
+    use super::*;
+
+    pub struct CardDoc {
+        link: ComponentLink<Self>,
+        elevation: Elevation,
+    }
+
+    pub enum Msg {
+        AddOne,
+    }
+
+    impl Component for CardDoc {
+        type Message = ();
+        type Properties = ();
+
+        fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
+            CardDoc { link, elevation: Elevation::Level0 }
+        }
+
+        fn update(&mut self, _msg: Self::Message) -> ShouldRender {
+            match msg {
+                Msg::AddOne => self.elevation = Elevation::from_value_clamped(self.elevation as u8 + 1),
+            }
+            true
+        }
+
+        fn change(&mut self, _props: Self::Properties) -> ShouldRender {
+            true
+        }
+
+        fn view(&self) -> Html {
+            html! {
+                <Card elevation={Elevation::Level0}>
+                    <p>This is a card component with elevation {self.elevation as u8}.
+                    Click the card to increase the elevation.</p>
+                </Card>
+            }
         }
     }
 }
