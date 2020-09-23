@@ -3,6 +3,9 @@ use web_sys::Element;
 use yew::prelude::*;
 use yew::services::*;
 
+#[cfg(feature = "doc")]
+pub mod doc;
+
 pub struct Collapse {
     height: Height,
     translated: bool,

@@ -1,6 +1,9 @@
 use crate::{Icon, IconName, Intent};
 use yew::prelude::*;
 
+#[cfg(feature = "doc")]
+pub mod doc;
+
 pub struct Button {
     props: Props,
 }

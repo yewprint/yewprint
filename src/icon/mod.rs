@@ -1,6 +1,9 @@
 use crate::Intent;
 use yew::prelude::*;
 
+#[cfg(feature = "doc")]
+pub mod doc;
+
 include!(concat!(env!("OUT_DIR"), "/icon_svg_paths.rs"));
 
 impl Default for IconName {

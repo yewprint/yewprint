@@ -1,5 +1,8 @@
 use yew::prelude::*;
 
+#[cfg(feature = "doc")]
+pub mod doc;
+
 pub struct Switch {
     props: Props,
 }
