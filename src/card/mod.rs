@@ -1,4 +1,5 @@
 use yew::prelude::*;
+use yew::Classes;
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 #[repr(u8)]
@@ -7,7 +8,7 @@ pub enum Elevation {
     Level1,
     Level2,
     Level3,
-    Level4
+    Level4,
 }
 
 impl Elevation {
@@ -40,7 +41,7 @@ impl Elevation {
             2 => Some(Level2),
             3 => Some(Level3),
             4 => Some(Level4),
-            _ => None
+            _ => None,
         }
     }
 
@@ -93,28 +94,7 @@ pub struct CardProps {
 }
 
 pub struct Card {
-    props: CardProps
-}
-
-impl Card {
-    const BASE_CSS_CLASS: &'static str = "bp3-card";
-    const INTERACTIVE_CSS_CLASS: &'static str = "bp3-interactive";
-
-    fn classes(&self) -> String {
-        let mut combined_classes = format!("{} {}", Self::BASE_CSS_CLASS, self.props.elevation.as_css_class());
-
-        if self.props.interactive {
-            combined_classes.push_str(" ");
-            combined_classes.push_str(Self::INTERACTIVE_CSS_CLASS);
-        }
-
-        if let Some(ref classes) = self.props.class {
-            combined_classes.push_str(" ");
-            combined_classes.push_str(classes);
-        }
-
-        combined_classes
-    }
+    props: CardProps,
 }
 
 impl Component for Card {
@@ -139,8 +119,15 @@ impl Component for Card {
     }
 
     fn view(&self) -> Html {
-        html!{
-            <div class=self.classes() onclick={self.props.onclick.clone()}>
+        let mut class = Classes::from("bp3-card");
+        class.push(self.props.elevation.as_css_class());
+        if self.props.interactive {
+            class.push("bp3-interactive");
+        }
+        class.extend(self.props.class.as_str());
+
+        html! {
+            <div class=class onclick={self.props.onclick.clone()}>
                 {self.props.children.clone()}
             </div>
         }
