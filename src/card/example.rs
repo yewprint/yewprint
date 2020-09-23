@@ -20,7 +20,7 @@ impl Component for Example {
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
-            Msg::IncreaseElevation => self.elevation = Elevation::from_value_clamped(self.elevation as u8 + 1),
+            Msg::IncreaseElevation => self.elevation = self.elevation.above(),
         }
         true
     }

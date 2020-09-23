@@ -14,12 +14,14 @@ mod icon;
 mod menu;
 mod switch;
 mod tree;
+mod elevation;
 
 #[cfg(feature = "doc")]
 pub use app::*;
 pub use buttons::*;
 pub use card::*;
 pub use collapse::*;
+pub use elevation::*;
 #[cfg(feature = "doc")]
 pub use example::*;
 pub use icon::*;
