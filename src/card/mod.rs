@@ -158,7 +158,7 @@ pub mod doc {
     }
 
     pub enum Msg {
-        AddOne,
+        IncreaseElevation,
     }
 
     impl Component for CardDoc {
@@ -171,7 +171,7 @@ pub mod doc {
 
         fn update(&mut self, msg: Self::Message) -> ShouldRender {
             match msg {
-                Msg::AddOne => self.elevation = Elevation::from_value_clamped(self.elevation as u8 + 1),
+                Msg::IncreaseElevation => self.elevation = Elevation::from_value_clamped(self.elevation as u8 + 1),
             }
             true
         }
@@ -181,14 +181,13 @@ pub mod doc {
         }
 
         fn view(&self) -> Html {
+            let source = crate::include_example!("example.rs");
+
             html! {
-                <Card elevation={Elevation::Level0}>
+                <div>
                     <h1>{"Card"}</h1>
-                    <p>{format!(
-                        "This is a card component with elevation {}. Click the card to increase the elevation.",
-                        self.elevation as u8)}
-                   </p>
-                </Card>
+                    <div>{source}</div>
+                </div>
             }
         }
     }
