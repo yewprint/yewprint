@@ -1,18 +1,35 @@
 #![recursion_limit = "512"]
 
-#[cfg(feature = "dev")]
+#[cfg(feature = "doc")]
+extern crate self as yewprint;
+
+#[cfg(feature = "doc")]
 mod app;
-pub mod buttons;
-pub mod card;
-pub mod collapse;
-pub mod forms;
-pub mod icon;
-pub mod menu;
-pub mod tree;
+mod buttons;
+mod card;
+mod collapse;
+#[cfg(feature = "doc")]
+mod example;
+mod icon;
+mod menu;
+mod switch;
+mod tree;
+
+#[cfg(feature = "doc")]
+pub use app::*;
+pub use buttons::*;
+pub use collapse::*;
+#[cfg(feature = "doc")]
+pub use example::*;
+pub use icon::*;
+pub use id_tree;
+pub use menu::*;
+pub use switch::*;
+pub use tree::*;
 
 use yew::virtual_dom::Classes;
 
-#[cfg(feature = "dev")]
+#[cfg(feature = "doc")]
 #[macro_export]
 macro_rules! log {
     ($s:expr $(,$args:expr)*) => {{
@@ -20,7 +37,7 @@ macro_rules! log {
     }};
 }
 
-#[cfg(feature = "dev")]
+#[cfg(feature = "doc")]
 #[wasm_bindgen::prelude::wasm_bindgen(start)]
 pub fn run_app() -> Result<(), wasm_bindgen::JsValue> {
     yew::start_app::<app::App>();

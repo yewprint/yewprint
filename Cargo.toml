@@ -9,9 +9,14 @@ edition = "2018"
 [lib]
 crate-type = ["cdylib"]
 
+[badges]
+travis-ci = { repository = "cecton/yewprint", branch = "main" }
+is-it-maintained-issue-resolution = { repository = "cecton/yewprint" }
+is-it-maintained-open-issues = { repository = "cecton/yewprint" }
+
 [features]
 default = []
-dev = []
+doc = []
 
 [dependencies]
 wasm-bindgen = "^0.2"

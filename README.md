@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/cecton/yewprint.svg?branch=main)](https://travis-ci.org/cecton/yewprint)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/17f076ed-49e5-4185-921e-5c5759de2fdb/deploy-status)](https://app.netlify.com/sites/epic-poincare-f8adaa/deploys)
+
 ![Demo](https://github.com/cecton/blueprint-rs/blob/main/demo.mp4?raw=true)
 
 blueprint-rs

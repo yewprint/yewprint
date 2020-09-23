@@ -53,7 +53,7 @@ impl Component for Switch {
     }
 }
 
-#[cfg(feature = "dev")]
+#[cfg(feature = "doc")]
 pub mod doc {
     use super::*;
 
@@ -86,6 +86,7 @@ pub mod doc {
         fn view(&self) -> Html {
             html! {
                 <div>
+                    <h1>{"Switch"}</h1>
                     <Switch
                         onclick=self.props.onclick.clone()
                         checked=self.props.dark_theme

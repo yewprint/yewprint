@@ -16,6 +16,92 @@
 		.bp3-tree {
 			width: 350px;
 		}
+
+		.docs-app {
+			display: flex;
+			flex-direction: row;
+			margin: auto;
+			width: 100vw;
+			min-height: 100vh;
+			background-color: #f5f8fa;
+		}
+
+		.docs-nav {
+			width: 270px;
+			height: 100vh;
+			position: fixed;
+			left: 0;
+			top: 0;
+			overflow-y: scroll;
+			overflow-x: hidden;
+			z-index: 10;
+			background-color: #fff;
+		}
+
+		.bp3-dark .docs-nav {
+			background-color: #394b59;
+		}
+
+		.docs-nav-wrapper {
+			flex-basis: 270px;
+			width: 270px;
+			flex-grow: 0;
+			flex-shrink: 0;
+		}
+
+		.docs-nav .bp3-menu {
+			background: inherit;
+		}
+
+		.docs-content-wrapper {
+			flex-grow: 1;
+			flex-shrink: 1;
+			flex-basis: 830px;
+		}
+
+		.docs-page {
+			padding: 0 5px 40px 40px;
+			max-width: 830px;
+		}
+
+		.docs-app.bp3-dark {
+			background-color: #30404d;
+		}
+
+		.docs-page h1 {
+			line-height: 40px;
+			font-size: 36px;
+		}
+
+		.docs-example-wrapper .bp3-code-block {
+			/*
+			display: inline-block;
+			clear: both;
+			*/
+		}
+
+		.docs-example-wrapper .docs-example {
+			border-radius: 6px;
+			background-color: #fff;
+			padding: 20px;
+		}
+
+		.bp3-dark .docs-example-wrapper .docs-example {
+			background-color: #293742;
+		}
+
+		.docs-example-wrapper > .docs-source > .bp3-button {
+			background-color: #ebf1f5;
+		}
+
+		.bp3-dark .docs-example-wrapper > .docs-source > .bp3-button {
+			background-color: #394b59;
+		}
+
+		.docs-example-wrapper > .docs-source {
+			margin-bottom: 40px;
+			margin-top: 10px;
+		}
 	</style>
   </head>
   <body></body>

@@ -109,7 +109,7 @@ impl Component for MenuItem {
         if self.props.active {
             anchor_class.push("bp3-active");
         }
-        if let Some(intent) = self.props.intent.clone() {
+        if let Some(intent) = self.props.intent {
             anchor_class = anchor_class.extend(intent);
         } else if self.props.active {
             anchor_class = anchor_class.extend(Intent::Primary);
