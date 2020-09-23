@@ -99,7 +99,7 @@ impl Component for App {
                                 DocMenu::Tree => html!(<TreeDoc />),
                                 DocMenu::Icon => html!(<IconDoc />),
                                 DocMenu::Menu => html!(),
-                                DocMenu::Card => html!(<Card />),
+                                DocMenu::Card => html!(<CardDoc />),
                             }
                         }
                     </div>

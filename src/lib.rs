@@ -18,6 +18,7 @@ mod tree;
 #[cfg(feature = "doc")]
 pub use app::*;
 pub use buttons::*;
+pub use card::*;
 pub use collapse::*;
 #[cfg(feature = "doc")]
 pub use example::*;
