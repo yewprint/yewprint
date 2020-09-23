@@ -390,7 +390,7 @@ pub mod doc {
 
             html! {
                 <div>
-                    <h1>{"Button"}</h1>
+                    <h1>{"Tree"}</h1>
                     <div>{source}</div>
                 </div>
             }
