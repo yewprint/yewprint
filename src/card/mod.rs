@@ -119,12 +119,12 @@ impl Component for Card {
     }
 
     fn view(&self) -> Html {
-        let mut class = Classes::from("bp3-card");
+        let mut class = Classes::from("bp3-card")
+            .extend(&self.props.class);
         class.push(self.props.elevation.as_css_class());
         if self.props.interactive {
             class.push("bp3-interactive");
         }
-        class.extend(&self.props.class);
 
         html! {
             <div class=class onclick={self.props.onclick.clone()}>
