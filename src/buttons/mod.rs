@@ -4,7 +4,6 @@ pub mod doc;
 use crate::{Icon, IconName, Intent};
 use yew::prelude::*;
 
-
 pub struct Button {
     props: Props,
 }
