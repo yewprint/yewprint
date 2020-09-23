@@ -199,33 +199,19 @@ impl Component for Collapse {
 
 #[cfg(feature = "doc")]
 pub mod doc {
-    use super::*;
-    use crate::buttons::Button;
+    use yew::prelude::*;
 
-    pub struct CollapseDoc {
-        link: ComponentLink<Self>,
-        collapsed: bool,
-    }
-
-    pub enum Msg {
-        ToggleCollapse,
-    }
+    pub struct CollapseDoc;
 
     impl Component for CollapseDoc {
-        type Message = Msg;
+        type Message = ();
         type Properties = ();
 
-        fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
-            CollapseDoc {
-                collapsed: true,
-                link,
-            }
+        fn create(_: Self::Properties, _link: ComponentLink<Self>) -> Self {
+            CollapseDoc
         }
 
-        fn update(&mut self, msg: Self::Message) -> ShouldRender {
-            match msg {
-                Msg::ToggleCollapse => self.collapsed ^= true,
-            }
+        fn update(&mut self, _msg: Self::Message) -> ShouldRender {
             true
         }
 
@@ -234,34 +220,12 @@ pub mod doc {
         }
 
         fn view(&self) -> Html {
+            let source = crate::include_example!("example.rs");
+
             html! {
                 <div>
-                    <h1>{"Collapse"}</h1>
-                    <Button onclick=self.link.callback(|_| Msg::ToggleCollapse)>
-                        {"Toggle collapse"}
-                    </Button>
-                    <Collapse
-                        is_open=!self.collapsed
-                        keep_children_mounted=true
-                    >
-                        <pre class="bp3-code-block">
-                            <div>{"[INFO]: Installing wasm-bindgen..."}</div>
-                            <div>{"[INFO]: Optional fields missing from Cargo.toml: 'description', 'repository', and 'license'. These are not necessary, but recommended"}</div>
-                            <div>{"[INFO]: :-) Done in 0.69s"}</div>
-                            <div>{"[INFO]: :-) Your wasm pkg is ready to publish at /home/cecile/repos/blueprint-rs/./static."}</div>
-                            <div>{"     Index: enabled, Upload: disabled, Cache: disabled, Cors: enabled, Range: enabled, Sort: enabled, Threads: 3"}</div>
-                            <div>{"          Auth: disabled, Compression: disabled"}</div>
-                            <div>{"         https: disabled, Cert: , Cert-Password: "}</div>
-                            <div>{"          Root: /home/cecile/repos/blueprint-rs,"}</div>
-                            <div>{"    TryFile404: "}</div>
-                            <div>{"       Address: http://0.0.0.0:8000"}</div>
-                            <div>{"    ======== [2020-09-07 20:39:46] ========"}</div>
-                            <div>{"[2020-09-07 20:39:46] - 127.0.0.1 - 200 - GET /"}</div>
-                            <div>{"[2020-09-07 20:39:46] - 127.0.0.1 - 200 - GET /static/blueprint.css"}</div>
-                            <div>{"[2020-09-07 20:39:46] - 127.0.0.1 - 200 - GET /static/wasm.js"}</div>
-                            <div>{"[2020-09-07 20:39:46] - 127.0.0.1 - 200 - GET /static/wasm_bg.wasm"}</div>
-                        </pre>
-                    </Collapse>
+                    <h1>{"Tree"}</h1>
+                    <div>{source}</div>
                 </div>
             }
         }
