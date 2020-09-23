@@ -1,7 +1,7 @@
 use yew::prelude::*;
 use yewprint::{Card, Elevation};
 
-pub struct CardDoc {
+pub struct Example {
     link: ComponentLink<Self>,
     elevation: Elevation,
 }
@@ -10,12 +10,12 @@ pub enum Msg {
     IncreaseElevation,
 }
 
-impl Component for CardDoc {
+impl Component for Example {
     type Message = Msg;
     type Properties = ();
 
     fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
-        CardDoc { link, elevation: Elevation::Level0 }
+        Example { link, elevation: Elevation::Level0 }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
