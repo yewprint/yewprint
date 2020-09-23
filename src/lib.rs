@@ -1,13 +1,30 @@
 #![recursion_limit = "512"]
 
 #[cfg(feature = "doc")]
+extern crate self as yewprint;
+
+#[cfg(feature = "doc")]
 mod app;
-pub mod buttons;
-pub mod collapse;
-pub mod forms;
-pub mod icon;
-pub mod menu;
-pub mod tree;
+mod buttons;
+mod collapse;
+#[cfg(feature = "doc")]
+mod example;
+mod icon;
+mod menu;
+mod switch;
+mod tree;
+
+#[cfg(feature = "doc")]
+pub use app::*;
+pub use buttons::*;
+pub use collapse::*;
+#[cfg(feature = "doc")]
+pub use example::*;
+pub use icon::*;
+pub use id_tree;
+pub use menu::*;
+pub use switch::*;
+pub use tree::*;
 
 use yew::virtual_dom::Classes;
 

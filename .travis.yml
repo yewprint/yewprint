@@ -16,6 +16,5 @@ before_script:
 script:
   - 'if [ -n "$TRAVIS_PULL_REQUEST" ]; then rustfmt --check **/*.rs; fi'
   - 'if [ -n "$TRAVIS_PULL_REQUEST" ]; then cargo clippy --all-targets --all-features -- -D warnings; fi'
-  - cargo build
-  - cargo test
+  - cargo test --all-features
   - cargo doc

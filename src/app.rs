@@ -1,8 +1,8 @@
 use crate::buttons::doc::*;
 use crate::collapse::doc::*;
-use crate::forms::controls::doc::SwitchDoc;
 use crate::icon::doc::*;
 use crate::menu::*;
+use crate::switch::doc::SwitchDoc;
 use crate::tree::doc::*;
 use yew::prelude::*;
 
@@ -24,7 +24,7 @@ impl Component for App {
     fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
         App {
             dark_theme: true,
-            doc_menu: DocMenu::Tree,
+            doc_menu: DocMenu::Button,
             link,
         }
     }
