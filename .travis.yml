@@ -14,8 +14,8 @@ before_script:
 
 # NOTE: will only run rustfmt and clippy if the branch is not main (and not for tags)
 script:
-  - 'if [ "$TRAVIS_BRANCH" != main ] && [ "$TRAVIS_BRANCH" != "$TRAVIS_TAG" ]; then rustfmt --check **/*.rs; fi'
-  - 'if [ "$TRAVIS_BRANCH" != main ] && [ "$TRAVIS_BRANCH" != "$TRAVIS_TAG" ]; then cargo clippy --all-targets --all-features -- -D warnings; fi'
+  - 'if [ -n "$TRAVIS_PULL_REQUEST" ]; then rustfmt --check **/*.rs; fi'
+  - 'if [ -n "$TRAVIS_PULL_REQUEST" ]; then cargo clippy --all-targets --all-features -- -D warnings; fi'
   - cargo build
   - cargo test
   - cargo doc
