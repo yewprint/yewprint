@@ -148,7 +148,7 @@ impl Component for Card {
     }
 }
 
-#[cfg(feature = "dev")]
+#[cfg(feature = "doc")]
 pub mod doc {
     use super::*;
 
