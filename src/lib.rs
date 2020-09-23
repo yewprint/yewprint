@@ -3,6 +3,7 @@
 #[cfg(feature = "dev")]
 mod app;
 pub mod buttons;
+pub mod card;
 pub mod collapse;
 pub mod forms;
 pub mod icon;
