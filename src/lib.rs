@@ -1,6 +1,6 @@
 #![recursion_limit = "512"]
 
-#[cfg(feature = "dev")]
+#[cfg(feature = "doc")]
 mod app;
 pub mod buttons;
 pub mod collapse;
@@ -11,7 +11,7 @@ pub mod tree;
 
 use yew::virtual_dom::Classes;
 
-#[cfg(feature = "dev")]
+#[cfg(feature = "doc")]
 #[macro_export]
 macro_rules! log {
     ($s:expr $(,$args:expr)*) => {{
@@ -19,7 +19,7 @@ macro_rules! log {
     }};
 }
 
-#[cfg(feature = "dev")]
+#[cfg(feature = "doc")]
 #[wasm_bindgen::prelude::wasm_bindgen(start)]
 pub fn run_app() -> Result<(), wasm_bindgen::JsValue> {
     yew::start_app::<app::App>();

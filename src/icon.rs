@@ -94,7 +94,7 @@ impl Component for Icon {
     }
 }
 
-#[cfg(feature = "dev")]
+#[cfg(feature = "doc")]
 pub mod doc {
     use super::*;
 
@@ -116,6 +116,7 @@ pub mod doc {
         fn view(&self) -> Html {
             html! {
                 <div>
+                    <h1>{"Icon"}</h1>
                     <Icon icon=IconName::Print />
                 </div>
             }
