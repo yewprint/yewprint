@@ -1,7 +1,7 @@
-use yew::prelude::*;
-
 #[cfg(feature = "doc")]
 pub mod doc;
+
+use yew::prelude::*;
 
 pub struct Switch {
     props: Props,

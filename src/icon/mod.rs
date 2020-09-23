@@ -1,8 +1,8 @@
-use crate::Intent;
-use yew::prelude::*;
-
 #[cfg(feature = "doc")]
 pub mod doc;
+
+use crate::Intent;
+use yew::prelude::*;
 
 include!(concat!(env!("OUT_DIR"), "/icon_svg_paths.rs"));
 
