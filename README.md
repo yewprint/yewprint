@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/cecton/yewprint.svg?branch=main)](https://travis-ci.org/cecton/yewprint)
+
 ![Demo](https://github.com/cecton/blueprint-rs/blob/main/demo.mp4?raw=true)
 
 blueprint-rs
