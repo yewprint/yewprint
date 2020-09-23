@@ -197,7 +197,7 @@ impl Component for Collapse {
     }
 }
 
-#[cfg(feature = "dev")]
+#[cfg(feature = "doc")]
 pub mod doc {
     use super::*;
     use crate::buttons::Button;

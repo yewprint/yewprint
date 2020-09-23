@@ -363,7 +363,7 @@ impl Component for TreeNode {
     }
 }
 
-#[cfg(feature = "dev")]
+#[cfg(feature = "doc")]
 pub mod doc {
     use super::*;
 

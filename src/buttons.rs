@@ -43,7 +43,7 @@ impl Component for Button {
     }
 }
 
-#[cfg(feature = "dev")]
+#[cfg(feature = "doc")]
 pub mod doc {
     use super::*;
 
