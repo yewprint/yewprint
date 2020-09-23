@@ -86,7 +86,7 @@ pub struct CardProps {
     #[prop_or_default]
     pub elevation: Elevation,
     #[prop_or_default]
-    pub onclick: Option<Callback<MouseEvent>>,
+    pub onclick: Callback<MouseEvent>,
     #[prop_or(false)]
     pub interactive: bool,
     pub children: html::Children,
@@ -141,7 +141,7 @@ impl Component for Card {
 
     fn view(&self) -> Html {
         html!{
-            <div class=self.classes() {onclick=self.props.onclick.clone().unwrap_or("")}>
+            <div class=self.classes() onclick={self.props.onclick.clone()}>
                 {self.props.children.clone()}
             </div>
         }
@@ -162,14 +162,14 @@ pub mod doc {
     }
 
     impl Component for CardDoc {
-        type Message = ();
+        type Message = Msg;
         type Properties = ();
 
         fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
             CardDoc { link, elevation: Elevation::Level0 }
         }
 
-        fn update(&mut self, _msg: Self::Message) -> ShouldRender {
+        fn update(&mut self, msg: Self::Message) -> ShouldRender {
             match msg {
                 Msg::AddOne => self.elevation = Elevation::from_value_clamped(self.elevation as u8 + 1),
             }
@@ -183,8 +183,11 @@ pub mod doc {
         fn view(&self) -> Html {
             html! {
                 <Card elevation={Elevation::Level0}>
-                    <p>This is a card component with elevation {self.elevation as u8}.
-                    Click the card to increase the elevation.</p>
+                    <h1>{"Card"}</h1>
+                    <p>{format!(
+                        "This is a card component with elevation {}. Click the card to increase the elevation.",
+                        self.elevation as u8)}
+                   </p>
                 </Card>
             }
         }
