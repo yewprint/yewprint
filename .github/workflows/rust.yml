@@ -19,10 +19,28 @@ jobs:
     - name: rustfmt
       if: ${{ github.event_name == 'pull_request' }}
       run: rustfmt --check **/*.rs
-    - name: Clippy
-      if: ${{ github.event_name == 'pull_request' }}
-      run: cargo clippy --all-targets --all-features -- -D warnings
+    - uses: actions-rs/clippy-check@v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        args: --all-features -- -D warnings
     - name: Run tests (with all features, including "doc")
       run: cargo test --all-features --verbose
     - name: Rustdoc (without feature "doc")
       run: cargo doc --verbose
+    - name: Build (release)
+      run: cargo build --release
+    - name: Get total wasm size
+      run: du -h public/wasm_bg.wasm >> output
+    - name: Checkout main
+      run: git checkout main
+    - name: Build (release)
+      run: cargo build --release
+    - name: Get total wasm size
+      run: du -h public/wasm_bg.wasm >> output
+    - name: Comment results
+      uses: amn41/comment-on-pr@comment-file-contents
+      if: github.event_name == 'pull_request'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        msg: output
