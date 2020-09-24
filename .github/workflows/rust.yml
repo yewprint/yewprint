@@ -34,6 +34,12 @@ jobs:
     if: ${{ github.event_name == 'pull_request' }}
 
     steps:
+    - name: Install wasm-pack
+      run: |
+        curl -sSL https://github.com/rustwasm/wasm-pack/releases/download/v0.9.1/wasm-pack-v0.9.1-x86_64-unknown-linux-musl.tar.gz \
+          | tar xzO wasm-pack-v0.9.1-x86_64-unknown-linux-musl/wasm-pack \
+          > $HOME/.cargo/bin/wasm-pack
+        chmod +x $HOME/.cargo/bin/wasm-pack
     - uses: actions/checkout@v2
     - name: Build (release)
       run: "./build.sh --release && du -h public/wasm_bg.wasm >> output"
