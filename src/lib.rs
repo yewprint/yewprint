@@ -8,13 +8,13 @@ mod app;
 mod buttons;
 mod card;
 mod collapse;
+mod elevation;
 #[cfg(feature = "doc")]
 mod example;
 mod icon;
 mod menu;
 mod switch;
 mod tree;
-mod elevation;
 
 #[cfg(feature = "doc")]
 pub use app::*;

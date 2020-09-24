@@ -1,3 +1,5 @@
+use yew::Classes;
+
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum Elevation {
     Level0,
@@ -39,12 +41,16 @@ impl Elevation {
             Level4 => Level3,
         }
     }
+}
 
-    /// Return the CSS class corresponding to this `Elevation`.
-    /// ```
-    /// assert_eq(Elevation::Level3.as_css_class(), "bp3-elevation-3");
-    /// ```
-    pub (crate) fn as_css_class(&self) -> &'static str {
+impl Default for Elevation {
+    fn default() -> Self {
+        Elevation::Level0
+    }
+}
+
+impl AsRef<str> for Elevation {
+    fn as_ref(&self) -> &str {
         use Elevation::*;
         match self {
             Level0 => "bp3-elevation-0",
@@ -56,9 +62,8 @@ impl Elevation {
     }
 }
 
-impl Default for Elevation {
-    fn default() -> Self {
-        Elevation::Level0
+impl From<Elevation> for Classes {
+    fn from(elevation: Elevation) -> Self {
+        Classes::from(elevation.as_ref())
     }
 }
-
