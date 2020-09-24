@@ -50,7 +50,7 @@ macro_rules! include_raw_html {
             div.set_inner_html(include_str!($file));
             div
         }))
-    }}
+    }};
 }
 
 #[cfg(feature = "doc")]
