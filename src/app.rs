@@ -53,6 +53,23 @@ impl Component for App {
             <div class=class>
                 <div class="docs-nav-wrapper">
                     <div class="docs-nav">
+                        <div class="docs-nav-title">
+                            <a class="docs-logo" href="/">
+                                {crate::include_raw_html!("logo.svg")}
+                            </a>
+                            <div>
+                                <div class="docs-heading">
+                                    {"Yewprint"}
+                                </div>
+                                <a
+                                    class="bp3-text-muted"
+                                    href="https://github.com/cecton/yewprint"
+                                    target="_blank"
+                                >
+                                    <small>{"View on GitHub"}</small>
+                                </a>
+                            </div>
+                        </div>
                         <Menu>
                             <MenuItem
                                 text={html!("Button")}
@@ -79,6 +96,14 @@ impl Component for App {
                                 onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Tree))
                             />
                         </Menu>
+                        <div class="docs-nav-sponsors">
+                            <a href="https://www.netlify.com">
+                                <img
+                                    src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg"
+                                    alt="Deploys by Netlify"
+                                />
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <main class="docs-content-wrapper" role="main">
