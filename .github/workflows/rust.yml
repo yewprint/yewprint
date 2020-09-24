@@ -34,6 +34,7 @@ jobs:
     if: ${{ github.event_name == 'pull_request' }}
 
     steps:
+    - uses: actions/checkout@v2
     - name: Build (release)
       run: "./build.sh --release && du -h public/wasm_bg.wasm >> output"
     - name: Checkout main
