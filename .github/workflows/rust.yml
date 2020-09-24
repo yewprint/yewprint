@@ -70,7 +70,7 @@ jobs:
 
     steps:
     - name: Comment results
-      uses: amn41/comment-on-pr
+      uses: amn41/comment-on-pr@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
