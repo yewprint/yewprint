@@ -1,4 +1,5 @@
 use crate::buttons::doc::*;
+use crate::card::doc::*;
 use crate::collapse::doc::*;
 use crate::icon::doc::*;
 use crate::menu::*;
@@ -59,6 +60,10 @@ impl Component for App {
                                 onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Button))
                             />
                             <MenuItem
+                                text={html!("Card")}
+                                onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Card))
+                            />
+                            <MenuItem
                                 text={html!("Collapse")}
                                 onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Collapse))
                             />
@@ -94,6 +99,7 @@ impl Component for App {
                                 DocMenu::Tree => html!(<TreeDoc />),
                                 DocMenu::Icon => html!(<IconDoc />),
                                 DocMenu::Menu => html!(),
+                                DocMenu::Card => html!(<CardDoc />),
                             }
                         }
                     </div>
@@ -106,6 +112,7 @@ impl Component for App {
 #[derive(Debug, Copy, Clone)]
 pub enum DocMenu {
     Button,
+    Card,
     Collapse,
     Icon,
     Menu,
