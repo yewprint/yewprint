@@ -27,25 +27,21 @@ jobs:
       run: cargo test --all-features --verbose
     - name: Rustdoc (without feature "doc")
       run: cargo doc --verbose
+
+  wasm-size:
+
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'pull_request' }}
+
+    steps:
     - name: Build (release)
-      if: ${{ github.event_name == 'pull_request' }}
-      run: cargo build --release
-    - name: Get total wasm size
-      if: ${{ github.event_name == 'pull_request' }}
-      run: ls public
+      run: "./build.sh --release && du -h public/wasm_bg.wasm >> output"
     - name: Checkout main
-      if: ${{ github.event_name == 'pull_request' }}
       run: git checkout main
     - name: Build (release)
-      if: ${{ github.event_name == 'pull_request' }}
-      run: cargo build --release
-    - name: Get total wasm size
-      if: ${{ github.event_name == 'pull_request' }}
-      run: du -h public/wasm_bg.wasm >> output
+      run: "./build.sh --release && du -h public/wasm_bg.wasm >> output"
     - name: Comment results
-      if: ${{ github.event_name == 'pull_request' }}
       uses: amn41/comment-on-pr@comment-file-contents
-      #if: github.event_name == 'pull_request'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
