@@ -44,7 +44,7 @@ jobs:
     - name: Build (release)
       run: "./build.sh --release && du -h public/wasm_bg.wasm >> output"
     - name: Checkout main
-      run: git checkout main
+      run: git checkout --detach origin/main
     - name: Build (release)
       run: "./build.sh --release && du -h public/wasm_bg.wasm >> output"
     - name: Comment results
