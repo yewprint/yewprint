@@ -9,7 +9,7 @@ use std::process::Command;
 const ICON_URL: &str = "https://registry.npmjs.org/@blueprintjs/icons/-/icons-3.19.0.tgz";
 const ICON_PATH: &str = "package/lib/esnext/generated/iconSvgPaths.js";
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
+fn main() {
     let icon_svg_paths = Command::new("sh")
         .arg("-c")
         .arg(format!(
@@ -17,7 +17,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             ICON_URL, ICON_PATH
         ))
         .output()
-        .map(|x| String::from_utf8(x.stdout).expect("source file is not UTF-8"))?;
+        .map(|x| String::from_utf8(x.stdout).expect("source file is not UTF-8"))
+        .expect("could not download icons");
     let out_dir = env::var_os("OUT_DIR").unwrap();
     let dest_path = Path::new(&out_dir).join("icon_svg_paths.rs");
 
@@ -42,6 +43,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         src.push_str(" }}\n\n");
     }
 
+    if keys.is_empty() {
+        panic!("failed parse downloaded icons");
+    }
+
     let mut keys: Vec<_> = keys.iter().collect();
     keys.sort();
     src.push_str("#[derive(Debug, Copy, Clone, PartialEq)]\npub enum IconName {\n");
@@ -53,6 +58,4 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     fs::write(&dest_path, src).unwrap();
     println!("cargo:rerun-if-changed=build.rs");
-
-    Ok(())
 }
