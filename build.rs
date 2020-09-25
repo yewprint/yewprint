@@ -59,9 +59,11 @@ fn main() {
     fs::write(&dest_path, src).unwrap();
     println!("cargo:rerun-if-changed=build.rs");
 
+    #[cfg(feature = "doc")]
     load_examples_with_colors();
 }
 
+#[cfg(feature = "doc")]
 fn load_examples_with_colors() {
     use std::ffi::OsString;
     use syntect::highlighting::{Theme, ThemeSet};
@@ -92,10 +94,11 @@ fn load_examples_with_colors() {
                     .join(&path)
                     .with_file_name("doc.rs.html");
                 let src =
-                    syntect::html::highlighted_html_for_file(path, syntax_set, theme).unwrap();
+                    syntect::html::highlighted_html_for_file(&path, syntax_set, theme).unwrap();
 
                 let _ = std::fs::create_dir_all(dest_path.parent().unwrap());
                 fs::write(&dest_path, src).unwrap();
+                println!("cargo:rerun-if-changed={}", path.display());
             }
         }
     }

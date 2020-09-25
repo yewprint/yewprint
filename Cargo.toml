@@ -16,7 +16,7 @@ is-it-maintained-open-issues = { repository = "cecton/yewprint" }
 
 [features]
 default = []
-doc = []
+doc = ["syntect"]
 
 [dependencies]
 wasm-bindgen = "^0.2"
@@ -27,4 +27,4 @@ id_tree = "1.7"
 [build-dependencies]
 regex = { version = "1", default-features = false, features = ["std"] }
 heck = "0.3"
-syntect = "4.4.0"
+syntect = { version = "4.4.0", optional = true }
