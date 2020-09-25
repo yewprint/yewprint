@@ -27,3 +27,4 @@ id_tree = "1.7"
 [build-dependencies]
 regex = { version = "1", default-features = false, features = ["std"] }
 heck = "0.3"
+syntect = "4.4.0"
