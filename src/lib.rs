@@ -45,7 +45,7 @@ macro_rules! include_raw_html {
                 .unwrap()
                 .document()
                 .unwrap()
-                .create_element("span")
+                .create_element("template")
                 .unwrap();
             div.set_inner_html(include_str!($file));
             div
