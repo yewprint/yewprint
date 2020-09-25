@@ -97,7 +97,7 @@ fn load_examples_with_colors() {
                     syntect::html::highlighted_html_for_file(&path, syntax_set, theme).unwrap();
 
                 let _ = std::fs::create_dir_all(dest_path.parent().unwrap());
-                fs::write(&dest_path, src).unwrap();
+                fs::write(&dest_path, src.trim_end()).unwrap();
                 println!("cargo:rerun-if-changed={}", path.display());
             }
         }
