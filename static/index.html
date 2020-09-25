@@ -2,10 +2,12 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+	<title>Yewprint – Documentation</title>
     <script type="module">
       import init from "/wasm.js";
       init();
     </script>
+    <link rel="icon" href="/favicon.svg">
     <link rel="stylesheet" href="/blueprint.css">
 	<style>
 		body {
@@ -98,10 +100,13 @@
 		}
 
 		.docs-example-wrapper .bp3-code-block {
-			/*
-			display: inline-block;
-			clear: both;
-			*/
+			background-color: #002b36;
+			white-space: pre-wrap;
+		}
+
+		.docs-example-wrapper .bp3-code-block > pre {
+			margin: 0;
+			white-space: pre-wrap;
 		}
 
 		.docs-example-wrapper .docs-example {

@@ -15,7 +15,10 @@ mkdir -p public
 rm -fR public/.gitignore public/*
 
 # copy index.html
-cp static/index.html public/
+cp static/* public/
+
+# copy favicon
+cp src/logo.svg public/favicon.svg
 
 # download blueprint css
 tar xzOf core.tgz package/lib/css/blueprint.css > public/blueprint.css
