@@ -6,6 +6,7 @@ extern crate self as yewprint;
 #[cfg(feature = "doc")]
 mod app;
 mod buttons;
+mod callout;
 mod collapse;
 #[cfg(feature = "doc")]
 mod example;
@@ -17,6 +18,7 @@ mod tree;
 #[cfg(feature = "doc")]
 pub use app::*;
 pub use buttons::*;
+pub use callout::*;
 pub use collapse::*;
 #[cfg(feature = "doc")]
 pub use example::*;
