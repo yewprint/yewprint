@@ -29,4 +29,6 @@ rc=$?
 
 rm -fR public/{.gitignore,package.json,README.md}
 
+echo Wasm size: $(cat public/*.wasm | wc -c)
+
 exit $rc
