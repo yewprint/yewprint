@@ -45,14 +45,14 @@ impl Component for Callout {
         let icon = if self.props.without_icon {
             None
         } else {
-            self.props
-                .icon
-                .or(self.props.intent.map(|intent| match intent {
+            self.props.icon.or_else(|| {
+                self.props.intent.map(|intent| match intent {
                     Intent::Primary => IconName::InfoSign,
                     Intent::Success => IconName::Tick,
                     Intent::Warning => IconName::WarningSign,
                     Intent::Danger => IconName::Error,
-                }))
+                })
+            })
         };
         let mut classes = Classes::from(self.props.class.clone()).extend("bp3-callout");
         if icon.is_some() {
