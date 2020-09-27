@@ -113,7 +113,7 @@ impl Component for MenuItem {
                         "bp3-menu-item",
                         self.props.active.map_some("bp3-active"),
                         self.props.intent
-                            .and(self.props.active.map_some(Intent::Primary.as_ref())),
+                            .and(self.props.active.map_some(Intent::Primary.as_static_str())),
                         self.props.class.clone(),
                     )
                     onclick={self.props.onclick.clone()}
