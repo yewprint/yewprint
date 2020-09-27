@@ -76,8 +76,13 @@ impl Component for ButtonProps {
         true
     }
 
-    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
-        true
+    fn change(&mut self, props: Self::Properties) -> ShouldRender {
+        if self.example_props != props.example_props {
+            self.example_props = props.example_props;
+            true
+        } else {
+            false
+        }
     }
 
     fn view(&self) -> Html {
