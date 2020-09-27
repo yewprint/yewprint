@@ -1,6 +1,6 @@
 use crate::collapse::Collapse;
 use crate::icon::{Icon, IconName};
-use crate::Intent;
+use crate::{ConditionalClass, Intent};
 use id_tree::*;
 use std::cell::{Ref, RefCell, RefMut};
 use std::collections::hash_map::DefaultHasher;
@@ -219,7 +219,7 @@ struct TreeNodeProps {
     icon_color: Option<String>,
     icon_intent: Option<Intent>,
     is_expanded: bool,
-    is_selected: bool,
+    is_selected: ConditionalClass,
     label: yew::virtual_dom::VNode,
     secondary_label: Option<yew::virtual_dom::VNode>,
     on_collapse: Option<Callback<(NodeId, MouseEvent)>>,
@@ -309,16 +309,15 @@ impl Component for TreeNode {
     }
 
     fn view(&self) -> Html {
-        let mut container_class = Classes::from("bp3-tree-node");
-        if self.props.is_selected {
-            container_class.push("bp3-tree-node-selected");
-        }
-        let mut content_class = Classes::from("bp3-tree-node-content");
-        content_class.push(&format!("bp3-tree-node-content-{}", self.props.depth));
+        let content_style = format!("padding-left: {}px;", 23 * self.props.depth);
 
         html! {
-            <li class=container_class>
-                <div class=content_class onclick=self.handler_click.clone()>
+            <li class=("bp3-tree-node", self.props.is_selected.map_some("bp3-tree-node-selected"))>
+                <div
+                    class="bp3-tree-node-content"
+                    style=content_style
+                    onclick=self.handler_click.clone()
+                >
                     {
                         if self.props.has_caret {
                             let mut class = Classes::from("bp3-tree-node-caret");
