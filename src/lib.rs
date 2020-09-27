@@ -41,6 +41,23 @@ macro_rules! log {
 }
 
 #[cfg(feature = "doc")]
+#[macro_export]
+macro_rules! include_raw_html {
+    ($file:expr) => {{
+        yew::virtual_dom::VNode::VRef(yew::web_sys::Node::from({
+            let div = web_sys::window()
+                .unwrap()
+                .document()
+                .unwrap()
+                .create_element("span")
+                .unwrap();
+            div.set_inner_html(include_str!($file));
+            div
+        }))
+    }};
+}
+
+#[cfg(feature = "doc")]
 #[wasm_bindgen::prelude::wasm_bindgen(start)]
 pub fn run_app() -> Result<(), wasm_bindgen::JsValue> {
     yew::start_app::<app::App>();
