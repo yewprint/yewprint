@@ -103,8 +103,9 @@ pub enum Elevation {
 impl Elevation {
     /// Return the next highest `Elevation`.
     /// ```
-    /// assert_eq(Elevation::Level1.above(), Elevation::Level2);
-    /// assert_eq(Elevation::Level4.above(), Elevation::Level4);
+    /// # use yewprint::Elevation;
+    /// assert_eq!(Elevation::Level1.above(), Elevation::Level2);
+    /// assert_eq!(Elevation::Level4.above(), Elevation::Level4);
     /// ```
     pub fn above(&self) -> Self {
         use Elevation::*;
@@ -119,8 +120,9 @@ impl Elevation {
 
     /// Return the next lowest `Elevation`.
     /// ```
-    /// assert_eq(Elevation::Level3.below(), Elevation::Level2);
-    /// assert_eq(Elevation::Level0.below(), Elevation::Level0);
+    /// # use yewprint::Elevation;
+    /// assert_eq!(Elevation::Level3.below(), Elevation::Level2);
+    /// assert_eq!(Elevation::Level0.below(), Elevation::Level0);
     /// ```
     pub fn below(&self) -> Self {
         use Elevation::*;
