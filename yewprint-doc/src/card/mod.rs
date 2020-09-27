@@ -1,59 +1,30 @@
-#[cfg(feature = "doc")]
-pub mod doc;
-
-use crate::elevation::Elevation;
 use yew::prelude::*;
-use yew::Classes;
 
-#[derive(Clone, PartialEq, Properties)]
-pub struct CardProps {
-    #[prop_or_default]
-    pub class: Option<String>,
-    #[prop_or_default]
-    pub elevation: Elevation,
-    #[prop_or_default]
-    pub onclick: Callback<MouseEvent>,
-    #[prop_or(false)]
-    pub interactive: bool,
-    pub children: html::Children,
-}
+pub struct CardDoc {}
 
-pub struct Card {
-    props: CardProps,
-}
-
-impl Component for Card {
+impl Component for CardDoc {
     type Message = ();
-    type Properties = CardProps;
+    type Properties = ();
 
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        Self { props }
+    fn create(_: Self::Properties, _link: ComponentLink<Self>) -> Self {
+        CardDoc {}
     }
 
-    fn update(&mut self, _msg: Self::Message) -> bool {
+    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
         true
     }
 
-    fn change(&mut self, props: Self::Properties) -> bool {
-        if self.props != props {
-            self.props = props;
-            true
-        } else {
-            false
-        }
+    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
+        true
     }
 
     fn view(&self) -> Html {
-        let mut classes = Classes::from("bp3-card")
-            .extend(&self.props.class)
-            .extend(self.props.elevation);
-        if self.props.interactive {
-            classes.push("bp3-interactive");
-        }
+        let source = crate::include_example!();
 
         html! {
-            <div class=classes onclick={self.props.onclick.clone()}>
-                {self.props.children.clone()}
+            <div>
+                <h1>{"Card"}</h1>
+                <div>{source}</div>
             </div>
         }
     }

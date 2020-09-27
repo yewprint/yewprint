@@ -15,7 +15,10 @@ impl Component for Example {
     type Properties = ();
 
     fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
-        Example { link, elevation: Elevation::Level0 }
+        Example {
+            link,
+            elevation: Elevation::Level0,
+        }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
@@ -31,13 +34,13 @@ impl Component for Example {
 
     fn view(&self) -> Html {
         html! {
-                <Card elevation={self.elevation} onclick=self.link.callback(|_| Msg::IncreaseElevation)
-                        interactive=true>
-                    <p>{format!(
-                        "This is a card component with elevation {}. Click the card to increase the elevation.",
-                        self.elevation as u8)}
-                   </p>
-                </Card>
-            }
+            <Card elevation={self.elevation} onclick=self.link.callback(|_| Msg::IncreaseElevation)
+                    interactive=true>
+                <p>{format!(
+                    "This is a card component with elevation {}. Click the card to increase the elevation.",
+                    self.elevation as u8)}
+               </p>
+            </Card>
+        }
     }
 }

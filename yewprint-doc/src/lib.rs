@@ -1,5 +1,6 @@
 mod app;
 mod buttons;
+mod card;
 mod collapse;
 mod example;
 mod icon;
