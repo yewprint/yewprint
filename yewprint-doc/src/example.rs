@@ -1,5 +1,5 @@
-use crate::{Button, Collapse, IconName, Intent};
 use yew::prelude::*;
+use yewprint::{Button, Collapse, IconName, Intent};
 
 pub struct ExampleContainer {
     collapsed: bool,
@@ -13,7 +13,7 @@ pub enum Msg {
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct Props {
-    pub source: &'static str,
+    pub source: yew::virtual_dom::VNode,
     pub children: html::Children,
 }
 
@@ -61,7 +61,7 @@ impl Component for ExampleContainer {
                         is_open=!self.collapsed
                         keep_children_mounted=true
                     >
-                        <pre class="bp3-code-block">{self.props.source}</pre>
+                        {self.props.source.clone()}
                     </Collapse>
                 </div>
             </div>
@@ -71,14 +71,17 @@ impl Component for ExampleContainer {
 
 #[macro_export]
 macro_rules! include_example {
-    ($file:expr) => {{
+    () => {{
         use crate::ExampleContainer;
 
-        let source = include_str!($file);
+        let source = crate::include_raw_html!(
+            concat!(env!("OUT_DIR"), "/", file!(), ".html"),
+            "bp3-code-block"
+        );
 
         mod source {
             // TODO: example.rs files are not formatted because of this include
-            include!($file);
+            include!("example.rs");
         }
         use source::Example;
 

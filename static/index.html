@@ -2,62 +2,31 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+	<title>Yewprint – Documentation</title>
     <script type="module">
       import init from "/wasm.js";
       init();
     </script>
+    <link rel="icon" href="/favicon.svg">
     <link rel="stylesheet" href="/blueprint.css">
+    <link rel="stylesheet" href="/docs-theme.css">
 	<style>
 		body {
 			margin: 0;
 			padding: 0;
 		}
 
+		.docs-logo {
+			margin-right: 15px;
+		}
+		
+		.docs-heading {
+			font-size: 20px;
+			font-weight: 600;
+		}
+
 		.bp3-tree {
 			width: 350px;
-		}
-
-		.docs-app {
-			display: flex;
-			flex-direction: row;
-			margin: auto;
-			width: 100vw;
-			min-height: 100vh;
-			background-color: #f5f8fa;
-		}
-
-		.docs-nav {
-			width: 270px;
-			height: 100vh;
-			position: fixed;
-			left: 0;
-			top: 0;
-			overflow-y: scroll;
-			overflow-x: hidden;
-			z-index: 10;
-			background-color: #fff;
-		}
-
-		.bp3-dark .docs-nav {
-			background-color: #394b59;
-		}
-
-		.docs-nav-wrapper {
-			flex-basis: 270px;
-			width: 270px;
-			flex-grow: 0;
-			flex-shrink: 0;
-		}
-
-		.docs-nav .bp3-menu {
-			background: inherit;
-		}
-
-		.docs-nav .docs-nav-title {
-			display: flex;
-			flex-direction: row;
-			align-items: center;
-			padding: 15px;
 		}
 
 		.docs-nav .docs-nav-sponsors {
@@ -67,50 +36,31 @@
 			padding: 15px;
 		}
 
-		.docs-nav .docs-nav-title .docs-logo {
-			margin-right: 15px;
+		.docs-nav .bp3-menu {
+			background-color: transparent;
 		}
 
-		.docs-nav .docs-nav-title .docs-heading {
-			font-size: 20px;
+		.docs-nav .bp3-menu-item:hover {
+			background-color: transparent;
 			font-weight: 600;
-			margin-right: 10px;
-		}
-
-		.docs-content-wrapper {
-			flex-grow: 1;
-			flex-shrink: 1;
-			flex-basis: 830px;
-		}
-
-		.docs-page {
-			padding: 0 5px 40px 40px;
-			max-width: 830px;
-		}
-
-		.docs-app.bp3-dark {
-			background-color: #30404d;
-		}
-
-		.docs-page h1 {
-			line-height: 40px;
-			font-size: 36px;
 		}
 
 		.docs-example-wrapper .bp3-code-block {
-			/*
-			display: inline-block;
-			clear: both;
-			*/
+			white-space: pre-wrap;
 		}
 
-		.docs-example-wrapper .docs-example {
+		.docs-example-wrapper .bp3-code-block > pre {
+			margin: 0;
+			white-space: pre-wrap;
+		}
+
+		.docs-example {
 			border-radius: 6px;
 			background-color: #fff;
 			padding: 20px;
 		}
 
-		.bp3-dark .docs-example-wrapper .docs-example {
+		.bp3-dark .docs-example {
 			background-color: #293742;
 		}
 
@@ -125,6 +75,15 @@
 		.docs-example-wrapper > .docs-source {
 			margin-bottom: 40px;
 			margin-top: 10px;
+		}
+
+		.docs-example-wrapper > .docs-source .bp3-code-block {
+			filter: invert(1) hue-rotate(180deg) contrast(2);
+			background-color: #002b36;
+		}
+
+		.bp3-dark .docs-example-wrapper > .docs-source .bp3-code-block {
+			filter: inherit;
 		}
 	</style>
   </head>
