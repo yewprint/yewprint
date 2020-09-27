@@ -22,7 +22,7 @@ rm -fR public/.gitignore public/*
 cp static/* public/
 
 # copy favicon
-cp yewprint/src/logo.svg public/favicon.svg
+cp yewprint-doc/src/logo.svg public/favicon.svg
 
 # download blueprint css
 tar xzOf core.tgz package/lib/css/blueprint.css > public/blueprint.css
