@@ -19,7 +19,7 @@ impl Component for TreeDoc {
     }
 
     fn view(&self) -> Html {
-        let source = crate::include_example!("example.rs");
+        let source = crate::include_example!();
 
         html! {
             <div>

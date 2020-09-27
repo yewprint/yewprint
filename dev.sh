@@ -1,3 +1,3 @@
 #!/bin/sh
 
-exec cargo watch -s './build.sh --dev -- --features doc && simple-http-server -i --nocache --cors public/' -w src -w static
+exec cargo watch -s './build.sh --dev && simple-http-server -i --nocache --cors public/' -i /public

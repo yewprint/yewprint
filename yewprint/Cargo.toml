@@ -1,0 +1,21 @@
+[package]
+name = "yewprint"
+version = "0.1.0"
+authors = ["Cecile Tonglet <cecile.tonglet@cecton.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[badges]
+travis-ci = { repository = "cecton/yewprint", branch = "main" }
+is-it-maintained-issue-resolution = { repository = "cecton/yewprint" }
+is-it-maintained-open-issues = { repository = "cecton/yewprint" }
+
+[dependencies]
+yew = { git = "https://github.com/yewstack/yew.git", rev = "1507c21b" }
+web-sys = "0.3"
+id_tree = "1.7"
+
+[build-dependencies]
+regex = { version = "1", default-features = false, features = ["std"] }
+heck = "0.3"
