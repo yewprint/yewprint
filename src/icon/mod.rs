@@ -58,10 +58,6 @@ impl Component for Icon {
     }
 
     fn view(&self) -> Html {
-        let mut class = Classes::from("bp3-icon");
-        class.push(self.props.class.as_str());
-        class = class.extend(&self.props.intent);
-
         let paths = if self.props.icon_size == SIZE_STANDARD {
             icon_svg_paths_16(self.props.icon)
         } else {
@@ -75,7 +71,7 @@ impl Component for Icon {
         let icon_string = format!("{:?}", self.props.icon);
 
         html! {
-            <span class=class onclick?={self.props.onclick.clone()}>
+            <span class=("bp3-icon", self.props.class.clone(), self.props.intent) onclick?={self.props.onclick.clone()}>
                 <svg
                     fill?={self.props.color.clone()}
                     data-icon={icon_string.clone()}

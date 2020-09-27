@@ -1,15 +1,15 @@
 use crate::buttons::doc::*;
 use crate::collapse::doc::*;
 use crate::icon::doc::*;
-use crate::menu::*;
-use crate::switch::doc::SwitchDoc;
+use crate::switch::doc::*;
 use crate::tree::doc::*;
+use crate::{ConditionalClass, Menu, MenuItem};
 use yew::prelude::*;
 
 pub struct App {
     link: ComponentLink<Self>,
     doc_menu: DocMenu,
-    dark_theme: bool,
+    dark_theme: ConditionalClass,
 }
 
 pub enum Msg {
@@ -23,7 +23,7 @@ impl Component for App {
 
     fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
         App {
-            dark_theme: true,
+            dark_theme: true.into(),
             doc_menu: DocMenu::Button,
             link,
         }
@@ -31,7 +31,7 @@ impl Component for App {
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
-            Msg::ToggleLight => self.dark_theme ^= true,
+            Msg::ToggleLight => *self.dark_theme ^= true,
             Msg::GoToMenu(doc_menu) => {
                 self.doc_menu = doc_menu;
             }
@@ -44,13 +44,8 @@ impl Component for App {
     }
 
     fn view(&self) -> Html {
-        let mut class = Classes::from("docs-app");
-        if self.dark_theme {
-            class.push("bp3-dark");
-        }
-
         html! {
-            <div class=class>
+            <div class=("docs-app", self.dark_theme.map_some("bp3-dark"))>
                 <div class="docs-nav-wrapper">
                     <div class="docs-nav">
                         <div class="docs-nav-title">
