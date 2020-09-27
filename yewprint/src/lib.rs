@@ -1,5 +1,3 @@
-#![recursion_limit = "512"]
-
 mod buttons;
 mod collapse;
 mod icon;
