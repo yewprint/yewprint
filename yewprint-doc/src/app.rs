@@ -4,7 +4,7 @@ use crate::icon::*;
 use crate::switch::*;
 use crate::tree::*;
 use yew::prelude::*;
-use yewprint::{ConditionalClass, Menu, MenuItem};
+use yewprint::{ConditionalClass, IconName, Menu, MenuItem};
 
 pub struct App {
     link: ComponentLink<Self>,
@@ -49,6 +49,16 @@ impl Component for App {
         } else {
             "https://www.netlify.com/img/global/badges/netlify-color-bg.svg"
         };
+        let go_to_theme_label = if *self.dark_theme {
+            "Light theme"
+        } else {
+            "Dark theme"
+        };
+        let go_to_theme_icon = if *self.dark_theme {
+            IconName::Flash
+        } else {
+            IconName::Moon
+        };
 
         html! {
             <div class=("docs-root", self.dark_theme.map_some("bp3-dark"))>
@@ -73,6 +83,11 @@ impl Component for App {
                                 </div>
                             </div>
                             <Menu>
+                                <MenuItem
+                                    text={html!(go_to_theme_label)}
+                                    onclick=self.link.callback(|_| Msg::ToggleLight)
+                                    icon=go_to_theme_icon
+                                />
                                 <MenuItem
                                     text={html!("Button")}
                                     onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Button))
