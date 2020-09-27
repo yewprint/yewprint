@@ -17,7 +17,10 @@ impl Component for ButtonDoc {
     fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
         ButtonDoc {
             update: link.callback(|x| x),
-            state: ExampleProps { minimal: true },
+            state: ExampleProps {
+                minimal: false,
+                fill: false,
+            },
         }
     }
 
@@ -85,16 +88,30 @@ impl Component for ButtonProps {
             <div>
                 <h1>{"Button props"}</h1>
                 <Switch
-                    onclick={
-                        self.update.clone()
-                            .reform({
-                                let props = self.example_props.clone();
-                                move |_| ExampleProps { minimal: !props.minimal, ..props }
-                            })
-                    }
+                    onclick=self.update_props(|props| ExampleProps {
+                        minimal: !props.minimal,
+                        ..props
+                    })
                     checked=self.example_props.minimal
+                />
+                <Switch
+                    onclick=self.update_props(|props| ExampleProps {
+                        fill: !props.fill,
+                        ..props
+                    })
+                    checked=self.example_props.fill
                 />
             </div>
         }
+    }
+}
+
+impl ButtonProps {
+    fn update_props(
+        &self,
+        updater: impl Fn(ExampleProps) -> ExampleProps + 'static,
+    ) -> Callback<MouseEvent> {
+        let props = self.example_props.clone();
+        self.update.clone().reform(move |_| updater(props.clone()))
     }
 }

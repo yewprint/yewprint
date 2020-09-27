@@ -10,6 +10,7 @@ pub struct Example {
 #[derive(Clone, PartialEq, Properties)]
 pub struct ExampleProps {
     pub minimal: bool,
+    pub fill: bool,
 }
 
 pub enum Msg {
@@ -52,6 +53,7 @@ impl Component for Example {
                     <Button
                         onclick=self.link.callback(|_| Msg::AddOne)
                         minimal=self.props.minimal
+                        fill=self.props.fill
                     >
                         {"Add 1"}
                     </Button>
