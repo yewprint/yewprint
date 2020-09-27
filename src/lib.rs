@@ -130,12 +130,12 @@ pub enum Intent {
 
 impl From<Intent> for Classes {
     fn from(intent: Intent) -> Self {
-        Classes::from(intent.as_static_str())
+        Classes::from(intent.as_ref())
     }
 }
 
-impl Intent {
-    fn as_static_str(&self) -> &'static str {
+impl AsRef<str> for Intent {
+    fn as_ref(&self) -> &'static str {
         match self {
             Intent::Primary => "bp3-intent-primary",
             Intent::Success => "bp3-intent-success",
