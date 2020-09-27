@@ -1,17 +1,17 @@
+use crate::{Callout, Intent, Menu, MenuItem, Switch};
 use yew::prelude::*;
-use crate::{Callout, Switch, Intent, Menu, MenuItem};
 
 pub struct Example {
     link: ComponentLink<Self>,
     intent: Option<Intent>,
     show_icon: bool,
-    show_title: bool
+    show_title: bool,
 }
 
 pub enum Msg {
     ChangeIntent(Option<Intent>),
     ToggleIcon,
-    ToggleTitle
+    ToggleTitle,
 }
 
 impl Component for Example {
@@ -19,14 +19,19 @@ impl Component for Example {
     type Properties = ();
 
     fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
-        Example { link, intent: None, show_icon: false, show_title: true }
+        Example {
+            link,
+            intent: None,
+            show_icon: false,
+            show_title: true,
+        }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
             Msg::ChangeIntent(new_intent) => self.intent = new_intent,
             Msg::ToggleIcon => self.show_icon = !self.show_icon,
-            Msg::ToggleTitle => self.show_title = !self.show_title
+            Msg::ToggleTitle => self.show_title = !self.show_title,
         }
         true
     }
