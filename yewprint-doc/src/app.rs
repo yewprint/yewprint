@@ -53,7 +53,7 @@ impl Component for App {
                                 {crate::include_raw_html!("logo.svg")}
                             </a>
                             <div>
-                                <div class="docs-heading">
+                                <div class="bp3-navbar-heading docs-heading">
                                     {"Yewprint"}
                                 </div>
                                 <a
