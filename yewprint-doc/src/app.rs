@@ -1,10 +1,10 @@
-use crate::buttons::doc::*;
-use crate::collapse::doc::*;
-use crate::icon::doc::*;
-use crate::switch::doc::*;
-use crate::tree::doc::*;
-use crate::{ConditionalClass, Menu, MenuItem};
+use crate::buttons::*;
+use crate::collapse::*;
+use crate::icon::*;
+use crate::switch::*;
+use crate::tree::*;
 use yew::prelude::*;
+use yewprint::{ConditionalClass, Menu, MenuItem};
 
 pub struct App {
     link: ComponentLink<Self>,

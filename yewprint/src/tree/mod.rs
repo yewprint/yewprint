@@ -9,9 +9,6 @@ use std::hash::{Hash, Hasher};
 use std::rc::Rc;
 use yew::prelude::*;
 
-#[cfg(feature = "doc")]
-pub mod doc;
-
 #[derive(Clone)]
 pub struct TreeData<T> {
     tree: Rc<RefCell<id_tree::Tree<NodeData<T>>>>,

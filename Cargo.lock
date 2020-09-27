@@ -853,7 +853,17 @@ dependencies = [
  "id_tree",
  "regex",
  "syntect",
+ "web-sys",
+ "yew",
+]
+
+[[package]]
+name = "yewprint-doc"
+version = "0.1.0"
+dependencies = [
+ "syntect",
  "wasm-bindgen",
  "web-sys",
  "yew",
+ "yewprint",
 ]

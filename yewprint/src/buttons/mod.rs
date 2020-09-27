@@ -1,6 +1,3 @@
-#[cfg(feature = "doc")]
-pub mod doc;
-
 use crate::{ConditionalClass, Icon, IconName, Intent};
 use yew::prelude::*;
 

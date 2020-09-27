@@ -1,5 +1,5 @@
-use crate::{Button, Collapse, IconName, Intent};
 use yew::prelude::*;
+use yewprint::{Button, Collapse, IconName, Intent};
 
 pub struct ExampleContainer {
     collapsed: bool,
