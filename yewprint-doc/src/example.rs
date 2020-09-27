@@ -15,6 +15,8 @@ pub enum Msg {
 pub struct Props {
     pub source: yew::virtual_dom::VNode,
     pub children: html::Children,
+    #[prop_or_default]
+    pub example_props: Option<yew::virtual_dom::VNode>,
 }
 
 impl Component for ExampleContainer {
@@ -36,16 +38,33 @@ impl Component for ExampleContainer {
         true
     }
 
-    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
-        // TODO: never re-render this component? How to optimize this
-        false
+    fn change(&mut self, props: Self::Properties) -> ShouldRender {
+        if self.props != props {
+            self.props = props;
+            true
+        } else {
+            false
+        }
     }
 
     fn view(&self) -> Html {
         html! {
             <div class="docs-example-wrapper">
-                <div class="docs-example">
-                    {self.props.children.clone()}
+                <div class="docs-example-frame docs-example-frame-row">
+                    <div class="docs-example">
+                        {self.props.children.clone()}
+                    </div>
+                    {
+                        if let Some(example_props) = self.props.example_props.clone() {
+                            html! {
+                                <div class="docs-example-options">
+                                    {example_props}
+                                </div>
+                            }
+                        } else {
+                            html!()
+                        }
+                    }
                 </div>
                 <div class="docs-source">
                     <Button
@@ -71,7 +90,7 @@ impl Component for ExampleContainer {
 
 #[macro_export]
 macro_rules! include_example {
-    () => {{
+    ($($example_props:expr, $props:expr)?) => {{
         use crate::ExampleContainer;
 
         let source = crate::include_raw_html!(
@@ -86,8 +105,8 @@ macro_rules! include_example {
         use source::Example;
 
         html! {
-            <ExampleContainer source={source}>
-                <Example />
+            <ExampleContainer source=source $(example_props=Some($example_props))*>
+                <Example $(with $props)*/>
             </ExampleContainer>
         }
     }};

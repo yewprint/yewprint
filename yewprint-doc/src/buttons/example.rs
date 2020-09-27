@@ -4,6 +4,12 @@ use yewprint::Button;
 pub struct Example {
     link: ComponentLink<Self>,
     counter: i64,
+    props: ExampleProps,
+}
+
+#[derive(Clone, PartialEq, Properties)]
+pub struct ExampleProps {
+    pub active: bool,
 }
 
 pub enum Msg {
@@ -12,10 +18,10 @@ pub enum Msg {
 
 impl Component for Example {
     type Message = Msg;
-    type Properties = ();
+    type Properties = ExampleProps;
 
-    fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
-        Example { counter: 0, link }
+    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+        Example { counter: 0, link, props }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
@@ -25,16 +31,27 @@ impl Component for Example {
         true
     }
 
-    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
-        true
+    fn change(&mut self, props: Self::Properties) -> ShouldRender {
+        if self.props != props {
+            self.props = props;
+            true
+        } else {
+            false
+        }
     }
 
     fn view(&self) -> Html {
+        crate::log!("rerender");
         html! {
             <div>
-                <p> {"Counter: "} { self.counter }</p>
+                <p>{"Counter: "}{self.counter}</p>
                 <div>
-                    <Button onclick=self.link.callback(|_| Msg::AddOne)>{ "Add 1" }</Button>
+                    <Button
+                        onclick=self.link.callback(|_| Msg::AddOne)
+                        minimal=self.props.active
+                    >
+                        {"Add 1"}
+                    </Button>
                 </div>
             </div>
         }
