@@ -1,4 +1,5 @@
 mod buttons;
+mod callout;
 mod collapse;
 mod icon;
 mod menu;
@@ -6,6 +7,7 @@ mod switch;
 mod tree;
 
 pub use buttons::*;
+pub use callout::*;
 pub use collapse::*;
 pub use icon::*;
 pub use id_tree;

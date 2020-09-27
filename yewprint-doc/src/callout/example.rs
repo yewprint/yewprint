@@ -1,5 +1,5 @@
-use crate::{Callout, Intent, Menu, MenuItem, Switch};
 use yew::prelude::*;
+use yewprint::{Callout, Intent, Menu, MenuItem, Switch};
 
 pub struct Example {
     link: ComponentLink<Self>,
