@@ -9,7 +9,7 @@ pub struct Example {
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct ExampleProps {
-    pub active: bool,
+    pub minimal: bool,
 }
 
 pub enum Msg {
@@ -21,7 +21,11 @@ impl Component for Example {
     type Properties = ExampleProps;
 
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
-        Example { counter: 0, link, props }
+        Example {
+            counter: 0,
+            link,
+            props,
+        }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
@@ -41,14 +45,13 @@ impl Component for Example {
     }
 
     fn view(&self) -> Html {
-        crate::log!("rerender");
         html! {
             <div>
                 <p>{"Counter: "}{self.counter}</p>
                 <div>
                     <Button
                         onclick=self.link.callback(|_| Msg::AddOne)
-                        minimal=self.props.active
+                        minimal=self.props.minimal
                     >
                         {"Add 1"}
                     </Button>
