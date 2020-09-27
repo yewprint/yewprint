@@ -1,6 +1,3 @@
-#[cfg(feature = "doc")]
-pub mod doc;
-
 use yew::prelude::*;
 
 pub struct Switch {

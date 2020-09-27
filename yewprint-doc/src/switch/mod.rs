@@ -1,4 +1,5 @@
-use super::*;
+use yew::prelude::*;
+use yewprint::*;
 
 pub struct SwitchDoc {
     props: Props,
