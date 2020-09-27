@@ -44,80 +44,89 @@ impl Component for App {
     }
 
     fn view(&self) -> Html {
+        let netlify_badge = if *self.dark_theme {
+            "https://www.netlify.com/img/global/badges/netlify-color-accent.svg"
+        } else {
+            "https://www.netlify.com/img/global/badges/netlify-color-bg.svg"
+        };
+
         html! {
-            <div class=("docs-app", self.dark_theme.map_some("bp3-dark"))>
-                <div class="docs-nav-wrapper">
-                    <div class="docs-nav">
-                        <div class="docs-nav-title">
-                            <a class="docs-logo" href="/">
-                                {crate::include_raw_html!("logo.svg")}
-                            </a>
-                            <div>
-                                <div class="bp3-navbar-heading docs-heading">
-                                    {"Yewprint"}
+            <div class=("docs-root", self.dark_theme.map_some("bp3-dark"))>
+                <div class="docs-app">
+                    <div class="docs-nav-wrapper">
+                        <div class="docs-nav">
+                            <div class="docs-nav-title">
+                                <a class="docs-logo" href="/">
+                                    {crate::include_raw_html!("logo.svg")}
+                                </a>
+                                <div>
+                                    <div class="bp3-navbar-heading docs-heading">
+                                        {"Yewprint"}
+                                    </div>
+                                    <a
+                                        class="bp3-text-muted"
+                                        href="https://github.com/cecton/yewprint"
+                                        target="_blank"
+                                    >
+                                        <small>{"View on GitHub"}</small>
+                                    </a>
                                 </div>
-                                <a
-                                    class="bp3-text-muted"
-                                    href="https://github.com/cecton/yewprint"
-                                    target="_blank"
-                                >
-                                    <small>{"View on GitHub"}</small>
+                            </div>
+                            <Menu>
+                                <MenuItem
+                                    text={html!("Button")}
+                                    onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Button))
+                                />
+                                <MenuItem
+                                    text={html!("Collapse")}
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Collapse))
+                                />
+                                <MenuItem
+                                    text={html!("Icon")}
+                                    onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Icon))
+                                />
+                                <MenuItem
+                                    text={html!("Menu")}
+                                    onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Menu))
+                                />
+                                <MenuItem
+                                    text={html!("Switch")}
+                                    onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Switch))
+                                />
+                                <MenuItem
+                                    text={html!("Tree")}
+                                    onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Tree))
+                                />
+                            </Menu>
+                            <div class="docs-nav-sponsors">
+                                <a href="https://www.netlify.com">
+                                    <img
+                                        src=netlify_badge
+                                        alt="Deploys by Netlify"
+                                    />
                                 </a>
                             </div>
                         </div>
-                        <Menu>
-                            <MenuItem
-                                text={html!("Button")}
-                                onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Button))
-                            />
-                            <MenuItem
-                                text={html!("Collapse")}
-                                onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Collapse))
-                            />
-                            <MenuItem
-                                text={html!("Icon")}
-                                onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Icon))
-                            />
-                            <MenuItem
-                                text={html!("Menu")}
-                                onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Menu))
-                            />
-                            <MenuItem
-                                text={html!("Switch")}
-                                onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Switch))
-                            />
-                            <MenuItem
-                                text={html!("Tree")}
-                                onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Tree))
-                            />
-                        </Menu>
-                        <div class="docs-nav-sponsors">
-                            <a href="https://www.netlify.com">
-                                <img
-                                    src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg"
-                                    alt="Deploys by Netlify"
-                                />
-                            </a>
-                        </div>
                     </div>
-                </div>
-                <main class="docs-content-wrapper" role="main">
-                    <div class="docs-page">
-                        {
-                            match self.doc_menu {
-                                DocMenu::Button => html! (<ButtonDoc />),
-                                DocMenu::Switch => html! (<SwitchDoc
-                                    dark_theme=self.dark_theme
-                                    onclick=self.link.callback(|_| Msg::ToggleLight)
-                                    />),
-                                DocMenu::Collapse => html!(<CollapseDoc />),
-                                DocMenu::Tree => html!(<TreeDoc />),
-                                DocMenu::Icon => html!(<IconDoc />),
-                                DocMenu::Menu => html!(),
+                    <main class="docs-content-wrapper" role="main">
+                        <div class="docs-page">
+                            {
+                                match self.doc_menu {
+                                    DocMenu::Button => html! (<ButtonDoc />),
+                                    DocMenu::Switch => html! (<SwitchDoc
+                                        dark_theme=self.dark_theme
+                                        onclick=self.link.callback(|_| Msg::ToggleLight)
+                                        />),
+                                    DocMenu::Collapse => html!(<CollapseDoc />),
+                                    DocMenu::Tree => html!(<TreeDoc />),
+                                    DocMenu::Icon => html!(<IconDoc />),
+                                    DocMenu::Menu => html!(),
+                                }
                             }
-                        }
-                    </div>
-                </main>
+                        </div>
+                    </main>
+                </div>
             </div>
         }
     }
