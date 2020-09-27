@@ -23,7 +23,11 @@ impl Component for App {
 
     fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
         App {
-            dark_theme: true.into(),
+            dark_theme: web_sys::window()
+                .and_then(|x| x.match_media("(prefers-color-scheme: dark)").ok().flatten())
+                .map(|x| x.matches())
+                .unwrap_or(true)
+                .into(),
             doc_menu: DocMenu::Button,
             link,
         }
