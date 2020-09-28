@@ -3,7 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::Switch;
+use yewprint::{Switch, H1, H5};
 
 pub struct ButtonDoc {
     callback: Callback<ExampleProps>,
@@ -42,7 +42,7 @@ impl Component for ButtonDoc {
 
         html! {
             <div>
-                <h1>{"Button"}</h1>
+                <H1 class="docs-title">{"Button"}</H1>
                 <div>
                     <ExampleContainer
                         source=source
@@ -66,7 +66,7 @@ crate::build_example_prop_component! {
         fn view(&self) -> Html {
             html! {
                 <div>
-                    <h1>{"Button props"}</h1>
+                    <H5>{"Button props"}</H5>
                     <Switch
                         onclick=self.update_props(|props| ExampleProps {
                             minimal: !props.minimal,
