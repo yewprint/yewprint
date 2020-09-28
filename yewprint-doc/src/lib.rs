@@ -6,6 +6,7 @@ mod example;
 mod icon;
 mod switch;
 mod tree;
+mod progressbar;
 
 pub use app::*;
 pub use example::*;

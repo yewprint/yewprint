@@ -4,6 +4,8 @@ use crate::collapse::*;
 use crate::icon::*;
 use crate::switch::*;
 use crate::tree::*;
+use crate::progressbar::*;
+
 use yew::prelude::*;
 use yewprint::{ConditionalClass, IconName, Menu, MenuItem};
 
@@ -123,6 +125,10 @@ impl Component for App {
                                     text={html!("Tree")}
                                     onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Tree))
                                 />
+                                <MenuItem
+                                    text={html!("ProgressBar")}
+                                    onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::ProgressBar))
+                                />
                             </Menu>
                             <div class="docs-nav-sponsors">
                                 <a href="https://www.netlify.com">
@@ -147,6 +153,7 @@ impl Component for App {
                                     DocMenu::Collapse => html!(<CollapseDoc />),
                                     DocMenu::Tree => html!(<TreeDoc />),
                                     DocMenu::Icon => html!(<IconDoc />),
+                                    DocMenu::ProgressBar => html!(<ProgressBarDoc />),
                                     DocMenu::Menu => html!(),
                                 }
                             }
@@ -167,4 +174,5 @@ pub enum DocMenu {
     Menu,
     Switch,
     Tree,
+    ProgressBar,
 }

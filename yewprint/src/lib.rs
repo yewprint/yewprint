@@ -4,6 +4,7 @@ mod collapse;
 mod html_elements;
 mod icon;
 mod menu;
+mod progressbar;
 mod switch;
 mod tree;
 
@@ -14,6 +15,7 @@ pub use html_elements::*;
 pub use icon::*;
 pub use id_tree;
 pub use menu::*;
+pub use progressbar::*;
 pub use switch::*;
 pub use tree::*;
 
