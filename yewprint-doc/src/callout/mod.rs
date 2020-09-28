@@ -98,6 +98,7 @@ crate::build_example_prop_component! {
                                     ..props
                                 })
                                 text=html!{"Primary"}
+                                intent=Intent::Primary
                             />
                             <MenuItem
                                 onclick=self.update_props(|props| ExampleProps {
@@ -105,6 +106,7 @@ crate::build_example_prop_component! {
                                     ..props
                                 })
                                 text=html!{"Success"}
+                                intent=Intent::Success
                             />
                             <MenuItem
                                 onclick=self.update_props(|props| ExampleProps {
@@ -112,6 +114,7 @@ crate::build_example_prop_component! {
                                     ..props
                                 })
                                 text=html!{"Warning"}
+                                intent=Intent::Warning
                             />
                             <MenuItem
                                 onclick=self.update_props(|props| ExampleProps {
@@ -119,6 +122,7 @@ crate::build_example_prop_component! {
                                     ..props
                                 })
                                 text=html!{"Danger"}
+                                intent=Intent::Danger
                             />
                         </Menu>
                     </div>

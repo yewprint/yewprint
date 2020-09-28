@@ -43,7 +43,7 @@ impl From<bool> for ConditionalClass {
 }
 
 impl ConditionalClass {
-    pub fn map_some(&self, value: &'static str) -> Option<&'static str> {
+    pub fn map_some<T>(&self, value: T) -> Option<T> {
         if self.0 {
             Some(value)
         } else {
