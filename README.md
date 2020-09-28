@@ -1,17 +1,11 @@
-[![Build Status](https://travis-ci.org/cecton/yewprint.svg?branch=main)](https://travis-ci.org/cecton/yewprint)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/17f076ed-49e5-4185-921e-5c5759de2fdb/deploy-status)](https://app.netlify.com/sites/epic-poincare-f8adaa/deploys)
-
-![Demo](https://github.com/cecton/blueprint-rs/blob/main/demo.mp4?raw=true)
-
-blueprint-rs
-============
+# <a href="https://yewprint.rm.rs"><img src="./yewprint-doc/src/logo.svg" height="32" /></a><a href="https://yewprint.rm.rs">Yewprint</a> [![Build Status](https://travis-ci.org/cecton/yewprint.svg?branch=main)](https://travis-ci.org/cecton/yewprint) [![Netlify Status](https://api.netlify.com/api/v1/badges/17f076ed-49e5-4185-921e-5c5759de2fdb/deploy-status)](https://app.netlify.com/sites/epic-poincare-f8adaa/deploys)
 
 It's [Blueprint](https://blueprintjs.com), but for
 [Yew](https://github.com/yewstack/yew) in [Rust](https://www.rust-lang.org/).
 
-This is in early development and it is possible it won't be finished if there
-is no interest. Don't use this in production! Please help or at least leave it
-a star to let me know you are interested in this project.
+**Warning:** This is in early development and it is possible it won't be
+finished if there is no interest. Don't use this in production! Please help or
+leave a star to let me know you are interested in this project.
 
 Installation
 ------------
@@ -21,6 +15,10 @@ Installation
 ```toml
 yewprint = { git = "https://github.com/cecton/yewprint.git", branch = "main" }
 ```
+
+You will also need the CSS from blueprint. For that you can either include the
+CSS file directly or you can look at the script [build.sh](./build.sh) and see
+how it is downloaded automatically.
 
 ## Development
 
