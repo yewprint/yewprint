@@ -1,6 +1,7 @@
 mod buttons;
 mod callout;
 mod collapse;
+mod html_elements;
 mod icon;
 mod menu;
 mod switch;
@@ -9,6 +10,7 @@ mod tree;
 pub use buttons::*;
 pub use callout::*;
 pub use collapse::*;
+pub use html_elements::*;
 pub use icon::*;
 pub use id_tree;
 pub use menu::*;
@@ -43,7 +45,7 @@ impl From<bool> for ConditionalClass {
 }
 
 impl ConditionalClass {
-    pub fn map_some(&self, value: &'static str) -> Option<&'static str> {
+    pub fn map_some<T>(&self, value: T) -> Option<T> {
         if self.0 {
             Some(value)
         } else {

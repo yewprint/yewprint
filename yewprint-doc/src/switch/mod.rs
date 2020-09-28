@@ -1,5 +1,5 @@
 use yew::prelude::*;
-use yewprint::*;
+use yewprint::{Switch, H1};
 
 pub struct SwitchDoc {
     props: Props,
@@ -30,7 +30,7 @@ impl Component for SwitchDoc {
     fn view(&self) -> Html {
         html! {
             <div>
-                <h1>{"Switch"}</h1>
+                <H1 class="docs-title">{"Switch"}</H1>
                 <Switch
                     onclick=self.props.onclick.clone()
                     checked=self.props.dark_theme

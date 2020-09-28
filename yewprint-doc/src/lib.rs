@@ -19,27 +19,18 @@ macro_rules! log {
 
 #[macro_export]
 macro_rules! include_raw_html {
-    ($file:expr, $class:expr) => {{
+    ($file:expr $(, $class:expr)?) => {{
         yew::virtual_dom::VNode::VRef(yew::web_sys::Node::from({
-            let div = crate::include_raw_html!(element $file);
-            div.set_class_name($class);
+            let div = web_sys::window()
+                .unwrap()
+                .document()
+                .unwrap()
+                .create_element("div")
+                .unwrap();
+            div.set_inner_html(include_str!($file));
+            $(div.set_class_name($class);)*
             div
         }))
-    }};
-    ($file:expr) => {{
-        yew::virtual_dom::VNode::VRef(yew::web_sys::Node::from({
-            crate::include_raw_html!(element $file)
-        }))
-    }};
-    (element $file:expr) => {{
-        let div = web_sys::window()
-            .unwrap()
-            .document()
-            .unwrap()
-            .create_element("div")
-            .unwrap();
-        div.set_inner_html(include_str!($file));
-        div
     }};
 }
 

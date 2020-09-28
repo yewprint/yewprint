@@ -15,6 +15,7 @@ is-it-maintained-open-issues = { repository = "cecton/yewprint" }
 yew = { git = "https://github.com/yewstack/yew.git", rev = "1507c21b" }
 web-sys = "0.3"
 id_tree = "1.7"
+yewtil = { git = "https://github.com/yewstack/yew.git", rev = "1507c21b", features = ["pure"] }
 
 [build-dependencies]
 regex = { version = "1", default-features = false, features = ["std"] }

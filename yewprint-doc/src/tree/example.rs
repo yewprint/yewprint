@@ -1,6 +1,6 @@
 use yew::prelude::*;
-use yewprint::{Tree, Icon, NodeData, IconName, Intent, TreeData};
-use yewprint::id_tree::{InsertBehavior, Node, TreeBuilder, NodeId};
+use yewprint::id_tree::{InsertBehavior, Node, NodeId, TreeBuilder};
+use yewprint::{Icon, IconName, Intent, NodeData, Tree, TreeData};
 
 pub struct Example {
     tree: TreeData<i32>,
