@@ -18,7 +18,7 @@ impl Component for CalloutDoc {
         CalloutDoc {
             callback: link.callback(|x| x),
             state: ExampleProps {
-                show_icon: true,
+                show_icon: false,
                 intent: None,
                 show_title: true,
             },
