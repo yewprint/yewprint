@@ -1,3 +1,7 @@
+mod example;
+
+use crate::ExampleContainer;
+use example::*;
 use yew::prelude::*;
 
 pub struct TreeDoc;
@@ -19,12 +23,17 @@ impl Component for TreeDoc {
     }
 
     fn view(&self) -> Html {
-        let source = crate::include_example!();
+        let source = crate::include_raw_html!(
+            concat!(env!("OUT_DIR"), "/", file!(), ".html"),
+            "bp3-code-block"
+        );
 
         html! {
             <div>
                 <h1>{"Tree"}</h1>
-                <div>{source}</div>
+                <ExampleContainer source=source>
+                    <Example />
+                </ExampleContainer>
             </div>
         }
     }
