@@ -16,7 +16,7 @@ pub struct Props {
     pub source: yew::virtual_dom::VNode,
     pub children: html::Children,
     #[prop_or_default]
-    pub example_props: Option<yew::virtual_dom::VNode>,
+    pub props: Option<yew::virtual_dom::VNode>,
 }
 
 impl Component for ExampleContainer {
@@ -55,10 +55,10 @@ impl Component for ExampleContainer {
                         {self.props.children.clone()}
                     </div>
                     {
-                        if let Some(example_props) = self.props.example_props.clone() {
+                        if let Some(props) = self.props.props.clone() {
                             html! {
                                 <div class="docs-example-options">
-                                    {example_props}
+                                    {props}
                                 </div>
                             }
                         } else {
@@ -90,7 +90,7 @@ impl Component for ExampleContainer {
 
 #[macro_export]
 macro_rules! include_example {
-    ($($example_props:expr, $props:expr)?) => {{
+    ($($props:expr)?) => {{
         use crate::ExampleContainer;
 
         let source = crate::include_raw_html!(
@@ -105,9 +105,55 @@ macro_rules! include_example {
         use source::Example;
 
         html! {
-            <ExampleContainer source=source $(example_props=Some($example_props))*>
-                <Example $(with $props)*/>
+            <ExampleContainer source=source>
+                <Example />
             </ExampleContainer>
         }
     }};
+}
+
+#[macro_export]
+macro_rules! build_example_prop_component {
+    ($name:ident for $prop_component:ty => $($view:tt)*) => {
+        #[derive(Clone, PartialEq, Properties)]
+        pub struct $name {
+            callback: Callback<$prop_component>,
+            props: $prop_component,
+        }
+
+        impl Component for $name {
+            type Message = ();
+            type Properties = Self;
+
+            fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
+                props
+            }
+
+            fn update(&mut self, _msg: Self::Message) -> ShouldRender {
+                true
+            }
+
+            fn change(&mut self, props: Self::Properties) -> ShouldRender {
+                if self.props != props.props || self.callback != props.callback {
+                    self.props = props.props;
+                    self.callback = props.callback;
+                    true
+                } else {
+                    false
+                }
+            }
+
+            $($view)*
+        }
+
+        impl $name {
+            fn update_props(
+                &self,
+                updater: impl Fn($prop_component) -> $prop_component + 'static,
+            ) -> Callback<MouseEvent> {
+                let props = self.props.clone();
+                self.callback.clone().reform(move |_| updater(props.clone()))
+            }
+        }
+    };
 }
