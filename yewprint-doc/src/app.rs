@@ -1,4 +1,5 @@
 use crate::buttons::*;
+use crate::callout::*;
 use crate::collapse::*;
 use crate::icon::*;
 use crate::switch::*;
@@ -97,6 +98,11 @@ impl Component for App {
                                     onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Button))
                                 />
                                 <MenuItem
+                                    text={html!("Callout")}
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Callout))
+                                />
+                                <MenuItem
                                     text={html!("Collapse")}
                                     onclick=self.link
                                         .callback(|_| Msg::GoToMenu(DocMenu::Collapse))
@@ -137,6 +143,7 @@ impl Component for App {
                                         dark_theme=self.dark_theme
                                         onclick=self.link.callback(|_| Msg::ToggleLight)
                                         />),
+                                    DocMenu::Callout => html!(<CalloutDoc />),
                                     DocMenu::Collapse => html!(<CollapseDoc />),
                                     DocMenu::Tree => html!(<TreeDoc />),
                                     DocMenu::Icon => html!(<IconDoc />),
@@ -154,6 +161,7 @@ impl Component for App {
 #[derive(Debug, Copy, Clone)]
 pub enum DocMenu {
     Button,
+    Callout,
     Collapse,
     Icon,
     Menu,
