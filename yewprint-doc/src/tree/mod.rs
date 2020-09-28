@@ -3,6 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
+use yewprint::H1;
 
 pub struct TreeDoc;
 
@@ -30,7 +31,7 @@ impl Component for TreeDoc {
 
         html! {
             <div>
-                <h1>{"Tree"}</h1>
+                <H1 class="docs-title">{"Tree"}</H1>
                 <ExampleContainer source=source>
                     <Example />
                 </ExampleContainer>

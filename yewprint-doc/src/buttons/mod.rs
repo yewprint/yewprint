@@ -66,13 +66,14 @@ crate::build_example_prop_component! {
         fn view(&self) -> Html {
             html! {
                 <div>
-                    <H5>{"Button props"}</H5>
+                    <H5>{"Props"}</H5>
                     <Switch
                         onclick=self.update_props(|props| ExampleProps {
                             minimal: !props.minimal,
                             ..props
                         })
                         checked=self.props.minimal
+                        label="Minimal"
                     />
                     <Switch
                         onclick=self.update_props(|props| ExampleProps {
@@ -80,6 +81,7 @@ crate::build_example_prop_component! {
                             ..props
                         })
                         checked=self.props.fill
+                        label="Fill"
                     />
                 </div>
             }

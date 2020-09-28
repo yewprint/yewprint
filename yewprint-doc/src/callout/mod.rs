@@ -3,7 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::{Intent, Menu, MenuItem, Switch};
+use yewprint::{Intent, Menu, MenuItem, Switch, H1, H5};
 
 pub struct CalloutDoc {
     callback: Callback<ExampleProps>,
@@ -43,7 +43,7 @@ impl Component for CalloutDoc {
 
         html! {
             <div>
-                <h1>{"Callout"}</h1>
+                <H1 class="docs-title">{"Callout"}</H1>
                 <ExampleContainer
                     source=source
                     props=Some(html! {
@@ -65,7 +65,7 @@ crate::build_example_prop_component! {
         fn view(&self) -> Html {
             html! {
                 <div>
-                    <h5>{"Props"}</h5>
+                    <H5>{"Props"}</H5>
                     <div>
                         <Switch
                             onclick=self.update_props(|props| ExampleProps {

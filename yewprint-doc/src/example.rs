@@ -89,30 +89,6 @@ impl Component for ExampleContainer {
 }
 
 #[macro_export]
-macro_rules! include_example {
-    ($($props:expr)?) => {{
-        use crate::ExampleContainer;
-
-        let source = crate::include_raw_html!(
-            concat!(env!("OUT_DIR"), "/", file!(), ".html"),
-            "bp3-code-block"
-        );
-
-        mod source {
-            // TODO: example.rs files are not formatted because of this include
-            include!("example.rs");
-        }
-        use source::Example;
-
-        html! {
-            <ExampleContainer source=source>
-                <Example />
-            </ExampleContainer>
-        }
-    }};
-}
-
-#[macro_export]
 macro_rules! build_example_prop_component {
     ($name:ident for $prop_component:ty => $($view:tt)*) => {
         #[derive(Clone, PartialEq, Properties)]
