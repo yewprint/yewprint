@@ -5,11 +5,11 @@ pub struct Example {
     props: ExampleProps,
 }
 
-#[derive(Clone, PartialEq, Properties, Default)]
+#[derive(Clone, PartialEq, Properties)]
 pub struct ExampleProps {
     pub intent: Option<Intent>,
-    pub animate: ConditionalClass,
-    pub stripes: ConditionalClass,
+    pub animate: bool,
+    pub stripes: bool,
 }
 
 impl Component for Example {

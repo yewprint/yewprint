@@ -18,7 +18,11 @@ impl Component for ProgressBarDoc {
     fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
         ProgressBarDoc {
             callback: link.callback(|x| x),
-            state: ExampleProps::default(),
+            state: ExampleProps { 
+                intent: None, 
+                animate: false,
+                stripes: false
+            },
         }
     }
 
