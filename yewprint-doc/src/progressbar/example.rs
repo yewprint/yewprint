@@ -1,15 +1,15 @@
 use yew::prelude::*;
-use yewprint::{ProgressBar, Intent};
+use yewprint::{ProgressBar, Intent, ConditionalClass};
 
 pub struct Example {
     props: ExampleProps,
 }
 
-#[derive(Clone, PartialEq, Properties)]
+#[derive(Clone, PartialEq, Properties, Default)]
 pub struct ExampleProps {
     pub intent: Option<Intent>,
-    pub animate: bool,
-    pub stripes: bool,
+    pub animate: ConditionalClass,
+    pub stripes: ConditionalClass,
 }
 
 impl Component for Example {

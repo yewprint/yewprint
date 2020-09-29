@@ -19,7 +19,7 @@ pub use progressbar::*;
 pub use switch::*;
 pub use tree::*;
 
-use std::ops::{Deref, DerefMut};
+use std::ops::{Deref, DerefMut, Not};
 use yew::virtual_dom::{Classes, Transformer, VComp};
 
 // NOTE: this class needs to become deprecated when the feature bool_to_option lands in stable
@@ -67,6 +67,14 @@ impl Deref for ConditionalClass {
 impl DerefMut for ConditionalClass {
     fn deref_mut(&mut self) -> &mut Self::Target {
         &mut self.0
+    }
+}
+
+impl Not for ConditionalClass {
+    type Output = ConditionalClass;
+
+    fn not(self) -> Self::Output {
+        ConditionalClass(!self.0)
     }
 }
 
