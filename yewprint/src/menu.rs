@@ -1,5 +1,5 @@
 use crate::icon::{Icon, IconName};
-use crate::Intent;
+use crate::{ConditionalClass, Intent};
 use yew::prelude::*;
 
 pub struct Menu {
@@ -9,7 +9,7 @@ pub struct Menu {
 #[derive(Clone, PartialEq, Properties)]
 pub struct MenuProps {
     #[prop_or_default]
-    pub large: bool,
+    pub large: ConditionalClass,
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
@@ -39,14 +39,15 @@ impl Component for Menu {
     }
 
     fn view(&self) -> Html {
-        let mut class = Classes::from("bp3-menu");
-        if self.props.large {
-            class.push("bp3-large");
-        }
-        class = class.extend(self.props.class.clone());
-
         html! {
-            <ul class=class ref={self.props.r#ref.clone()}>
+            <ul
+                class=(
+                    "bp3-menu",
+                    self.props.large.map_some("bp3-large"),
+                    self.props.class.clone(),
+                )
+                ref={self.props.r#ref.clone()}
+            >
                 {self.props.children.clone()}
             </ul>
         }
@@ -64,7 +65,7 @@ pub struct MenuItemProps {
     #[prop_or_default]
     pub text_class: Option<String>,
     #[prop_or_default]
-    pub active: bool,
+    pub active: ConditionalClass,
     #[prop_or_default]
     pub class: Option<String>,
     // TODO: pub disabled: bool,
@@ -105,37 +106,33 @@ impl Component for MenuItem {
     }
 
     fn view(&self) -> Html {
-        let mut anchor_class = Classes::from("bp3-menu-item");
-        if self.props.active {
-            anchor_class.push("bp3-active");
-        }
-        if let Some(intent) = self.props.intent {
-            anchor_class = anchor_class.extend(intent);
-        } else if self.props.active {
-            anchor_class = anchor_class.extend(Intent::Primary);
-        }
-        anchor_class = anchor_class.extend(self.props.class.clone());
-
-        let mut text_class = Classes::from("bp3-text");
-        text_class.push("bp3-fill");
-        text_class = text_class.extend(self.props.text_class.clone());
-
         html! {
             <li>
                 <a
-                    class=anchor_class
+                    class=(
+                        "bp3-menu-item",
+                        self.props.active.map_some("bp3-active"),
+                        self.props.intent
+                            .or_else(|| self.props.active.map_some(Intent::Primary)),
+                        self.props.class.clone(),
+                    )
                     onclick={self.props.onclick.clone()}
                 >
                     <Icon icon={self.props.icon} />
-                    <div class=text_class>
+                    <div class=("bp3-text", "bp3-fill", self.props.text_class.clone())>
                         {self.props.text.clone()}
                     </div>
                     {
                         if let Some(label) = self.props.label.clone() {
-                            let mut label_class = Classes::from("bp3-menu-item-label");
-                            label_class = label_class.extend(self.props.label_class.clone());
-
-                            html!(<span class=label_class>{label}</span>)
+                            html! {
+                                <span
+                                    class=(
+                                        "bp3-menu-item-label",
+                                        self.props.label_class.clone())
+                                >
+                                    {label}
+                                </span>
+                            }
                         } else {
                             html!()
                         }

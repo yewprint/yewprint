@@ -1,5 +1,5 @@
 use yew::prelude::*;
-use yewprint::{Button,Collapse};
+use yewprint::{Button, Collapse};
 
 pub struct Example {
     link: ComponentLink<Self>,

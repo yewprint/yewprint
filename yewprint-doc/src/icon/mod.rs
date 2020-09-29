@@ -1,4 +1,9 @@
+mod example;
+
+use crate::ExampleContainer;
+use example::*;
 use yew::prelude::*;
+use yewprint::H1;
 
 pub struct IconDoc;
 
@@ -19,12 +24,17 @@ impl Component for IconDoc {
     }
 
     fn view(&self) -> Html {
-        let source = crate::include_example!("example.rs");
+        let source = crate::include_raw_html!(
+            concat!(env!("OUT_DIR"), "/", file!(), ".html"),
+            "bp3-code-block"
+        );
 
         html! {
             <div>
-                <h1>{"Icon"}</h1>
-                <div>{source}</div>
+                <H1 class="docs-title">{"Icon"}</H1>
+                <ExampleContainer source=source>
+                    <Example />
+                </ExampleContainer>
             </div>
         }
     }

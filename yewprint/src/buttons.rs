@@ -1,7 +1,4 @@
-#[cfg(feature = "doc")]
-pub mod doc;
-
-use crate::{Icon, IconName, Intent};
+use crate::{ConditionalClass, Icon, IconName, Intent};
 use yew::prelude::*;
 
 pub struct Button {
@@ -11,9 +8,9 @@ pub struct Button {
 #[derive(Clone, PartialEq, Properties)]
 pub struct Props {
     #[prop_or_default]
-    pub fill: bool,
+    pub fill: ConditionalClass,
     #[prop_or_default]
-    pub minimal: bool,
+    pub minimal: ConditionalClass,
     #[prop_or_default]
     pub icon: Option<IconName>,
     #[prop_or_default]
@@ -47,17 +44,16 @@ impl Component for Button {
     }
 
     fn view(&self) -> Html {
-        let mut class = Classes::from("bp3-button");
-        if self.props.fill {
-            class.push("bp3-fill");
-        }
-        if self.props.minimal {
-            class.push("bp3-minimal");
-        }
-        class = class.extend(&self.props.intent);
-
         html! {
-            <button class=class onclick={self.props.onclick.clone()}>
+            <button
+                class=(
+                    "bp3-button",
+                    self.props.fill.map_some("bp3-fill"),
+                    self.props.minimal.map_some("bp3-minimal"),
+                    self.props.intent,
+                )
+                onclick={self.props.onclick.clone()}
+            >
                 {
                     if let Some(icon) = self.props.icon {
                         html! {
