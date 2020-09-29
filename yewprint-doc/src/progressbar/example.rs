@@ -1,5 +1,5 @@
 use yew::prelude::*;
-use yewprint::{ProgressBar, Intent};
+use yewprint::{Intent, ProgressBar};
 
 pub struct Example {
     props: ExampleProps,

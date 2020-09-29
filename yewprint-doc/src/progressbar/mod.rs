@@ -5,7 +5,6 @@ use example::*;
 use yew::prelude::*;
 use yewprint::{Intent, Menu, MenuItem, Switch, H1, H5};
 
-
 pub struct ProgressBarDoc {
     callback: Callback<ExampleProps>,
     state: ExampleProps,
@@ -18,10 +17,10 @@ impl Component for ProgressBarDoc {
     fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
         ProgressBarDoc {
             callback: link.callback(|x| x),
-            state: ExampleProps { 
-                intent: None, 
+            state: ExampleProps {
+                intent: None,
                 animate: false,
-                stripes: false
+                stripes: false,
             },
         }
     }
