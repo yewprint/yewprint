@@ -4,9 +4,9 @@ mod callout;
 mod collapse;
 mod example;
 mod icon;
+mod progressbar;
 mod switch;
 mod tree;
-mod progressbar;
 
 pub use app::*;
 pub use example::*;

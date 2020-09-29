@@ -2,17 +2,21 @@ use crate::buttons::*;
 use crate::callout::*;
 use crate::collapse::*;
 use crate::icon::*;
-use crate::switch::*;
-use crate::tree::*;
 use crate::progressbar::*;
+use crate::tree::*;
 
 use yew::prelude::*;
+use yew_router::{
+    agent::{RouteAgentDispatcher, RouteRequest},
+    router::Router,
+    Switch,
+};
 use yewprint::{ConditionalClass, IconName, Menu, MenuItem};
 
 pub struct App {
     link: ComponentLink<Self>,
-    doc_menu: DocMenu,
     dark_theme: ConditionalClass,
+    route_dispatcher: RouteAgentDispatcher,
 }
 
 pub enum Msg {
@@ -31,8 +35,8 @@ impl Component for App {
                 .map(|x| x.matches())
                 .unwrap_or(true)
                 .into(),
-            doc_menu: DocMenu::Button,
             link,
+            route_dispatcher: RouteAgentDispatcher::new(),
         }
     }
 
@@ -40,7 +44,8 @@ impl Component for App {
         match msg {
             Msg::ToggleLight => *self.dark_theme ^= true,
             Msg::GoToMenu(doc_menu) => {
-                self.doc_menu = doc_menu;
+                self.route_dispatcher
+                    .send(RouteRequest::ChangeRoute(doc_menu.into()));
             }
         }
         true
@@ -142,21 +147,20 @@ impl Component for App {
                     </div>
                     <main class="docs-content-wrapper" role="main">
                         <div class="docs-page">
-                            {
-                                match self.doc_menu {
-                                    DocMenu::Button => html! (<ButtonDoc />),
-                                    DocMenu::Switch => html! (<SwitchDoc
-                                        dark_theme=self.dark_theme
-                                        onclick=self.link.callback(|_| Msg::ToggleLight)
-                                        />),
-                                    DocMenu::Callout => html!(<CalloutDoc />),
-                                    DocMenu::Collapse => html!(<CollapseDoc />),
-                                    DocMenu::Tree => html!(<TreeDoc />),
-                                    DocMenu::Icon => html!(<IconDoc />),
-                                    DocMenu::ProgressBar => html!(<ProgressBarDoc />),
-                                    DocMenu::Menu => html!(),
-                                }
-                            }
+                            <Router<DocMenu, ()>
+                                render=Router::render(|switch: DocMenu| {
+                                    match switch {
+                                        DocMenu::Button | DocMenu::Home => html! (<ButtonDoc />),
+                                        DocMenu::Switch => html! (),
+                                        DocMenu::Callout => html!(<CalloutDoc />),
+                                        DocMenu::Collapse => html!(<CollapseDoc />),
+                                        DocMenu::Tree => html!(<TreeDoc />),
+                                        DocMenu::Icon => html!(<IconDoc />),
+                                        DocMenu::ProgressBar => html!(<ProgressBarDoc />),
+                                        DocMenu::Menu => html!(),
+                                    }
+                                })
+                            />
                         </div>
                     </main>
                 </div>
@@ -165,14 +169,24 @@ impl Component for App {
     }
 }
 
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, Switch)]
 pub enum DocMenu {
+    #[to = "/#button"]
     Button,
+    #[to = "/#callout"]
     Callout,
+    #[to = "/#collapse"]
     Collapse,
+    #[to = "/#icon"]
     Icon,
+    #[to = "/#menu"]
     Menu,
+    #[to = "/#switch"]
     Switch,
+    #[to = "/#tree"]
     Tree,
+    #[to = "/#progress-bar"]
     ProgressBar,
+    #[to = "/"]
+    Home,
 }

@@ -16,7 +16,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - run: rustfmt --check **/*.rs
+    - run: cargo fmt -- --check
       if: ${{ github.event_name == 'pull_request' }}
     - uses: actions-rs/clippy-check@v1
       with:
