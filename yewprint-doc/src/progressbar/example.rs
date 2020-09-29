@@ -32,7 +32,12 @@ impl Component for Example {
     }
     fn view(&self) -> Html {
         html! {
-            <ProgressBar animate=self.props.animate stripes=self.props.stripes intent=self.props.intent value=0.3 />
+            <ProgressBar
+                animate=self.props.animate
+                stripes=self.props.stripes
+                intent=self.props.intent
+                value=0.3
+            />
         }
     }
 }
