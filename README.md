@@ -1,11 +1,7 @@
-# <a href="https://yewprint.rm.rs"><img src="./yewprint-doc/src/logo.svg" height="32" /></a> <a href="https://yewprint.rm.rs">Yewprint</a> ![Rust](https://github.com/cecton/yewprint/workflows/Rust/badge.svg) [![Netlify Status](https://api.netlify.com/api/v1/badges/17f076ed-49e5-4185-921e-5c5759de2fdb/deploy-status)](https://app.netlify.com/sites/epic-poincare-f8adaa/deploys)
-
-It's [Blueprint](https://blueprintjs.com), but for
-[Yew](https://github.com/yewstack/yew) in [Rust](https://www.rust-lang.org/).
-
 <div align="center">
  <a href="https://yewprint.rm.rs"><img src="./yewprint-doc/src/logo.svg" height="64" /></a>
  <h1>Yewprint</h1>
+ <span>It's [Blueprint](https://blueprintjs.com), but for [Yew](https://github.com/yewstack/yew) in [Rust](https://www.rust-lang.org/).</span>
 </div>
 <div align="center">
  <a href="https://yewprint.rm.rs">Yewprint</a> ![Rust](https://github.com/cecton/yewprint/workflows/Rust/badge.svg) [![Netlify Status](https://api.netlify.com/api/v1/badges/17f076ed-49e5-4185-921e-5c5759de2fdb/deploy-status)](https://app.netlify.com/sites/epic-poincare-f8adaa/deploys)
