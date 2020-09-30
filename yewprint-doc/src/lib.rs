@@ -7,6 +7,7 @@ mod icon;
 mod progressbar;
 mod switch;
 mod tree;
+mod tag;
 
 pub use app::*;
 pub use example::*;

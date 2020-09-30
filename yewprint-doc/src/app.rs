@@ -4,6 +4,7 @@ use crate::collapse::*;
 use crate::icon::*;
 use crate::progressbar::*;
 use crate::tree::*;
+use crate::tag::*;
 
 use yew::prelude::*;
 use yew_router::{
@@ -134,6 +135,10 @@ impl Component for App {
                                     text={html!("ProgressBar")}
                                     onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::ProgressBar))
                                 />
+                                <MenuItem
+                                    text={html!("Tag")}
+                                    onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Tag))
+                                />
                             </Menu>
                             <div class="docs-nav-sponsors">
                                 <a href="https://www.netlify.com">
@@ -157,6 +162,7 @@ impl Component for App {
                                         DocMenu::Tree => html!(<TreeDoc />),
                                         DocMenu::Icon => html!(<IconDoc />),
                                         DocMenu::ProgressBar => html!(<ProgressBarDoc />),
+                                        DocMenu::Tag => html!(<TagDoc />),
                                         DocMenu::Menu => html!(),
                                     }
                                 })
@@ -187,6 +193,8 @@ pub enum DocMenu {
     Tree,
     #[to = "/#progress-bar"]
     ProgressBar,
+    #[to = "/#tag"]
+    Tag,
     #[to = "/"]
     Home,
 }

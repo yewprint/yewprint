@@ -12,6 +12,7 @@ impl Default for IconName {
 pub const SIZE_STANDARD: i32 = 16;
 pub const SIZE_LARGE: i32 = 20;
 
+#[derive(Clone, PartialEq)]
 pub struct Icon {
     props: Props,
 }

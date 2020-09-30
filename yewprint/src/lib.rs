@@ -6,6 +6,7 @@ mod icon;
 mod menu;
 mod progressbar;
 mod switch;
+mod tag;
 mod tree;
 
 pub use buttons::*;
@@ -17,6 +18,7 @@ pub use id_tree;
 pub use menu::*;
 pub use progressbar::*;
 pub use switch::*;
+pub use tag::*;
 pub use tree::*;
 
 use std::ops::{Deref, DerefMut, Not};
