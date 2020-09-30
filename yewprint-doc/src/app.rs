@@ -1,7 +1,9 @@
+use crate::button_group::*;
 use crate::buttons::*;
 use crate::callout::*;
 use crate::card::*;
 use crate::collapse::*;
+use crate::divider::*;
 use crate::icon::*;
 use crate::progressbar::*;
 use crate::text::*;
@@ -103,8 +105,12 @@ impl Component for App {
                                     icon=go_to_theme_icon
                                 />
                                 <MenuItem
-                                    text={html!("Button")}
-                                    onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Button))
+                                text={html!("Button")}
+                                onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Button))
+                                />
+                                <MenuItem
+                                    text={html!("Button Group")}
+                                    onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::ButtonGroup))
                                 />
                                 <MenuItem
                                     text={html!("Callout")}
@@ -120,6 +126,11 @@ impl Component for App {
                                     text={html!("Collapse")}
                                     onclick=self.link
                                         .callback(|_| Msg::GoToMenu(DocMenu::Collapse))
+                                />
+                                <MenuItem
+                                    text={html!("Divider")}
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Divider))
                                 />
                                 <MenuItem
                                     text={html!("Icon")}
@@ -166,11 +177,13 @@ impl Component for App {
                                 render=Router::render(|switch: DocMenu| {
                                     match switch {
                                         DocMenu::Button | DocMenu::Home => html! (<ButtonDoc />),
+                                        DocMenu::ButtonGroup => html! (<ButtonGroupDoc />),
                                         DocMenu::Switch => html! (),
                                         DocMenu::Callout => html!(<CalloutDoc />),
                                         DocMenu::Card => html!(<CardDoc />),
                                         DocMenu::Collapse => html!(<CollapseDoc />),
                                         DocMenu::Text => html!(<TextDoc />),
+                                        DocMenu::Divider => html!(<DividerDoc />),
                                         DocMenu::Tree => html!(<TreeDoc />),
                                         DocMenu::Icon => html!(<IconDoc />),
                                         DocMenu::ProgressBar => html!(<ProgressBarDoc />),
@@ -190,12 +203,16 @@ impl Component for App {
 pub enum DocMenu {
     #[to = "/#button"]
     Button,
+    #[to = "/#bgroup"]
+    ButtonGroup,
     #[to = "/#callout"]
     Callout,
     #[to = "/#card"]
     Card,
     #[to = "/#collapse"]
     Collapse,
+    #[to = "/#divider"]
+    Divider,
     #[to = "/#icon"]
     Icon,
     #[to = "/#menu"]

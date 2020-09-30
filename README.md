@@ -70,13 +70,13 @@ Roadmap
  -  [x] [Button](https://blueprintjs.com/docs/#core/components/button)
      -  [ ] Complete Button API
      -  [ ] AnchorButton
- -  [ ] [ButtonGroup](https://blueprintjs.com/docs/#core/components/button-group)
+ -  [x] [ButtonGroup](https://blueprintjs.com/docs/#core/components/button-group)
      -  depends on: Button
  -  [x] [Callout](https://blueprintjs.com/docs/#core/components/callout)
  -  [x] [Card](https://blueprintjs.com/docs/#core/components/card)
  -  [x] [Collapse](https://blueprintjs.com/docs/#core/components/collapse)
  -  [ ] [CollapsibleList](https://blueprintjs.com/docs/#core/components/collapsible-list)
- -  [ ] [Divider](https://blueprintjs.com/docs/#core/components/divider)
+ -  [x] [Divider](https://blueprintjs.com/docs/#core/components/divider)
      -  depends on: ButtonGroup
  -  [ ] [EditableText](https://blueprintjs.com/docs/#core/components/editable-text)
  -  [ ] [Hotkeys](https://blueprintjs.com/docs/#core/components/hotkeys)
