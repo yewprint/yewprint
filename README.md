@@ -3,13 +3,14 @@
     <a href="https://yewprint.rm.rs"><img src="./yewprint-doc/src/logo.svg" height="120" /></a>
   </div>
   <h1 align="center">Yewprint</h1>
-  <h4 align="center">It's [Blueprint](https://blueprintjs.com), but for [Yew](https://github.com/yewstack/yew) in [Rust](https://www.rust-lang.org/).</h4>
+  <h4 align="center">
+    It's <a href="https://blueprintjs.com">Blueprint</a>, but for <a href="https://github.com/yewstack/yew">Yew</a> in <a href="https://www.rust-lang.org/">Rust</a>.</h4>
 </div>
 
 <div align="center">
 
   ![Rust](https://github.com/cecton/yewprint/workflows/Rust/badge.svg)
-  [!Netlify Status](https://api.netlify.com/api/v1/badges/17f076ed-49e5-4185-921e-5c5759de2fdb/deploy-status)](https://app.netlify.com/sites/epic-poincare-f8adaa/deploys)
+  [![Netlify Status](https://api.netlify.com/api/v1/badges/17f076ed-49e5-4185-921e-5c5759de2fdb/deploy-status)](https://app.netlify.com/sites/epic-poincare-f8adaa/deploys)
 
 </div>
 
