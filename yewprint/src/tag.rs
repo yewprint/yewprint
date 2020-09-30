@@ -9,30 +9,32 @@ pub struct Tag {
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct Props {
-    children: ChildrenRenderer<VText>,
+    pub children: ChildrenRenderer<VText>,
     #[prop_or_default]
-    active: ConditionalClass,
+    // FIXME Not clear that this field has any effect withut `interactive` on.
+    pub active: ConditionalClass,
     #[prop_or_default]
-    fill: ConditionalClass,
+    pub fill: ConditionalClass,
     #[prop_or_default]
-    icon: Option<Icon>,
+    pub icon: Option<Icon>,
     #[prop_or_default]
-    intent: Option<Intent>,
+    pub intent: Option<Intent>,
     #[prop_or_default]
-    interactive: ConditionalClass,
+    pub interactive: ConditionalClass,
     #[prop_or_default]
-    large: ConditionalClass,
+    pub large: ConditionalClass,
     #[prop_or_default]
-    minimal: ConditionalClass,
+    pub minimal: ConditionalClass,
     #[prop_or_default]
-    multiline: ConditionalClass,
+    // FIXME Should make sense once `Text` is implemented.
+    pub multiline: ConditionalClass,
     #[prop_or_default]
     //onClick,
     //onRemove,
     #[prop_or_default]
-    right_icon: Option<Icon>,
+    pub right_icon: Option<Icon>,
     #[prop_or_default]
-    round: ConditionalClass,
+    pub round: ConditionalClass,
 }
 
 impl Component for Tag {
@@ -68,7 +70,7 @@ impl Component for Tag {
                 self.props.large.map_some("bp3-large"),
                 self.props.minimal.map_some("bp3-minimal"),
                 self.props.multiline.map_some("bp3-multiline"),
-                self.props.round.map_some("bp3-round")
+                self.props.round.map_some("bp3-round"),
                 )
             >
                 {self.props.children.clone()}
