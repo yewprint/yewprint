@@ -144,3 +144,9 @@ Roadmap
  -  [ ] [QueryList](https://blueprintjs.com/docs/#select/query-list)
  -  [ ] [Table](https://blueprintjs.com/docs/#table)
  -  [ ] [TimezonePicker](https://blueprintjs.com/docs/#timezone)
+
+## License
+
+This project is lincensed under the MIT License.
+
+[Read License](https://github.com/cecton/yewprint/blob/main/LICENSE)
