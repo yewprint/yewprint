@@ -27,6 +27,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: rustup install --profile default nightly
+    # NOTE: we use nightly here to enable the options error_on_line_overflow and
+    #       error_on_unformatted
     - run: cargo +nightly fmt -- --check
     - uses: actions-rs/clippy-check@v1
       with:
