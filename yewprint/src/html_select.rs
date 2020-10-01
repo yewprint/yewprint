@@ -21,3 +21,31 @@ pub struct Props {
     // onChange
     //options
 }
+
+impl Component for Html_select {
+    type Message = ();
+    type Properties = Props;
+
+    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
+        Html_select {props}
+    }
+
+    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
+        true
+    }
+
+    fn change(&mut self, props: Self::Properties) -> ShouldRender {
+        if self.props != props {
+            self.props = props;
+            true
+        } else {
+            false
+        }
+    }
+
+    fn view(&self) -> Html {
+        html! {
+
+        }
+    }
+}
