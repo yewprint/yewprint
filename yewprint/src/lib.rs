@@ -7,6 +7,7 @@ mod icon;
 mod menu;
 mod progressbar;
 mod switch;
+#[cfg(feature = "tree")]
 mod tree;
 
 pub use buttons::*;
@@ -15,10 +16,12 @@ pub use card::*;
 pub use collapse::*;
 pub use html_elements::*;
 pub use icon::*;
+#[cfg(feature = "tree")]
 pub use id_tree;
 pub use menu::*;
 pub use progressbar::*;
 pub use switch::*;
+#[cfg(feature = "tree")]
 pub use tree::*;
 
 use std::ops::{Deref, DerefMut, Not};
