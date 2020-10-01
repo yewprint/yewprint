@@ -141,6 +141,8 @@ impl Component for App {
                                     text={html!("Tree")}
                                     onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Tree))
                                 />
+                                // NOTE: thanks to keep this list of <MenuItem> sorted
+                                //       alphabetically (except for the light switch)
                             </Menu>
                             <div class="docs-nav-sponsors">
                                 <a href="https://www.netlify.com">
