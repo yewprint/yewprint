@@ -191,12 +191,12 @@ pub enum DocMenu {
     Icon,
     #[to = "/#menu"]
     Menu,
+    #[to = "/#progress-bar"]
+    ProgressBar,
     #[to = "/#switch"]
     Switch,
     #[to = "/#tree"]
     Tree,
-    #[to = "/#progress-bar"]
-    ProgressBar,
     #[to = "/"]
     Home,
 }
