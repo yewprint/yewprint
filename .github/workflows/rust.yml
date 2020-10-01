@@ -26,7 +26,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - run: rustup install nightly
+    - run: rustup install --profile default nightly
     - run: cargo +nightly fmt -- --check
     - uses: actions-rs/clippy-check@v1
       with:
