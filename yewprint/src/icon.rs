@@ -76,7 +76,7 @@ impl Component for Icon {
                     height={self.props.icon_size}
                     viewBox={format!("0 0 {x} {x}", x=pixel_grid_size)}
                 >
-                    <desc>{self.props.title.clone().unwrap_or_else(|| icon_string)}</desc>
+                    <desc>{self.props.title.clone().unwrap_or(icon_string)}</desc>
                     {
                         paths.iter()
                             .map(|x| html! {

@@ -1,9 +1,12 @@
 use crate::buttons::*;
+use crate::callout::*;
 use crate::card::*;
 use crate::collapse::*;
 use crate::icon::*;
 use crate::switch::*;
 use crate::tree::*;
+use crate::progressbar::*;
+
 use yew::prelude::*;
 use yewprint::{ConditionalClass, IconName, Menu, MenuItem};
 
@@ -98,6 +101,11 @@ impl Component for App {
                                     onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Button))
                                 />
                                 <MenuItem
+                                    text={html!("Callout")}
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Callout))
+                                />
+                                <MenuItem
                                     text={html!("Card")}
                                     onclick=self.link
                                         .callback(|_| Msg::GoToMenu(DocMenu::Card))
@@ -123,6 +131,10 @@ impl Component for App {
                                     text={html!("Tree")}
                                     onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Tree))
                                 />
+                                <MenuItem
+                                    text={html!("ProgressBar")}
+                                    onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::ProgressBar))
+                                />
                             </Menu>
                             <div class="docs-nav-sponsors">
                                 <a href="https://www.netlify.com">
@@ -143,10 +155,12 @@ impl Component for App {
                                         dark_theme=self.dark_theme
                                         onclick=self.link.callback(|_| Msg::ToggleLight)
                                         />),
+                                    DocMenu::Callout => html!(<CalloutDoc />),
                                     DocMenu::Card => html!(<CardDoc />),
                                     DocMenu::Collapse => html!(<CollapseDoc />),
                                     DocMenu::Tree => html!(<TreeDoc />),
                                     DocMenu::Icon => html!(<IconDoc />),
+                                    DocMenu::ProgressBar => html!(<ProgressBarDoc />),
                                     DocMenu::Menu => html!(),
                                 }
                             }
@@ -161,10 +175,12 @@ impl Component for App {
 #[derive(Debug, Copy, Clone)]
 pub enum DocMenu {
     Button,
+    Callout,
     Card,
     Collapse,
     Icon,
     Menu,
     Switch,
     Tree,
+    ProgressBar,
 }

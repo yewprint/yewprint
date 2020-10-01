@@ -1,17 +1,11 @@
-[![Build Status](https://travis-ci.org/cecton/yewprint.svg?branch=main)](https://travis-ci.org/cecton/yewprint)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/17f076ed-49e5-4185-921e-5c5759de2fdb/deploy-status)](https://app.netlify.com/sites/epic-poincare-f8adaa/deploys)
-
-![Demo](https://github.com/cecton/blueprint-rs/blob/main/demo.mp4?raw=true)
-
-blueprint-rs
-============
+# <a href="https://yewprint.rm.rs"><img src="./yewprint-doc/src/logo.svg" height="32" /></a> <a href="https://yewprint.rm.rs">Yewprint</a> ![Rust](https://github.com/cecton/yewprint/workflows/Rust/badge.svg) [![Netlify Status](https://api.netlify.com/api/v1/badges/17f076ed-49e5-4185-921e-5c5759de2fdb/deploy-status)](https://app.netlify.com/sites/epic-poincare-f8adaa/deploys)
 
 It's [Blueprint](https://blueprintjs.com), but for
 [Yew](https://github.com/yewstack/yew) in [Rust](https://www.rust-lang.org/).
 
-This is in early development and it is possible it won't be finished if there
-is no interest. Don't use this in production! Please help or at least leave it
-a star to let me know you are interested in this project.
+**Warning:** This is in early development and it is possible it won't be
+finished if there is no interest. Don't use this in production! Please help or
+leave a star to let me know you are interested in this project.
 
 Installation
 ------------
@@ -21,6 +15,10 @@ Installation
 ```toml
 yewprint = { git = "https://github.com/cecton/yewprint.git", branch = "main" }
 ```
+
+You will also need the CSS from blueprint. For that you can either include the
+CSS file directly or you can look at the script [build.sh](./build.sh) and see
+how it is downloaded automatically.
 
 ## Development
 
@@ -66,7 +64,7 @@ Roadmap
      -  [ ] AnchorButton
  -  [ ] [ButtonGroup](https://blueprintjs.com/docs/#core/components/button-group)
      -  depends on: Button
- -  [ ] [Callout](https://blueprintjs.com/docs/#core/components/callout)
+ -  [x] [Callout](https://blueprintjs.com/docs/#core/components/callout)
  -  [ ] [Card](https://blueprintjs.com/docs/#core/components/card)
  -  [x] [Collapse](https://blueprintjs.com/docs/#core/components/collapse)
  -  [ ] [CollapsibleList](https://blueprintjs.com/docs/#core/components/collapsible-list)
@@ -81,7 +79,7 @@ Roadmap
  -  [ ] [Navbar](https://blueprintjs.com/docs/#core/components/navbar)
  -  [ ] [OverflowList](https://blueprintjs.com/docs/#core/components/overflow-list)
  -  [ ] [PanelStack](https://blueprintjs.com/docs/#core/components/panel-stack)
- -  [ ] [ProgressBar](https://blueprintjs.com/docs/#core/components/progress-bar)
+ -  [x] [ProgressBar](https://blueprintjs.com/docs/#core/components/progress-bar)
  -  [ ] [ResizeSensor](https://blueprintjs.com/docs/#core/components/resize-sensor)
  -  [ ] [Skeleton](https://blueprintjs.com/docs/#core/components/skeleton)
  -  [ ] [Spinner](https://blueprintjs.com/docs/#core/components/spinner)
@@ -133,5 +131,5 @@ Roadmap
  -  [ ] [MultiSelect](https://blueprintjs.com/docs/#select/multi-select)
  -  [ ] [Omnibar](https://blueprintjs.com/docs/#select/omnibar)
  -  [ ] [QueryList](https://blueprintjs.com/docs/#select/query-list)
- -  [ ] [Table](https://blueprintjs.com/docs/#select/query-list)
+ -  [ ] [Table](https://blueprintjs.com/docs/#table)
  -  [ ] [TimezonePicker](https://blueprintjs.com/docs/#timezone)

@@ -1,21 +1,27 @@
 mod buttons;
+mod callout;
 mod card;
 mod collapse;
+mod html_elements;
 mod icon;
 mod menu;
+mod progressbar;
 mod switch;
 mod tree;
 
 pub use buttons::*;
+pub use callout::*;
 pub use card::*;
 pub use collapse::*;
+pub use html_elements::*;
 pub use icon::*;
 pub use id_tree;
 pub use menu::*;
+pub use progressbar::*;
 pub use switch::*;
 pub use tree::*;
 
-use std::ops::{Deref, DerefMut};
+use std::ops::{Deref, DerefMut, Not};
 use yew::virtual_dom::{Classes, Transformer, VComp};
 
 // NOTE: this class needs to become deprecated when the feature bool_to_option lands in stable
@@ -43,7 +49,7 @@ impl From<bool> for ConditionalClass {
 }
 
 impl ConditionalClass {
-    pub fn map_some(&self, value: &'static str) -> Option<&'static str> {
+    pub fn map_some<T>(&self, value: T) -> Option<T> {
         if self.0 {
             Some(value)
         } else {
@@ -63,6 +69,14 @@ impl Deref for ConditionalClass {
 impl DerefMut for ConditionalClass {
     fn deref_mut(&mut self) -> &mut Self::Target {
         &mut self.0
+    }
+}
+
+impl Not for ConditionalClass {
+    type Output = ConditionalClass;
+
+    fn not(self) -> Self::Output {
+        ConditionalClass(!self.0)
     }
 }
 
