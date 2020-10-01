@@ -1,5 +1,6 @@
 use crate::buttons::*;
 use crate::callout::*;
+use crate::card::*;
 use crate::collapse::*;
 use crate::icon::*;
 use crate::progressbar::*;
@@ -110,6 +111,11 @@ impl Component for App {
                                         .callback(|_| Msg::GoToMenu(DocMenu::Callout))
                                 />
                                 <MenuItem
+                                    text={html!("Card")}
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Card))
+                                />
+                                <MenuItem
                                     text={html!("Collapse")}
                                     onclick=self.link
                                         .callback(|_| Msg::GoToMenu(DocMenu::Collapse))
@@ -123,16 +129,17 @@ impl Component for App {
                                     onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Menu))
                                 />
                                 <MenuItem
+                                    text={html!("ProgressBar")}
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::ProgressBar))
+                                />
+                                <MenuItem
                                     text={html!("Switch")}
                                     onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Switch))
                                 />
                                 <MenuItem
                                     text={html!("Tree")}
                                     onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Tree))
-                                />
-                                <MenuItem
-                                    text={html!("ProgressBar")}
-                                    onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::ProgressBar))
                                 />
                             </Menu>
                             <div class="docs-nav-sponsors">
@@ -153,6 +160,7 @@ impl Component for App {
                                         DocMenu::Button | DocMenu::Home => html! (<ButtonDoc />),
                                         DocMenu::Switch => html! (),
                                         DocMenu::Callout => html!(<CalloutDoc />),
+                                        DocMenu::Card => html!(<CardDoc />),
                                         DocMenu::Collapse => html!(<CollapseDoc />),
                                         DocMenu::Tree => html!(<TreeDoc />),
                                         DocMenu::Icon => html!(<IconDoc />),
@@ -175,18 +183,20 @@ pub enum DocMenu {
     Button,
     #[to = "/#callout"]
     Callout,
+    #[to = "/#card"]
+    Card,
     #[to = "/#collapse"]
     Collapse,
     #[to = "/#icon"]
     Icon,
     #[to = "/#menu"]
     Menu,
+    #[to = "/#progress-bar"]
+    ProgressBar,
     #[to = "/#switch"]
     Switch,
     #[to = "/#tree"]
     Tree,
-    #[to = "/#progress-bar"]
-    ProgressBar,
     #[to = "/"]
     Home,
 }
