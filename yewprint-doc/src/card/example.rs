@@ -2,44 +2,40 @@ use yew::prelude::*;
 use yewprint::{Card, Elevation};
 
 pub struct Example {
-    link: ComponentLink<Self>,
-    elevation: Elevation,
+    props: ExampleProps,
 }
 
-pub enum Msg {
-    IncreaseElevation,
+#[derive(Clone, PartialEq, Properties)]
+pub struct ExampleProps {
+    pub elevation: Elevation,
+    pub interactive: bool,
 }
 
 impl Component for Example {
-    type Message = Msg;
-    type Properties = ();
+    type Message = ();
+    type Properties = ExampleProps;
 
-    fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
-        Example {
-            link,
-            elevation: Elevation::Level0,
-        }
+    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
+        Example { props }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
-        match msg {
-            Msg::IncreaseElevation => self.elevation = self.elevation.above(),
-        }
+    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
         true
     }
 
-    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
-        true
+    fn change(&mut self, props: Self::Properties) -> ShouldRender {
+        if self.props != props {
+            self.props = props;
+            true
+        } else {
+            false
+        }
     }
 
     fn view(&self) -> Html {
         html! {
-            <Card elevation={self.elevation} onclick=self.link.callback(|_| Msg::IncreaseElevation)
-                    interactive=true>
-                <p>{format!(
-                    "This is a card component with elevation {}. Click the card to increase the elevation.",
-                    self.elevation as u8)}
-               </p>
+            <Card elevation=self.props.elevation interactive=self.props.interactive>
+                <p>{"This is a card component. The elevation of the card can be adjusted. An interactive card reacts to being moused over."}</p>
             </Card>
         }
     }

@@ -3,9 +3,9 @@ use crate::callout::*;
 use crate::card::*;
 use crate::collapse::*;
 use crate::icon::*;
+use crate::progressbar::*;
 use crate::switch::*;
 use crate::tree::*;
-use crate::progressbar::*;
 
 use yew::prelude::*;
 use yewprint::{ConditionalClass, IconName, Menu, MenuItem};
