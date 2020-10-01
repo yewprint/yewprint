@@ -30,7 +30,7 @@ pub struct Props {
     #[prop_or(16)]
     pub icon_size: i32,
     #[prop_or_default]
-    pub onclick: Option<Callback<MouseEvent>>,
+    pub onclick: Callback<MouseEvent>,
 }
 
 impl Component for Icon {
@@ -68,7 +68,10 @@ impl Component for Icon {
         let icon_string = format!("{:?}", self.props.icon);
 
         html! {
-            <span class=("bp3-icon", self.props.class.clone(), self.props.intent) onclick?={self.props.onclick.clone()}>
+            <span
+                class=("bp3-icon", self.props.class.clone(), self.props.intent)
+                onclick=self.props.onclick.clone()
+            >
                 <svg
                     fill?={self.props.color.clone()}
                     data-icon={icon_string.clone()}
