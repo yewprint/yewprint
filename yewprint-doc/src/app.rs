@@ -129,16 +129,17 @@ impl Component for App {
                                     onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Menu))
                                 />
                                 <MenuItem
+                                    text={html!("ProgressBar")}
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::ProgressBar))
+                                />
+                                <MenuItem
                                     text={html!("Switch")}
                                     onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Switch))
                                 />
                                 <MenuItem
                                     text={html!("Tree")}
                                     onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Tree))
-                                />
-                                <MenuItem
-                                    text={html!("ProgressBar")}
-                                    onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::ProgressBar))
                                 />
                             </Menu>
                             <div class="docs-nav-sponsors">
