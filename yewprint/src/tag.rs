@@ -1,4 +1,4 @@
-use crate::{Button, ConditionalClass, Icon, IconName, Intent};
+use crate::{Button, ConditionalClass, Icon, IconName, Intent, Text};
 use yew::prelude::*;
 
 pub struct Tag {
@@ -87,7 +87,7 @@ impl Component for Tag {
         html! {
             <span
                 class=(
-                "bp3-tag",
+                    "bp3-tag",
                     self.props.intent,
                     self.props.active.map_some("bp3-active"),
                     self.props.fill.map_some("bp3-fill"),
@@ -100,7 +100,9 @@ impl Component for Tag {
                 // onclick={self.props.onclick.clone()}
             >
                 {icon}
-                {self.props.children.clone()}
+                <Text ellipsize={!self.props.multiline}>
+                    {self.props.children.clone()}
+                </Text>
                 {remove_button}
                 {right_icon}
             </span>
