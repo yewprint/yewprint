@@ -34,10 +34,12 @@ impl Component for Example {
 
     fn view(&self) -> Html {
         html! {
-            <Text
-                ellipsize=self.props.ellipsize
-                text=&self.props.text
-            />
+            <div style="width: 150px; height: 20px">
+                <Text
+                    ellipsize=self.props.ellipsize
+                    text=&self.props.text
+                />
+            </div>
         }
     }
 }

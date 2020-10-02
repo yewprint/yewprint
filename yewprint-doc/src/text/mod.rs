@@ -68,7 +68,7 @@ crate::build_example_prop_component! {
                 <div>
                     <H5>{"Props"}</H5>
                     <input
-                        onchange=self.update_props(|props, e| 
+                        onchange=self.update_props(|props, e|
                             match e {
                                 ChangeData::Value(text) => {
                                     ExampleProps {
@@ -83,7 +83,7 @@ crate::build_example_prop_component! {
                                     }
                                 }
                         })
-                        type="text" 
+                        type="text"
                         value={&self.props.text}
                     />
                     <Switch

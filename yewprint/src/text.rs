@@ -1,3 +1,4 @@
+use crate::ConditionalClass;
 use yew::prelude::*;
 
 pub struct Text {
@@ -6,8 +7,8 @@ pub struct Text {
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct Props {
-    #[prop_or(false)]
-    pub ellipsize: bool,
+    #[prop_or_default]
+    pub ellipsize: ConditionalClass,
     #[prop_or_default]
     pub text: String,
 }
@@ -35,7 +36,10 @@ impl Component for Text {
 
     fn view(&self) -> Html {
         html! {
-            <p class="bp3-text">{self.props.text.clone()}</p>
+            <p class=(
+                "bp3-text",
+                self.props.ellipsize.map_some("bp3-text-overflow-ellipsis"),
+            )>{self.props.text.clone()}</p>
         }
     }
 }
