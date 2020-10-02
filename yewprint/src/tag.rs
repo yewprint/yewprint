@@ -9,7 +9,7 @@ pub struct Tag {
 pub struct Props {
     pub children: html::Children,
     #[prop_or_default]
-    // FIXME Not clear that this field has any effect withut `interactive` on.
+    // FIXME Not clear that this field has any effect without `interactive` on.
     pub active: ConditionalClass,
     #[prop_or_default]
     pub fill: ConditionalClass,
@@ -74,7 +74,7 @@ impl Component for Tag {
         let remove_button = if let Some(callback) = self.props.onremove.clone() {
             html!(
                 <Button
-                    // need to pass `class="bp3-tag-remove"` to `Button`
+                    // FIXME need to pass `class="bp3-tag-remove"` to `Button`
                     onclick={callback.clone()}
                 >
                     <Icon icon=IconName::SmallCross />

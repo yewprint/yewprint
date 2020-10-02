@@ -3,24 +3,32 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::{Intent, Menu, MenuItem, Switch, H1,H5};
+use yewprint::{Intent,Button, Menu, MenuItem, Switch, H1,H5};
 
 pub struct TagDoc {
     callback: Callback<ExampleProps>,
     state: ExampleProps,
 }
 
+pub enum TagDocMsg {
+    Props(ExampleProps),
+    RemoveTag(String),
+}
+
+fn initial_tags() -> Vec<String> {
+    vec!["Landscape".into(), "Bird".into(), "City".into(), "Bridge".into(),"Street".into()]
+}
+
 impl Component for TagDoc {
-    type Message = ExampleProps;
+    type Message = TagDocMsg;
     type Properties = ();
 
     fn create(_props: Self::Properties, link: ComponentLink<Self>) -> Self {
-        let initial_tags = vec!["Landscape".into(), "Bird".into(), "City".into(), "Bridge".into(),"Street".into()];
         TagDoc {
-            callback: link.callback(|x| x),
+            callback: link.callback(|x| TagDocMsg::Props(x)),
             state: ExampleProps {
-                initial_tags: initial_tags.clone(),
-                tags: initial_tags.clone(),
+                parent: link.callback(|l| TagDocMsg::RemoveTag(l)),
+                tags: initial_tags(),
                 active: false,
                 fill: false,
                 icon: false.into(),
@@ -33,12 +41,15 @@ impl Component for TagDoc {
                 removable: false.into(),
                 right_icon: false.into(),
                 round: false,
-            }
+            },
         }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
-        self.state = msg;
+        match msg {
+            TagDocMsg::Props(props) => self.state = props,
+            TagDocMsg::RemoveTag(label) => self.state.tags = self.state.tags.clone().into_iter().filter(|l| *l != label).collect(),
+        }
         true
     }
 
@@ -159,6 +170,16 @@ crate::build_example_prop_component! {
                             checked=self.props.right_icon
                             label="right icon"
                         />
+                        <Button
+                            onclick=self.update_props(|props, _| ExampleProps {
+                                tags: initial_tags(),
+                                ..props
+                            })
+                            minimal=self.props.minimal
+                            fill=self.props.fill
+                        >
+                            {"reset tags"}
+                        </Button>
                         // FIXME Switching off options resets removed tags, move the taglist change up
                         <p>{"Select intent:"}</p>
                         <Menu>

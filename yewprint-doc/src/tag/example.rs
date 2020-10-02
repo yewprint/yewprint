@@ -8,7 +8,7 @@ pub struct Example {
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct ExampleProps {
-    pub initial_tags: Vec<String>,
+    pub parent: Callback<String>,
     pub tags: Vec<String>,
     pub active: bool,
     pub fill: bool,
@@ -39,7 +39,7 @@ impl Component for Example {
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         let ExampleMsg::Remove(label) = msg;
-        self.props.tags = self.props.tags.clone().into_iter().filter(|l| *l != label).collect();
+        self.props.parent.emit(label);
         true
     }
 
@@ -78,9 +78,7 @@ impl Component for Example {
         });
 
         html!{
-            <>
                 {tags.collect::<Html>()}
-            </>
         }
     }
 }
