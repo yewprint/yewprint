@@ -36,10 +36,14 @@ impl Component for Text {
 
     fn view(&self) -> Html {
         html! {
-            <p class=(
-                "bp3-text",
-                self.props.ellipsize.map_some("bp3-text-overflow-ellipsis"),
-            )>{self.props.text.clone()}</p>
+            <p
+                class=(
+                    "bp3-text",
+                    self.props.ellipsize.map_some("bp3-text-overflow-ellipsis"),
+                )
+            >
+                {self.props.text.clone()}
+            </p>
         }
     }
 }
