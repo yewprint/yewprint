@@ -53,9 +53,11 @@ impl Component for Example {
     }
 
     fn view(&self) -> Html {
-        let tags = self.props.tags.clone().into_iter().map(|label| {
-            let label2 = label.clone();
-            let remove = self.props.removable.map_some(self.link.callback(move |_| ExampleMsg::Remove(label2.clone()))); 
+        let tags = self.props.tags.iter().map(|label| {
+            let remove = {
+                let label = label.clone();
+                self.props.removable.map_some(self.link.callback(move |_| ExampleMsg::Remove(label.clone())))
+            }; 
             html! {
                 <Tag
                     active=self.props.active
@@ -70,7 +72,7 @@ impl Component for Example {
                     round=self.props.round
                     onremove=remove
                 >
-                    {yew::virtual_dom::vtext::VText::new(label.clone())}
+                    {label.clone()}
                 </Tag>
             }
         });

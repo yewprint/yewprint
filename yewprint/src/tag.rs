@@ -1,7 +1,5 @@
 use crate::{Button, ConditionalClass, Icon, IconName, Intent};
-use yew::html::ChildrenRenderer;
 use yew::prelude::*;
-use yew::virtual_dom::VText;
 
 pub struct Tag {
     props: Props,
@@ -9,7 +7,7 @@ pub struct Tag {
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct Props {
-    pub children: ChildrenRenderer<VText>,
+    pub children: html::Children,
     #[prop_or_default]
     // FIXME Not clear that this field has any effect withut `interactive` on.
     pub active: ConditionalClass,
