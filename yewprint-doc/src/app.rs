@@ -4,6 +4,7 @@ use crate::card::*;
 use crate::collapse::*;
 use crate::icon::*;
 use crate::progressbar::*;
+use crate::text::*;
 use crate::tree::*;
 
 use yew::prelude::*;
@@ -138,6 +139,11 @@ impl Component for App {
                                     onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Switch))
                                 />
                                 <MenuItem
+                                    text={html!("Text")}
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Text))
+                                />
+                                <MenuItem
                                     text={html!("Tree")}
                                     onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Tree))
                                 />
@@ -164,6 +170,7 @@ impl Component for App {
                                         DocMenu::Callout => html!(<CalloutDoc />),
                                         DocMenu::Card => html!(<CardDoc />),
                                         DocMenu::Collapse => html!(<CollapseDoc />),
+                                        DocMenu::Text => html!(<TextDoc />),
                                         DocMenu::Tree => html!(<TreeDoc />),
                                         DocMenu::Icon => html!(<IconDoc />),
                                         DocMenu::ProgressBar => html!(<ProgressBarDoc />),
@@ -197,6 +204,8 @@ pub enum DocMenu {
     ProgressBar,
     #[to = "/#switch"]
     Switch,
+    #[to = "/#text"]
+    Text,
     #[to = "/#tree"]
     Tree,
     #[to = "/"]

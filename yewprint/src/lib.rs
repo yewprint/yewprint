@@ -7,6 +7,7 @@ mod icon;
 mod menu;
 mod progressbar;
 mod switch;
+mod text;
 #[cfg(feature = "tree")]
 mod tree;
 
@@ -21,6 +22,7 @@ pub use id_tree;
 pub use menu::*;
 pub use progressbar::*;
 pub use switch::*;
+pub use text::*;
 #[cfg(feature = "tree")]
 pub use tree::*;
 
