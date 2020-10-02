@@ -1,4 +1,4 @@
-use crate::{ConditionalClass, Icon, Intent};
+use crate::{Button, ConditionalClass, Icon, IconName, Intent};
 use yew::html::ChildrenRenderer;
 use yew::prelude::*;
 use yew::virtual_dom::VText;
@@ -16,7 +16,7 @@ pub struct Props {
     #[prop_or_default]
     pub fill: ConditionalClass,
     #[prop_or_default]
-    pub icon: Option<Icon>,
+    pub icon: Option<IconName>,
     #[prop_or_default]
     pub intent: Option<Intent>,
     #[prop_or_default]
@@ -29,10 +29,11 @@ pub struct Props {
     // FIXME Should make sense once `Text` is implemented.
     pub multiline: ConditionalClass,
     #[prop_or_default]
-    //onClick,
-    //onRemove,
+    pub onclick: Option<Callback<MouseEvent>>,
     #[prop_or_default]
-    pub right_icon: Option<Icon>,
+    pub onremove: Option<Callback<MouseEvent>>,
+    #[prop_or_default]
+    pub right_icon: Option<IconName>,
     #[prop_or_default]
     pub round: ConditionalClass,
 }
@@ -60,20 +61,50 @@ impl Component for Tag {
 
     fn view(&self) -> Html {
         // FIXME use Text when implemented
+        let icon = if let Some(icon) = self.props.icon {
+            html!(<Icon icon=icon />)
+        } else {
+            html!()
+        };
+
+        let right_icon = if let Some(right_icon) = self.props.right_icon {
+            html!(<Icon icon=right_icon />)
+        } else {
+            html!()
+        };
+
+        let remove_button = if let Some(callback) = self.props.onremove.clone() {
+            html!(
+                <Button
+                    // need to pass `class="bp3-tag-remove"` to `Button`
+                    onclick={callback.clone()}
+                >
+                    <Icon icon=IconName::SmallCross />
+                </Button>
+            )
+        } else {
+            html!()
+        };
+
         html! {
-            <span class=(
+            <span
+                class=(
                 "bp3-tag",
-                self.props.intent,
-                self.props.active.map_some("bp3-active"),
-                self.props.fill.map_some("bp3-fill"),
-                self.props.interactive.map_some("bp3-interactive"),
-                self.props.large.map_some("bp3-large"),
-                self.props.minimal.map_some("bp3-minimal"),
-                self.props.multiline.map_some("bp3-multiline"),
-                self.props.round.map_some("bp3-round"),
+                    self.props.intent,
+                    self.props.active.map_some("bp3-active"),
+                    self.props.fill.map_some("bp3-fill"),
+                    self.props.interactive.map_some("bp3-interactive"),
+                    self.props.large.map_some("bp3-large"),
+                    self.props.minimal.map_some("bp3-minimal"),
+                    self.props.multiline.map_some("bp3-multiline"),
+                    self.props.round.map_some("bp3-round"),
                 )
+                // onclick={self.props.onclick.clone()}
             >
+                {icon}
                 {self.props.children.clone()}
+                {remove_button}
+                {right_icon}
             </span>
         }
     }

@@ -15,20 +15,23 @@ impl Component for TagDoc {
     type Properties = ();
 
     fn create(_props: Self::Properties, link: ComponentLink<Self>) -> Self {
+        let initial_tags = vec!["Landscape".into(), "Bird".into(), "City".into(), "Bridge".into(),"Street".into()];
         TagDoc {
             callback: link.callback(|x| x),
             state: ExampleProps {
+                initial_tags: initial_tags.clone(),
+                tags: initial_tags.clone(),
                 active: false,
                 fill: false,
-                icon: None,
+                icon: false.into(),
                 intent: None,
                 interactive: false,
                 large: false,
                 minimal: false,
                 multiline: false,
                 //onClick,
-                //onRemove,
-                right_icon: None,
+                removable: false.into(),
+                right_icon: false.into(),
                 round: false,
             }
         }
@@ -132,7 +135,31 @@ crate::build_example_prop_component! {
                             checked=self.props.round
                             label="round"
                         />
-                        // FIXME Switch to set/unset a callback for on_remove.
+                        <Switch
+                            onclick=self.update_props(|props| ExampleProps {
+                                removable: !props.removable,
+                                ..props
+                            })
+                            checked=self.props.removable
+                            label="removable"
+                        />
+                        <Switch
+                            onclick=self.update_props(|props| ExampleProps {
+                                icon: !props.icon,
+                                ..props
+                            })
+                            checked=self.props.icon
+                            label="icon"
+                        />
+                        <Switch
+                            onclick=self.update_props(|props| ExampleProps {
+                                right_icon: !props.right_icon,
+                                ..props
+                            })
+                            checked=self.props.right_icon
+                            label="right icon"
+                        />
+                        // FIXME Switching off options resets removed tags, move the taglist change up
                         <p>{"Select intent:"}</p>
                         <Menu>
                             <MenuItem
