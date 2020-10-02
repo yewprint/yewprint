@@ -68,7 +68,7 @@ crate::build_example_prop_component! {
                 <div>
                     <H5>{"Props"}</H5>
                     <Switch
-                        onclick=self.update_props(|props, _e| ExampleProps {
+                        onclick=self.update_props(|props, _| ExampleProps {
                             minimal: !props.minimal,
                             ..props
                         })
@@ -76,7 +76,7 @@ crate::build_example_prop_component! {
                         label="Minimal"
                     />
                     <Switch
-                        onclick=self.update_props(|props, _e| ExampleProps {
+                        onclick=self.update_props(|props, _| ExampleProps {
                             fill: !props.fill,
                             ..props
                         })

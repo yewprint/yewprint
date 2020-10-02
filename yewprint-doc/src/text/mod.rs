@@ -87,7 +87,7 @@ crate::build_example_prop_component! {
                         value={&self.props.text}
                     />
                     <Switch
-                        onclick=self.update_props(|props, _e| ExampleProps {
+                        onclick=self.update_props(|props, _| ExampleProps {
                             ellipsize: !props.ellipsize,
                             ..props
                         })
