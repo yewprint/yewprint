@@ -3,8 +3,11 @@
     <a href="https://yewprint.rm.rs"><img src="./yewprint-doc/src/logo.svg" height="120" /></a>
   </div>
   <h1 align="center">Yewprint</h1>
-  <h4 align="center">
-    It's <a href="https://blueprintjs.com">Blueprint</a>, but for <a href="https://github.com/yewstack/yew">Yew</a> in <a href="https://www.rust-lang.org/">Rust</a>.</h4>
+  <p align="center">
+    <strong>
+      A port of <a href="https://blueprintjs.com">Blueprint</a> (a React-based UI toolkit for the web) to <a href="https://github.com/yewstack/yew">Yew</a> (a <a href="https://www.rust-lang.org/">Rust</a> / <a href="https://webassembly.org/">Wasm</a> client web app framework).
+    </strong>
+  </p>
 </div>
 
 <div align="center">
