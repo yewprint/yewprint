@@ -1,8 +1,10 @@
 use crate::buttons::*;
 use crate::callout::*;
+use crate::card::*;
 use crate::collapse::*;
 use crate::icon::*;
 use crate::progressbar::*;
+use crate::text::*;
 use crate::tree::*;
 use crate::tag::*;
 
@@ -111,6 +113,11 @@ impl Component for App {
                                         .callback(|_| Msg::GoToMenu(DocMenu::Callout))
                                 />
                                 <MenuItem
+                                    text={html!("Card")}
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Card))
+                                />
+                                <MenuItem
                                     text={html!("Collapse")}
                                     onclick=self.link
                                         .callback(|_| Msg::GoToMenu(DocMenu::Collapse))
@@ -124,21 +131,29 @@ impl Component for App {
                                     onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Menu))
                                 />
                                 <MenuItem
+                                    text={html!("ProgressBar")}
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::ProgressBar))
+                                />
+                                <MenuItem
                                     text={html!("Switch")}
                                     onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Switch))
-                                />
-                                <MenuItem
-                                    text={html!("Tree")}
-                                    onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Tree))
-                                />
-                                <MenuItem
-                                    text={html!("ProgressBar")}
-                                    onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::ProgressBar))
                                 />
                                 <MenuItem
                                     text={html!("Tag")}
                                     onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Tag))
                                 />
+                                <MenuItem
+                                    text={html!("Text")}
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Text))
+                                />
+                                <MenuItem
+                                    text={html!("Tree")}
+                                    onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Tree))
+                                />
+                                // NOTE: thanks to keep this list of <MenuItem> sorted
+                                //       alphabetically (except for the light switch)
                             </Menu>
                             <div class="docs-nav-sponsors">
                                 <a href="https://www.netlify.com">
@@ -158,7 +173,9 @@ impl Component for App {
                                         DocMenu::Button | DocMenu::Home => html! (<ButtonDoc />),
                                         DocMenu::Switch => html! (),
                                         DocMenu::Callout => html!(<CalloutDoc />),
+                                        DocMenu::Card => html!(<CardDoc />),
                                         DocMenu::Collapse => html!(<CollapseDoc />),
+                                        DocMenu::Text => html!(<TextDoc />),
                                         DocMenu::Tree => html!(<TreeDoc />),
                                         DocMenu::Icon => html!(<IconDoc />),
                                         DocMenu::ProgressBar => html!(<ProgressBarDoc />),
@@ -181,20 +198,24 @@ pub enum DocMenu {
     Button,
     #[to = "/#callout"]
     Callout,
+    #[to = "/#card"]
+    Card,
     #[to = "/#collapse"]
     Collapse,
     #[to = "/#icon"]
     Icon,
     #[to = "/#menu"]
     Menu,
-    #[to = "/#switch"]
-    Switch,
-    #[to = "/#tree"]
-    Tree,
     #[to = "/#progress-bar"]
     ProgressBar,
+    #[to = "/#switch"]
+    Switch,
     #[to = "/#tag"]
     Tag,
+    #[to = "/#text"]
+    Text,
+    #[to = "/#tree"]
+    Tree,
     #[to = "/"]
     Home,
 }

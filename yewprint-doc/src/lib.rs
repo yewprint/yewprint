@@ -1,11 +1,13 @@
 mod app;
 mod buttons;
 mod callout;
+mod card;
 mod collapse;
 mod example;
 mod icon;
 mod progressbar;
 mod switch;
+mod text;
 mod tree;
 mod tag;
 

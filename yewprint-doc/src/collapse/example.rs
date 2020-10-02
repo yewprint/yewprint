@@ -33,6 +33,8 @@ impl Component for Example {
     }
 
     fn view(&self) -> Html {
+        let logs = include_str!("example.log");
+
         html! {
             <div>
                 <Button onclick=self.link.callback(|_| Msg::ToggleCollapse)>
@@ -43,21 +45,7 @@ impl Component for Example {
                     keep_children_mounted=true
                 >
                     <pre class="bp3-code-block">
-                        <div>{"[INFO]: Installing wasm-bindgen..."}</div>
-                        <div>{"[INFO]: Optional fields missing from Cargo.toml: 'description', 'repository', and 'license'. These are not necessary, but recommended"}</div>
-                        <div>{"[INFO]: :-) Done in 0.69s"}</div>
-                        <div>{"[INFO]: :-) Your wasm pkg is ready to publish at /home/cecile/repos/blueprint-rs/./static."}</div>
-                        <div>{"     Index: enabled, Upload: disabled, Cache: disabled, Cors: enabled, Range: enabled, Sort: enabled, Threads: 3"}</div>
-                        <div>{"          Auth: disabled, Compression: disabled"}</div>
-                        <div>{"         https: disabled, Cert: , Cert-Password: "}</div>
-                        <div>{"          Root: /home/cecile/repos/blueprint-rs,"}</div>
-                        <div>{"    TryFile404: "}</div>
-                        <div>{"       Address: http://0.0.0.0:8000"}</div>
-                        <div>{"    ======== [2020-09-07 20:39:46] ========"}</div>
-                        <div>{"[2020-09-07 20:39:46] - 127.0.0.1 - 200 - GET /"}</div>
-                        <div>{"[2020-09-07 20:39:46] - 127.0.0.1 - 200 - GET /static/blueprint.css"}</div>
-                        <div>{"[2020-09-07 20:39:46] - 127.0.0.1 - 200 - GET /static/wasm.js"}</div>
-                        <div>{"[2020-09-07 20:39:46] - 127.0.0.1 - 200 - GET /static/wasm_bg.wasm"}</div>
+                        {logs}
                     </pre>
                 </Collapse>
             </div>

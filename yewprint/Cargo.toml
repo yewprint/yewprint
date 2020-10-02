@@ -6,6 +6,10 @@ edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[features]
+default = ["tree"]
+tree = ["id_tree"]
+
 [badges]
 travis-ci = { repository = "cecton/yewprint", branch = "main" }
 is-it-maintained-issue-resolution = { repository = "cecton/yewprint" }
@@ -14,7 +18,7 @@ is-it-maintained-open-issues = { repository = "cecton/yewprint" }
 [dependencies]
 yew = { git = "https://github.com/yewstack/yew.git", rev = "1507c21b" }
 web-sys = "0.3"
-id_tree = "1.7"
+id_tree = { version = "1.7", optional = true }
 yewtil = { git = "https://github.com/yewstack/yew.git", rev = "1507c21b", features = ["pure"] }
 
 [build-dependencies]

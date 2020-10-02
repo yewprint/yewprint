@@ -80,7 +80,7 @@ crate::build_example_prop_component! {
                     <H5>{"Props"}</H5>
                     <div>
                         <Switch
-                            onclick=self.update_props(|props| ExampleProps {
+                            onclick=self.update_props(|props, _| ExampleProps {
                                 active: !props.active,
                                 ..props
                             })
@@ -88,7 +88,7 @@ crate::build_example_prop_component! {
                             label="active"
                         />
                         <Switch
-                            onclick=self.update_props(|props| ExampleProps {
+                            onclick=self.update_props(|props, _| ExampleProps {
                                 fill: !props.fill,
                                 ..props
                             })
@@ -96,7 +96,7 @@ crate::build_example_prop_component! {
                             label="fill"
                         />
                         <Switch
-                            onclick=self.update_props(|props| ExampleProps {
+                            onclick=self.update_props(|props, _| ExampleProps {
                                 interactive: !props.interactive,
                                 ..props
                             })
@@ -104,7 +104,7 @@ crate::build_example_prop_component! {
                             label="interactive"
                         />
                         <Switch
-                            onclick=self.update_props(|props| ExampleProps {
+                            onclick=self.update_props(|props, _| ExampleProps {
                                 large: !props.large,
                                 ..props
                             })
@@ -112,7 +112,7 @@ crate::build_example_prop_component! {
                             label="large"
                         />
                         <Switch
-                            onclick=self.update_props(|props| ExampleProps {
+                            onclick=self.update_props(|props, _| ExampleProps {
                                 minimal: !props.minimal,
                                 ..props
                             })
@@ -120,7 +120,7 @@ crate::build_example_prop_component! {
                             label="minimal"
                         />
                         <Switch
-                            onclick=self.update_props(|props| ExampleProps {
+                            onclick=self.update_props(|props, _| ExampleProps {
                                 multiline: !props.multiline,
                                 ..props
                             })
@@ -128,7 +128,7 @@ crate::build_example_prop_component! {
                             label="multiline"
                         />
                         <Switch
-                            onclick=self.update_props(|props| ExampleProps {
+                            onclick=self.update_props(|props, _| ExampleProps {
                                 round: !props.round,
                                 ..props
                             })
@@ -136,7 +136,7 @@ crate::build_example_prop_component! {
                             label="round"
                         />
                         <Switch
-                            onclick=self.update_props(|props| ExampleProps {
+                            onclick=self.update_props(|props, _| ExampleProps {
                                 removable: !props.removable,
                                 ..props
                             })
@@ -144,7 +144,7 @@ crate::build_example_prop_component! {
                             label="removable"
                         />
                         <Switch
-                            onclick=self.update_props(|props| ExampleProps {
+                            onclick=self.update_props(|props, _| ExampleProps {
                                 icon: !props.icon,
                                 ..props
                             })
@@ -152,7 +152,7 @@ crate::build_example_prop_component! {
                             label="icon"
                         />
                         <Switch
-                            onclick=self.update_props(|props| ExampleProps {
+                            onclick=self.update_props(|props, _| ExampleProps {
                                 right_icon: !props.right_icon,
                                 ..props
                             })
@@ -163,14 +163,14 @@ crate::build_example_prop_component! {
                         <p>{"Select intent:"}</p>
                         <Menu>
                             <MenuItem
-                                onclick=self.update_props(|props| ExampleProps {
+                                onclick=self.update_props(|props, _| ExampleProps {
                                     intent: None,
                                     ..props
                                 })
                                 text=html!{"None"}
                             />
                             <MenuItem
-                                onclick=self.update_props(|props| ExampleProps {
+                                onclick=self.update_props(|props, _| ExampleProps {
                                     intent: Some(Intent::Primary),
                                     ..props
                                 })
@@ -178,7 +178,7 @@ crate::build_example_prop_component! {
                                 intent=Intent::Primary
                             />
                             <MenuItem
-                                onclick=self.update_props(|props| ExampleProps {
+                                onclick=self.update_props(|props, _| ExampleProps {
                                     intent: Some(Intent::Success),
                                     ..props
                                 })
@@ -186,7 +186,7 @@ crate::build_example_prop_component! {
                                 intent=Intent::Success
                             />
                             <MenuItem
-                                onclick=self.update_props(|props| ExampleProps {
+                                onclick=self.update_props(|props, _| ExampleProps {
                                     intent: Some(Intent::Warning),
                                     ..props
                                 })
@@ -194,7 +194,7 @@ crate::build_example_prop_component! {
                                 intent=Intent::Warning
                             />
                             <MenuItem
-                                onclick=self.update_props(|props| ExampleProps {
+                                onclick=self.update_props(|props, _| ExampleProps {
                                     intent: Some(Intent::Danger),
                                     ..props
                                 })
