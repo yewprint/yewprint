@@ -36,7 +36,7 @@ impl Component for Example {
         html! {
             <Text
                 ellipsize=self.props.ellipsize
-                text=self.props.text.clone()
+                text=&self.props.text
             />
         }
     }

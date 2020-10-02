@@ -123,10 +123,10 @@ macro_rules! build_example_prop_component {
         }
 
         impl $name {
-            fn update_props(
+            fn update_props<T>(
                 &self,
                 updater: impl Fn($prop_component) -> $prop_component + 'static,
-            ) -> Callback<MouseEvent> {
+            ) -> Callback<T> {
                 let props = self.props.clone();
                 self.callback.clone().reform(move |_| updater(props.clone()))
             }

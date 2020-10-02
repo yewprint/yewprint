@@ -67,6 +67,15 @@ crate::build_example_prop_component! {
             html! {
                 <div>
                     <H5>{"Props"}</H5>
+                    <input
+                        // don't know how to retreive the onchange event arg here
+                        onchange=self.update_props(|props| ExampleProps {
+                            text: String::from("props.text"),
+                            ..props
+                        })
+                        type="text" 
+                        value={&self.props.text}
+                    />
                     <Switch
                         onclick=self.update_props(|props| ExampleProps {
                             ellipsize: !props.ellipsize,
