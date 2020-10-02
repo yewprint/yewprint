@@ -19,7 +19,7 @@ impl Component for TextDoc {
             callback: link.callback(|x| x),
             state: ExampleProps {
                 ellipsize: false,
-                text: String::from("hello, world!"),
+                text: String::from("Hello, world!"),
             },
         }
     }
