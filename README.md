@@ -1,4 +1,5 @@
-# <a href="https://yewprint.rm.rs"><img src="./yewprint-doc/src/logo.svg" height="32" /></a> <a href="https://yewprint.rm.rs">Yewprint</a> ![Rust](https://github.com/cecton/yewprint/workflows/Rust/badge.svg) [![Netlify Status](https://api.netlify.com/api/v1/badges/17f076ed-49e5-4185-921e-5c5759de2fdb/deploy-status)](https://app.netlify.com/sites/epic-poincare-f8adaa/deploys)
+# <a href="https://yewprint.rm.rs"><img src="./yewprint-doc/src/logo.svg" height="32" /></a> <a href="https://yewprint.rm.rs">Yewprint</a> ![Rust](https://github.com/cecton/yewprint/workflows/Rust/badge.svg) [![Netlify Status](https://api.netlify.com/api/v1/badges/17f076ed-49e5-4185-921e-5c5759de2fdb/deploy-status)](https://app.netlify.com/sites/epic-poincare-f8adaa/deploys) [![Discord](https://img.shields.io/discord/701068342760570933)](https://discord.gg/NAFcwhp)
+
 
 It's [Blueprint](https://blueprintjs.com), but for
 [Yew](https://github.com/yewstack/yew) in [Rust](https://www.rust-lang.org/).
@@ -14,6 +15,13 @@ Installation
 
 ```toml
 yewprint = { git = "https://github.com/cecton/yewprint.git", branch = "main" }
+
+# right now you need a specific version of Yew to use Yewprint
+yew = { git = "https://github.com/yewstack/yew.git", rev = "1507c21b" }
+
+# other yew dependencies need to use this version
+# yew-router = { git = "https://github.com/yewstack/yew.git", rev = "1507c21b" }
+# yewtil = { git = "https://github.com/yewstack/yew.git", rev = "1507c21b", features = ["pure"] }
 ```
 
 You will also need the CSS from blueprint. For that you can either include the
@@ -65,7 +73,7 @@ Roadmap
  -  [ ] [ButtonGroup](https://blueprintjs.com/docs/#core/components/button-group)
      -  depends on: Button
  -  [x] [Callout](https://blueprintjs.com/docs/#core/components/callout)
- -  [ ] [Card](https://blueprintjs.com/docs/#core/components/card)
+ -  [x] [Card](https://blueprintjs.com/docs/#core/components/card)
  -  [x] [Collapse](https://blueprintjs.com/docs/#core/components/collapse)
  -  [ ] [CollapsibleList](https://blueprintjs.com/docs/#core/components/collapsible-list)
  -  [ ] [Divider](https://blueprintjs.com/docs/#core/components/divider)
@@ -73,9 +81,11 @@ Roadmap
  -  [ ] [EditableText](https://blueprintjs.com/docs/#core/components/editable-text)
  -  [ ] [Hotkeys](https://blueprintjs.com/docs/#core/components/hotkeys)
  -  [x] [Icon](https://blueprintjs.com/docs/#core/components/icon)
- -  [ ] [Menu](https://blueprintjs.com/docs/#core/components/menu)
+ -  [x] [Menu](https://blueprintjs.com/docs/#core/components/menu)
+     -  [ ] Complete Menu API
+     -  depends on: Popover
  -  [ ] [Popover](https://blueprintjs.com/docs/#core/components/menu.dropdowns) (dropdowns)
-     -  depends on: Menu
+     -  depends on: Overlay
  -  [ ] [Navbar](https://blueprintjs.com/docs/#core/components/navbar)
  -  [ ] [OverflowList](https://blueprintjs.com/docs/#core/components/overflow-list)
  -  [ ] [PanelStack](https://blueprintjs.com/docs/#core/components/panel-stack)
@@ -86,7 +96,7 @@ Roadmap
  -  [ ] [Tabs](https://blueprintjs.com/docs/#core/components/tabs)
  -  [ ] [Tag](https://blueprintjs.com/docs/#core/components/tag)
      -  depends on: Text
- -  [ ] [Text](https://blueprintjs.com/docs/#core/components/text)
+ -  [x] [Text](https://blueprintjs.com/docs/#core/components/text)
  -  [x] [Tree](https://blueprintjs.com/docs/#core/components/tree)
      -  depends on: Collapse, Icon
  -  [ ] [FormGroup](https://blueprintjs.com/docs/#core/components/form-group)
