@@ -74,7 +74,7 @@ jobs:
 
     needs:
     - build
-    - main-build
+    - build-main
 
     if: ${{ github.event_name == 'pull_request' }}
 
