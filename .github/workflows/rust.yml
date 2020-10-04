@@ -29,7 +29,7 @@ jobs:
     - run: cargo doc --verbose --all-features
     - name: Build (Release)
       id: build
-      run: "./build.sh --release && echo ::set-output name=size::`du -h public/wasm_bg.wasm`"
+      run: "./build.sh --release && echo ::set-output name=size::`cat public/wasm_bg.wasm | wc -c`"
 
   build-main:
 
@@ -51,7 +51,7 @@ jobs:
         chmod +x $HOME/.cargo/bin/wasm-pack
     - name: Build (Release)
       id: build
-      run: "./build.sh --release && echo ::set-output name=size::`du -h public/wasm_bg.wasm`"
+      run: "./build.sh --release && echo ::set-output name=size::`cat public/wasm_bg.wasm | wc -c`"
 
   checks:
 
@@ -84,6 +84,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         message: |
-          **Hello**
+          **Compiled size report**
 
-          ${{needs.build.outputs.size}} vs ${{needs.build-main.outputs.size}}
+          | File name | Old Size | New Size |
+          | --- | --- | --- |
+          | public/wasm_bg.wasm | ${{needs.build-main.outputs.size}} | ${{needs.build.outputs.size}} |
