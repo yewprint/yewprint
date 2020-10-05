@@ -1,0 +1,18 @@
+[INFO]: Checking for the Wasm target...
+[INFO]: Compiling to Wasm...
+   Compiling yewprint v0.1.0 (/home/cecile/repos/blueprint-rs/yewprint)
+   Compiling yewprint-doc v0.1.0 (/home/cecile/repos/blueprint-rs/yewprint-doc)
+    Finished dev [unoptimized + debuginfo] target(s) in 2.40s
+:-) [WARN]: origin crate has no README
+[INFO]: Installing wasm-bindgen...
+[INFO]: Optional fields missing from Cargo.toml: 'description', 'repository', and 'license'. These are not necessary, but recommended
+[INFO]: :-) Done in 3.02s
+[INFO]: :-) Your wasm pkg is ready to publish at /home/cecile/repos/blueprint-rs/yewprint-doc/../public.
+Wasm size: 4480848
+     Index: enabled, Upload: disabled, Cache: disabled, Cors: enabled, Range: enabled, Sort: enabled, Threads: 3
+          Auth: disabled, Compression: disabled
+         https: disabled, Cert: , Cert-Password: 
+          Root: /home/cecile/repos/blueprint-rs/public,
+    TryFile404: 
+       Address: http://0.0.0.0:8000
+    ======== [2020-10-01 07:25:47] ========

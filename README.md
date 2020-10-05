@@ -28,6 +28,13 @@ Installation
 
 ```toml
 yewprint = { git = "https://github.com/cecton/yewprint.git", branch = "main" }
+
+# right now you need a specific version of Yew to use Yewprint
+yew = { git = "https://github.com/yewstack/yew.git", rev = "1507c21b" }
+
+# other yew dependencies need to use this version
+# yew-router = { git = "https://github.com/yewstack/yew.git", rev = "1507c21b" }
+# yewtil = { git = "https://github.com/yewstack/yew.git", rev = "1507c21b", features = ["pure"] }
 ```
 
 You will also need the CSS from blueprint. For that you can either include the
@@ -76,20 +83,22 @@ Roadmap
  -  [x] [Button](https://blueprintjs.com/docs/#core/components/button)
      -  [ ] Complete Button API
      -  [ ] AnchorButton
- -  [ ] [ButtonGroup](https://blueprintjs.com/docs/#core/components/button-group)
+ -  [x] [ButtonGroup](https://blueprintjs.com/docs/#core/components/button-group)
      -  depends on: Button
  -  [x] [Callout](https://blueprintjs.com/docs/#core/components/callout)
- -  [ ] [Card](https://blueprintjs.com/docs/#core/components/card)
+ -  [x] [Card](https://blueprintjs.com/docs/#core/components/card)
  -  [x] [Collapse](https://blueprintjs.com/docs/#core/components/collapse)
  -  [ ] [CollapsibleList](https://blueprintjs.com/docs/#core/components/collapsible-list)
- -  [ ] [Divider](https://blueprintjs.com/docs/#core/components/divider)
+ -  [x] [Divider](https://blueprintjs.com/docs/#core/components/divider)
      -  depends on: ButtonGroup
  -  [ ] [EditableText](https://blueprintjs.com/docs/#core/components/editable-text)
  -  [ ] [Hotkeys](https://blueprintjs.com/docs/#core/components/hotkeys)
  -  [x] [Icon](https://blueprintjs.com/docs/#core/components/icon)
- -  [ ] [Menu](https://blueprintjs.com/docs/#core/components/menu)
+ -  [x] [Menu](https://blueprintjs.com/docs/#core/components/menu)
+     -  [ ] Complete Menu API
+     -  depends on: Popover
  -  [ ] [Popover](https://blueprintjs.com/docs/#core/components/menu.dropdowns) (dropdowns)
-     -  depends on: Menu
+     -  depends on: Overlay
  -  [ ] [Navbar](https://blueprintjs.com/docs/#core/components/navbar)
  -  [ ] [OverflowList](https://blueprintjs.com/docs/#core/components/overflow-list)
  -  [ ] [PanelStack](https://blueprintjs.com/docs/#core/components/panel-stack)
@@ -99,7 +108,8 @@ Roadmap
  -  [ ] [Spinner](https://blueprintjs.com/docs/#core/components/spinner)
  -  [ ] [Tabs](https://blueprintjs.com/docs/#core/components/tabs)
  -  [ ] [Tag](https://blueprintjs.com/docs/#core/components/tag)
- -  [ ] [Text](https://blueprintjs.com/docs/#core/components/text)
+     -  depends on: Text
+ -  [x] [Text](https://blueprintjs.com/docs/#core/components/text)
  -  [x] [Tree](https://blueprintjs.com/docs/#core/components/tree)
      -  depends on: Collapse, Icon
  -  [ ] [FormGroup](https://blueprintjs.com/docs/#core/components/form-group)

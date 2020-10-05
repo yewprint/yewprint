@@ -5,21 +5,21 @@ use example::*;
 use yew::prelude::*;
 use yewprint::{Switch, H1, H5};
 
-pub struct ButtonDoc {
+pub struct TextDoc {
     callback: Callback<ExampleProps>,
     state: ExampleProps,
 }
 
-impl Component for ButtonDoc {
+impl Component for TextDoc {
     type Message = ExampleProps;
     type Properties = ();
 
     fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
-        ButtonDoc {
+        TextDoc {
             callback: link.callback(|x| x),
             state: ExampleProps {
-                minimal: false,
-                fill: false,
+                ellipsize: false,
+                text: String::from("Hello, world!"),
             },
         }
     }
@@ -42,12 +42,12 @@ impl Component for ButtonDoc {
 
         html! {
             <div>
-                <H1 class="docs-title">{"Button"}</H1>
+                <H1 class="docs-title">{"Text"}</H1>
                 <div>
                     <ExampleContainer
                         source=source
                         props=Some(html! {
-                            <ButtonProps
+                            <TextProps
                                 callback={self.callback.clone()}
                                 props=example_props.clone()
                             />
@@ -62,26 +62,38 @@ impl Component for ButtonDoc {
 }
 
 crate::build_example_prop_component! {
-    ButtonProps for ExampleProps =>
+    TextProps for ExampleProps =>
         fn view(&self) -> Html {
             html! {
                 <div>
                     <H5>{"Props"}</H5>
                     <Switch
                         onclick=self.update_props(|props, _| ExampleProps {
-                            minimal: !props.minimal,
+                            ellipsize: !props.ellipsize,
                             ..props
                         })
-                        checked=self.props.minimal
-                        label="Minimal"
+                        checked=self.props.ellipsize
+                        label="Ellipsize"
                     />
-                    <Switch
-                        onclick=self.update_props(|props, _| ExampleProps {
-                            fill: !props.fill,
-                            ..props
+                    <input
+                        class="bp3-input"
+                        onchange=self.update_props(|props, e|
+                            match e {
+                                ChangeData::Value(text) => {
+                                    ExampleProps {
+                                        text,
+                                        ..props
+                                    }
+                                },
+                                _ => {
+                                    ExampleProps {
+                                        text: "Hello, world!".to_string(),
+                                        ..props
+                                    }
+                                }
                         })
-                        checked=self.props.fill
-                        label="Fill"
+                        type="text"
+                        value={&self.props.text}
                     />
                 </div>
             }

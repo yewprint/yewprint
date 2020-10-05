@@ -3,24 +3,23 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::{Intent, Menu, MenuItem, Switch, H1, H5};
+use yewprint::{Elevation, Menu, MenuItem, Switch, H1, H5};
 
-pub struct ProgressBarDoc {
+pub struct CardDoc {
     callback: Callback<ExampleProps>,
     state: ExampleProps,
 }
 
-impl Component for ProgressBarDoc {
+impl Component for CardDoc {
     type Message = ExampleProps;
     type Properties = ();
 
     fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
-        ProgressBarDoc {
+        CardDoc {
             callback: link.callback(|x| x),
             state: ExampleProps {
-                intent: None,
-                animate: false,
-                stripes: false,
+                elevation: Elevation::Level0,
+                interactive: false,
             },
         }
     }
@@ -43,11 +42,11 @@ impl Component for ProgressBarDoc {
 
         html! {
             <div>
-                <H1 class="docs-title">{"ProgressBar"}</H1>
+                <H1 class="docs-title">{"Card"}</H1>
                 <ExampleContainer
                     source=source
                     props=Some(html! {
-                        <ProgressBarProps
+                        <CardProps
                             callback={self.callback.clone()}
                             props=example_props.clone()
                         />
@@ -61,7 +60,7 @@ impl Component for ProgressBarDoc {
 }
 
 crate::build_example_prop_component! {
-    ProgressBarProps for ExampleProps =>
+    CardProps for ExampleProps =>
         fn view(&self) -> Html {
             html! {
                 <div>
@@ -69,60 +68,48 @@ crate::build_example_prop_component! {
                     <div>
                         <Switch
                             onclick=self.update_props(|props, _| ExampleProps {
-                                stripes: !props.stripes,
+                                interactive: !props.interactive,
                                 ..props
                             })
-                            checked=self.props.stripes
-                            label="Stripes"
+                            checked=self.props.interactive
+                            label="Toggle interaction"
                         />
-                        <Switch
-                            onclick=self.update_props(|props, _| ExampleProps {
-                                animate: !props.animate,
-                                ..props
-                            })
-                            checked=self.props.animate
-                            label="animate"
-                        />
-                        <p>{"Select intent:"}</p>
+                        <p>{"Elevation:"}</p>
                         <Menu>
                             <MenuItem
                                 onclick=self.update_props(|props, _| ExampleProps {
-                                    intent: None,
+                                    elevation: Elevation::Level0,
                                     ..props
                                 })
-                                text=html!{"None"}
+                                text=html!{"Level 0"}
                             />
                             <MenuItem
                                 onclick=self.update_props(|props, _| ExampleProps {
-                                    intent: Some(Intent::Primary),
+                                    elevation: Elevation::Level1,
                                     ..props
                                 })
-                                text=html!{"Primary"}
-                                intent=Intent::Primary
+                                text=html!{"Level 1"}
                             />
                             <MenuItem
                                 onclick=self.update_props(|props, _| ExampleProps {
-                                    intent: Some(Intent::Success),
+                                    elevation: Elevation::Level2,
                                     ..props
                                 })
-                                text=html!{"Success"}
-                                intent=Intent::Success
+                                text=html!{"Level 2"}
                             />
                             <MenuItem
                                 onclick=self.update_props(|props, _| ExampleProps {
-                                    intent: Some(Intent::Warning),
+                                    elevation: Elevation::Level3,
                                     ..props
                                 })
-                                text=html!{"Warning"}
-                                intent=Intent::Warning
+                                text=html!{"Level 3"}
                             />
                             <MenuItem
                                 onclick=self.update_props(|props, _| ExampleProps {
-                                    intent: Some(Intent::Danger),
+                                    elevation: Elevation::Level4,
                                     ..props
                                 })
-                                text=html!{"Danger"}
-                                intent=Intent::Danger
+                                text=html!{"Level 4"}
                             />
                         </Menu>
                     </div>
