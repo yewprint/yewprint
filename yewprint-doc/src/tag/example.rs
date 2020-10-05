@@ -8,7 +8,7 @@ pub struct Example {
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct ExampleProps {
-    pub parent: Callback<String>,
+    pub parent: Callback<Option<String>>,
     pub tags: Vec<String>,
     pub active: bool,
     pub fill: bool,
@@ -18,7 +18,6 @@ pub struct ExampleProps {
     pub large: bool,
     pub minimal: bool,
     pub multiline: bool,
-    //onClick,
     pub removable: ConditionalClass,
     pub right_icon: ConditionalClass,
     pub round: bool,
@@ -26,6 +25,7 @@ pub struct ExampleProps {
 
 pub enum ExampleMsg {
     Remove(String),
+    Click,
 }
 
 
@@ -38,8 +38,10 @@ impl Component for Example {
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
-        let ExampleMsg::Remove(label) = msg;
-        self.props.parent.emit(label);
+        match msg {
+            ExampleMsg::Remove(label) => self.props.parent.emit(Some(label)),
+            ExampleMsg::Click => self.props.parent.emit(None),
+        }
         true
     }
 
@@ -71,6 +73,11 @@ impl Component for Example {
                     right_icon=self.props.right_icon.map_some(IconName::Star)
                     round=self.props.round
                     onremove=remove
+                    onclick=self.link.callback(|_| ExampleMsg::Click)
+                    // FIXME
+                    // When both onremove and onclick are set,
+                    // clicking the X triggers both onremove and onclick
+                    // probably want the onclick to be set on the text?
                 >
                     {label.clone()}
                 </Tag>

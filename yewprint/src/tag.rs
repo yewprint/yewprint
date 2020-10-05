@@ -24,10 +24,9 @@ pub struct Props {
     #[prop_or_default]
     pub minimal: ConditionalClass,
     #[prop_or_default]
-    // FIXME Should make sense once `Text` is implemented.
     pub multiline: ConditionalClass,
     #[prop_or_default]
-    pub onclick: Option<Callback<MouseEvent>>,
+    pub onclick: Callback<MouseEvent>,
     #[prop_or_default]
     pub onremove: Option<Callback<MouseEvent>>,
     #[prop_or_default]
@@ -58,7 +57,6 @@ impl Component for Tag {
     }
 
     fn view(&self) -> Html {
-        // FIXME use Text when implemented
         let icon = if let Some(icon) = self.props.icon {
             html!(<Icon icon=icon />)
         } else {
@@ -94,13 +92,12 @@ impl Component for Tag {
                     self.props.interactive.map_some("bp3-interactive"),
                     self.props.large.map_some("bp3-large"),
                     self.props.minimal.map_some("bp3-minimal"),
-                    self.props.multiline.map_some("bp3-multiline"),
                     self.props.round.map_some("bp3-round"),
                 )
-                // onclick={self.props.onclick.clone()}
+                onclick={self.props.onclick.clone()}
             >
                 {icon}
-                <Text ellipsize={!self.props.multiline}>
+                <Text class="bp3-fill" ellipsize={!self.props.multiline}>
                     {self.props.children.clone()}
                 </Text>
                 {remove_button}

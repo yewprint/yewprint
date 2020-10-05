@@ -11,6 +11,8 @@ pub struct Props {
     pub ellipsize: ConditionalClass,
     #[prop_or_default]
     pub children: html::Children,
+    #[prop_or_default]
+    pub class: String,
 }
 
 impl Component for Text {
@@ -38,7 +40,7 @@ impl Component for Text {
         html! {
             <p
                 class=(
-                    "bp3-text",
+                    self.props.class.clone(),
                     self.props.ellipsize.map_some("bp3-text-overflow-ellipsis"),
                 )
             >

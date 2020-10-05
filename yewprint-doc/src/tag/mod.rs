@@ -13,6 +13,7 @@ pub struct TagDoc {
 pub enum TagDocMsg {
     Props(ExampleProps),
     RemoveTag(String),
+    Nothing,
 }
 
 fn initial_tags() -> Vec<String> {
@@ -28,7 +29,13 @@ impl Component for TagDoc {
         TagDoc {
             callback: link.callback(|x| TagDocMsg::Props(x)),
             state: ExampleProps {
-                parent: link.callback(|l| TagDocMsg::RemoveTag(l)),
+                parent: link.callback(|msg| {
+                    match msg {
+                        // FIXME do something interesting with `onclick`.
+                        None => TagDocMsg::Nothing,
+                        Some(l) => TagDocMsg::RemoveTag(l),
+                    }
+                }),
                 tags: initial_tags(),
                 active: false,
                 fill: false,
@@ -38,7 +45,6 @@ impl Component for TagDoc {
                 large: false,
                 minimal: false,
                 multiline: false,
-                //onClick,
                 removable: false.into(),
                 right_icon: false.into(),
                 round: false,
@@ -50,6 +56,7 @@ impl Component for TagDoc {
         match msg {
             TagDocMsg::Props(props) => self.state = props,
             TagDocMsg::RemoveTag(label) => self.state.tags = self.state.tags.clone().into_iter().filter(|l| *l != label).collect(),
+            TagDocMsg::Nothing => (),
         }
         true
     }
@@ -181,8 +188,6 @@ crate::build_example_prop_component! {
                         >
                             {"reset tags"}
                         </Button>
-                        // FIXME 
-                        // Switching off options resets removed tags, move the taglist change up
                         <p>{"Select intent:"}</p>
                         <Menu>
                             <MenuItem
