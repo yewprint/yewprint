@@ -2,6 +2,7 @@ mod buttons;
 mod callout;
 mod card;
 mod collapse;
+mod html_select;
 mod html_elements;
 mod icon;
 mod menu;
@@ -14,6 +15,7 @@ pub use buttons::*;
 pub use callout::*;
 pub use card::*;
 pub use collapse::*;
+pub use html_select::*;
 pub use html_elements::*;
 pub use icon::*;
 #[cfg(feature = "tree")]

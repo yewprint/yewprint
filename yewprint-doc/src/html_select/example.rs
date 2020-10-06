@@ -1,5 +1,5 @@
 use yew::prelude::*;
-use yewprint::Button;
+use yewprint::HtmlSelect;
 
 pub struct Example {
     link: ComponentLink<Self>,
@@ -50,13 +50,11 @@ impl Component for Example {
             <div>
                 <p>{"Counter: "}{self.counter}</p>
                 <div>
-                    <Button
-                        onclick=self.link.callback(|_| Msg::AddOne)
+                    <HtmlSelect
+                        onchange=self.link.callback(|_| Msg::AddOne)
                         minimal=self.props.minimal
                         fill=self.props.fill
-                    >
-                        {"Add 1"}
-                    </Button>
+                    />
                 </div>
             </div>
         }

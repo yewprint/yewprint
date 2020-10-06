@@ -1,25 +1,30 @@
-use crate::{ConditionalClass, Icon, IconName}
+use crate::{ConditionalClass, Icon, IconName};
 use yew::prelude::*;
 
 pub struct HtmlSelect {
-    props: props,
+    props: Props,
 }
 
+#[derive(Clone, PartialEq, Properties)]
 pub struct Props {
     #[prop_or_default]
     pub fill: ConditionalClass,
     #[prop_or_default]
     pub minimal: ConditionalClass,
     #[prop_or_default]
+    pub large: ConditionalClass,
+    #[prop_or_default]
     pub disable: ConditionalClass,
     #[prop_or_default]
     pub icon: Option<IconName>,
     #[prop_or_default]
     pub title: Option<String>,
-    pub children: html::Children
     #[prop_or_default]
-    // onChange
-    //options
+    pub onchange: Callback<MouseEvent>,
+    #[prop_or_default]
+    pub options: Vec<(String, String)>,
+    #[prop_or_default]
+    pub value: String,
 }
 
 impl Component for HtmlSelect {
@@ -45,7 +50,12 @@ impl Component for HtmlSelect {
 
     fn view(&self) -> Html {
         html! {
+            <div>
+                <select>
 
+                </select>
+                <Icon icon=IconName::DoubleCaretVertical/>
+            </div>
         }
     }
 }
