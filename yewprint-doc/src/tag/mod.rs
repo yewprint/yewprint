@@ -17,8 +17,12 @@ pub enum TagDocMsg {
 }
 
 fn initial_tags() -> Vec<String> {
-    vec!["Landscape".into(), "Bird".into(), "City".into(), "Bridge".into(),"Street".into(),
-    "Why do you go away? So that you can come back. So that you can see the place you came from with new eyes and extra colors. And the people there see you differently, too. Coming back to where you started is not the same as never leaving.".into()]
+    vec![
+        "Landscape".into(), "Bird".into(), "City".into(), "Bridge".into(),"Street".into(),
+        "Why do you go away? So that you can come back. So that you can see the place you \
+        came from with new eyes and extra colors. And the people there see you differently, \
+        too. Coming back to where you started is not the same as never leaving.".into()
+    ]
 }
 
 impl Component for TagDoc {
