@@ -1,7 +1,7 @@
 use crate::{ConditionalClass, Icon, IconName}
 use yew::prelude::*;
 
-pub struct Html_select {
+pub struct HtmlSelect {
     props: props,
 }
 
@@ -22,12 +22,12 @@ pub struct Props {
     //options
 }
 
-impl Component for Html_select {
+impl Component for HtmlSelect {
     type Message = ();
     type Properties = Props;
 
     fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        Html_select {props}
+        HtmlSelect {props}
     }
 
     fn update(&mut self, _msg: Self::Message) -> ShouldRender {
