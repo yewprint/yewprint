@@ -51,6 +51,7 @@ impl Component for Example {
                 <p>{"Counter: "}{self.counter}</p>
                 <div>
                     <HtmlSelect
+                        options={vec![("test".to_string(), "Bonjour".to_string()), ("debug".to_string(), "Bonsoir".to_string())]}
                         onchange=self.link.callback(|_| Msg::AddOne)
                         minimal=self.props.minimal
                         fill=self.props.fill

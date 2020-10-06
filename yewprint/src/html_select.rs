@@ -49,10 +49,15 @@ impl Component for HtmlSelect {
     }
 
     fn view(&self) -> Html {
+        let option_children = self.props.options
+            .iter()
+            .map(|(value, label)| html!(<option value=value>{label}</option>))
+            .collect::<Html>();
+
         html! {
             <div>
                 <select>
-
+                    {option_children}
                 </select>
                 <Icon icon=IconName::DoubleCaretVertical/>
             </div>
