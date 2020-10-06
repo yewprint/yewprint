@@ -33,6 +33,8 @@ pub struct Props {
     pub right_icon: Option<IconName>,
     #[prop_or_default]
     pub round: ConditionalClass,
+    #[prop_or_default]
+    pub title: Option<String>,
 }
 
 impl Component for Tag {
@@ -72,7 +74,7 @@ impl Component for Tag {
         let remove_button = if let Some(callback) = self.props.onremove.clone() {
             html!(
                 <Button
-                    // FIXME need to pass `class="bp3-tag-remove"` to `Button`
+                    class="bp3-tag-remove"
                     onclick={callback.clone()}
                 >
                     <Icon icon=IconName::SmallCross />
@@ -97,7 +99,12 @@ impl Component for Tag {
                 onclick={self.props.onclick.clone()}
             >
                 {icon}
-                <Text class="bp3-fill" ellipsize={!self.props.multiline}>
+                <Text
+                    class="bp3-fill"
+                    ellipsize={!self.props.multiline}
+                    title=self.props.title.clone()
+                    inline=true
+                >
                     {self.props.children.clone()}
                 </Text>
                 {remove_button}

@@ -13,6 +13,11 @@ pub struct Props {
     pub children: html::Children,
     #[prop_or_default]
     pub class: String,
+    /// Wrap text in `span` instead of `div`.
+    #[prop_or_default]
+    pub inline: bool,
+    #[prop_or_default]
+    pub title: Option<String>,
 }
 
 impl Component for Text {
@@ -37,15 +42,30 @@ impl Component for Text {
     }
 
     fn view(&self) -> Html {
-        html! {
-            <p
-                class=(
-                    self.props.class.clone(),
-                    self.props.ellipsize.map_some("bp3-text-overflow-ellipsis"),
-                )
-            >
-                {self.props.children.clone()}
-            </p>
+        if self.props.inline {
+            html! {
+                <span
+                    class=(
+                        self.props.class.clone(),
+                        self.props.ellipsize.map_some("bp3-text-overflow-ellipsis"),
+                    )
+                    title?=self.props.title.clone()
+                >
+                    {self.props.children.clone()}
+                </span>
+            }
+        } else {
+            html! {
+                <div
+                    class=(
+                        self.props.class.clone(),
+                        self.props.ellipsize.map_some("bp3-text-overflow-ellipsis"),
+                    )
+                    title?=self.props.title.clone()
+                >
+                    {self.props.children.clone()}
+                </div>
+            }
         }
     }
 }
