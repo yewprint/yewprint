@@ -3,6 +3,7 @@ mod buttons;
 mod callout;
 mod card;
 mod collapse;
+mod html_select;
 mod example;
 mod icon;
 mod progressbar;
