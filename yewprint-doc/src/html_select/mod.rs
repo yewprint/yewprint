@@ -1,21 +1,22 @@
 mod example;
 
+use yew::prelude::*;
 use crate::ExampleContainer;
 use example::*;
 use yewprint::{Switch, H1, H5};
 
-pub struct ButtonDoc {
+pub struct HtmlSelectDoc {
     callback: Callback<ExampleProps>,
     state: ExampleProps,
 }
 
-impl Component for ButtonDoc {
+impl Component for HtmlSelectDoc {
     type Message = ExampleProps;
     type Properties = ();
 
 
-    fn create(_:self::Properties, link: ComponentLink<Self>) -> Self {
-        ButtonDoc {
+    fn create(_:Self::Properties, link: ComponentLink<Self>) -> Self {
+        HtmlSelectDoc {
             callback: link.callback(|x| x),
             state: ExampleProps {
                 minimal: false,
@@ -42,7 +43,7 @@ impl Component for ButtonDoc {
 
         html!{
             <div>
-                <H1 class="docs-title">{"Button"}<H1>
+                <H1 class="docs-title">{"HtmlSelect"}</H1>
                 <div>
                     <ExampleContainer
                         source=source
