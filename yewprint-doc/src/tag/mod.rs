@@ -36,7 +36,7 @@ impl Component for TagDoc {
 
     fn create(_props: Self::Properties, link: ComponentLink<Self>) -> Self {
         TagDoc {
-            callback: link.callback(|x| TagDocMsg::Props(x)),
+            callback: link.callback(TagDocMsg::Props),
             state: ExampleProps {
                 parent: link.callback(|msg| {
                     match msg {
