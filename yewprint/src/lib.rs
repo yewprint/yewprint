@@ -1,7 +1,9 @@
+mod button_group;
 mod buttons;
 mod callout;
 mod card;
 mod collapse;
+mod divider;
 mod html_elements;
 mod icon;
 mod menu;
@@ -12,10 +14,12 @@ mod text;
 #[cfg(feature = "tree")]
 mod tree;
 
+pub use button_group::*;
 pub use buttons::*;
 pub use callout::*;
 pub use card::*;
 pub use collapse::*;
+pub use divider::*;
 pub use html_elements::*;
 pub use icon::*;
 #[cfg(feature = "tree")]
@@ -59,6 +63,14 @@ impl ConditionalClass {
     pub fn map_some<T>(&self, value: T) -> Option<T> {
         if self.0 {
             Some(value)
+        } else {
+            None
+        }
+    }
+
+    pub fn and<U>(&self, optb: Option<U>) -> Option<U> {
+        if self.0 {
+            optb
         } else {
             None
         }
