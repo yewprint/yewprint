@@ -60,12 +60,11 @@ impl Component for HtmlSelect {
                 self.props.fill.map_some("bp3-fill"),
                 self.props.minimal.map_some("bp3-minimal"),
                 self.props.large.map_some("bp3-large"),
-                self.props.disabled.map_some("bp3-disabled"),
             )>
-                <Icon icon=IconName::DoubleCaretVertical/>
-                <select onchange={self.props.onchange.clone()}>
+                <select class=self.props.disabled.map_some("bp3-disabled"), onchange={self.props.onchange.clone()}>
                     {option_children}
                 </select>
+                <Icon icon=IconName::DoubleCaretVertical/>
             </div>
         }
     }
