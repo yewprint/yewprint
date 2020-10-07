@@ -56,9 +56,10 @@ impl Component for HtmlSelect {
 
         html! {
             <div>
+                <Icon icon=IconName::DoubleCaretVertical/>
                 <select
                     class=(
-                        "bp3-select",
+                        "bp3-html-select",
                         self.props.fill.map_some("bp3-fill"),
                         self.props.minimal.map_some("bp3-minimal"),
                         self.props.disable.map_some("bp3-disable"),
@@ -67,7 +68,6 @@ impl Component for HtmlSelect {
                 >
                     {option_children}
                 </select>
-                <Icon icon=IconName::DoubleCaretVertical/>
             </div>
         }
     }
