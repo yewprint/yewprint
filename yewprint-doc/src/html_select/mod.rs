@@ -50,7 +50,7 @@ impl Component for HtmlSelectDoc {
                     <ExampleContainer
                         source=source
                         props=Some(html! {
-                            <ButtonProps
+                            <HtmlSelectProps
                                 callback={self.callback.clone()}
                                 props=example_props.clone()
                             />
@@ -65,7 +65,7 @@ impl Component for HtmlSelectDoc {
 }
 
 crate::build_example_prop_component! {
-    ButtonProps for ExampleProps =>
+    HtmlSelectProps for ExampleProps =>
         fn view(&self) -> Html {
             html! {
                 <div>
