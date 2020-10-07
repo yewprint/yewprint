@@ -106,56 +106,68 @@ impl Component for App {
                                 />
                                 <MenuItem
                                 text={html!("Button")}
+                                href="#button"
                                 onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Button))
                                 />
                                 <MenuItem
                                     text={html!("Button Group")}
+                                    href="#bgroup"
                                     onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::ButtonGroup))
                                 />
                                 <MenuItem
                                     text={html!("Callout")}
+                                    href="#callout"
                                     onclick=self.link
                                         .callback(|_| Msg::GoToMenu(DocMenu::Callout))
                                 />
                                 <MenuItem
                                     text={html!("Card")}
+                                    href="#card"
                                     onclick=self.link
                                         .callback(|_| Msg::GoToMenu(DocMenu::Card))
                                 />
                                 <MenuItem
                                     text={html!("Collapse")}
+                                    href="#collapse"
                                     onclick=self.link
                                         .callback(|_| Msg::GoToMenu(DocMenu::Collapse))
                                 />
                                 <MenuItem
                                     text={html!("Divider")}
+                                    href="#divider"
                                     onclick=self.link
                                         .callback(|_| Msg::GoToMenu(DocMenu::Divider))
                                 />
                                 <MenuItem
                                     text={html!("Icon")}
+                                    href="#icon"
                                     onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Icon))
                                 />
                                 <MenuItem
                                     text={html!("Menu")}
+                                    href="#menu"
                                     onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Menu))
                                 />
                                 <MenuItem
                                     text={html!("ProgressBar")}
+                                    href="#progress-bar"
                                     onclick=self.link
                                         .callback(|_| Msg::GoToMenu(DocMenu::ProgressBar))
                                 />
                                 <MenuItem
                                     text={html!("Switch")}
+                                    href="#switch"
                                     onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Switch))
                                 />
                                 <MenuItem
                                     text={html!("Text")}
+                                    href="#text"
                                     onclick=self.link
                                         .callback(|_| Msg::GoToMenu(DocMenu::Text))
                                 />
                                 <MenuItem
                                     text={html!("Tree")}
+                                    href="#tree"
                                     onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Tree))
                                 />
                                 // NOTE: thanks to keep this list of <MenuItem> sorted
