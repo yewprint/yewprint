@@ -75,7 +75,7 @@ impl Component for Tag {
             html!(
                 <Button
                     class="bp3-tag-remove"
-                    onclick={callback.clone()}
+                    onclick={callback}
                 >
                     <Icon icon=IconName::SmallCross />
                 </Button>
