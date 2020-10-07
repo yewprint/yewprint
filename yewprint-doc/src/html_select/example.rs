@@ -11,6 +11,8 @@ pub struct Example {
 pub struct ExampleProps {
     pub minimal: bool,
     pub fill: bool,
+    pub disable: bool,
+    pub large: bool,
 }
 
 pub enum Msg {
@@ -55,6 +57,8 @@ impl Component for Example {
                         onchange=self.link.callback(|_| Msg::AddOne)
                         minimal=self.props.minimal
                         fill=self.props.fill
+                        disable=self.props.disable
+                        large=self.props.large
                     />
                 </div>
             </div>

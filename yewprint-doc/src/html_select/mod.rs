@@ -21,6 +21,8 @@ impl Component for HtmlSelectDoc {
             state: ExampleProps {
                 minimal: false,
                 fill: false,
+                disable: false,
+                large: false,
             },
         }
     }
@@ -83,6 +85,22 @@ crate::build_example_prop_component! {
                     })
                     checked=self.props.fill
                     label="Fill"
+                />
+                <Switch
+                    onclick=self.update_props(|props| ExampleProps {
+                        disable: !props.disable,
+                        ..props
+                    })
+                    checked=self.props.disable
+                    label="Disable"
+                />
+                <Switch
+                    onclick=self.update_props(|props| ExampleProps{
+                        large: !props.large,
+                        ..props
+                    })
+                    checked=self.props.large
+                    label="Large"
                 />
             </div>
             }
