@@ -56,7 +56,15 @@ impl Component for HtmlSelect {
 
         html! {
             <div>
-                <select>
+                <select
+                    class=(
+                        "bp3-select",
+                        self.props.fill.map_some("bp3-fill"),
+                        self.props.minimal.map_some("bp3-minimal"),
+                        self.props.disable.map_some("bp3-disable"),
+                        self.props.large.map_some("bp3-large"),
+                    )
+                >
                     {option_children}
                 </select>
                 <Icon icon=IconName::DoubleCaretVertical/>
