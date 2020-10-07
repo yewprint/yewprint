@@ -20,7 +20,7 @@ pub struct Props {
     #[prop_or_default]
     pub title: Option<String>,
     #[prop_or_default]
-    pub onchange: Callback<MouseEvent>,
+    pub onchange: Callback<ChangeData>,
     #[prop_or_default]
     pub options: Vec<(String, String)>,
     #[prop_or_default]
@@ -65,6 +65,7 @@ impl Component for HtmlSelect {
                         self.props.disabled.map_some("bp3-disabled"),
                         self.props.large.map_some("bp3-large"),
                     )
+                    onchange={self.props.onchange.clone()}
                 >
                     {option_children}
                 </select>
