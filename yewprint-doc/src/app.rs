@@ -4,9 +4,9 @@ use crate::card::*;
 use crate::collapse::*;
 use crate::icon::*;
 use crate::progressbar::*;
+use crate::tag::*;
 use crate::text::*;
 use crate::tree::*;
-use crate::tag::*;
 
 use yew::prelude::*;
 use yew_router::{

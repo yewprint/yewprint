@@ -3,7 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::{Intent,Button, Menu, MenuItem, Switch, H1,H5};
+use yewprint::{Button, Intent, Menu, MenuItem, Switch, H1, H5};
 
 pub struct TagDoc {
     callback: Callback<ExampleProps>,
@@ -18,10 +18,15 @@ pub enum TagDocMsg {
 
 fn initial_tags() -> Vec<String> {
     vec![
-        "Landscape".into(), "Bird".into(), "City".into(), "Bridge".into(),"Street".into(),
+        "Landscape".into(),
+        "Bird".into(),
+        "City".into(),
+        "Bridge".into(),
+        "Street".into(),
         "Why do you go away? So that you can come back. So that you can see the place you \
         came from with new eyes and extra colors. And the people there see you differently, \
-        too. Coming back to where you started is not the same as never leaving.".into()
+        too. Coming back to where you started is not the same as never leaving."
+            .into(),
     ]
 }
 
@@ -59,7 +64,15 @@ impl Component for TagDoc {
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
             TagDocMsg::Props(props) => self.state = props,
-            TagDocMsg::RemoveTag(label) => self.state.tags = self.state.tags.clone().into_iter().filter(|l| *l != label).collect(),
+            TagDocMsg::RemoveTag(label) => {
+                self.state.tags = self
+                    .state
+                    .tags
+                    .clone()
+                    .into_iter()
+                    .filter(|l| *l != label)
+                    .collect()
+            }
             TagDocMsg::Nothing => (),
         }
         true
@@ -79,10 +92,10 @@ impl Component for TagDoc {
         html! {
             <div>
                 <H1 class="docs-title">{"Tag"}</H1>
-                <ExampleContainer 
+                <ExampleContainer
                     source=source
                     props=Some(html!{
-                        <TagProps 
+                        <TagProps
                             callback={self.callback.clone()}
                             props=example_props.clone()
                         />

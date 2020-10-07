@@ -1,5 +1,5 @@
 use yew::prelude::*;
-use yewprint::{Tag, IconName,Intent, ConditionalClass};
+use yewprint::{ConditionalClass, IconName, Intent, Tag};
 
 pub struct Example {
     props: ExampleProps,
@@ -27,7 +27,6 @@ pub enum ExampleMsg {
     Remove(String),
     Click,
 }
-
 
 impl Component for Example {
     type Message = ExampleMsg;
@@ -58,8 +57,11 @@ impl Component for Example {
         let tags = self.props.tags.iter().map(|label| {
             let remove = {
                 let label = label.clone();
-                self.props.removable.map_some(self.link.callback(move |_| ExampleMsg::Remove(label.clone())))
-            }; 
+                self.props.removable.map_some(
+                    self.link
+                        .callback(move |_| ExampleMsg::Remove(label.clone())),
+                )
+            };
             html! {
                 <Tag
                     active=self.props.active
@@ -84,7 +86,7 @@ impl Component for Example {
             }
         });
 
-        html!{
+        html! {
                 {tags.collect::<Html>()}
         }
     }
