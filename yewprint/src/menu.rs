@@ -68,7 +68,10 @@ pub struct MenuItemProps {
     pub active: ConditionalClass,
     #[prop_or_default]
     pub class: Option<String>,
-    // TODO: pub disabled: bool,
+    #[prop_or_default]
+    pub disabled: ConditionalClass,
+    #[prop_or_default]
+    pub href: Option<String>,
     #[prop_or_default]
     pub label: Option<yew::virtual_dom::VNode>,
     #[prop_or_default]
@@ -112,10 +115,13 @@ impl Component for MenuItem {
                     class=(
                         "bp3-menu-item",
                         self.props.active.map_some("bp3-active"),
+                        self.props.disabled.map_some("bp3-disabled"),
                         self.props.intent
                             .or_else(|| self.props.active.map_some(Intent::Primary)),
                         self.props.class.clone(),
                     )
+                    href?={(!self.props.disabled).and(self.props.href.clone())}
+                    tabIndex?={(!self.props.disabled).map_some(0)}
                     onclick={self.props.onclick.clone()}
                 >
                     <Icon icon={self.props.icon} />

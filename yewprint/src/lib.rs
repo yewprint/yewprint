@@ -65,6 +65,14 @@ impl ConditionalClass {
             None
         }
     }
+
+    pub fn and<U>(&self, optb: Option<U>) -> Option<U> {
+        if self.0 {
+            optb
+        } else {
+            None
+        }
+    }
 }
 
 impl Deref for ConditionalClass {
