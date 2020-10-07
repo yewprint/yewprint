@@ -14,7 +14,7 @@ pub struct Props {
     #[prop_or_default]
     pub large: ConditionalClass,
     #[prop_or_default]
-    pub disable: ConditionalClass,
+    pub disabled: ConditionalClass,
     #[prop_or_default]
     pub icon: Option<IconName>,
     #[prop_or_default]
@@ -59,10 +59,10 @@ impl Component for HtmlSelect {
                 <Icon icon=IconName::DoubleCaretVertical/>
                 <select
                     class=(
-                        "bp3-select",
+                        "bp3-html-select",
                         self.props.fill.map_some("bp3-fill"),
                         self.props.minimal.map_some("bp3-minimal"),
-                        self.props.disable.map_some("bp3-disable"),
+                        self.props.disabled.map_some("bp3-disabled"),
                         self.props.large.map_some("bp3-large"),
                     )
                 >

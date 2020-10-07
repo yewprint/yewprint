@@ -9,7 +9,7 @@ pub struct Example {
 pub struct ExampleProps {
     pub minimal: bool,
     pub fill: bool,
-    pub disable: bool,
+    pub disabled: bool,
     pub large: bool,
 }
 
@@ -46,7 +46,7 @@ impl Component for Example {
                         ]}
                     minimal=self.props.minimal
                     fill=self.props.fill
-                    disable=self.props.disable
+                    disabled=self.props.disabled
                     large=self.props.large
                 />
             </div>
