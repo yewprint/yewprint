@@ -2,8 +2,6 @@ use yew::prelude::*;
 use yewprint::HtmlSelect;
 
 pub struct Example {
-    link: ComponentLink<Self>,
-    counter: i64,
     props: ExampleProps,
 }
 
@@ -15,26 +13,17 @@ pub struct ExampleProps {
     pub large: bool,
 }
 
-pub enum Msg {
-    AddOne,
-}
-
 impl Component for Example {
-    type Message = Msg;
+    type Message = ();
     type Properties = ExampleProps;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
         Example {
-            counter: 0,
-            link,
             props,
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
-        match msg {
-            Msg::AddOne => self.counter += 1,
-        }
+    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
         true
     }
 
@@ -51,8 +40,10 @@ impl Component for Example {
         html! {
             <div>
                 <HtmlSelect
-                    options={vec![("test".to_string(), "Bonjour".to_string()), ("debug".to_string(), "Bonsoir".to_string())]}
-                    onchange=self.link.callback(|_| Msg::AddOne)
+                    options={vec![
+                        ("test".to_string(), "Bonjour".to_string()),
+                        ("debug".to_string(), "Bonsoir".to_string())
+                        ]}
                     minimal=self.props.minimal
                     fill=self.props.fill
                     disable=self.props.disable
