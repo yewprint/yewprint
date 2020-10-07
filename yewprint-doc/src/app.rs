@@ -112,7 +112,8 @@ impl Component for App {
                                 <MenuItem
                                     text={html!("Button Group")}
                                     href="#bgroup"
-                                    onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::ButtonGroup))
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::ButtonGroup))
                                 />
                                 <MenuItem
                                     text={html!("Callout")}
