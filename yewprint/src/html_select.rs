@@ -1,12 +1,14 @@
 use crate::{ConditionalClass, Icon, IconName};
+use std::mem;
 use yew::prelude::*;
 
-pub struct HtmlSelect {
-    props: Props,
+pub struct HtmlSelect<T: Clone + PartialEq + 'static> {
+    props: Props<T>,
+    link: ComponentLink<Self>,
 }
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct Props {
+pub struct Props<T: Clone + PartialEq + 'static> {
     #[prop_or_default]
     pub fill: ConditionalClass,
     #[prop_or_default]
@@ -20,23 +22,32 @@ pub struct Props {
     #[prop_or_default]
     pub title: Option<String>,
     #[prop_or_default]
-    pub onchange: Callback<ChangeData>,
+    pub onchange: Callback<T>,
+    pub options: Vec<(T, String)>,
     #[prop_or_default]
-    pub options: Vec<(String, String)>,
-    #[prop_or_default]
-    pub value: String,
+    pub value: Option<T>,
 }
 
-impl Component for HtmlSelect {
-    type Message = ();
-    type Properties = Props;
+impl<T: Clone + PartialEq + 'static> Component for HtmlSelect<T> {
+    type Message = ChangeData;
+    type Properties = Props<T>;
 
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        HtmlSelect { props }
+    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+        HtmlSelect { props, link }
     }
 
-    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
-        true
+    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+        let i = if let ChangeData::Select(select) = msg {
+            select.selected_index()
+        } else {
+            unreachable!("unexpected ChangeData variant: {:?}", msg);
+        };
+        if i >= 0 {
+            let i = i as usize;
+            let variant = self.props.options[i].0.clone();
+            self.props.onchange.emit(variant);
+        }
+        false
     }
 
     fn change(&mut self, props: Self::Properties) -> ShouldRender {
@@ -53,7 +64,23 @@ impl Component for HtmlSelect {
             .props
             .options
             .iter()
-            .map(|(value, label)| html!(<option value=value>{label}</option>))
+            .map(|(value, label)| {
+                let selected = self
+                    .props
+                    .value
+                    .as_ref()
+                    .map(|x| value == x)
+                    .unwrap_or_default();
+
+                html! {
+                    <option
+                        selected=selected
+                        value=format!("{:?}", mem::discriminant(value))
+                    >
+                        {label}
+                    </option>
+                }
+            })
             .collect::<Html>();
 
         html! {
@@ -68,8 +95,12 @@ impl Component for HtmlSelect {
             >
                 <select
                     disabled=*self.props.disabled
-                    onchange={self.props.onchange.clone()}
-                    value={self.props.value.clone()}
+                    onchange={self.link.callback(|x| x)}
+                    value?={
+                        self.props.value
+                            .as_ref()
+                            .map(|x| format!("{:?}", mem::discriminant(x)))
+                    }
                     title?={self.props.title.clone()}
                 >
                     {option_children}

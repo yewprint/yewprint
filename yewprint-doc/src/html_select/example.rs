@@ -3,6 +3,8 @@ use yewprint::HtmlSelect;
 
 pub struct Example {
     props: ExampleProps,
+    link: ComponentLink<Self>,
+    log_level: LogLevel,
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -14,14 +16,19 @@ pub struct ExampleProps {
 }
 
 impl Component for Example {
-    type Message = ();
+    type Message = LogLevel;
     type Properties = ExampleProps;
 
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        Example { props }
+    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+        Example {
+            props,
+            link,
+            log_level: LogLevel::Info,
+        }
     }
 
-    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+        self.log_level = msg;
         true
     }
 
@@ -37,21 +44,34 @@ impl Component for Example {
     fn view(&self) -> Html {
         html! {
             <div style="width: 400px; text-align: center;">
-                <HtmlSelect
+                <HtmlSelect<LogLevel>
                     options={vec![
-                        ("trace".to_string(), "TRACE".to_string()),
-                        ("debug".to_string(), "DEBUG".to_string()),
-                        ("info".to_string(), "INFO".to_string()),
-                        ("warn".to_string(), "WARN".to_string()),
-                        ("error".to_string(), "ERROR".to_string()),
-                        ("off".to_string(), "OFF".to_string()),
-                        ]}
+                        (LogLevel::Trace, "TRACE".to_string()),
+                        (LogLevel::Debug, "DEBUG".to_string()),
+                        (LogLevel::Info, "INFO".to_string()),
+                        (LogLevel::Warn, "WARN".to_string()),
+                        (LogLevel::Error, "ERROR".to_string()),
+                        (LogLevel::Off, "OFF".to_string()),
+                    ]}
                     minimal=self.props.minimal
                     fill=self.props.fill
                     disabled=self.props.disabled
                     large=self.props.large
+                    value=Some(self.log_level)
+                    onchange=self.link.callback(|x| x)
+                    title=format!("Selected: {:?}", self.log_level)
                 />
             </div>
         }
     }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum LogLevel {
+    Trace,
+    Debug,
+    Info,
+    Warn,
+    Error,
+    Off,
 }
