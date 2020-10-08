@@ -5,6 +5,7 @@ mod card;
 mod collapse;
 mod divider;
 mod html_elements;
+mod html_select;
 mod icon;
 mod menu;
 mod progressbar;
@@ -20,6 +21,7 @@ pub use card::*;
 pub use collapse::*;
 pub use divider::*;
 pub use html_elements::*;
+pub use html_select::*;
 pub use icon::*;
 #[cfg(feature = "tree")]
 pub use id_tree;

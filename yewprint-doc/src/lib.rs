@@ -6,6 +6,7 @@ mod card;
 mod collapse;
 mod divider;
 mod example;
+mod html_select;
 mod icon;
 mod progressbar;
 mod switch;

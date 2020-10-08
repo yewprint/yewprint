@@ -4,6 +4,7 @@ use crate::callout::*;
 use crate::card::*;
 use crate::collapse::*;
 use crate::divider::*;
+use crate::html_select::*;
 use crate::icon::*;
 use crate::progressbar::*;
 use crate::text::*;
@@ -140,6 +141,11 @@ impl Component for App {
                                         .callback(|_| Msg::GoToMenu(DocMenu::Divider))
                                 />
                                 <MenuItem
+                                    text={html!("HtmlSelect")}
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::HtmlSelect))
+                                />
+                                <MenuItem
                                     text={html!("Icon")}
                                     href="#icon"
                                     onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Icon))
@@ -195,6 +201,7 @@ impl Component for App {
                                         DocMenu::Callout => html!(<CalloutDoc />),
                                         DocMenu::Card => html!(<CardDoc />),
                                         DocMenu::Collapse => html!(<CollapseDoc />),
+                                        DocMenu::HtmlSelect => html!(<HtmlSelectDoc />),
                                         DocMenu::Text => html!(<TextDoc />),
                                         DocMenu::Divider => html!(<DividerDoc />),
                                         DocMenu::Tree => html!(<TreeDoc />),
@@ -224,6 +231,8 @@ pub enum DocMenu {
     Card,
     #[to = "/#collapse"]
     Collapse,
+    #[to = "/#html-select"]
+    HtmlSelect,
     #[to = "/#divider"]
     Divider,
     #[to = "/#icon"]
