@@ -61,9 +61,11 @@ impl Component for HtmlSelect {
                     self.props.minimal.map_some("bp3-minimal"),
                     self.props.large.map_some("bp3-large"),
                     self.props.fill.map_some("bp3-fill"),
+                    self.props.disabled.map_some("bp3-disabled"),
                 )
             >
-                <select class=self.props.disabled.map_some("bp3-disabled"),
+                <select
+                    disabled=*self.props.disabled
                     onchange={self.props.onchange.clone()}
                 >
                     {option_children}
