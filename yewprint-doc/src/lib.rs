@@ -1,13 +1,16 @@
 mod app;
+mod button_group;
 mod buttons;
 mod callout;
 mod card;
 mod collapse;
 mod html_select;
+mod divider;
 mod example;
 mod icon;
 mod progressbar;
 mod switch;
+mod text;
 mod tree;
 
 pub use app::*;

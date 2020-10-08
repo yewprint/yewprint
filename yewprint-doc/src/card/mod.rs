@@ -67,7 +67,7 @@ crate::build_example_prop_component! {
                     <H5>{"Props"}</H5>
                     <div>
                         <Switch
-                            onclick=self.update_props(|props| ExampleProps {
+                            onclick=self.update_props(|props, _| ExampleProps {
                                 interactive: !props.interactive,
                                 ..props
                             })
@@ -77,35 +77,35 @@ crate::build_example_prop_component! {
                         <p>{"Elevation:"}</p>
                         <Menu>
                             <MenuItem
-                                onclick=self.update_props(|props| ExampleProps {
+                                onclick=self.update_props(|props, _| ExampleProps {
                                     elevation: Elevation::Level0,
                                     ..props
                                 })
                                 text=html!{"Level 0"}
                             />
                             <MenuItem
-                                onclick=self.update_props(|props| ExampleProps {
+                                onclick=self.update_props(|props, _| ExampleProps {
                                     elevation: Elevation::Level1,
                                     ..props
                                 })
                                 text=html!{"Level 1"}
                             />
                             <MenuItem
-                                onclick=self.update_props(|props| ExampleProps {
+                                onclick=self.update_props(|props, _| ExampleProps {
                                     elevation: Elevation::Level2,
                                     ..props
                                 })
                                 text=html!{"Level 2"}
                             />
                             <MenuItem
-                                onclick=self.update_props(|props| ExampleProps {
+                                onclick=self.update_props(|props, _| ExampleProps {
                                     elevation: Elevation::Level3,
                                     ..props
                                 })
                                 text=html!{"Level 3"}
                             />
                             <MenuItem
-                                onclick=self.update_props(|props| ExampleProps {
+                                onclick=self.update_props(|props, _| ExampleProps {
                                     elevation: Elevation::Level4,
                                     ..props
                                 })
