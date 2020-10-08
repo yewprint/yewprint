@@ -135,15 +135,15 @@ impl Component for App {
                                         .callback(|_| Msg::GoToMenu(DocMenu::Collapse))
                                 />
                                 <MenuItem
-                                    text={html!("HtmlSelect")}
-                                    onclick=self.link
-                                        .callback(|_| Msg::GoToMenu(DocMenu::HtmlSelect))
-                                />
-                                <MenuItem
                                     text={html!("Divider")}
                                     href="#divider"
                                     onclick=self.link
                                         .callback(|_| Msg::GoToMenu(DocMenu::Divider))
+                                />
+                                <MenuItem
+                                    text={html!("HtmlSelect")}
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::HtmlSelect))
                                 />
                                 <MenuItem
                                     text={html!("Icon")}
