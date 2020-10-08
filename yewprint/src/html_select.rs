@@ -32,7 +32,7 @@ impl Component for HtmlSelect {
     type Properties = Props;
 
     fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        HtmlSelect {props}
+        HtmlSelect { props }
     }
 
     fn update(&mut self, _msg: Self::Message) -> ShouldRender {
@@ -49,7 +49,9 @@ impl Component for HtmlSelect {
     }
 
     fn view(&self) -> Html {
-        let option_children = self.props.options
+        let option_children = self
+            .props
+            .options
             .iter()
             .map(|(value, label)| html!(<option value=value>{label}</option>))
             .collect::<Html>();

@@ -1,8 +1,8 @@
 mod example;
 
-use yew::prelude::*;
 use crate::ExampleContainer;
 use example::*;
+use yew::prelude::*;
 use yewprint::{Switch, H1, H5};
 
 pub struct HtmlSelectDoc {
@@ -14,8 +14,7 @@ impl Component for HtmlSelectDoc {
     type Message = ExampleProps;
     type Properties = ();
 
-
-    fn create(_:Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
         HtmlSelectDoc {
             callback: link.callback(|x| x),
             state: ExampleProps {
@@ -43,7 +42,7 @@ impl Component for HtmlSelectDoc {
             "bp3-code-block"
         );
 
-        html!{
+        html! {
             <div>
                 <H1 class="docs-title">{"HtmlSelect"}</H1>
                 <div>
@@ -71,7 +70,7 @@ crate::build_example_prop_component! {
                 <div>
                     <H5>{"Props"}</H5>
                 <Switch
-                    onclick=self.update_props(|props| ExampleProps {
+                    onclick=self.update_props(|props, _| ExampleProps {
                         minimal: !props.minimal,
                         ..props
                     })
@@ -79,7 +78,7 @@ crate::build_example_prop_component! {
                     label="Minimal"
                 />
                 <Switch
-                    onclick=self.update_props(|props| ExampleProps{
+                    onclick=self.update_props(|props, _| ExampleProps{
                         fill: !props.fill,
                         ..props
                     })
@@ -87,7 +86,7 @@ crate::build_example_prop_component! {
                     label="Fill"
                 />
                 <Switch
-                    onclick=self.update_props(|props| ExampleProps {
+                    onclick=self.update_props(|props, _| ExampleProps {
                         disabled: !props.disabled,
                         ..props
                     })
@@ -95,7 +94,7 @@ crate::build_example_prop_component! {
                     label="Disabled"
                 />
                 <Switch
-                    onclick=self.update_props(|props| ExampleProps{
+                    onclick=self.update_props(|props, _| ExampleProps{
                         large: !props.large,
                         ..props
                     })

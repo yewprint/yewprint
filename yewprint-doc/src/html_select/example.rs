@@ -18,9 +18,7 @@ impl Component for Example {
     type Properties = ExampleProps;
 
     fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        Example {
-            props,
-        }
+        Example { props }
     }
 
     fn update(&mut self, _msg: Self::Message) -> ShouldRender {
