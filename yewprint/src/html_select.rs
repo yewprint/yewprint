@@ -67,6 +67,8 @@ impl Component for HtmlSelect {
                 <select
                     disabled=*self.props.disabled
                     onchange={self.props.onchange.clone()}
+                    value={self.props.value.clone()}
+                    title?={self.props.title.clone()}
                 >
                     {option_children}
                 </select>
