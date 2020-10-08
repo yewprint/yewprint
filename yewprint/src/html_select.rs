@@ -55,13 +55,17 @@ impl Component for HtmlSelect {
             .collect::<Html>();
 
         html! {
-            <div class=(
-                "bp3-html-select",
-                self.props.fill.map_some("bp3-fill"),
-                self.props.minimal.map_some("bp3-minimal"),
-                self.props.large.map_some("bp3-large"),
-            )>
-                <select class=self.props.disabled.map_some("bp3-disabled"), onchange={self.props.onchange.clone()}>
+            <div
+                class=(
+                    "bp3-html-select",
+                    self.props.minimal.map_some("bp3-minimal"),
+                    self.props.large.map_some("bp3-large"),
+                    self.props.fill.map_some("bp3-fill"),
+                )
+            >
+                <select class=self.props.disabled.map_some("bp3-disabled"),
+                    onchange={self.props.onchange.clone()}
+                >
                     {option_children}
                 </select>
                 <Icon icon=IconName::DoubleCaretVertical/>

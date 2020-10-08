@@ -38,7 +38,7 @@ impl Component for Example {
 
     fn view(&self) -> Html {
         html! {
-            <div>
+            <div style="width: 400px; text-align: center;">
                 <HtmlSelect
                     options={vec![
                         ("test".to_string(), "Bonjour".to_string()),
