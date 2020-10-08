@@ -41,8 +41,12 @@ impl Component for Example {
             <div style="width: 400px; text-align: center;">
                 <HtmlSelect
                     options={vec![
-                        ("test".to_string(), "Bonjour".to_string()),
-                        ("debug".to_string(), "Bonsoir".to_string())
+                        ("trace".to_string(), "TRACE".to_string()),
+                        ("debug".to_string(), "DEBUG".to_string()),
+                        ("info".to_string(), "INFO".to_string()),
+                        ("warn".to_string(), "WARN".to_string()),
+                        ("error".to_string(), "ERROR".to_string()),
+                        ("off".to_string(), "OFF".to_string()),
                         ]}
                     minimal=self.props.minimal
                     fill=self.props.fill
