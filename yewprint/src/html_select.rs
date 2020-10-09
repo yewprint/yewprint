@@ -80,10 +80,7 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for HtmlSelect<T> {
                 };
 
                 html! {
-                    <option
-                        selected=selected
-                        value=value
-                    >
+                    <option selected=selected value=value>
                         {label}
                     </option>
                 }
