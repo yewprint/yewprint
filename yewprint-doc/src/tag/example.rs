@@ -10,7 +10,6 @@ pub struct Example {
 #[derive(Clone, PartialEq, Properties)]
 pub struct ExampleProps {
     pub initial_tags: Vec<String>,
-    pub parent: Callback<()>,
     pub active: bool,
     pub fill: bool,
     pub icon: ConditionalClass,
@@ -22,7 +21,7 @@ pub struct ExampleProps {
     pub removable: ConditionalClass,
     pub right_icon: ConditionalClass,
     pub round: bool,
-    pub reset_tags: bool,
+    pub reset_tags: u64,
 }
 
 pub enum ExampleMsg {
@@ -56,9 +55,8 @@ impl Component for Example {
 
     fn change(&mut self, props: Self::Properties) -> ShouldRender {
         if self.props != props {
-            if props.reset_tags {
+            if self.props.reset_tags != props.reset_tags {
                 self.tags = props.initial_tags.clone();
-                self.props.parent.emit(())
             }
             self.props = props;
             true
@@ -68,38 +66,35 @@ impl Component for Example {
     }
 
     fn view(&self) -> Html {
-        let tags = self.tags.iter().map(|label| {
-            let remove = {
-                let label = label.clone();
-                self.props.removable.map_some(
-                    self.link
-                        .callback(move |_| ExampleMsg::Remove(label.clone())),
-                )
-            };
-            html! {
-                <Tag
-                    active=self.props.active
-                    fill=self.props.fill
-                    icon=self.props.icon.map_some(IconName::Print)
-                    intent=self.props.intent
-                    interactive=self.props.interactive
-                    large=self.props.large
-                    minimal=self.props.minimal
-                    multiline=self.props.multiline
-                    right_icon=self.props.right_icon.map_some(IconName::Star)
-                    round=self.props.round
-                    onremove=remove
-                    onclick=self.link.callback(|_| ExampleMsg::Click)
-                    // FIXME
-                    // When both onremove and onclick are set,
-                    // clicking the X triggers both onremove and onclick
-                    // probably want the onclick to be set on the text?
-                >
-                    {label.clone()}
-                </Tag>
-            }
-        });
-
-        tags.collect::<Html>()
+        self.tags
+            .iter()
+            .map(|label| {
+                let remove = {
+                    let label = label.clone();
+                    self.props.removable.map_some(
+                        self.link
+                            .callback(move |_| ExampleMsg::Remove(label.clone())),
+                    )
+                };
+                html! {
+                    <Tag
+                        active=self.props.active
+                        fill=self.props.fill
+                        icon=self.props.icon.map_some(IconName::Print)
+                        intent=self.props.intent
+                        interactive=self.props.interactive
+                        large=self.props.large
+                        minimal=self.props.minimal
+                        multiline=self.props.multiline
+                        right_icon=self.props.right_icon.map_some(IconName::Star)
+                        round=self.props.round
+                        onremove=remove
+                        onclick=self.link.callback(|_| ExampleMsg::Click)
+                    >
+                        {label.clone()}
+                    </Tag>
+                }
+            })
+            .collect::<Html>()
     }
 }

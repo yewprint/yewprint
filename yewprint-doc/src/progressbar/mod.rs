@@ -81,7 +81,7 @@ crate::build_example_prop_component! {
                                 ..props
                             })
                             checked=self.props.animate
-                            label="animate"
+                            label="Animate"
                         />
                         <p>{"Select intent:"}</p>
                         <Menu>

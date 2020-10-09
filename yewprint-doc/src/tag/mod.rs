@@ -10,11 +10,6 @@ pub struct TagDoc {
     state: ExampleProps,
 }
 
-pub enum TagDocMsg {
-    Props(ExampleProps),
-    TagsReset(()),
-}
-
 fn initial_tags() -> Vec<String> {
     vec![
         "Landscape".into(),
@@ -30,14 +25,13 @@ fn initial_tags() -> Vec<String> {
 }
 
 impl Component for TagDoc {
-    type Message = TagDocMsg;
+    type Message = ExampleProps;
     type Properties = ();
 
     fn create(_props: Self::Properties, link: ComponentLink<Self>) -> Self {
         TagDoc {
-            callback: link.callback(TagDocMsg::Props),
+            callback: link.callback(|x| x),
             state: ExampleProps {
-                parent: link.callback(TagDocMsg::TagsReset),
                 initial_tags: initial_tags(),
                 active: false,
                 fill: false,
@@ -50,16 +44,13 @@ impl Component for TagDoc {
                 removable: false.into(),
                 right_icon: false.into(),
                 round: false,
-                reset_tags: false,
+                reset_tags: 0,
             },
         }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
-        match msg {
-            TagDocMsg::Props(props) => self.state = props,
-            TagDocMsg::TagsReset(_) => self.state.reset_tags = false,
-        }
+        self.state = msg;
         true
     }
 
@@ -106,7 +97,7 @@ crate::build_example_prop_component! {
                                 ..props
                             })
                             checked=self.props.active
-                            label="active"
+                            label="Active"
                         />
                         <Switch
                             onclick=self.update_props(|props, _| ExampleProps {
@@ -114,7 +105,7 @@ crate::build_example_prop_component! {
                                 ..props
                             })
                             checked=self.props.fill
-                            label="fill"
+                            label="Fill"
                         />
                         <Switch
                             onclick=self.update_props(|props, _| ExampleProps {
@@ -122,7 +113,7 @@ crate::build_example_prop_component! {
                                 ..props
                             })
                             checked=self.props.interactive
-                            label="interactive"
+                            label="Interactive"
                         />
                         <Switch
                             onclick=self.update_props(|props, _| ExampleProps {
@@ -130,7 +121,7 @@ crate::build_example_prop_component! {
                                 ..props
                             })
                             checked=self.props.large
-                            label="large"
+                            label="Large"
                         />
                         <Switch
                             onclick=self.update_props(|props, _| ExampleProps {
@@ -138,7 +129,7 @@ crate::build_example_prop_component! {
                                 ..props
                             })
                             checked=self.props.minimal
-                            label="minimal"
+                            label="Minimal"
                         />
                         <Switch
                             onclick=self.update_props(|props, _| ExampleProps {
@@ -146,7 +137,7 @@ crate::build_example_prop_component! {
                                 ..props
                             })
                             checked=self.props.multiline
-                            label="multiline"
+                            label="Multiline"
                         />
                         <Switch
                             onclick=self.update_props(|props, _| ExampleProps {
@@ -154,7 +145,7 @@ crate::build_example_prop_component! {
                                 ..props
                             })
                             checked=self.props.round
-                            label="round"
+                            label="Round"
                         />
                         <Switch
                             onclick=self.update_props(|props, _| ExampleProps {
@@ -162,7 +153,7 @@ crate::build_example_prop_component! {
                                 ..props
                             })
                             checked=self.props.removable
-                            label="removable"
+                            label="Removable"
                         />
                         <Switch
                             onclick=self.update_props(|props, _| ExampleProps {
@@ -170,7 +161,7 @@ crate::build_example_prop_component! {
                                 ..props
                             })
                             checked=self.props.icon
-                            label="icon"
+                            label="Icon"
                         />
                         <Switch
                             onclick=self.update_props(|props, _| ExampleProps {
@@ -178,17 +169,15 @@ crate::build_example_prop_component! {
                                 ..props
                             })
                             checked=self.props.right_icon
-                            label="right icon"
+                            label="Right icon"
                         />
                         <Button
                             onclick=self.update_props(|props, _| ExampleProps {
-                                reset_tags: true,
+                                reset_tags: props.reset_tags + 1,
                                 ..props
                             })
-                            minimal=self.props.minimal
-                            fill=self.props.fill
                         >
-                            {"reset tags"}
+                            {"Reset tags"}
                         </Button>
                         <p>{"Select intent:"}</p>
                         <Menu>
