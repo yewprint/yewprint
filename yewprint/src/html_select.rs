@@ -1,7 +1,6 @@
 use crate::{ConditionalClass, Icon, IconName};
 use std::collections::hash_map::DefaultHasher;
 use std::hash::{Hash, Hasher};
-use std::mem;
 use yew::prelude::*;
 
 pub struct HtmlSelect<T: Clone + PartialEq + Hash + 'static> {
