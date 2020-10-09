@@ -1,4 +1,4 @@
-use crate::{Button, ConditionalClass, Icon, IconName, Intent, Text};
+use crate::{if_html, Button, ConditionalClass, Icon, IconName, Intent, Text};
 use yew::prelude::*;
 
 pub struct Tag {
@@ -7,7 +7,7 @@ pub struct Tag {
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct Props {
-    pub children: html::Children,
+    pub children: Children,
     #[prop_or_default]
     // FIXME Not clear that this field has any effect without `interactive` on.
     pub active: ConditionalClass,
@@ -59,19 +59,13 @@ impl Component for Tag {
     }
 
     fn view(&self) -> Html {
-        let icon = if let Some(icon) = self.props.icon {
-            html!(<Icon icon=icon />)
-        } else {
-            html!()
-        };
+        let icon = if_html!(let Some(icon) = self.props.icon => <Icon icon=icon />);
 
-        let right_icon = if let Some(right_icon) = self.props.right_icon {
-            html!(<Icon icon=right_icon />)
-        } else {
-            html!()
-        };
+        let right_icon =
+            if_html!(let Some(right_icon) = self.props.right_icon => <Icon icon=right_icon />);
 
-        let remove_button = if let Some(callback) = self.props.onremove.clone() {
+        let remove_button = if_html! {
+            let Some(callback) = self.props.onremove.clone() =>
             html!(
                 <Button
                     class="bp3-tag-remove"
@@ -80,8 +74,6 @@ impl Component for Tag {
                     <Icon icon=IconName::SmallCross />
                 </Button>
             )
-        } else {
-            html!()
         };
 
         html! {

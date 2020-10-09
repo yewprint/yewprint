@@ -86,8 +86,6 @@ impl Component for Example {
             }
         });
 
-        html! {
-                {tags.collect::<Html>()}
-        }
+        tags.collect::<Html>()
     }
 }

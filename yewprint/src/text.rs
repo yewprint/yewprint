@@ -10,7 +10,7 @@ pub struct Props {
     #[prop_or_default]
     pub ellipsize: ConditionalClass,
     #[prop_or_default]
-    pub children: html::Children,
+    pub children: Children,
     #[prop_or_default]
     pub class: String,
     /// Wrap text in `span` instead of `div`.

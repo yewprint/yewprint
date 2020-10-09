@@ -163,6 +163,7 @@ impl Component for App {
                                 />
                                 <MenuItem
                                     text={html!("Tag")}
+                                    href="#tag"
                                     onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Tag))
                                 />
                                 <MenuItem

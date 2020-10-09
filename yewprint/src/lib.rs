@@ -35,6 +35,24 @@ pub use tree::*;
 use std::ops::{Deref, DerefMut, Not};
 use yew::virtual_dom::{Classes, Transformer, VComp};
 
+#[macro_export]
+macro_rules! if_html {
+    (let $pat:pat = $cond:expr => $($body:tt)+) => {
+        if let $pat = $cond {
+            html!($($body)+)
+        } else {
+            html!()
+        }
+    };
+    ($cond:expr => $($body:tt)+) => {
+        if $cond {
+            html($(body)+)
+        } else {
+            html!()
+        }
+    };
+}
+
 // NOTE: this class needs to become deprecated when the feature bool_to_option lands in stable
 //
 //       https://github.com/rust-lang/rust/issues/64260
