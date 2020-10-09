@@ -13,7 +13,6 @@ pub struct TagDoc {
 pub enum TagDocMsg {
     Props(ExampleProps),
     RemoveTag(String),
-    Nothing,
 }
 
 fn initial_tags() -> Vec<String> {
@@ -38,13 +37,7 @@ impl Component for TagDoc {
         TagDoc {
             callback: link.callback(TagDocMsg::Props),
             state: ExampleProps {
-                parent: link.callback(|msg| {
-                    match msg {
-                        // FIXME do something interesting with `onclick`.
-                        None => TagDocMsg::Nothing,
-                        Some(l) => TagDocMsg::RemoveTag(l),
-                    }
-                }),
+                parent: link.callback(TagDocMsg::RemoveTag),
                 tags: initial_tags(),
                 active: false,
                 fill: false,
@@ -73,7 +66,6 @@ impl Component for TagDoc {
                     .filter(|l| *l != label)
                     .collect()
             }
-            TagDocMsg::Nothing => (),
         }
         true
     }

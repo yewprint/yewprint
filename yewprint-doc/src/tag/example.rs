@@ -8,7 +8,7 @@ pub struct Example {
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct ExampleProps {
-    pub parent: Callback<Option<String>>,
+    pub parent: Callback<String>,
     pub tags: Vec<String>,
     pub active: bool,
     pub fill: bool,
@@ -38,8 +38,8 @@ impl Component for Example {
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
-            ExampleMsg::Remove(label) => self.props.parent.emit(Some(label)),
-            ExampleMsg::Click => self.props.parent.emit(None),
+            ExampleMsg::Remove(label) => self.props.parent.emit(label),
+            ExampleMsg::Click => (),
         }
         true
     }
