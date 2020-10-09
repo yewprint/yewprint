@@ -13,11 +13,11 @@ pub const SIZE_STANDARD: i32 = 16;
 pub const SIZE_LARGE: i32 = 20;
 
 pub struct Icon {
-    props: Props,
+    props: IconProps,
 }
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct Props {
+pub struct IconProps {
     pub icon: IconName,
     #[prop_or_default]
     pub class: String,
@@ -35,7 +35,7 @@ pub struct Props {
 
 impl Component for Icon {
     type Message = ();
-    type Properties = Props;
+    type Properties = IconProps;
 
     fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
         Icon { props }
