@@ -1,4 +1,4 @@
-use crate::{if_html, Button, ConditionalClass, Icon, IconName, Intent, Text};
+use crate::{if_html, ConditionalClass, Icon, IconName, Intent, Text};
 use yew::prelude::*;
 
 pub struct Tag {
@@ -67,12 +67,13 @@ impl Component for Tag {
         let remove_button = if_html! {
             let Some(callback) = self.props.onremove.clone() =>
             html!(
-                <Button
+                <button
                     class="bp3-tag-remove"
                     onclick={callback}
+                    tabindex?={self.props.interactive.map_some(0)}
                 >
                     <Icon icon=IconName::SmallCross />
-                </Button>
+                </button>
             )
         };
 
@@ -99,8 +100,8 @@ impl Component for Tag {
                 >
                     {self.props.children.clone()}
                 </Text>
-                {remove_button}
                 {right_icon}
+                {remove_button}
             </span>
         }
     }
