@@ -4,12 +4,13 @@ use yewprint::{ConditionalClass, IconName, Intent, Tag};
 pub struct Example {
     props: ExampleProps,
     link: ComponentLink<Self>,
+    tags: Vec<String>,
 }
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct ExampleProps {
-    pub parent: Callback<String>,
-    pub tags: Vec<String>,
+    pub initial_tags: Vec<String>,
+    pub parent: Callback<()>,
     pub active: bool,
     pub fill: bool,
     pub icon: ConditionalClass,
@@ -21,6 +22,7 @@ pub struct ExampleProps {
     pub removable: ConditionalClass,
     pub right_icon: ConditionalClass,
     pub round: bool,
+    pub reset_tags: bool,
 }
 
 pub enum ExampleMsg {
@@ -33,12 +35,20 @@ impl Component for Example {
     type Properties = ExampleProps;
 
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
-        Example { props, link }
+        let tags = props.initial_tags.clone();
+        Example { props, link, tags }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
-            ExampleMsg::Remove(label) => self.props.parent.emit(label),
+            ExampleMsg::Remove(label) => {
+                self.tags = self
+                    .tags
+                    .clone()
+                    .into_iter()
+                    .filter(|l| *l != label)
+                    .collect()
+            }
             ExampleMsg::Click => (),
         }
         true
@@ -46,6 +56,10 @@ impl Component for Example {
 
     fn change(&mut self, props: Self::Properties) -> ShouldRender {
         if self.props != props {
+            if props.reset_tags {
+                self.tags = props.initial_tags.clone();
+                self.props.parent.emit(())
+            }
             self.props = props;
             true
         } else {
@@ -54,7 +68,7 @@ impl Component for Example {
     }
 
     fn view(&self) -> Html {
-        let tags = self.props.tags.iter().map(|label| {
+        let tags = self.tags.iter().map(|label| {
             let remove = {
                 let label = label.clone();
                 self.props.removable.map_some(

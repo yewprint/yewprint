@@ -12,7 +12,7 @@ pub struct TagDoc {
 
 pub enum TagDocMsg {
     Props(ExampleProps),
-    RemoveTag(String),
+    TagsReset(()),
 }
 
 fn initial_tags() -> Vec<String> {
@@ -37,8 +37,8 @@ impl Component for TagDoc {
         TagDoc {
             callback: link.callback(TagDocMsg::Props),
             state: ExampleProps {
-                parent: link.callback(TagDocMsg::RemoveTag),
-                tags: initial_tags(),
+                parent: link.callback(TagDocMsg::TagsReset),
+                initial_tags: initial_tags(),
                 active: false,
                 fill: false,
                 icon: false.into(),
@@ -50,6 +50,7 @@ impl Component for TagDoc {
                 removable: false.into(),
                 right_icon: false.into(),
                 round: false,
+                reset_tags: false,
             },
         }
     }
@@ -57,15 +58,7 @@ impl Component for TagDoc {
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
             TagDocMsg::Props(props) => self.state = props,
-            TagDocMsg::RemoveTag(label) => {
-                self.state.tags = self
-                    .state
-                    .tags
-                    .clone()
-                    .into_iter()
-                    .filter(|l| *l != label)
-                    .collect()
-            }
+            TagDocMsg::TagsReset(_) => self.state.reset_tags = false,
         }
         true
     }
@@ -189,7 +182,7 @@ crate::build_example_prop_component! {
                         />
                         <Button
                             onclick=self.update_props(|props, _| ExampleProps {
-                                tags: initial_tags(),
+                                reset_tags: true,
                                 ..props
                             })
                             minimal=self.props.minimal
