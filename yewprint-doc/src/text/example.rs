@@ -35,10 +35,9 @@ impl Component for Example {
     fn view(&self) -> Html {
         html! {
             <div style="width: 150px; height: 20px">
-                <Text
-                    ellipsize=self.props.ellipsize
-                    text=&self.props.text
-                />
+                <Text ellipsize=self.props.ellipsize>
+                    {&self.props.text}
+                </Text>
             </div>
         }
     }

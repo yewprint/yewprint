@@ -19,6 +19,8 @@ pub struct Props {
     pub title: String,
     #[prop_or_default]
     pub onclick: Callback<MouseEvent>,
+    #[prop_or_default]
+    pub class: String,
     pub children: html::Children,
 }
 
@@ -51,6 +53,7 @@ impl Component for Button {
                     self.props.fill.map_some("bp3-fill"),
                     self.props.minimal.map_some("bp3-minimal"),
                     self.props.intent,
+                    self.props.class.clone(),
                 )
                 onclick={self.props.onclick.clone()}
             >
