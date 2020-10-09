@@ -7,6 +7,7 @@ use crate::divider::*;
 use crate::html_select::*;
 use crate::icon::*;
 use crate::progressbar::*;
+use crate::tag::*;
 use crate::text::*;
 use crate::tree::*;
 
@@ -167,6 +168,11 @@ impl Component for App {
                                     onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Switch))
                                 />
                                 <MenuItem
+                                    text={html!("Tag")}
+                                    href="#tag"
+                                    onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Tag))
+                                />
+                                <MenuItem
                                     text={html!("Text")}
                                     href="#text"
                                     onclick=self.link
@@ -207,6 +213,7 @@ impl Component for App {
                                         DocMenu::Tree => html!(<TreeDoc />),
                                         DocMenu::Icon => html!(<IconDoc />),
                                         DocMenu::ProgressBar => html!(<ProgressBarDoc />),
+                                        DocMenu::Tag => html!(<TagDoc />),
                                         DocMenu::Menu => html!(),
                                     }
                                 })
@@ -243,6 +250,8 @@ pub enum DocMenu {
     ProgressBar,
     #[to = "/#switch"]
     Switch,
+    #[to = "/#tag"]
+    Tag,
     #[to = "/#text"]
     Text,
     #[to = "/#tree"]

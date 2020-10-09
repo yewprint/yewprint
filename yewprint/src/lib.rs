@@ -10,6 +10,7 @@ mod icon;
 mod menu;
 mod progressbar;
 mod switch;
+mod tag;
 mod text;
 #[cfg(feature = "tree")]
 mod tree;
@@ -28,12 +29,31 @@ pub use id_tree;
 pub use menu::*;
 pub use progressbar::*;
 pub use switch::*;
+pub use tag::*;
 pub use text::*;
 #[cfg(feature = "tree")]
 pub use tree::*;
 
 use std::ops::{Deref, DerefMut, Not};
 use yew::virtual_dom::{Classes, Transformer, VComp};
+
+#[macro_export]
+macro_rules! if_html {
+    (let $pat:pat = $cond:expr => $($body:tt)+) => {
+        if let $pat = $cond {
+            html!($($body)+)
+        } else {
+            html!()
+        }
+    };
+    ($cond:expr => $($body:tt)+) => {
+        if $cond {
+            html($(body)+)
+        } else {
+            html!()
+        }
+    };
+}
 
 // NOTE: this class needs to become deprecated when the feature bool_to_option lands in stable
 //
