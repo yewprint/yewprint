@@ -66,7 +66,7 @@ impl Component for Example {
     }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, Hash, PartialEq)]
 pub enum LogLevel {
     Trace,
     Debug,

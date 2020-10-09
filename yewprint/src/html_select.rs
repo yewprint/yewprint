@@ -1,8 +1,10 @@
 use crate::{ConditionalClass, Icon, IconName};
+use std::collections::hash_map::DefaultHasher;
+use std::hash::{Hash, Hasher};
 use std::mem;
 use yew::prelude::*;
 
-pub struct HtmlSelect<T: Clone + PartialEq + 'static> {
+pub struct HtmlSelect<T: Clone + PartialEq + Hash + 'static> {
     props: Props<T>,
     link: ComponentLink<Self>,
 }
@@ -28,12 +30,12 @@ pub struct Props<T: Clone + PartialEq + 'static> {
     pub value: Option<T>,
 }
 
-impl<T: Clone + PartialEq + 'static> Component for HtmlSelect<T> {
+impl<T: Clone + PartialEq + Hash + 'static> Component for HtmlSelect<T> {
     type Message = ChangeData;
     type Properties = Props<T>;
 
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
-        HtmlSelect { props, link }
+        Self { props, link }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
@@ -71,11 +73,16 @@ impl<T: Clone + PartialEq + 'static> Component for HtmlSelect<T> {
                     .as_ref()
                     .map(|x| value == x)
                     .unwrap_or_default();
+                let value = {
+                    let mut hasher = DefaultHasher::new();
+                    value.hash(&mut hasher);
+                    hasher.finish()
+                };
 
                 html! {
                     <option
                         selected=selected
-                        value=format!("{:?}", mem::discriminant(value))
+                        value=value
                     >
                         {label}
                     </option>
@@ -99,7 +106,11 @@ impl<T: Clone + PartialEq + 'static> Component for HtmlSelect<T> {
                     value?={
                         self.props.value
                             .as_ref()
-                            .map(|x| format!("{:?}", mem::discriminant(x)))
+                            .map(|value| {
+                                let mut hasher = DefaultHasher::new();
+                                value.hash(&mut hasher);
+                                hasher.finish()
+                            })
                     }
                     title?={self.props.title.clone()}
                 >
