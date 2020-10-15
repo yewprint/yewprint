@@ -3,7 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::{Intent, Menu, MenuItem, Switch, H1, H5};
+use yewprint::{Intent, Menu, MenuItem, Switch, H1, H5, HtmlSelect};
 
 pub struct CalloutDoc {
     callback: Callback<ExampleProps>,
@@ -84,6 +84,15 @@ crate::build_example_prop_component! {
                             label="Show/hide title"
                         />
                         <p>{"Select intent:"}</p>
+                        <HtmlSelect<IntentLevel>
+                            options={vec![
+                                (IntentLevel::None, "None".to_string()),
+                                (IntentLevel::Primary, "Primary".to_string()),
+                                (IntentLevel::Success, "Success".to_string()),
+                                (IntentLevel::Warning, "Warning".to_string()),
+                                (IntentLevel::Danger, "Danger".to_string()),
+                            ]}
+                        />
                         <Menu>
                             <MenuItem
                                 onclick=self.update_props(|props, _| ExampleProps {
@@ -129,4 +138,13 @@ crate::build_example_prop_component! {
                 </div>
             }
         }
+}
+
+#[derive(Debug, Clone, Copy, Hash, PartialEq)]
+pub enum IntentLevel {
+    None,
+    Primary,
+    Success,
+    Warning,
+    Danger,
 }
