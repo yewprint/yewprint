@@ -3,7 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::{Button, Intent, Menu, MenuItem, Switch, H1, H5};
+use yewprint::{Button, Intent, Menu, MenuItem, Switch, H1, H5, IconName};
 
 pub struct TagDoc {
     callback: Callback<ExampleProps>,
@@ -171,14 +171,6 @@ crate::build_example_prop_component! {
                             checked=self.props.right_icon
                             label="Right icon"
                         />
-                        <Button
-                            onclick=self.update_props(|props, _| ExampleProps {
-                                reset_tags: props.reset_tags + 1,
-                                ..props
-                            })
-                        >
-                            {"Reset tags"}
-                        </Button>
                         <p>{"Select intent:"}</p>
                         <Menu>
                             <MenuItem
@@ -221,6 +213,15 @@ crate::build_example_prop_component! {
                                 intent=Intent::Danger
                             />
                         </Menu>
+                        <Button
+                            icon=IconName::Refresh
+                            onclick=self.update_props(|props, _| ExampleProps {
+                                reset_tags: props.reset_tags + 1,
+                                ..props
+                            })
+                        >
+                            {"Reset tags"}
+                        </Button>
                     </div>
                 </div>
             }
