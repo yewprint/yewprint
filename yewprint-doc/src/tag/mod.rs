@@ -3,7 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::{Button, Intent, Menu, MenuItem, Switch, H1, H5, IconName};
+use yewprint::{Button, Intent, Menu, MenuItem, Switch, H1, H5, IconName, HtmlSelect};
 
 pub struct TagDoc {
     callback: Callback<ExampleProps>,
@@ -172,6 +172,15 @@ crate::build_example_prop_component! {
                             label="Right icon"
                         />
                         <p>{"Select intent:"}</p>
+                         <HtmlSelect<IntentLevel>
+                            options={vec![
+                                (IntentLevel::None, "None".to_string()),
+                                (IntentLevel::Primary, "Primary".to_string()),
+                                (IntentLevel::Success, "Success".to_string()),
+                                (IntentLevel::Warning, "Warning".to_string()),
+                                (IntentLevel::Danger, "Danger".to_string()),
+                            ]}
+                        />
                         <Menu>
                             <MenuItem
                                 onclick=self.update_props(|props, _| ExampleProps {
@@ -226,4 +235,13 @@ crate::build_example_prop_component! {
                 </div>
             }
         }
+}
+
+#[derive(Debug, Clone, Copy, Hash, PartialEq)]
+pub enum IntentLevel {
+    None,
+    Primary,
+    Success,
+    Warning,
+    Danger,
 }
