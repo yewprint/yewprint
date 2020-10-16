@@ -173,6 +173,7 @@ crate::build_example_prop_component! {
                         />
                         <p>{"Select intent:"}</p>
                          <HtmlSelect<Option<Intent>>
+                            fill=true
                             options={vec![
                                 (None, "None".to_string()),
                                 (Some(Intent::Primary), "Primary".to_string()),
