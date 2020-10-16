@@ -3,7 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::{Intent, Menu, MenuItem, Switch, H1, H5, HtmlSelect};
+use yewprint::{Intent, Switch, H1, H5, HtmlSelect};
 
 pub struct ProgressBarDoc {
     callback: Callback<ExampleProps>,
@@ -92,48 +92,11 @@ crate::build_example_prop_component! {
                                 (Some(Intent::Warning), "Warning".to_string()),
                                 (Some(Intent::Danger), "Danger".to_string()),
                             ]}
+                            onchange=self.update_props(|props, intent| ExampleProps {
+                                intent,
+                                ..props
+                            })
                         />
-                        <Menu>
-                            <MenuItem
-                                onclick=self.update_props(|props, _| ExampleProps {
-                                    intent: None,
-                                    ..props
-                                })
-                                text=html!{"None"}
-                            />
-                            <MenuItem
-                                onclick=self.update_props(|props, _| ExampleProps {
-                                    intent: Some(Intent::Primary),
-                                    ..props
-                                })
-                                text=html!{"Primary"}
-                                intent=Intent::Primary
-                            />
-                            <MenuItem
-                                onclick=self.update_props(|props, _| ExampleProps {
-                                    intent: Some(Intent::Success),
-                                    ..props
-                                })
-                                text=html!{"Success"}
-                                intent=Intent::Success
-                            />
-                            <MenuItem
-                                onclick=self.update_props(|props, _| ExampleProps {
-                                    intent: Some(Intent::Warning),
-                                    ..props
-                                })
-                                text=html!{"Warning"}
-                                intent=Intent::Warning
-                            />
-                            <MenuItem
-                                onclick=self.update_props(|props, _| ExampleProps {
-                                    intent: Some(Intent::Danger),
-                                    ..props
-                                })
-                                text=html!{"Danger"}
-                                intent=Intent::Danger
-                            />
-                        </Menu>
                     </div>
                 </div>
             }
