@@ -144,7 +144,7 @@ impl AsRef<str> for Intent {
     }
 }
 
-#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
 pub enum Elevation {
     Level0,
     Level1,
