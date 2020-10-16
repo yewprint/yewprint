@@ -185,15 +185,17 @@ crate::build_example_prop_component! {
                                 ..props
                             })
                         />
-                        <Button
-                            icon=IconName::Refresh
-                            onclick=self.update_props(|props, _| ExampleProps {
-                                reset_tags: props.reset_tags + 1,
-                                ..props
-                            })
-                        >
-                            {"Reset tags"}
-                        </Button>
+                            <p>{"Reset:"}</p>
+                            <Button
+                                fill=true
+                                icon=IconName::Refresh
+                                onclick=self.update_props(|props, _| ExampleProps {
+                                    reset_tags: props.reset_tags + 1,
+                                    ..props
+                                })
+                            >
+                                {""}
+                            </Button>
                     </div>
                 </div>
             }
