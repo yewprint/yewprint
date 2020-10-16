@@ -3,7 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::{Intent, Switch, H1, H5, HtmlSelect};
+use yewprint::{HtmlSelect, Intent, Switch, H1, H5};
 
 pub struct CalloutDoc {
     callback: Callback<ExampleProps>,
