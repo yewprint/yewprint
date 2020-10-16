@@ -186,7 +186,6 @@ crate::build_example_prop_component! {
                                 ..props
                             })
                         />
-                            <p>{"Reset:"}</p>
                             <Button
                                 fill=true
                                 icon=IconName::Refresh
@@ -195,7 +194,7 @@ crate::build_example_prop_component! {
                                     ..props
                                 })
                             >
-                                {""}
+                                {"Reset tags"}
                             </Button>
                     </div>
                 </div>
