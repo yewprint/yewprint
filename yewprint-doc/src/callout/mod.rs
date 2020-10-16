@@ -84,15 +84,16 @@ crate::build_example_prop_component! {
                             label="Show/hide title"
                         />
                         <p>{"Select intent:"}</p>
-                        <HtmlSelect<IntentLevel>
+                        <HtmlSelect<Option<Intent>>
                             options={vec![
-                                (IntentLevel::None, "None".to_string()),
-                                (IntentLevel::Primary, "Primary".to_string()),
-                                (IntentLevel::Success, "Success".to_string()),
-                                (IntentLevel::Warning, "Warning".to_string()),
-                                (IntentLevel::Danger, "Danger".to_string()),
+                                (None, "None".to_string()),
+                                (Some(Intent::Primary), "Primary".to_string()),
+                                (Some(Intent::Success), "Success".to_string()),
+                                (Some(Intent::Warning), "Warning".to_string()),
+                                (Some(Intent::Danger), "Danger".to_string()),
                             ]}
                         />
+
                         <Menu>
                             <MenuItem
                                 onclick=self.update_props(|props, _| ExampleProps {
@@ -138,13 +139,4 @@ crate::build_example_prop_component! {
                 </div>
             }
         }
-}
-
-#[derive(Debug, Clone, Copy, Hash, PartialEq)]
-pub enum IntentLevel {
-    None,
-    Primary,
-    Success,
-    Warning,
-    Danger,
 }
