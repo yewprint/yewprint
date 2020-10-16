@@ -92,6 +92,7 @@ crate::build_example_prop_component! {
                                 (Some(Intent::Warning), "Warning".to_string()),
                                 (Some(Intent::Danger), "Danger".to_string()),
                             ]}
+                            onchange=self.callback
                         />
 
                         <Menu>
