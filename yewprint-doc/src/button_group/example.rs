@@ -21,7 +21,7 @@ impl Component for Example {
 
     fn view(&self) -> Html {
         html! {
-            <ButtonGroup is_minimal=true>
+            <ButtonGroup>
                 <Button icon=IconName::Database>{"Queries"}</Button>
                 <Button icon=IconName::Function>{"Functions"}</Button>
                 <Button icon=IconName::Cog>{"Options"}</Button>
