@@ -64,8 +64,7 @@ crate::build_example_prop_component! {
                 <H5>{"Props"}</H5>
                     <Switch
                         onclick=self.update_props(|props, _| ExampleProps {
-                            vertical: !props.vertical,
-                            ..props
+                            vertical: !props.vertical
                         })
                         checked=self.props.vertical
                         label="Vertical"
