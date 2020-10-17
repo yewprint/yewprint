@@ -26,7 +26,8 @@ impl Component for ButtonGroupDoc {
         }
     }
 
-    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+        self.state = msg;
         true
     }
 
