@@ -3,7 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::{Button, HtmlSelect, IconName, Intent, Switch, H1, H5};
+use yewprint::{Button, HtmlSelect, IconName, Intent, Switch, H1, H5, ButtonGroup};
 
 pub struct TagDoc {
     callback: Callback<ExampleProps>,
@@ -172,8 +172,10 @@ crate::build_example_prop_component! {
                             label="Right icon"
                         />
                         <p>{"Select intent:"}</p>
+                        <ButtonGroup
+                            vertical=true
+                        >
                          <HtmlSelect<Option<Intent>>
-                            fill=true
                             options={vec![
                                 (None, "None".to_string()),
                                 (Some(Intent::Primary), "Primary".to_string()),
@@ -187,7 +189,6 @@ crate::build_example_prop_component! {
                             })
                         />
                             <Button
-                                fill=true
                                 icon=IconName::Refresh
                                 onclick=self.update_props(|props, _| ExampleProps {
                                     reset_tags: props.reset_tags + 1,
@@ -196,6 +197,7 @@ crate::build_example_prop_component! {
                             >
                                 {"Reset tags"}
                             </Button>
+                        </ButtonGroup>
                     </div>
                 </div>
             }
