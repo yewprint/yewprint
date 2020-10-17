@@ -3,7 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::{Button, HtmlSelect, IconName, Intent, Switch, H1, H5, ButtonGroup};
+use yewprint::{Button, ButtonGroup, HtmlSelect, IconName, Intent, Switch, H1, H5};
 
 pub struct TagDoc {
     callback: Callback<ExampleProps>,

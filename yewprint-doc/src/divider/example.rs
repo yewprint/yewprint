@@ -2,7 +2,7 @@ use yew::prelude::*;
 use yewprint::{Button, ButtonGroup, Divider};
 
 pub struct Example {
-    props:ExampleProps,
+    props: ExampleProps,
 }
 
 #[derive(Clone, PartialEq, Properties)]

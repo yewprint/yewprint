@@ -3,7 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::{H1, H5, Switch};
+use yewprint::{Switch, H1, H5};
 
 pub struct DividerDoc {
     callback: Callback<ExampleProps>,
@@ -17,9 +17,7 @@ impl Component for DividerDoc {
     fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
         DividerDoc {
             callback: link.callback(|x| x),
-            state : ExampleProps {
-                vertical: false,
-            },
+            state: ExampleProps { vertical: false },
         }
     }
 
