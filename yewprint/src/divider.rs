@@ -1,3 +1,4 @@
+use crate::ConditionalClass;
 use yew::prelude::*;
 
 pub struct Divider {
@@ -6,6 +7,8 @@ pub struct Divider {
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct DividerProps {
+    #[prop_or_default]
+    pub vertical: ConditionalClass,
     #[prop_or_default]
     pub children: html::Children,
 }
@@ -18,7 +21,7 @@ impl Component for Divider {
         Self { props }
     }
 
-    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, _: Self::Message) -> ShouldRender {
         true
     }
 
@@ -33,7 +36,12 @@ impl Component for Divider {
 
     fn view(&self) -> Html {
         html! {
-            <span class="bp3-divider"></span>
+            <span class=(
+                "bp3-divider",
+                self.props.vertical.map_some("bp3-vertical"),
+                )
+            >
+        </span>
         }
     }
 }
