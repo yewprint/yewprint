@@ -58,7 +58,7 @@ macro_rules! if_html {
 // NOTE: this class needs to become deprecated when the feature bool_to_option lands in stable
 //
 //       https://github.com/rust-lang/rust/issues/64260
-#[derive(Debug, Copy, Clone, PartialEq, Default)]
+#[derive(Debug, Copy, Clone, PartialEq, Hash, Default)]
 pub struct ConditionalClass(bool);
 
 impl Transformer<bool, ConditionalClass> for VComp {
@@ -119,7 +119,7 @@ impl Not for ConditionalClass {
     }
 }
 
-#[derive(Debug, Copy, Clone, PartialEq)]
+#[derive(Debug, Copy, Clone, PartialEq, Hash)]
 pub enum Intent {
     Primary,
     Success,
@@ -144,7 +144,7 @@ impl AsRef<str> for Intent {
     }
 }
 
-#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
 pub enum Elevation {
     Level0,
     Level1,
