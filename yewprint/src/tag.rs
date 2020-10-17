@@ -96,7 +96,7 @@ impl Component for Tag {
                     class="bp3-fill"
                     ellipsize={!self.props.multiline}
                     title=self.props.title.clone()
-                    tag="span"
+                    inline=true
                 >
                     {self.props.children.clone()}
                 </Text>

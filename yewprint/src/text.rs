@@ -14,8 +14,8 @@ pub struct Props {
     #[prop_or_default]
     pub class: String,
     /// Wrap text in `span` instead of `div`.
-    #[prop_or("div".into())]
-    pub tag: String,
+    #[prop_or_default]
+    pub inline: bool,
     #[prop_or_default]
     pub title: Option<String>,
 }
@@ -43,7 +43,7 @@ impl Component for Text {
 
     fn view(&self) -> Html {
         html! {
-            <@{self.props.tag.clone()}
+            <@{if self.props.inline { "span" } else { "div"}}
                 class=(
                     self.props.class.clone(),
                     self.props.ellipsize.map_some("bp3-text-overflow-ellipsis"),
