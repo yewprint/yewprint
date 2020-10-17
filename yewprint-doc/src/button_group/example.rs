@@ -1,31 +1,50 @@
 use yew::prelude::*;
 use yewprint::{Button, ButtonGroup, IconName};
 
-pub struct Example;
+pub struct Example {
+    props: ExampleProps,
+}
+
+#[derive(Clone, PartialEq, Properties)]
+pub struct ExampleProps {
+    pub minimal: bool,
+    pub fill: bool,
+    pub large: bool,
+    pub vertical: bool,
+}
 
 impl Component for Example {
     type Message = ();
-    type Properties = ();
+    type Properties = ExampleProps;
 
-    fn create(_: Self::Properties, _: ComponentLink<Self>) -> Self {
-        Self
+    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
+        Example {
+            props,
+        }
     }
 
-    fn update(&mut self, _: Self::Message) -> ShouldRender {
+    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
         true
     }
 
-    fn change(&mut self, _: Self::Properties) -> ShouldRender {
-        true
+    fn change(&mut self, props: Self::Properties) -> ShouldRender {
+        if self.props != props {
+            self.props = props;
+            true
+        } else {
+            false
+        }
     }
 
     fn view(&self) -> Html {
         html! {
-            <ButtonGroup>
-                <Button icon=IconName::Database>{"Queries"}</Button>
-                <Button icon=IconName::Function>{"Functions"}</Button>
-                <Button icon=IconName::Cog>{"Options"}</Button>
-            </ButtonGroup>
+            <div>
+                <ButtonGroup minimal=true>
+                    <Button icon=IconName::Database>{"Queries"}</Button>
+                    <Button icon=IconName::Function>{"Functions"}</Button>
+                    <Button icon=IconName::Cog>{"Options"}</Button>
+                </ButtonGroup>
+            </div>
         }
     }
 }
