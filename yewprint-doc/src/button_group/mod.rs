@@ -3,7 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::{H1, H5, Switch};
+use yewprint::{Switch, H1, H5};
 
 pub struct ButtonGroupDoc {
     callback: Callback<ExampleProps>,
@@ -22,7 +22,7 @@ impl Component for ButtonGroupDoc {
                 fill: false,
                 large: false,
                 vertical: false,
-            }
+            },
         }
     }
 

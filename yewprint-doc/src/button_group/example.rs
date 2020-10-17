@@ -18,9 +18,7 @@ impl Component for Example {
     type Properties = ExampleProps;
 
     fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        Example {
-            props,
-        }
+        Example { props }
     }
 
     fn update(&mut self, _msg: Self::Message) -> ShouldRender {
@@ -38,13 +36,11 @@ impl Component for Example {
 
     fn view(&self) -> Html {
         html! {
-            <div>
-                <ButtonGroup minimal=true>
+                <ButtonGroup>
                     <Button icon=IconName::Database>{"Queries"}</Button>
                     <Button icon=IconName::Function>{"Functions"}</Button>
                     <Button icon=IconName::Cog>{"Options"}</Button>
                 </ButtonGroup>
-            </div>
         }
     }
 }
