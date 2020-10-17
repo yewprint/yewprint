@@ -1,3 +1,4 @@
+use crate::ConditionalClass;
 use yew::prelude::*;
 
 pub struct ButtonGroup {
@@ -7,13 +8,13 @@ pub struct ButtonGroup {
 #[derive(Clone, PartialEq, Properties)]
 pub struct ButtonGroupProps {
     #[prop_or_default]
-    pub minimal: bool,
+    pub minimal: ConditionalClass,
     #[prop_or_default]
-    pub vertical: bool,
+    pub vertical: ConditionalClass,
     #[prop_or_default]
-    pub fill: bool,
+    pub fill: ConditionalClass,
     #[prop_or_default]
-    pub large: bool,
+    pub large: ConditionalClass,
     #[prop_or_default]
     pub children: html::Children,
 }
@@ -40,24 +41,17 @@ impl Component for ButtonGroup {
     }
 
     fn view(&self) -> Html {
-        let mut classname = String::from("bp3-button-group");
-
-        if self.props.minimal {
-            classname.push_str(" bp3-minimal");
-        }
-        if self.props.vertical {
-            classname.push_str("bp3-vertical");
-        }
-        if self.props.large {
-            classname.push_str("bp3-large");
-        }
-        if self.props.fill {
-            classname.push_str("bp3-fill");
-        }
-
         html! {
-            <div class=classname>
-              {self.props.children.clone()}
+            <div
+                class=(
+                "bp3-button-group",
+                self.props.minimal.map_some("bp3-minimal"),
+                self.props.fill.map_some("bp3-fill"),
+                self.props.large.map_some("bp3-large"),
+                self.props.vertical.map_some("bp3-vertical"),
+                )
+            >
+                {self.props.children.clone()}
             </div>
         }
     }
