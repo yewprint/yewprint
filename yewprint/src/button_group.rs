@@ -44,11 +44,11 @@ impl Component for ButtonGroup {
         html! {
             <div
                 class=(
-                "bp3-button-group",
-                self.props.minimal.map_some("bp3-minimal"),
-                self.props.fill.map_some("bp3-fill"),
-                self.props.large.map_some("bp3-large"),
-                self.props.vertical.map_some("bp3-vertical"),
+                    "bp3-button-group",
+                    self.props.minimal.map_some("bp3-minimal"),
+                    self.props.fill.map_some("bp3-fill"),
+                    self.props.large.map_some("bp3-large"),
+                    self.props.vertical.map_some("bp3-vertical"),
                 )
             >
                 {self.props.children.clone()}

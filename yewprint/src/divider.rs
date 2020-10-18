@@ -36,12 +36,12 @@ impl Component for Divider {
 
     fn view(&self) -> Html {
         html! {
-            <span class=(
-                "bp3-divider",
-                self.props.vertical.map_some("bp3-vertical"),
+            <span
+                class=(
+                    "bp3-divider",
+                    self.props.vertical.map_some("bp3-vertical"),
                 )
-            >
-        </span>
+            />
         }
     }
 }

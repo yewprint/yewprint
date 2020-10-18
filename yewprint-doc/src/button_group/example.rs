@@ -36,16 +36,16 @@ impl Component for Example {
 
     fn view(&self) -> Html {
         html! {
-                <ButtonGroup
-                    minimal=self.props.minimal
-                    fill=self.props.fill
-                    large=self.props.large
-                    vertical=self.props.vertical
-                >
-                    <Button icon=IconName::Database>{"Queries"}</Button>
-                    <Button icon=IconName::Function>{"Functions"}</Button>
-                    <Button icon=IconName::Cog>{"Options"}</Button>
-                </ButtonGroup>
+            <ButtonGroup
+                minimal=self.props.minimal
+                fill=self.props.fill
+                large=self.props.large
+                vertical=self.props.vertical
+            >
+                <Button icon=IconName::Database>{"Queries"}</Button>
+                <Button icon=IconName::Function>{"Functions"}</Button>
+                <Button icon=IconName::Cog>{"Options"}</Button>
+            </ButtonGroup>
         }
     }
 }

@@ -48,7 +48,7 @@ impl Component for DividerDoc {
                             props=example_props.clone()
                         />
                     })
-                    >
+                >
                     <Example with example_props />
                 </ExampleContainer>
             </div>

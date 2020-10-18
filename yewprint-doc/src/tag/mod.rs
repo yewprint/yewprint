@@ -175,19 +175,19 @@ crate::build_example_prop_component! {
                         <ButtonGroup
                             vertical=true
                         >
-                         <HtmlSelect<Option<Intent>>
-                            options={vec![
-                                (None, "None".to_string()),
-                                (Some(Intent::Primary), "Primary".to_string()),
-                                (Some(Intent::Success), "Success".to_string()),
-                                (Some(Intent::Warning), "Warning".to_string()),
-                                (Some(Intent::Danger), "Danger".to_string()),
-                            ]}
-                            onchange=self.update_props(|props, intent| ExampleProps {
-                                intent,
-                                ..props
-                            })
-                        />
+                            <HtmlSelect<Option<Intent>>
+                                options={vec![
+                                    (None, "None".to_string()),
+                                    (Some(Intent::Primary), "Primary".to_string()),
+                                    (Some(Intent::Success), "Success".to_string()),
+                                    (Some(Intent::Warning), "Warning".to_string()),
+                                    (Some(Intent::Danger), "Danger".to_string()),
+                                ]}
+                                onchange=self.update_props(|props, intent| ExampleProps {
+                                    intent,
+                                    ..props
+                                })
+                            />
                             <Button
                                 icon=IconName::Refresh
                                 onclick=self.update_props(|props, _| ExampleProps {
