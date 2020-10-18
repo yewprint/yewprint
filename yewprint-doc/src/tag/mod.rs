@@ -3,7 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::{Button, HtmlSelect, IconName, Intent, Switch, H1, H5};
+use yewprint::{Button, ButtonGroup, HtmlSelect, IconName, Intent, Switch, H1, H5};
 
 pub struct TagDoc {
     callback: Callback<ExampleProps>,
@@ -172,22 +172,23 @@ crate::build_example_prop_component! {
                             label="Right icon"
                         />
                         <p>{"Select intent:"}</p>
-                         <HtmlSelect<Option<Intent>>
-                            fill=true
-                            options={vec![
-                                (None, "None".to_string()),
-                                (Some(Intent::Primary), "Primary".to_string()),
-                                (Some(Intent::Success), "Success".to_string()),
-                                (Some(Intent::Warning), "Warning".to_string()),
-                                (Some(Intent::Danger), "Danger".to_string()),
-                            ]}
-                            onchange=self.update_props(|props, intent| ExampleProps {
-                                intent,
-                                ..props
-                            })
-                        />
+                        <ButtonGroup
+                            vertical=true
+                        >
+                            <HtmlSelect<Option<Intent>>
+                                options={vec![
+                                    (None, "None".to_string()),
+                                    (Some(Intent::Primary), "Primary".to_string()),
+                                    (Some(Intent::Success), "Success".to_string()),
+                                    (Some(Intent::Warning), "Warning".to_string()),
+                                    (Some(Intent::Danger), "Danger".to_string()),
+                                ]}
+                                onchange=self.update_props(|props, intent| ExampleProps {
+                                    intent,
+                                    ..props
+                                })
+                            />
                             <Button
-                                fill=true
                                 icon=IconName::Refresh
                                 onclick=self.update_props(|props, _| ExampleProps {
                                     reset_tags: props.reset_tags + 1,
@@ -196,6 +197,7 @@ crate::build_example_prop_component! {
                             >
                                 {"Reset tags"}
                             </Button>
+                        </ButtonGroup>
                     </div>
                 </div>
             }
