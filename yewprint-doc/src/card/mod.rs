@@ -18,7 +18,7 @@ impl Component for CardDoc {
         CardDoc {
             callback: link.callback(|x| x),
             state: ExampleProps {
-                elevation: Elevation::Level0,
+                elevation: Some(Elevation::Level0),
                 interactive: false,
             },
         }
@@ -83,6 +83,10 @@ crate::build_example_prop_component! {
                                 (Some(Elevation::Level3), "Level 3".to_string()),
                                 (Some(Elevation::Level4), "Level 4".to_string()),
                             ]}
+                            onchange=self.update_props(|props, elevation| ExampleProps {
+                                elevation,
+                                ..props
+                            })
                         />
                     </div>
                 </div>

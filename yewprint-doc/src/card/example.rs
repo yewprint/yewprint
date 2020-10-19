@@ -7,7 +7,7 @@ pub struct Example {
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct ExampleProps {
-    pub elevation: Elevation,
+    pub elevation: Option<Elevation>,
     pub interactive: bool,
 }
 
