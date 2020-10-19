@@ -1,3 +1,4 @@
+use crate::{ConditionalClass};
 use yew::prelude::*;
 
 pub struct Switch {
@@ -8,6 +9,12 @@ pub struct Switch {
 pub struct Props {
     #[prop_or_default]
     pub checked: bool,
+    #[prop_or_default]
+    pub disabled: ConditionalClass,
+    #[prop_or_default]
+    pub inline: ConditionalClass,
+    #[prop_or_default]
+    pub large: ConditionalClass,
     #[prop_or_default]
     pub onclick: Callback<MouseEvent>,
     #[prop_or_default]
@@ -37,10 +44,16 @@ impl Component for Switch {
 
     fn view(&self) -> Html {
         html! {
-            <label class="bp3-control bp3-switch">
+            <label class=(
+                "bp3-control bp3-switch",
+                self.props.disabled.map_some("bp3-disabled"),
+                self.props.inline.map_some("bp3-inline"),
+                self.props.large.map_some("bp3-large"),
+                )
+            >
             <input
                 type="checkbox"
-                checked={self.props.checked}
+                checked={self.props.checked},
                 onclick={self.props.onclick.clone()}
             />
             <span
