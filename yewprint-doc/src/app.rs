@@ -7,6 +7,7 @@ use crate::divider::*;
 use crate::html_select::*;
 use crate::icon::*;
 use crate::progressbar::*;
+use crate::switch::*;
 use crate::tag::*;
 use crate::text::*;
 use crate::tree::*;
@@ -203,7 +204,6 @@ impl Component for App {
                                     match switch {
                                         DocMenu::Button | DocMenu::Home => html! (<ButtonDoc />),
                                         DocMenu::ButtonGroup => html! (<ButtonGroupDoc />),
-                                        DocMenu::Switch => html! (),
                                         DocMenu::Callout => html!(<CalloutDoc />),
                                         DocMenu::Card => html!(<CardDoc />),
                                         DocMenu::Collapse => html!(<CollapseDoc />),
@@ -213,6 +213,7 @@ impl Component for App {
                                         DocMenu::Tree => html!(<TreeDoc />),
                                         DocMenu::Icon => html!(<IconDoc />),
                                         DocMenu::ProgressBar => html!(<ProgressBarDoc />),
+                                        DocMenu::Switch => html!(<SwitchDoc />),
                                         DocMenu::Tag => html!(<TagDoc />),
                                         DocMenu::Menu => html!(),
                                     }
