@@ -18,7 +18,7 @@ pub struct SwitchProps {
     #[prop_or_default]
     pub onclick: Callback<MouseEvent>,
     #[prop_or_default]
-    pub label: String,
+    pub label: yew::virtual_dom::VNode,
 }
 
 impl Component for Switch {
