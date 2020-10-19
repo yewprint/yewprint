@@ -72,7 +72,7 @@ crate::build_example_prop_component! {
                                 ..props
                             })
                             checked=self.props.interactive
-                            label="Toggle interaction"
+                            label=html!("Toggle interaction")
                         />
                         <p>{"Elevation:"}</p>
                         <HtmlSelect<Option<Elevation>>

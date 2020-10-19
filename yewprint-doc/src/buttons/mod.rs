@@ -73,7 +73,7 @@ crate::build_example_prop_component! {
                             ..props
                         })
                         checked=self.props.minimal
-                        label="Minimal"
+                        label=html!("Minimal")
                     />
                     <Switch
                         onclick=self.update_props(|props, _| ExampleProps {
@@ -81,7 +81,7 @@ crate::build_example_prop_component! {
                             ..props
                         })
                         checked=self.props.fill
-                        label="Fill"
+                        label=html!("Fill")
                     />
                 </div>
             }

@@ -73,7 +73,7 @@ crate::build_example_prop_component! {
                         ..props
                     })
                     checked=self.props.disabled
-                    label="Disabled"
+                    label=html!("Disabled")
                 />
             </div>
         }

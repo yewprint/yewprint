@@ -73,7 +73,7 @@ crate::build_example_prop_component! {
                                 ..props
                             })
                             checked=self.props.stripes
-                            label="Stripes"
+                            label=html!("Stripes")
                         />
                         <Switch
                             onclick=self.update_props(|props, _| ExampleProps {
@@ -81,7 +81,7 @@ crate::build_example_prop_component! {
                                 ..props
                             })
                             checked=self.props.animate
-                            label="Animate"
+                            label=html!("Animate")
                         />
                         <p>{"Select intent:"}</p>
                         <HtmlSelect<Option<Intent>>

@@ -67,7 +67,7 @@ crate::build_example_prop_component! {
                             vertical: !props.vertical
                         })
                         checked=self.props.vertical
-                        label="Vertical"
+                        label=html!("Vertical")
                     />
             </div>
         }

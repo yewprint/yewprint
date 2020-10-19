@@ -73,7 +73,7 @@ crate::build_example_prop_component! {
                                 ..props
                             })
                             checked=self.props.show_icon
-                            label="Show/hide icon"
+                            label=html!("Show/hide icon")
                         />
                         <Switch
                             onclick=self.update_props(|props, _| ExampleProps {
@@ -81,7 +81,7 @@ crate::build_example_prop_component! {
                                 ..props
                             })
                             checked=self.props.show_title
-                            label="Show/hide title"
+                            label=html!("Show/hide title")
                         />
                         <p>{"Select intent:"}</p>
                         <HtmlSelect<Option<Intent>>

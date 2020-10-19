@@ -75,7 +75,7 @@ crate::build_example_prop_component! {
                         ..props
                     })
                     checked=self.props.minimal
-                    label="Minimal"
+                    label=html!("Minimal")
                 />
                 <Switch
                     onclick=self.update_props(|props, _| ExampleProps{
@@ -83,7 +83,7 @@ crate::build_example_prop_component! {
                         ..props
                     })
                     checked=self.props.fill
-                    label="Fill"
+                    label=html!("Fill")
                 />
                 <Switch
                     onclick=self.update_props(|props, _| ExampleProps {
@@ -91,7 +91,7 @@ crate::build_example_prop_component! {
                         ..props
                     })
                     checked=self.props.disabled
-                    label="Disabled"
+                    label=html!("Disabled")
                 />
                 <Switch
                     onclick=self.update_props(|props, _| ExampleProps{
@@ -99,7 +99,7 @@ crate::build_example_prop_component! {
                         ..props
                     })
                     checked=self.props.large
-                    label="Large"
+                    label=html!("Large")
                 />
             </div>
             }
