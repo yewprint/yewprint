@@ -113,7 +113,7 @@ impl Component for App {
                                 />
                                 <MenuItem
                                     text={html!("Button Group")}
-                                    href="#bgroup"
+                                    href="#button-group"
                                     onclick=self.link
                                         .callback(|_| Msg::GoToMenu(DocMenu::ButtonGroup))
                                 />
@@ -230,7 +230,7 @@ impl Component for App {
 pub enum DocMenu {
     #[to = "/#button"]
     Button,
-    #[to = "/#bgroup"]
+    #[to = "/#button-group"]
     ButtonGroup,
     #[to = "/#callout"]
     Callout,
