@@ -55,7 +55,7 @@ impl Component for Example {
                     large=self.props.large
                     label="Cooperative"
                 />
-                Switch
+                <Switch
                     disabled=self.props.disabled
                     inline=self.props.inline
                     large=self.props.large
