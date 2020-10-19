@@ -3,7 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::{Elevation, Menu, MenuItem, Switch, H1, H5};
+use yewprint::{Elevation, Switch, H1, H5, HtmlSelect};
 
 pub struct CardDoc {
     callback: Callback<ExampleProps>,
@@ -75,43 +75,15 @@ crate::build_example_prop_component! {
                             label="Toggle interaction"
                         />
                         <p>{"Elevation:"}</p>
-                        <Menu>
-                            <MenuItem
-                                onclick=self.update_props(|props, _| ExampleProps {
-                                    elevation: Elevation::Level0,
-                                    ..props
-                                })
-                                text=html!{"Level 0"}
-                            />
-                            <MenuItem
-                                onclick=self.update_props(|props, _| ExampleProps {
-                                    elevation: Elevation::Level1,
-                                    ..props
-                                })
-                                text=html!{"Level 1"}
-                            />
-                            <MenuItem
-                                onclick=self.update_props(|props, _| ExampleProps {
-                                    elevation: Elevation::Level2,
-                                    ..props
-                                })
-                                text=html!{"Level 2"}
-                            />
-                            <MenuItem
-                                onclick=self.update_props(|props, _| ExampleProps {
-                                    elevation: Elevation::Level3,
-                                    ..props
-                                })
-                                text=html!{"Level 3"}
-                            />
-                            <MenuItem
-                                onclick=self.update_props(|props, _| ExampleProps {
-                                    elevation: Elevation::Level4,
-                                    ..props
-                                })
-                                text=html!{"Level 4"}
-                            />
-                        </Menu>
+                        <HtmlSelect<Option<Elevation>>
+                            options={vec![
+                                (Some(Elevation::Level0), "Level 0".to_string()),
+                                (Some(Elevation::Level1), "Level 1".to_string()),
+                                (Some(Elevation::Level2), "Level 2".to_string()),
+                                (Some(Elevation::Level3), "Level 3".to_string()),
+                                (Some(Elevation::Level4), "Level 4".to_string()),
+                            ]}
+                        />
                     </div>
                 </div>
             }
