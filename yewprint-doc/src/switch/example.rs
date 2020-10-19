@@ -47,7 +47,7 @@ impl Component for Example {
                     disabled=self.props.disabled
                     inline=self.props.inline
                     large=self.props.large
-                    label=html!("Public")
+                    label=html!(<em>{"Public"}</em>)
                 />
                 <Switch
                     disabled=self.props.disabled
@@ -59,7 +59,7 @@ impl Component for Example {
                     disabled=self.props.disabled
                     inline=self.props.inline
                     large=self.props.large
-                    label=html!("Containing Text")
+                    label=html!(<u>{"Containing Text"}</u>)
                 />
             </div>
         }
