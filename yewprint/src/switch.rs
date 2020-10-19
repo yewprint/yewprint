@@ -1,12 +1,12 @@
-use crate::{ConditionalClass};
+use crate::ConditionalClass;
 use yew::prelude::*;
 
 pub struct Switch {
-    props: Props,
+    props: SwitchProps,
 }
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct Props {
+pub struct SwitchProps {
     #[prop_or_default]
     pub checked: bool,
     #[prop_or_default]
@@ -23,10 +23,10 @@ pub struct Props {
 
 impl Component for Switch {
     type Message = ();
-    type Properties = Props;
+    type Properties = SwitchProps;
 
     fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        Switch { props }
+        Self { props }
     }
 
     fn update(&mut self, _msg: Self::Message) -> ShouldRender {

@@ -1,25 +1,32 @@
+mod example;
+
+use crate::ExampleContainer;
+use example::*;
 use yew::prelude::*;
-use yewprint::{Switch, H1};
+use yewprint::{Switch, H1, H5};
 
 pub struct SwitchDoc {
-    props: Props,
-}
-
-#[derive(Clone, PartialEq, Properties)]
-pub struct Props {
-    pub dark_theme: bool,
-    pub onclick: Callback<MouseEvent>,
+    callback: Callback<ExampleProps>,
+    state: ExampleProps,
 }
 
 impl Component for SwitchDoc {
-    type Message = ();
-    type Properties = Props;
+    type Message = ExampleProps;
+    type Properties = ();
 
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        SwitchDoc { props }
+    fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
+        SwitchDoc {
+            callback: link.callback(|x| x),
+            state: ExampleProps {
+                disabled: false,
+                inline: false,
+                large: false,
+            },
+        }
     }
 
-    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+        self.state = msg;
         true
     }
 
@@ -28,13 +35,45 @@ impl Component for SwitchDoc {
     }
 
     fn view(&self) -> Html {
+        let example_props = self.state.clone();
+        let source = crate::include_raw_html!(
+            concat!(env!("OUT_DIR"), "/", file!(), ".html"),
+            "bp3-code-block"
+        );
+
         html! {
             <div>
                 <H1 class="docs-title">{"Switch"}</H1>
+                <ExampleContainer
+                    source=source
+                    props=Some(html! {
+                        <SwitchProps
+                            callback={self.callback.clone()}
+                            props=example_props.clone()
+                        >
+                        </SwitchProps>
+                    })
+                >
+                    <Example with example_props />
+                </ExampleContainer>
+            </div>
+        }
+    }
+}
+
+crate::build_example_prop_component! {
+    SwitchProps for ExampleProps =>
+    fn view(&self) -> Html {
+        html! {
+            <div>
+                <H5>{"Props"}</H5>
                 <Switch
-                    onclick=self.props.onclick.clone()
-                    checked=self.props.dark_theme
-                    label="Dark theme"
+                    onclick=self.update_props(|props, _| ExampleProps {
+                        disabled: !props.disabled,
+                        ..props
+                    })
+                    checked=self.props.disabled
+                    label="Disabled"
                 />
             </div>
         }
