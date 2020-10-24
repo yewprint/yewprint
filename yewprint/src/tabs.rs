@@ -1,10 +1,13 @@
 use crate::ConditionalClass;
-use std::collections::hash_map::DefaultHasher;
+use std::collections::{hash_map::DefaultHasher, HashMap};
 use std::hash::{Hash, Hasher};
+use web_sys::HtmlElement;
 use yew::prelude::*;
 
-pub struct Tabs<T: Clone + PartialEq> {
+pub struct Tabs<T: Clone + PartialEq + Hash + 'static> {
+    link: ComponentLink<Self>,
     props: TabsProps<T>,
+    tab_refs: HashMap<u64, NodeRef>,
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -33,8 +36,23 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
     type Message = ();
     type Properties = TabsProps<T>;
 
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        Tabs { props }
+    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+        let tab_refs = props
+            .tabs
+            .iter()
+            .map(|x| {
+                let mut hasher = DefaultHasher::new();
+                x.id.hash(&mut hasher);
+                let id = hasher.finish();
+                (id, NodeRef::default())
+            })
+            .collect::<HashMap<_, _>>();
+
+        Tabs {
+            props,
+            tab_refs,
+            link,
+        }
     }
 
     fn update(&mut self, _msg: Self::Message) -> ShouldRender {
@@ -47,6 +65,12 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
             true
         } else {
             false
+        }
+    }
+
+    fn rendered(&mut self, first_render: bool) {
+        if first_render && self.props.animate {
+            self.link.send_message(());
         }
     }
 
@@ -82,10 +106,28 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
                 >
                     {
                         if self.props.animate {
-                            html! {
-                                <div class="bp3-tab-indicator-wrapper">
-                                    <div class="bp3-tab-indicator" />
-                                </div>
+                            let mut hasher = DefaultHasher::new();
+                            self.props.selected_tab_id.hash(&mut hasher);
+                            let id = hasher.finish();
+
+                            if let Some(element) = self.tab_refs[&id].cast::<HtmlElement>()
+                            {
+                                let indicator_style = format!(
+                                    "height: {}px; width: {}px; \
+                                    transform: translateX({}px) translateY({}px);",
+                                    element.client_height(),
+                                    element.client_width(),
+                                    element.offset_left(),
+                                    element.offset_top(),
+                                );
+
+                                html! {
+                                    <div class="bp3-tab-indicator-wrapper" style=indicator_style>
+                                        <div class="bp3-tab-indicator" />
+                                    </div>
+                                }
+                            } else {
+                                html!()
                             }
                         } else {
                             html!()
@@ -114,11 +156,19 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
                                     id=title_id
                                     aria-controls=panel_id
                                     data-tab-id=id
-                                    onclick={
-                                        let tab_id = props.id.clone();
-                                        self.props.onchange.reform(move |_| tab_id.clone())
+                                    onclick?={
+                                        if props.disabled {
+                                            None
+                                        } else {
+                                            let tab_id = props.id.clone();
+                                            Some(self
+                                                .props
+                                                .onchange
+                                                .reform(move |_| tab_id.clone()))
+                                        }
                                     }
                                     key=id.clone()
+                                    ref=self.tab_refs[&id].clone()
                                 >
                                     { props.title.clone() }
                                 </div>

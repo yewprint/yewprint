@@ -18,8 +18,8 @@ impl Component for TabsDoc {
         TabsDoc {
             callback: link.callback(|x| x),
             state: ExampleProps {
-                minimal: false,
-                fill: false,
+                animate: true,
+                vertical: false,
             },
         }
     }
@@ -69,19 +69,19 @@ crate::build_example_prop_component! {
                     <H5>{"Props"}</H5>
                     <Switch
                         onclick=self.update_props(|props, _| ExampleProps {
-                            minimal: !props.minimal,
+                            animate: !props.animate,
                             ..props
                         })
-                        checked=self.props.minimal
-                        label="Minimal"
+                        checked=self.props.animate
+                        label="Animate indicator"
                     />
                     <Switch
                         onclick=self.update_props(|props, _| ExampleProps {
-                            fill: !props.fill,
+                            vertical: !props.vertical,
                             ..props
                         })
-                        checked=self.props.fill
-                        label="Fill"
+                        checked=self.props.vertical
+                        label="Use vertical tabs"
                     />
                 </div>
             }
