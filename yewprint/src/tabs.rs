@@ -116,7 +116,7 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
                                     data-tab-id=id
                                     onclick={
                                         let tab_id = props.id.clone();
-                                        self.props.onchange.clone().reform(move |_| tab_id)
+                                        self.props.onchange.reform(move |_| tab_id.clone())
                                     }
                                     key=id.clone()
                                 >
