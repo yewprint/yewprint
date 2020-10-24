@@ -167,7 +167,7 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
                                                 .reform(move |_| tab_id.clone()))
                                         }
                                     }
-                                    key=id.clone()
+                                    key=*id
                                     ref=self.tab_refs[&id].clone()
                                 >
                                     { props.title.clone() }
@@ -192,7 +192,7 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
                                 aria-hidden=!selected
                                 role="tabpanel"
                                 id=panel_id
-                                key=id.clone()
+                                key=*id
                             >
                                 { props.panel.clone() }
                             </div>
