@@ -10,6 +10,7 @@ mod html_select;
 mod icon;
 mod progressbar;
 mod switch;
+mod tabs;
 mod tag;
 mod text;
 mod tree;
