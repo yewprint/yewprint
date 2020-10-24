@@ -114,6 +114,11 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
                                     id=title_id
                                     aria-controls=panel_id
                                     data-tab-id=id
+                                    onclick={
+                                        let tab_id = props.id.clone();
+                                        self.props.onchange.clone().reform(move |_| tab_id)
+                                    }
+                                    key=id.clone()
                                 >
                                     { props.title.clone() }
                                 </div>
@@ -127,7 +132,7 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
                         .filter(|(_, _, _, _, selected)| {
                             !self.props.render_active_panel_only || *selected
                         })
-                        .map(|(props, _id, title_id, panel_id, selected)| html! {
+                        .map(|(props, id, title_id, panel_id, selected)| html! {
                             <div
                                 class=(
                                     "bp3-tab-panel",
@@ -137,7 +142,7 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
                                 aria-hidden=!selected
                                 role="tabpanel"
                                 id=panel_id
-                                key=panel_id.clone()
+                                key=id.clone()
                             >
                                 { props.panel.clone() }
                             </div>
