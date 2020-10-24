@@ -18,7 +18,7 @@ pub struct TabsProps<T: Clone + PartialEq> {
     #[prop_or_default]
     pub large: ConditionalClass,
     #[prop_or_default]
-    pub render_active_panel_only: ConditionalClass,
+    pub render_active_panel_only: bool,
     pub selected_tab_id: T,
     #[prop_or_default]
     pub vertical: ConditionalClass,
@@ -61,7 +61,8 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
                 let id = hasher.finish();
                 let title_id = format!("bp3-tab-title_{}_{}", self.props.id, id);
                 let panel_id = format!("bp3-tab-panel_{}_{}", self.props.id, id);
-                (x, id, title_id, panel_id)
+                let selected = self.props.selected_tab_id == x.id;
+                (x, id, title_id, panel_id, selected)
             })
             .collect::<Vec<_>>();
 
@@ -93,33 +94,29 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
                     {
                         tabs
                             .iter()
-                            .map(|(props, id, title_id, panel_id)| {
-                                let selected = self.props.selected_tab_id == props.id;
-
-                                html! {
-                                    <div
-                                        class=(
-                                            "bp3-tab",
-                                            props.title_class.clone(),
-                                        )
-                                        aria-disabled=props.disabled
-                                        aria-expanded=selected
-                                        aria-selected=selected
-                                        role="tab"
-                                        tabIndex?={
-                                            if props.disabled {
-                                                Some("0")
-                                            } else {
-                                                None
-                                            }
+                            .map(|(props, id, title_id, panel_id, selected)| html! {
+                                <div
+                                    class=(
+                                        "bp3-tab",
+                                        props.title_class.clone(),
+                                    )
+                                    aria-disabled=props.disabled
+                                    aria-expanded=selected
+                                    aria-selected=selected
+                                    role="tab"
+                                    tabIndex?={
+                                        if props.disabled {
+                                            Some("0")
+                                        } else {
+                                            None
                                         }
-                                        id=title_id
-                                        aria-controls=panel_id
-                                        data-tab-id=id
-                                    >
-                                        { props.title.clone() }
-                                    </div>
-                                }
+                                    }
+                                    id=title_id
+                                    aria-controls=panel_id
+                                    data-tab-id=id
+                                >
+                                    { props.title.clone() }
+                                </div>
                             })
                             .collect::<Html>()
                     }
@@ -127,24 +124,23 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
                 {
                     tabs
                         .iter()
-                        .map(|(props, _id, title_id, panel_id)| {
-                            let selected = self.props.selected_tab_id == props.id;
-
-                            html! {
-                                <div
-                                    class=(
-                                        "bp3-tab-panel",
-                                        props.panel_class.clone(),
-                                    )
-                                    aria-labelledby=title_id
-                                    aria-hidden=!selected
-                                    role="tabpanel"
-                                    id=panel_id
-                                    key=panel_id.clone()
-                                >
-                                    { props.panel.clone() }
-                                </div>
-                            }
+                        .filter(|(_, _, _, _, selected)| {
+                            !self.props.render_active_panel_only || *selected
+                        })
+                        .map(|(props, _id, title_id, panel_id, selected)| html! {
+                            <div
+                                class=(
+                                    "bp3-tab-panel",
+                                    props.panel_class.clone(),
+                                )
+                                aria-labelledby=title_id
+                                aria-hidden=!selected
+                                role="tabpanel"
+                                id=panel_id
+                                key=panel_id.clone()
+                            >
+                                { props.panel.clone() }
+                            </div>
                         })
                         .collect::<Html>()
                 }
