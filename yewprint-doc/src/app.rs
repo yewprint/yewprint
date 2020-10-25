@@ -234,10 +234,10 @@ impl Component for App {
 
 #[derive(Debug, Copy, Clone, Switch)]
 pub enum DocMenu {
-    #[to = "/#button"]
-    Button,
     #[to = "/#button-group"]
     ButtonGroup,
+    #[to = "/#button"]
+    Button,
     #[to = "/#callout"]
     Callout,
     #[to = "/#card"]
