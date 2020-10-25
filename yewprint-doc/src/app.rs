@@ -40,8 +40,7 @@ impl Component for App {
             dark_theme: web_sys::window()
                 .and_then(|x| x.match_media("(prefers-color-scheme: dark)").ok().flatten())
                 .map(|x| x.matches())
-                .unwrap_or(true)
-                .into(),
+                .unwrap_or(true),
             link,
             route_dispatcher: RouteAgentDispatcher::new(),
         }
