@@ -93,8 +93,8 @@ Roadmap
  -  [ ] [ResizeSensor](https://blueprintjs.com/docs/#core/components/resize-sensor)
  -  [ ] [Skeleton](https://blueprintjs.com/docs/#core/components/skeleton)
  -  [ ] [Spinner](https://blueprintjs.com/docs/#core/components/spinner)
- -  [ ] [Tabs](https://blueprintjs.com/docs/#core/components/tabs)
- -  [ ] [Tag](https://blueprintjs.com/docs/#core/components/tag)
+ -  [x] [Tabs](https://blueprintjs.com/docs/#core/components/tabs)
+ -  [x] [Tag](https://blueprintjs.com/docs/#core/components/tag)
      -  depends on: Text
  -  [x] [Text](https://blueprintjs.com/docs/#core/components/text)
  -  [x] [Tree](https://blueprintjs.com/docs/#core/components/tree)
