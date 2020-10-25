@@ -11,10 +11,10 @@ crate-type = ["cdylib"]
 
 [dependencies]
 wasm-bindgen = "^0.2"
-yew = { git = "https://github.com/yewstack/yew.git", rev = "1507c21b" }
+yew = "0.17.4"
 web-sys = { version = "0.3", features = ["Window", "MediaQueryList"] }
 yewprint = { path = "../yewprint" }
-yew-router = { git = "https://github.com/yewstack/yew.git", rev = "1507c21b" }
+yew-router = "0.14.0"
 
 [build-dependencies]
 syntect = "4.4.0"
