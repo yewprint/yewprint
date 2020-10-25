@@ -1,4 +1,4 @@
-use crate::ConditionalClass;
+use boolinator::Boolinator;
 use yew::prelude::*;
 
 pub struct Text {
@@ -8,7 +8,7 @@ pub struct Text {
 #[derive(Clone, PartialEq, Properties)]
 pub struct Props {
     #[prop_or_default]
-    pub ellipsize: ConditionalClass,
+    pub ellipsize: bool,
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
@@ -46,7 +46,7 @@ impl Component for Text {
             <@{if self.props.inline { "span" } else { "div"}}
                 class=(
                     self.props.class.clone(),
-                    self.props.ellipsize.map_some("bp3-text-overflow-ellipsis"),
+                    self.props.ellipsize.as_some("bp3-text-overflow-ellipsis"),
                 )
                 title?=self.props.title.clone()
             >

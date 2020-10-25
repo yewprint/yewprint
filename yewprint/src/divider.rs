@@ -1,4 +1,4 @@
-use crate::ConditionalClass;
+use boolinator::Boolinator;
 use yew::prelude::*;
 
 pub struct Divider {
@@ -8,7 +8,7 @@ pub struct Divider {
 #[derive(Clone, PartialEq, Properties)]
 pub struct DividerProps {
     #[prop_or_default]
-    pub vertical: ConditionalClass,
+    pub vertical: bool,
     #[prop_or_default]
     pub children: html::Children,
 }
@@ -39,7 +39,7 @@ impl Component for Divider {
             <span
                 class=(
                     "bp3-divider",
-                    self.props.vertical.map_some("bp3-vertical"),
+                    self.props.vertical.as_some("bp3-vertical"),
                 )
             />
         }
