@@ -16,7 +16,6 @@ pub struct TabsProps<T: Clone + PartialEq> {
     pub animate: bool,
     #[prop_or_default]
     pub default_selected_tab_id: Option<T>,
-    #[prop_or_default]
     pub id: String,
     #[prop_or_default]
     pub large: ConditionalClass,

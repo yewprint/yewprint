@@ -47,6 +47,7 @@ impl Component for Example {
         html! {
             <div>
                 <Tabs<Civilization>
+                    id="civilizations"
                     animate=self.props.animate
                     vertical=self.props.vertical
                     selected_tab_id=self.selected
