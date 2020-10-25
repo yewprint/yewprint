@@ -112,7 +112,7 @@ impl Component for App {
                                 onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Button))
                                 />
                                 <MenuItem
-                                    text={html!("Button Group")}
+                                    text={html!("ButtonGroup")}
                                     href="#button-group"
                                     onclick=self.link
                                         .callback(|_| Msg::GoToMenu(DocMenu::ButtonGroup))
