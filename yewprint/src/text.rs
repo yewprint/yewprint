@@ -1,5 +1,4 @@
 use boolinator::Boolinator;
-
 use yew::prelude::*;
 
 pub struct Text {
