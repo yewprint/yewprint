@@ -1,4 +1,5 @@
-use crate::ConditionalClass;
+use boolinator::Boolinator;
+
 use std::collections::{hash_map::DefaultHasher, HashMap};
 use std::hash::{Hash, Hasher};
 use web_sys::HtmlElement;
@@ -18,12 +19,12 @@ pub struct TabsProps<T: Clone + PartialEq> {
     pub default_selected_tab_id: Option<T>,
     pub id: String,
     #[prop_or_default]
-    pub large: ConditionalClass,
+    pub large: bool,
     #[prop_or_default]
     pub render_active_panel_only: bool,
     pub selected_tab_id: T,
     #[prop_or_default]
-    pub vertical: ConditionalClass,
+    pub vertical: bool,
     #[prop_or_default]
     pub onchange: Callback<T>,
     #[prop_or_default]
@@ -93,14 +94,14 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
             <div
                 class=(
                     "bp3-tabs",
-                    self.props.vertical.map_some("bp3-vertical"),
+                    self.props.vertical.as_some("bp3-vertical"),
                     self.props.class.clone(),
                 )
             >
                 <div
                     class=(
                         "bp3-tab-list",
-                        self.props.large.map_some("bp3-large"),
+                        self.props.large.as_some("bp3-large"),
                     )
                 >
                     {

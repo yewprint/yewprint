@@ -1,4 +1,5 @@
-use crate::{ConditionalClass, Icon, IconName, Intent};
+use crate::{Icon, IconName, Intent};
+use boolinator::Boolinator;
 use yew::prelude::*;
 
 pub struct Button {
@@ -8,9 +9,9 @@ pub struct Button {
 #[derive(Clone, PartialEq, Properties)]
 pub struct Props {
     #[prop_or_default]
-    pub fill: ConditionalClass,
+    pub fill: bool,
     #[prop_or_default]
-    pub minimal: ConditionalClass,
+    pub minimal: bool,
     #[prop_or_default]
     pub icon: Option<IconName>,
     #[prop_or_default]
@@ -50,8 +51,8 @@ impl Component for Button {
             <button
                 class=(
                     "bp3-button",
-                    self.props.fill.map_some("bp3-fill"),
-                    self.props.minimal.map_some("bp3-minimal"),
+                    self.props.fill.as_some("bp3-fill"),
+                    self.props.minimal.as_some("bp3-minimal"),
                     self.props.intent,
                     self.props.class.clone(),
                 )

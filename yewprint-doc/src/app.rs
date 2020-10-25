@@ -11,18 +11,18 @@ use crate::tabs::*;
 use crate::tag::*;
 use crate::text::*;
 use crate::tree::*;
-
+use boolinator::Boolinator;
 use yew::prelude::*;
 use yew_router::{
     agent::{RouteAgentDispatcher, RouteRequest},
     router::Router,
     Switch,
 };
-use yewprint::{ConditionalClass, IconName, Menu, MenuItem};
+use yewprint::{IconName, Menu, MenuItem};
 
 pub struct App {
     link: ComponentLink<Self>,
-    dark_theme: ConditionalClass,
+    dark_theme: bool,
     route_dispatcher: RouteAgentDispatcher,
 }
 
@@ -49,7 +49,7 @@ impl Component for App {
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
-            Msg::ToggleLight => *self.dark_theme ^= true,
+            Msg::ToggleLight => self.dark_theme ^= true,
             Msg::GoToMenu(doc_menu) => {
                 self.route_dispatcher
                     .send(RouteRequest::ChangeRoute(doc_menu.into()));
@@ -63,24 +63,24 @@ impl Component for App {
     }
 
     fn view(&self) -> Html {
-        let netlify_badge = if *self.dark_theme {
+        let netlify_badge = if self.dark_theme {
             "https://www.netlify.com/img/global/badges/netlify-color-accent.svg"
         } else {
             "https://www.netlify.com/img/global/badges/netlify-color-bg.svg"
         };
-        let go_to_theme_label = if *self.dark_theme {
+        let go_to_theme_label = if self.dark_theme {
             "Light theme"
         } else {
             "Dark theme"
         };
-        let go_to_theme_icon = if *self.dark_theme {
+        let go_to_theme_icon = if self.dark_theme {
             IconName::Flash
         } else {
             IconName::Moon
         };
 
         html! {
-            <div class=("docs-root", self.dark_theme.map_some("bp3-dark"))>
+            <div class=("docs-root", self.dark_theme.as_some("bp3-dark"))>
                 <div class="docs-app">
                     <div class="docs-nav-wrapper">
                         <div class="docs-nav">

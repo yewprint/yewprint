@@ -1,4 +1,5 @@
-use crate::{ConditionalClass, Icon, IconName};
+use crate::{Icon, IconName};
+use boolinator::Boolinator;
 use std::collections::hash_map::DefaultHasher;
 use std::hash::{Hash, Hasher};
 use yew::prelude::*;
@@ -11,13 +12,13 @@ pub struct HtmlSelect<T: Clone + PartialEq + Hash + 'static> {
 #[derive(Clone, PartialEq, Properties)]
 pub struct Props<T: Clone + PartialEq + 'static> {
     #[prop_or_default]
-    pub fill: ConditionalClass,
+    pub fill: bool,
     #[prop_or_default]
-    pub minimal: ConditionalClass,
+    pub minimal: bool,
     #[prop_or_default]
-    pub large: ConditionalClass,
+    pub large: bool,
     #[prop_or_default]
-    pub disabled: ConditionalClass,
+    pub disabled: bool,
     #[prop_or_default]
     pub icon: Option<IconName>,
     #[prop_or_default]
@@ -90,14 +91,14 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for HtmlSelect<T> {
             <div
                 class=(
                     "bp3-html-select",
-                    self.props.minimal.map_some("bp3-minimal"),
-                    self.props.large.map_some("bp3-large"),
-                    self.props.fill.map_some("bp3-fill"),
-                    self.props.disabled.map_some("bp3-disabled"),
+                    self.props.minimal.as_some("bp3-minimal"),
+                    self.props.large.as_some("bp3-large"),
+                    self.props.fill.as_some("bp3-fill"),
+                    self.props.disabled.as_some("bp3-disabled"),
                 )
             >
                 <select
-                    disabled=*self.props.disabled
+                    disabled=self.props.disabled
                     onchange={self.link.callback(|x| x)}
                     value?={
                         self.props.value

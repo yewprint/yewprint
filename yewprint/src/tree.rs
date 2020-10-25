@@ -1,6 +1,7 @@
 use crate::collapse::Collapse;
 use crate::icon::{Icon, IconName};
-use crate::{ConditionalClass, Intent};
+use crate::Intent;
+use boolinator::Boolinator;
 use id_tree::*;
 use std::cell::{Ref, RefCell, RefMut};
 use std::collections::hash_map::DefaultHasher;
@@ -216,7 +217,7 @@ struct TreeNodeProps {
     icon_color: Option<String>,
     icon_intent: Option<Intent>,
     is_expanded: bool,
-    is_selected: ConditionalClass,
+    is_selected: bool,
     label: yew::virtual_dom::VNode,
     secondary_label: Option<yew::virtual_dom::VNode>,
     on_collapse: Option<Callback<(NodeId, MouseEvent)>>,
@@ -309,7 +310,7 @@ impl Component for TreeNode {
         let content_style = format!("padding-left: {}px;", 23 * self.props.depth);
 
         html! {
-            <li class=("bp3-tree-node", self.props.is_selected.map_some("bp3-tree-node-selected"))>
+            <li class=("bp3-tree-node", self.props.is_selected.as_some("bp3-tree-node-selected"))>
                 <div
                     class="bp3-tree-node-content"
                     style=content_style
