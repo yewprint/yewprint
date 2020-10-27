@@ -1,5 +1,5 @@
 use yew::prelude::*;
-use yewprint::{Menu, MenuItem};
+use yewprint::{Menu, MenuItem, MenuDivider, Icon, IconName};
 
 pub struct Example {
     link: ComponentLink<Self>,
@@ -27,7 +27,11 @@ impl Component for Example {
         html! {
             <div>
                 <Menu>
-                    <MenuItem />
+                    <MenuItem
+                        text={html!("Custom SVG Icon")}
+                        // add the yewprint icon
+                    />
+                    <MenuDivider />
                 </Menu>
             </div>
         }
