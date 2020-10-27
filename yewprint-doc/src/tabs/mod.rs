@@ -73,7 +73,7 @@ crate::build_example_prop_component! {
                             ..props
                         })
                         checked=self.props.animate
-                        label="Animate indicator"
+                        label=html!("Animate indicator")
                     />
                     <Switch
                         onclick=self.update_props(|props, _| ExampleProps {
@@ -81,7 +81,7 @@ crate::build_example_prop_component! {
                             ..props
                         })
                         checked=self.props.vertical
-                        label="Use vertical tabs"
+                        label=html!("Use vertical tabs")
                     />
                 </div>
             }

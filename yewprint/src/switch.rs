@@ -1,4 +1,4 @@
-use crate::ConditionalClass;
+use boolinator::Boolinator;
 use yew::prelude::*;
 
 pub struct Switch {
@@ -10,11 +10,11 @@ pub struct SwitchProps {
     #[prop_or_default]
     pub checked: bool,
     #[prop_or_default]
-    pub disabled: ConditionalClass,
+    pub disabled: bool,
     #[prop_or_default]
-    pub inline: ConditionalClass,
+    pub inline: bool,
     #[prop_or_default]
-    pub large: ConditionalClass,
+    pub large: bool,
     #[prop_or_default]
     pub onclick: Callback<MouseEvent>,
     #[prop_or_default]
@@ -46,9 +46,9 @@ impl Component for Switch {
         html! {
             <label class=(
                 "bp3-control bp3-switch",
-                self.props.disabled.map_some("bp3-disabled"),
-                self.props.inline.map_some("bp3-inline"),
-                self.props.large.map_some("bp3-large"),
+                self.props.disabled.as_some("bp3-disabled"),
+                self.props.inline.as_some("bp3-inline"),
+                self.props.large.as_some("bp3-large"),
                 )
             >
             <input
