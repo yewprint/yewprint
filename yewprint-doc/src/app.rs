@@ -6,6 +6,7 @@ use crate::collapse::*;
 use crate::divider::*;
 use crate::html_select::*;
 use crate::icon::*;
+use crate::menu::*;
 use crate::progressbar::*;
 use crate::switch::*;
 use crate::tag::*;
@@ -215,7 +216,7 @@ impl Component for App {
                                         DocMenu::ProgressBar => html!(<ProgressBarDoc />),
                                         DocMenu::Switch => html!(<SwitchDoc />),
                                         DocMenu::Tag => html!(<TagDoc />),
-                                        DocMenu::Menu => html!(),
+                                        DocMenu::Menu => html!(<MenuDoc />),
                                     }
                                 })
                             />
