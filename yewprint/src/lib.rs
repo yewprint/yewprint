@@ -10,6 +10,7 @@ mod icon;
 mod menu;
 mod progressbar;
 mod switch;
+mod tabs;
 mod tag;
 mod text;
 #[cfg(feature = "tree")]
@@ -29,13 +30,13 @@ pub use id_tree;
 pub use menu::*;
 pub use progressbar::*;
 pub use switch::*;
+pub use tabs::*;
 pub use tag::*;
 pub use text::*;
 #[cfg(feature = "tree")]
 pub use tree::*;
 
-use std::ops::{Deref, DerefMut, Not};
-use yew::virtual_dom::{Classes, Transformer, VComp};
+use yew::virtual_dom::Classes;
 
 #[macro_export]
 macro_rules! if_html {
@@ -53,70 +54,6 @@ macro_rules! if_html {
             html!()
         }
     };
-}
-
-// NOTE: this class needs to become deprecated when the feature bool_to_option lands in stable
-//
-//       https://github.com/rust-lang/rust/issues/64260
-#[derive(Debug, Copy, Clone, PartialEq, Hash, Default)]
-pub struct ConditionalClass(bool);
-
-impl Transformer<bool, ConditionalClass> for VComp {
-    fn transform(value: bool) -> ConditionalClass {
-        ConditionalClass(value)
-    }
-}
-
-impl Transformer<ConditionalClass, bool> for VComp {
-    fn transform(value: ConditionalClass) -> bool {
-        value.0
-    }
-}
-
-impl From<bool> for ConditionalClass {
-    fn from(value: bool) -> Self {
-        ConditionalClass(value)
-    }
-}
-
-impl ConditionalClass {
-    pub fn map_some<T>(&self, value: T) -> Option<T> {
-        if self.0 {
-            Some(value)
-        } else {
-            None
-        }
-    }
-
-    pub fn and<U>(&self, optb: Option<U>) -> Option<U> {
-        if self.0 {
-            optb
-        } else {
-            None
-        }
-    }
-}
-
-impl Deref for ConditionalClass {
-    type Target = bool;
-
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-
-impl DerefMut for ConditionalClass {
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
-    }
-}
-
-impl Not for ConditionalClass {
-    type Output = ConditionalClass;
-
-    fn not(self) -> Self::Output {
-        ConditionalClass(!self.0)
-    }
 }
 
 #[derive(Debug, Copy, Clone, PartialEq, Hash)]

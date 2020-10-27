@@ -1,4 +1,5 @@
-use crate::{ConditionalClass, Intent};
+use crate::Intent;
+use boolinator::Boolinator;
 use yew::prelude::*;
 
 pub struct ProgressBar {
@@ -8,9 +9,9 @@ pub struct ProgressBar {
 #[derive(Clone, PartialEq, Properties)]
 pub struct Props {
     #[prop_or_default]
-    pub animate: ConditionalClass,
+    pub animate: bool,
     #[prop_or_default]
-    pub stripes: ConditionalClass,
+    pub stripes: bool,
     #[prop_or_default]
     pub value: Option<f32>,
     #[prop_or_default]
@@ -52,8 +53,8 @@ impl Component for ProgressBar {
                 class=(
                     "bp3-progress-bar",
                     self.props.intent,
-                    (!self.props.animate).map_some("bp3-no-animation"),
-                    (!self.props.stripes).map_some("bp3-no-stripes")
+                    (!self.props.animate).as_some("bp3-no-animation"),
+                    (!self.props.stripes).as_some("bp3-no-stripes")
                 )
             >
                 <div class="bp3-progress-meter" style={{width}}/>

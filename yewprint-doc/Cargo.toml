@@ -15,6 +15,9 @@ yew = { git = "https://github.com/yewstack/yew.git", rev = "1507c21b" }
 web-sys = { version = "0.3", features = ["Window", "MediaQueryList"] }
 yewprint = { path = "../yewprint" }
 yew-router = { git = "https://github.com/yewstack/yew.git", rev = "1507c21b" }
+# NOTE: this dependency needs to be removed when the feature bool_to_option lands in stable
+#       https://github.com/rust-lang/rust/issues/64260
+boolinator = "2.4.0"
 
 [build-dependencies]
 syntect = "4.4.0"

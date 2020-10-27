@@ -1,4 +1,5 @@
-use crate::{if_html, ConditionalClass, Icon, IconName, Intent, Text};
+use crate::{if_html, Icon, IconName, Intent, Text};
+use boolinator::Boolinator;
 use yew::prelude::*;
 
 pub struct Tag {
@@ -10,21 +11,21 @@ pub struct Props {
     pub children: Children,
     #[prop_or_default]
     // FIXME Not clear that this field has any effect without `interactive` on.
-    pub active: ConditionalClass,
+    pub active: bool,
     #[prop_or_default]
-    pub fill: ConditionalClass,
+    pub fill: bool,
     #[prop_or_default]
     pub icon: Option<IconName>,
     #[prop_or_default]
     pub intent: Option<Intent>,
     #[prop_or_default]
-    pub interactive: ConditionalClass,
+    pub interactive: bool,
     #[prop_or_default]
-    pub large: ConditionalClass,
+    pub large: bool,
     #[prop_or_default]
-    pub minimal: ConditionalClass,
+    pub minimal: bool,
     #[prop_or_default]
-    pub multiline: ConditionalClass,
+    pub multiline: bool,
     #[prop_or_default]
     pub onclick: Callback<MouseEvent>,
     #[prop_or_default]
@@ -32,7 +33,7 @@ pub struct Props {
     #[prop_or_default]
     pub right_icon: Option<IconName>,
     #[prop_or_default]
-    pub round: ConditionalClass,
+    pub round: bool,
     #[prop_or_default]
     pub title: Option<String>,
 }
@@ -70,7 +71,7 @@ impl Component for Tag {
                 <button
                     class="bp3-tag-remove"
                     onclick={callback}
-                    tabindex?={self.props.interactive.map_some(0)}
+                    tabindex?={self.props.interactive.as_some(0)}
                 >
                     <Icon icon=IconName::SmallCross />
                 </button>
@@ -82,12 +83,12 @@ impl Component for Tag {
                 class=(
                     "bp3-tag",
                     self.props.intent,
-                    self.props.active.map_some("bp3-active"),
-                    self.props.fill.map_some("bp3-fill"),
-                    self.props.interactive.map_some("bp3-interactive"),
-                    self.props.large.map_some("bp3-large"),
-                    self.props.minimal.map_some("bp3-minimal"),
-                    self.props.round.map_some("bp3-round"),
+                    self.props.active.as_some("bp3-active"),
+                    self.props.fill.as_some("bp3-fill"),
+                    self.props.interactive.as_some("bp3-interactive"),
+                    self.props.large.as_some("bp3-large"),
+                    self.props.minimal.as_some("bp3-minimal"),
+                    self.props.round.as_some("bp3-round"),
                 )
                 onclick={self.props.onclick.clone()}
             >

@@ -11,6 +11,7 @@ mod icon;
 mod menu;
 mod progressbar;
 mod switch;
+mod tabs;
 mod tag;
 mod text;
 mod tree;

@@ -1,4 +1,4 @@
-use crate::ConditionalClass;
+use boolinator::Boolinator;
 use yew::prelude::*;
 
 pub struct ButtonGroup {
@@ -8,13 +8,13 @@ pub struct ButtonGroup {
 #[derive(Clone, PartialEq, Properties)]
 pub struct ButtonGroupProps {
     #[prop_or_default]
-    pub minimal: ConditionalClass,
+    pub minimal: bool,
     #[prop_or_default]
-    pub vertical: ConditionalClass,
+    pub vertical: bool,
     #[prop_or_default]
-    pub fill: ConditionalClass,
+    pub fill: bool,
     #[prop_or_default]
-    pub large: ConditionalClass,
+    pub large: bool,
     #[prop_or_default]
     pub style: Option<String>,
     #[prop_or_default]
@@ -47,10 +47,10 @@ impl Component for ButtonGroup {
             <div
                 class=(
                     "bp3-button-group",
-                    self.props.minimal.map_some("bp3-minimal"),
-                    self.props.fill.map_some("bp3-fill"),
-                    self.props.large.map_some("bp3-large"),
-                    self.props.vertical.map_some("bp3-vertical"),
+                    self.props.minimal.as_some("bp3-minimal"),
+                    self.props.fill.as_some("bp3-fill"),
+                    self.props.large.as_some("bp3-large"),
+                    self.props.vertical.as_some("bp3-vertical"),
                 )
                 style?=self.props.style.clone()
             >

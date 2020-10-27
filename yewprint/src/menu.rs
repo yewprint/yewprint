@@ -1,5 +1,6 @@
 use crate::icon::{Icon, IconName};
-use crate::{ConditionalClass, Intent};
+use crate::Intent;
+use boolinator::Boolinator;
 use yew::prelude::*;
 
 pub struct Menu {
@@ -9,7 +10,7 @@ pub struct Menu {
 #[derive(Clone, PartialEq, Properties)]
 pub struct MenuProps {
     #[prop_or_default]
-    pub large: ConditionalClass,
+    pub large: bool,
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
@@ -43,7 +44,7 @@ impl Component for Menu {
             <ul
                 class=(
                     "bp3-menu",
-                    self.props.large.map_some("bp3-large"),
+                    self.props.large.as_some("bp3-large"),
                     self.props.class.clone(),
                 )
                 ref={self.props.r#ref.clone()}
@@ -65,11 +66,11 @@ pub struct MenuItemProps {
     #[prop_or_default]
     pub text_class: Option<String>,
     #[prop_or_default]
-    pub active: ConditionalClass,
+    pub active: bool,
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
-    pub disabled: ConditionalClass,
+    pub disabled: bool,
     #[prop_or_default]
     pub href: Option<String>,
     #[prop_or_default]
@@ -114,14 +115,14 @@ impl Component for MenuItem {
                 <a
                     class=(
                         "bp3-menu-item",
-                        self.props.active.map_some("bp3-active"),
-                        self.props.disabled.map_some("bp3-disabled"),
+                        self.props.active.as_some("bp3-active"),
+                        self.props.disabled.as_some("bp3-disabled"),
                         self.props.intent
-                            .or_else(|| self.props.active.map_some(Intent::Primary)),
+                            .or_else(|| self.props.active.as_some(Intent::Primary)),
                         self.props.class.clone(),
                     )
-                    href?={(!self.props.disabled).and(self.props.href.clone())}
-                    tabIndex?={(!self.props.disabled).map_some(0)}
+                    href?={(!self.props.disabled).and_option(self.props.href.clone())}
+                    tabIndex?={(!self.props.disabled).as_some(0)}
                     onclick={self.props.onclick.clone()}
                 >
                     <Icon icon={self.props.icon} />
