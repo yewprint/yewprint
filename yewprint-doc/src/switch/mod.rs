@@ -75,6 +75,22 @@ crate::build_example_prop_component! {
                     checked=self.props.disabled
                     label=html!("Disabled")
                 />
+                <Switch
+                    onclick=self.update_props(|props, _| ExampleProps {
+                        inline: !props.inline,
+                        ..props
+                    })
+                    checked=self.props.inline
+                    label=html!("Inline")
+                />
+                <Switch
+                    onclick=self.update_props(|props, _| ExampleProps {
+                        large: !props.large,
+                        ..props
+                    })
+                    checked=self.props.large
+                    label=html!("Large")
+                />
             </div>
         }
     }
