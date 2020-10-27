@@ -1,18 +1,14 @@
 use yew::prelude::*;
-use yewprint::{Menu, MenuItem, MenuDivider, Icon, IconName};
+use yewprint::{IconName, Menu, MenuDivider, MenuItem};
 
-pub struct Example {
-    link: ComponentLink<Self>,
-}
+pub struct Example {}
 
 impl Component for Example {
     type Message = ();
     type Properties = ();
 
-    fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
-        Example {
-            link,
-        }
+    fn create(_: Self::Properties, _link: ComponentLink<Self>) -> Self {
+        Self {}
     }
 
     fn update(&mut self, _msg: Self::Message) -> ShouldRender {
@@ -28,10 +24,28 @@ impl Component for Example {
             <div>
                 <Menu>
                     <MenuItem
-                        text={html!("Custom SVG Icon")}
+                        text={html!("Custom SVG icon")}
                         // add the yewprint icon
                     />
                     <MenuDivider />
+                    <MenuItem
+                        text={html!{"New text box"}}
+                        icon=IconName::NewTextBox
+                    />
+                    <MenuItem
+                        text={html!{"New object"}}
+                        icon=IconName::NewObject
+                    />
+                    <MenuItem
+                        text={html!{"New link"}}
+                        icon=IconName::NewLink
+                    />
+                    <MenuDivider />
+                    <MenuItem
+                        text={html!{"Settings"}}
+                        icon=IconName::Cog
+                        // add the label icon
+                    />
                 </Menu>
             </div>
         }

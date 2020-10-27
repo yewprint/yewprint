@@ -29,7 +29,7 @@ impl Component for MenuDoc {
             "bp3-code-block"
         );
 
-        html!{
+        html! {
             <div>
                 <H1 class="docs-title">{"Menu"}</H1>
                 <ExampleContainer source=source>

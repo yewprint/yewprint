@@ -150,29 +150,21 @@ impl Component for MenuItem {
     }
 }
 
-pub struct MenuDivider {
-    props: MenuDividerProps
-}
-
-#[derive(Clone, PartialEq, Properties)]
-pub struct MenuDividerProps {
-    #[prop_or_default]
-    pub children: html::Children,
-}
+pub struct MenuDivider {}
 
 impl Component for MenuDivider {
     type Message = ();
-    type Properties = MenuDividerProps;
+    type Properties = ();
 
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        Self { props }
+    fn create(_props: Self::Properties, _link: ComponentLink<Self>) -> Self {
+        Self {}
     }
 
     fn update(&mut self, _: Self::Message) -> ShouldRender {
         true
     }
 
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
+    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
         true
     }
 
