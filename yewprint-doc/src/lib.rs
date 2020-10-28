@@ -8,6 +8,7 @@ mod divider;
 mod example;
 mod html_select;
 mod icon;
+mod menu;
 mod progressbar;
 mod switch;
 mod tabs;

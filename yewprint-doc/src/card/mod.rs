@@ -3,7 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::{Elevation, Menu, MenuItem, Switch, H1, H5};
+use yewprint::{Elevation, HtmlSelect, Switch, H1, H5};
 
 pub struct CardDoc {
     callback: Callback<ExampleProps>,
@@ -72,46 +72,19 @@ crate::build_example_prop_component! {
                                 ..props
                             })
                             checked=self.props.interactive
-                            label="Toggle interaction"
+                            label=html!("Toggle interaction")
                         />
                         <p>{"Elevation:"}</p>
-                        <Menu>
-                            <MenuItem
-                                onclick=self.update_props(|props, _| ExampleProps {
-                                    elevation: Elevation::Level0,
-                                    ..props
-                                })
-                                text=html!{"Level 0"}
-                            />
-                            <MenuItem
-                                onclick=self.update_props(|props, _| ExampleProps {
-                                    elevation: Elevation::Level1,
-                                    ..props
-                                })
-                                text=html!{"Level 1"}
-                            />
-                            <MenuItem
-                                onclick=self.update_props(|props, _| ExampleProps {
-                                    elevation: Elevation::Level2,
-                                    ..props
-                                })
-                                text=html!{"Level 2"}
-                            />
-                            <MenuItem
-                                onclick=self.update_props(|props, _| ExampleProps {
-                                    elevation: Elevation::Level3,
-                                    ..props
-                                })
-                                text=html!{"Level 3"}
-                            />
-                            <MenuItem
-                                onclick=self.update_props(|props, _| ExampleProps {
-                                    elevation: Elevation::Level4,
-                                    ..props
-                                })
-                                text=html!{"Level 4"}
-                            />
-                        </Menu>
+                        <HtmlSelect<Elevation>
+                            options={vec![
+                                (Elevation::Level0, "Level 0".to_string()),
+                                (Elevation::Level1, "Level 1".to_string()),
+                                (Elevation::Level2, "Level 2".to_string()),
+                                (Elevation::Level3, "Level 3".to_string()),
+                                (Elevation::Level4, "Level 4".to_string()),
+                            ]}
+                            value=Some(self.props.elevation)
+                        />
                     </div>
                 </div>
             }

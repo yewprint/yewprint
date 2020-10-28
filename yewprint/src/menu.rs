@@ -149,3 +149,28 @@ impl Component for MenuItem {
         }
     }
 }
+
+pub struct MenuDivider {}
+
+impl Component for MenuDivider {
+    type Message = ();
+    type Properties = ();
+
+    fn create(_props: Self::Properties, _link: ComponentLink<Self>) -> Self {
+        Self {}
+    }
+
+    fn update(&mut self, _: Self::Message) -> ShouldRender {
+        true
+    }
+
+    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
+        true
+    }
+
+    fn view(&self) -> Html {
+        html! {
+            <span class="bp3-menu-divider" />
+        }
+    }
+}

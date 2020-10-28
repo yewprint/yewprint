@@ -73,7 +73,7 @@ crate::build_example_prop_component! {
                             ..props
                         })
                         checked=self.props.ellipsize
-                        label="Ellipsize"
+                        label=html!("Ellipsize")
                     />
                     <input
                         class="bp3-input"

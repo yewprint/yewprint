@@ -97,7 +97,7 @@ crate::build_example_prop_component! {
                                 ..props
                             })
                             checked=self.props.active
-                            label="Active"
+                            label=html!("Active")
                         />
                         <Switch
                             onclick=self.update_props(|props, _| ExampleProps {
@@ -105,7 +105,7 @@ crate::build_example_prop_component! {
                                 ..props
                             })
                             checked=self.props.fill
-                            label="Fill"
+                            label=html!("Fill")
                         />
                         <Switch
                             onclick=self.update_props(|props, _| ExampleProps {
@@ -113,7 +113,7 @@ crate::build_example_prop_component! {
                                 ..props
                             })
                             checked=self.props.interactive
-                            label="Interactive"
+                            label=html!("Interactive")
                         />
                         <Switch
                             onclick=self.update_props(|props, _| ExampleProps {
@@ -121,7 +121,7 @@ crate::build_example_prop_component! {
                                 ..props
                             })
                             checked=self.props.large
-                            label="Large"
+                            label=html!("Large")
                         />
                         <Switch
                             onclick=self.update_props(|props, _| ExampleProps {
@@ -129,7 +129,7 @@ crate::build_example_prop_component! {
                                 ..props
                             })
                             checked=self.props.minimal
-                            label="Minimal"
+                            label=html!("Minimal")
                         />
                         <Switch
                             onclick=self.update_props(|props, _| ExampleProps {
@@ -137,7 +137,7 @@ crate::build_example_prop_component! {
                                 ..props
                             })
                             checked=self.props.multiline
-                            label="Multiline"
+                            label=html!("Multiline")
                         />
                         <Switch
                             onclick=self.update_props(|props, _| ExampleProps {
@@ -145,7 +145,7 @@ crate::build_example_prop_component! {
                                 ..props
                             })
                             checked=self.props.round
-                            label="Round"
+                            label=html!("Round")
                         />
                         <Switch
                             onclick=self.update_props(|props, _| ExampleProps {
@@ -153,7 +153,7 @@ crate::build_example_prop_component! {
                                 ..props
                             })
                             checked=self.props.removable
-                            label="Removable"
+                            label=html!("Removable")
                         />
                         <Switch
                             onclick=self.update_props(|props, _| ExampleProps {
@@ -161,7 +161,7 @@ crate::build_example_prop_component! {
                                 ..props
                             })
                             checked=self.props.icon
-                            label="Icon"
+                            label=html!("Icon")
                         />
                         <Switch
                             onclick=self.update_props(|props, _| ExampleProps {
@@ -169,7 +169,7 @@ crate::build_example_prop_component! {
                                 ..props
                             })
                             checked=self.props.right_icon
-                            label="Right icon"
+                            label=html!("Right icon")
                         />
                         <p>{"Select intent:"}</p>
                         <ButtonGroup
