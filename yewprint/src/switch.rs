@@ -44,17 +44,19 @@ impl Component for Switch {
 
     fn view(&self) -> Html {
         html! {
-            <label class=(
-                "bp3-control bp3-switch",
-                self.props.disabled.as_some("bp3-disabled"),
-                self.props.inline.as_some("bp3-inline"),
-                self.props.large.as_some("bp3-large"),
+            <label
+                class=(
+                    "bp3-control bp3-switch",
+                    self.props.disabled.as_some("bp3-disabled"),
+                    self.props.inline.as_some("bp3-inline"),
+                    self.props.large.as_some("bp3-large"),
                 )
             >
             <input
                 type="checkbox"
                 checked={self.props.checked},
                 onclick={self.props.onclick.clone()}
+                disabled=self.props.disabled
             />
             <span
                 class="bp3-control-indicator"
