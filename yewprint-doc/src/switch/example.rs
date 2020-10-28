@@ -1,5 +1,5 @@
 use yew::prelude::*;
-use yewprint::{Switch, H5};
+use yewprint::Switch;
 
 pub struct Example {
     props: ExampleProps,
@@ -36,7 +36,7 @@ impl Component for Example {
     fn view(&self) -> Html {
         html! {
             <div>
-                <H5>{"Privacy settings"}</H5>
+                <label>{"Privacy settings"}</label>
                 <Switch
                     disabled=self.props.disabled
                     inline=self.props.inline
