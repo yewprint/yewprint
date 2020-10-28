@@ -54,7 +54,7 @@ impl Component for Switch {
             >
             <input
                 type="checkbox"
-                checked={self.props.checked},
+                checked={self.props.checked}
                 onclick={self.props.onclick.clone()}
                 disabled=self.props.disabled
             />

@@ -18,7 +18,7 @@ impl Component for CardDoc {
         CardDoc {
             callback: link.callback(|x| x),
             state: ExampleProps {
-                elevation: Some(Elevation::Level0),
+                elevation: Elevation::Level0,
                 interactive: false,
             },
         }
@@ -75,18 +75,15 @@ crate::build_example_prop_component! {
                             label=html!("Toggle interaction")
                         />
                         <p>{"Elevation:"}</p>
-                        <HtmlSelect<Option<Elevation>>
+                        <HtmlSelect<Elevation>
                             options={vec![
-                                (Some(Elevation::Level0), "Level 0".to_string()),
-                                (Some(Elevation::Level1), "Level 1".to_string()),
-                                (Some(Elevation::Level2), "Level 2".to_string()),
-                                (Some(Elevation::Level3), "Level 3".to_string()),
-                                (Some(Elevation::Level4), "Level 4".to_string()),
+                                (Elevation::Level0, "Level 0".to_string()),
+                                (Elevation::Level1, "Level 1".to_string()),
+                                (Elevation::Level2, "Level 2".to_string()),
+                                (Elevation::Level3, "Level 3".to_string()),
+                                (Elevation::Level4, "Level 4".to_string()),
                             ]}
-                            onchange=self.update_props(|props, elevation| ExampleProps {
-                                elevation,
-                                ..props
-                            })
+                            value=Some(self.props.elevation)
                         />
                     </div>
                 </div>

@@ -6,7 +6,7 @@ pub struct CardProps {
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
-    pub elevation: Option<Elevation>,
+    pub elevation: Elevation,
     #[prop_or_default]
     pub onclick: Callback<MouseEvent>,
     #[prop_or(false)]
