@@ -170,11 +170,7 @@ impl Component for MenuDivider {
 
     fn view(&self) -> Html {
         html! {
-            <span
-                class=(
-                    "bp3-menu-divider",
-                )
-            />
+            <span class="bp3-menu-divider" />
         }
     }
 }
