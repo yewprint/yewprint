@@ -213,16 +213,16 @@ impl Component for App {
                                         DocMenu::Callout => html!(<CalloutDoc />),
                                         DocMenu::Card => html!(<CardDoc />),
                                         DocMenu::Collapse => html!(<CollapseDoc />),
-                                        DocMenu::HtmlSelect => html!(<HtmlSelectDoc />),
-                                        DocMenu::Text => html!(<TextDoc />),
                                         DocMenu::Divider => html!(<DividerDoc />),
-                                        DocMenu::Tree => html!(<TreeDoc />),
+                                        DocMenu::HtmlSelect => html!(<HtmlSelectDoc />),
                                         DocMenu::Icon => html!(<IconDoc />),
+                                        DocMenu::Menu => html!(<MenuDoc />),
                                         DocMenu::ProgressBar => html!(<ProgressBarDoc />),
                                         DocMenu::Switch => html!(<SwitchDoc />),
                                         DocMenu::Tabs => html!(<TabsDoc />),
                                         DocMenu::Tag => html!(<TagDoc />),
-                                        DocMenu::Menu => html!(<MenuDoc />),
+                                        DocMenu::Text => html!(<TextDoc />),
+                                        DocMenu::Tree => html!(<TreeDoc />),
                                     }
                                 })
                             />
