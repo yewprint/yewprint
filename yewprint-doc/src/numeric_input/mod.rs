@@ -6,7 +6,7 @@ use yew::prelude::*;
 use yewprint::{Switch, H1, H5};
 
 pub struct NumericInputDoc {
-    callback<ExampleProps>,
+    callback: Callback<ExampleProps>,
     state: ExampleProps,
 }
 
@@ -14,7 +14,7 @@ impl Component for NumericInputDoc {
     type Message = ExampleProps;
     type Properties = ();
 
-    fn create(_: Self::Properties, link: Component<Self>) -> Self {
+    fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
         NumericInputDoc {
             callback: link.callback(|x| x),
             state: ExampleProps {

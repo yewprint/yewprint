@@ -1,4 +1,4 @@
-use crate::Intent,
+use crate::Intent;
 use boolinator::Boolinator;
 use yew::prelude::*;
 
