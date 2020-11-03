@@ -3,11 +3,11 @@ use boolinator::Boolinator;
 use yew::prelude::*;
 
 pub struct NumericInput {
-    props: Props,
+    props: NumericInputProps,
 }
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct Props {
+pub struct NumericInputProps {
     #[prop_or_default]
     pub disabled: bool,
     #[prop_or_default]
@@ -26,13 +26,13 @@ pub struct Props {
 
 impl Component for NumericInput {
     type Message = ();
-    type Properties = Props;
+    type Properties = NumericInputProps;
 
     fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        NumericInput { props }
+        Self { props }
     }
 
-    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, _: Self::Message) -> ShouldRender {
         true
     }
 

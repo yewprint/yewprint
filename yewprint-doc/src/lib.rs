@@ -9,6 +9,7 @@ mod example;
 mod html_select;
 mod icon;
 mod menu;
+mod numeric_input;
 mod progressbar;
 mod switch;
 mod tabs;

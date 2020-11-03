@@ -57,7 +57,7 @@ impl Component for NumericInputDoc {
                         <Example with example_props />
                     </ExampleContainer>
                 </div>
-            </div>        
+            </div>
         }
     }
 }

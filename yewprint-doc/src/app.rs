@@ -7,6 +7,7 @@ use crate::divider::*;
 use crate::html_select::*;
 use crate::icon::*;
 use crate::menu::*;
+use crate::numeric_input::*;
 use crate::progressbar::*;
 use crate::switch::*;
 use crate::tabs::*;
@@ -105,13 +106,15 @@ impl Component for App {
                             <Menu>
                                 <MenuItem
                                     text={html!(go_to_theme_label)}
-                                    onclick=self.link.callback(|_| Msg::ToggleLight)
+                                    onclick=self.link
+                                        .callback(|_| Msg::ToggleLight)
                                     icon=go_to_theme_icon
                                 />
                                 <MenuItem
-                                text={html!("Button")}
-                                href="#button"
-                                onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Button))
+                                    text={html!("Button")}
+                                    href="#button"
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Button))
                                 />
                                 <MenuItem
                                     text={html!("ButtonGroup")}
@@ -145,18 +148,27 @@ impl Component for App {
                                 />
                                 <MenuItem
                                     text={html!("HtmlSelect")}
+                                    href="#html-select"
                                     onclick=self.link
                                         .callback(|_| Msg::GoToMenu(DocMenu::HtmlSelect))
                                 />
                                 <MenuItem
                                     text={html!("Icon")}
                                     href="#icon"
-                                    onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Icon))
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Icon))
                                 />
                                 <MenuItem
                                     text={html!("Menu")}
                                     href="#menu"
-                                    onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Menu))
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Menu))
+                                />
+                                <MenuItem
+                                    text={html!("NumericInput")}
+                                    href="#numeric-input"
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::NumericInput))
                                 />
                                 <MenuItem
                                     text={html!("ProgressBar")}
@@ -167,17 +179,20 @@ impl Component for App {
                                 <MenuItem
                                     text={html!("Switch")}
                                     href="#switch"
-                                    onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Switch))
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Switch))
                                 />
                                 <MenuItem
                                     text={html!("Tabs")}
                                     href="#tabs"
-                                    onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Tabs))
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Tabs))
                                 />
                                 <MenuItem
                                     text={html!("Tag")}
                                     href="#tag"
-                                    onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Tag))
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Tag))
                                 />
                                 <MenuItem
                                     text={html!("Text")}
@@ -188,7 +203,8 @@ impl Component for App {
                                 <MenuItem
                                     text={html!("Tree")}
                                     href="#tree"
-                                    onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Tree))
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Tree))
                                 />
                                 // NOTE: thanks to keep this list of <MenuItem> sorted
                                 //       alphabetically (except for the light switch)
@@ -217,6 +233,7 @@ impl Component for App {
                                         DocMenu::HtmlSelect => html!(<HtmlSelectDoc />),
                                         DocMenu::Icon => html!(<IconDoc />),
                                         DocMenu::Menu => html!(<MenuDoc />),
+                                        DocMenu::NumericInput => html!(<NumericInputDoc />),
                                         DocMenu::ProgressBar => html!(<ProgressBarDoc />),
                                         DocMenu::Switch => html!(<SwitchDoc />),
                                         DocMenu::Tabs => html!(<TabsDoc />),
@@ -254,6 +271,8 @@ pub enum DocMenu {
     Icon,
     #[to = "/#menu"]
     Menu,
+    #[to = "/#numeric-input"]
+    NumericInput,
     #[to = "/#progress-bar"]
     ProgressBar,
     #[to = "/#switch"]
