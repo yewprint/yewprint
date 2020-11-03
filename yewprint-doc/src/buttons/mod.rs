@@ -63,27 +63,27 @@ impl Component for ButtonDoc {
 
 crate::build_example_prop_component! {
     ButtonProps for ExampleProps =>
-        fn view(&self) -> Html {
-            html! {
-                <div>
-                    <H5>{"Props"}</H5>
-                    <Switch
-                        onclick=self.update_props(|props, _| ExampleProps {
-                            minimal: !props.minimal,
-                            ..props
-                        })
-                        checked=self.props.minimal
-                        label=html!("Minimal")
-                    />
-                    <Switch
-                        onclick=self.update_props(|props, _| ExampleProps {
-                            fill: !props.fill,
-                            ..props
-                        })
-                        checked=self.props.fill
-                        label=html!("Fill")
-                    />
-                </div>
-            }
+    fn view(&self) -> Html {
+        html! {
+            <div>
+                <H5>{"Props"}</H5>
+                <Switch
+                    onclick=self.update_props(|props, _| ExampleProps {
+                        minimal: !props.minimal,
+                        ..props
+                    })
+                    checked=self.props.minimal
+                    label=html!("Minimal")
+                />
+                <Switch
+                    onclick=self.update_props(|props, _| ExampleProps {
+                        fill: !props.fill,
+                        ..props
+                    })
+                    checked=self.props.fill
+                    label=html!("Fill")
+                />
+            </div>
         }
+    }
 }
