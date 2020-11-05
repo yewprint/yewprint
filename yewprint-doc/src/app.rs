@@ -6,6 +6,7 @@ use crate::collapse::*;
 use crate::divider::*;
 use crate::html_select::*;
 use crate::icon::*;
+use crate::input_group::*;
 use crate::menu::*;
 use crate::numeric_input::*;
 use crate::progressbar::*;
@@ -159,6 +160,12 @@ impl Component for App {
                                         .callback(|_| Msg::GoToMenu(DocMenu::Icon))
                                 />
                                 <MenuItem
+                                    text={html!("InputGroup")}
+                                    href="#input-group"
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::InputGroup))
+                                />
+                                <MenuItem
                                     text={html!("Menu")}
                                     href="#menu"
                                     onclick=self.link
@@ -232,6 +239,7 @@ impl Component for App {
                                         DocMenu::Divider => html!(<DividerDoc />),
                                         DocMenu::HtmlSelect => html!(<HtmlSelectDoc />),
                                         DocMenu::Icon => html!(<IconDoc />),
+                                        DocMenu::InputGroup => html!(<InputGroupDoc />),
                                         DocMenu::Menu => html!(<MenuDoc />),
                                         DocMenu::NumericInput => html!(<NumericInputDoc />),
                                         DocMenu::ProgressBar => html!(<ProgressBarDoc />),
@@ -269,6 +277,8 @@ pub enum DocMenu {
     Divider,
     #[to = "/#icon"]
     Icon,
+    #[to = "/#input-group"]
+    InputGroup,
     #[to = "/#menu"]
     Menu,
     #[to = "/#numeric-input"]

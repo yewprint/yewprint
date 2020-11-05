@@ -22,7 +22,7 @@ impl Component for InputGroup {
     type Properties = InputGroupProps;
 
     fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        self { props }
+        Self { props }
     }
 
     fn update(&mut self, _: Self::Message) -> ShouldRender {

@@ -20,6 +20,10 @@ impl Component for Example {
         Example { props }
     }
 
+    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
+        true
+    }
+
     fn change(&mut self, props: Self::Properties) -> ShouldRender {
         if self.props != props {
             self.props = props;

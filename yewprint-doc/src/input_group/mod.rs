@@ -37,7 +37,7 @@ impl Component for InputGroupDoc {
     fn view(&self) -> Html {
         let example_props = self.state.clone();
         let source = crate::include_raw_html!(
-            concat!(env!("OUT_DIR")n "/", file!(), ".html"),
+            concat!(env!("OUT_DIR"), "/", file!(), ".html"),
             "bp3-code-block"
         );
 
@@ -56,6 +56,41 @@ impl Component for InputGroupDoc {
                 >
                     <Example with example_props />
                 </ExampleContainer>
+            </div>
+        }
+    }
+}
+
+crate::build_example_prop_component! {
+    InputGroupProps for ExampleProps =>
+    fn view(&self) -> Html {
+        html! {
+            <div>
+                <H5>{"Props"}</H5>
+                <Switch
+                    onclick=self.update_props(|props, _| ExampleProps {
+                        disabled: !props.disabled,
+                        ..props
+                    })
+                    checked=self.props.disabled
+                    label=html!("Disabled")
+                />
+                <Switch
+                    onclick=self.update_props(|props, _| ExampleProps {
+                        disabled: !props.large,
+                        ..props
+                    })
+                    checked=self.props.large
+                    label=html!("Large")
+                />
+                <Switch
+                    onclick=self.update_props(|props, _| ExampleProps {
+                        disabled: !props.small,
+                        ..props
+                    })
+                    checked=self.props.small
+                    label=html!("Small")
+                />
             </div>
         }
     }

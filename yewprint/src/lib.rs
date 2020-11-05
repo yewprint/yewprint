@@ -7,6 +7,7 @@ mod divider;
 mod html_elements;
 mod html_select;
 mod icon;
+mod input_group;
 mod menu;
 mod numeric_input;
 mod progressbar;
@@ -26,6 +27,7 @@ pub use divider::*;
 pub use html_elements::*;
 pub use html_select::*;
 pub use icon::*;
+pub use input_group::*;
 #[cfg(feature = "tree")]
 pub use id_tree;
 pub use menu::*;
