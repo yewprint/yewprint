@@ -1,0 +1,62 @@
+mod example;
+
+use crate::ExampleContainer;
+use example::*;
+use yew::prelude::*;
+use yewprint::{Switch, H1, H5};
+
+pub struct InputGroupDoc {
+    callback: Callback<ExampleProps>,
+    state: ExampleProps,
+}
+
+impl Component for InputGroupDoc {
+    type Message = ExampleProps;
+    type Properties = ();
+
+    fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
+        InputGroupDoc {
+            callback: link.callback(|x| x),
+            state: ExampleProps {
+                disabled: false,
+                large: false,
+                small: false,
+            },
+        }
+    }
+
+    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+        self.state = msg;
+        true
+    }
+
+    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
+        true
+    }
+
+    fn view(&self) -> Html {
+        let example_props = self.state.clone();
+        let source = crate::include_raw_html!(
+            concat!(env!("OUT_DIR")n "/", file!(), ".html"),
+            "bp3-code-block"
+        );
+
+        html! {
+            <div>
+                <H1 class="docs-title">{"Input Group"}</H1>
+                <ExampleContainer
+                    source=source
+                    props=Some(html! {
+                        <InputGroupProps
+                            callback={self.callback.clone()}
+                            props=example_props.clone()
+                        >
+                        </InputGroupProps>
+                    })
+                >
+                    <Example with example_props />
+                </ExampleContainer>
+            </div>
+        }
+    }
+}
