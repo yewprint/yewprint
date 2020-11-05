@@ -20,6 +20,8 @@ pub struct NumericInputProps {
     pub max_value: i32,
     #[prop_or_default]
     pub intent: Option<Intent>,
+    #[prop_or_default]
+    pub class: String,
 }
 
 impl Component for NumericInput {
