@@ -15,13 +15,11 @@ pub struct NumericInputProps {
     #[prop_or_default]
     pub large: bool,
     #[prop_or_default]
-    pub minValue: i32,
+    pub min_value: i32,
     #[prop_or_default]
-    pub maxValue: i32,
+    pub max_value: i32,
     #[prop_or_default]
     pub intent: Option<Intent>,
-    #[prop_or_default]
-    pub onchange: Callback<T>
 }
 
 impl Component for NumericInput {
@@ -47,7 +45,7 @@ impl Component for NumericInput {
 
     fn view(&self) -> Html {
         html! {
-            <InputGroup
+            <span
                 class=(
                     "bp3-numeric-input",
                     self.props.disabled.as_some("bp3-disabled"),
@@ -55,7 +53,6 @@ impl Component for NumericInput {
                     self.props.large.as_some("bp3-large"),
                     self.props.intent,
                 )
-                onchange={self.props.onchange.clone()}
             />
         }
     }

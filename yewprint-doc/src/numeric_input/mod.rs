@@ -43,7 +43,7 @@ impl Component for NumericInputDoc {
 
         html! {
             <div>
-                <H1 class="docs-title">{"Button"}</H1>
+                <H1 class="docs-title">{"NumericInput"}</H1>
                 <div>
                     <ExampleContainer
                         source=source

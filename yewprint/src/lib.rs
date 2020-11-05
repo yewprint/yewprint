@@ -8,6 +8,7 @@ mod html_elements;
 mod html_select;
 mod icon;
 mod menu;
+mod numeric_input;
 mod progressbar;
 mod switch;
 mod tabs;
@@ -28,6 +29,7 @@ pub use icon::*;
 #[cfg(feature = "tree")]
 pub use id_tree;
 pub use menu::*;
+pub use numeric_input::*;
 pub use progressbar::*;
 pub use switch::*;
 pub use tabs::*;

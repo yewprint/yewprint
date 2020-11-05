@@ -2,7 +2,6 @@ use yew::prelude::*;
 use yewprint::NumericInput;
 
 pub struct Example {
-    link: ComponentLink<Self>,
     props: ExampleProps,
 }
 
@@ -17,11 +16,11 @@ impl Component for Example {
     type Message = ();
     type Properties = ExampleProps;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
-        Example { link, props }
+    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
+        Example { props }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
         true
     }
 
