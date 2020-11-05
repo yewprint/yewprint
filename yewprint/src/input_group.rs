@@ -1,5 +1,6 @@
 use boolinator::Boolinator;
 use yew::prelude::*;
+use crate::{Icon, IconName};
 
 pub struct InputGroup {
     props: InputGroupProps,
@@ -13,6 +14,10 @@ pub struct InputGroupProps {
     pub large: bool,
     #[prop_or_default]
     pub small: bool,
+    #[prop_or_default]
+    pub placeholder: String,
+    #[prop_or_default]
+    pub lefticon: Option<IconName>,
     #[prop_or_default]
     pub children: html::Children,
 }
@@ -48,6 +53,15 @@ impl Component for InputGroup {
                     self.props.small.as_some("bp3-small"),
                 )
             >
+                {
+                    if let Some(icon) = self.props.lefticon {
+                        html! {
+                            <Icon icon=icon />
+                        }
+                    } else {
+                        html!()
+                    }
+                }
                 {self.props.children.clone()}
             </div>
         }

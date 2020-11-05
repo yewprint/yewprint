@@ -1,5 +1,5 @@
 use yew::prelude::*;
-use yewprint::InputGroup;
+use yewprint::{InputGroup, IconName};
 
 pub struct Example {
     props: ExampleProps,
@@ -39,6 +39,8 @@ impl Component for Example {
                 disabled=self.props.disabled
                 large=self.props.large
                 small=self.props.small
+                lefticon=IconName::Cog
+                placeholder={"test"}
             >
             </InputGroup>
         }
