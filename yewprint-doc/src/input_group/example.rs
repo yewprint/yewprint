@@ -1,5 +1,5 @@
 use yew::prelude::*;
-use yewprint::{InputGroup, IconName};
+use yewprint::{IconName, InputGroup};
 
 pub struct Example {
     props: ExampleProps,
@@ -34,7 +34,7 @@ impl Component for Example {
     }
 
     fn view(&self) -> Html {
-        html!  {
+        html! {
             <InputGroup
                 disabled=self.props.disabled
                 large=self.props.large

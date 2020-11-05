@@ -1,6 +1,6 @@
+use crate::{Icon, IconName};
 use boolinator::Boolinator;
 use yew::prelude::*;
-use crate::{Icon, IconName};
 
 pub struct InputGroup {
     props: InputGroupProps,
