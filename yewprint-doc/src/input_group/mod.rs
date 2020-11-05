@@ -77,7 +77,7 @@ crate::build_example_prop_component! {
                 />
                 <Switch
                     onclick=self.update_props(|props, _| ExampleProps {
-                        disabled: !props.large,
+                        large: !props.large,
                         ..props
                     })
                     checked=self.props.large
@@ -85,7 +85,7 @@ crate::build_example_prop_component! {
                 />
                 <Switch
                     onclick=self.update_props(|props, _| ExampleProps {
-                        disabled: !props.small,
+                        small: !props.small,
                         ..props
                     })
                     checked=self.props.small
