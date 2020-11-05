@@ -4,6 +4,7 @@ mod buttons;
 mod callout;
 mod card;
 mod collapse;
+mod control_group;
 mod divider;
 mod example;
 mod html_select;

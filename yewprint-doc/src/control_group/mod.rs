@@ -30,6 +30,10 @@ impl Component for ControlGroupDoc {
     }
 
     fn change(&mut self, _props: Self::Properties) -> ShouldRender {
+        true
+    }
+
+    fn view(&self) -> Html {
         let example_props = self.state.clone();
         let source = crate::include_raw_html!(
             concat!(env!("OUT_DIR"), "/", file!(), ".html"),

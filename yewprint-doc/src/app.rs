@@ -3,6 +3,7 @@ use crate::buttons::*;
 use crate::callout::*;
 use crate::card::*;
 use crate::collapse::*;
+use crate::control_group::*;
 use crate::divider::*;
 use crate::html_select::*;
 use crate::icon::*;
@@ -142,6 +143,12 @@ impl Component for App {
                                         .callback(|_| Msg::GoToMenu(DocMenu::Collapse))
                                 />
                                 <MenuItem
+                                    text={html!("ControlGroup")}
+                                    href="#control-group"
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::ControlGroup))
+                                    />
+                                <MenuItem
                                     text={html!("Divider")}
                                     href="#divider"
                                     onclick=self.link
@@ -236,6 +243,7 @@ impl Component for App {
                                         DocMenu::Callout => html!(<CalloutDoc />),
                                         DocMenu::Card => html!(<CardDoc />),
                                         DocMenu::Collapse => html!(<CollapseDoc />),
+                                        DocMenu::ControlGroup => html!(<ControlGroupDoc />),
                                         DocMenu::Divider => html!(<DividerDoc />),
                                         DocMenu::HtmlSelect => html!(<HtmlSelectDoc />),
                                         DocMenu::Icon => html!(<IconDoc />),
@@ -271,6 +279,8 @@ pub enum DocMenu {
     Card,
     #[to = "/#collapse"]
     Collapse,
+    #[to = "/#control-group"]
+    ControlGroup,
     #[to = "/#html-select"]
     HtmlSelect,
     #[to = "/#divider"]
