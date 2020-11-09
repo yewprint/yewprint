@@ -39,7 +39,7 @@ impl Component for Example {
                 disabled=self.props.disabled
                 large=self.props.large
                 small=self.props.small
-                lefticon=IconName::Cog
+                left_icon=IconName::Cog
                 placeholder={"test"}
             >
             </InputGroup>

@@ -11,13 +11,19 @@ pub struct InputGroupProps {
     #[prop_or_default]
     pub disabled: bool,
     #[prop_or_default]
+    pub fill: bool,
+    #[prop_or_default]
     pub large: bool,
     #[prop_or_default]
     pub small: bool,
     #[prop_or_default]
+    pub round: bool,
+    #[prop_or_default]
     pub placeholder: String,
     #[prop_or_default]
-    pub lefticon: Option<IconName>,
+    pub left_icon: Option<IconName>,
+    #[prop_or_default]
+    pub left_element: Option<yew::virtual_dom::VNode>,
     #[prop_or_default]
     pub children: html::Children,
 }
@@ -49,12 +55,14 @@ impl Component for InputGroup {
                 class=(
                     "bp3-input-group",
                     self.props.disabled.as_some("bp3-disabled"),
+                    self.props.fill.as_some("bp3-fill"),
                     self.props.large.as_some("bp3-large"),
                     self.props.small.as_some("bp3-small"),
+                    self.props.round.as_some("bp3-round"),
                 )
             >
                 {
-                    if let Some(icon) = self.props.lefticon {
+                    if let Some(icon) = self.props.left_icon {
                         html! {
                             <Icon icon=icon />
                         }

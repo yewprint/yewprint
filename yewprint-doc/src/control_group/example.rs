@@ -1,5 +1,5 @@
 use yew::prelude::*;
-use yewprint::ControlGroup;
+use yewprint::{Button, ControlGroup, HtmlSelect, Icon, IconName, InputGroup};
 
 pub struct Example {
     props: ExampleProps,
@@ -38,7 +38,25 @@ impl Component for Example {
                 fill=self.props.fill
                 vertical=self.props.fill
             >
+                <HtmlSelect<Sorting>
+                    options={vec![
+                        (Sorting::NameAscending, "Name-Ascending".to_string()),
+                        (Sorting::NameDescending, "Name-Descending".to_string()),
+                        (Sorting::PriceAscending, "Price-Ascending".to_string()),
+                        (Sorting::PriceDescending, "Price-Descending".to_string()),
+                    ]}
+                />
+                <InputGroup placeholder={"Find filter..."} />
+                // <Button icon=IconName::ArrowRight />
             </ControlGroup>
         }
     }
+}
+
+#[derive(Debug, Clone, Copy, Hash, PartialEq)]
+pub enum Sorting {
+    NameAscending,
+    NameDescending,
+    PriceAscending,
+    PriceDescending,
 }

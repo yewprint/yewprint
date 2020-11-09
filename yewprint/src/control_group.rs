@@ -11,6 +11,8 @@ pub struct ControlGroupProps {
     pub fill: bool,
     #[prop_or_default]
     pub vertical: bool,
+    #[prop_or_default]
+    pub children: html::Children,
 }
 
 impl Component for ControlGroup {
@@ -43,6 +45,9 @@ impl Component for ControlGroup {
                     self.props.vertical.as_some("bp3-vertical"),
                 )
             >
+                <span>
+                    {self.props.children.clone()}
+                </span>
             </div>
         }
     }
