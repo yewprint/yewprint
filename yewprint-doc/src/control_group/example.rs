@@ -48,7 +48,7 @@ impl Component for Example {
                 />
                 <InputGroup placeholder={"Find filter..."} />
                 <Button icon=IconName::ArrowRight>
-                    {""}       
+                    {""}
                 </Button>
             </ControlGroup>
         }
