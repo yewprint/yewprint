@@ -25,6 +25,8 @@ pub struct InputGroupProps {
     #[prop_or_default]
     pub left_element: Option<yew::virtual_dom::VNode>,
     #[prop_or_default]
+    pub right_element: Option<yew::virtual_dom::VNode>,
+    #[prop_or_default]
     pub children: html::Children,
 }
 
