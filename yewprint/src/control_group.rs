@@ -45,9 +45,7 @@ impl Component for ControlGroup {
                     self.props.vertical.as_some("bp3-vertical"),
                 )
             >
-                <span>
-                    {self.props.children.clone()}
-                </span>
+                {self.props.children.clone()}
             </div>
         }
     }

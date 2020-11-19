@@ -1,5 +1,5 @@
 use yew::prelude::*;
-use yewprint::{Button, ControlGroup, HtmlSelect, Icon, IconName, InputGroup};
+use yewprint::{Button, ControlGroup, HtmlSelect, IconName, InputGroup};
 
 pub struct Example {
     props: ExampleProps,
@@ -46,7 +46,7 @@ impl Component for Example {
                         (Sorting::PriceDescending, "Price-Descending".to_string()),
                     ]}
                 />
-                <InputGroup placeholder={"Find filter..."} />
+                <InputGroup />
                 <Button icon=IconName::ArrowRight>
                     {""}
                 </Button>
