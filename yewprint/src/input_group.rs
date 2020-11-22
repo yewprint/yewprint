@@ -19,7 +19,7 @@ pub struct InputGroupProps {
     #[prop_or_default]
     pub round: bool,
     #[prop_or_default]
-    pub placeholder: Option<String>,
+    pub placeholder: String,
     #[prop_or_default]
     pub left_icon: Option<IconName>,
     #[prop_or_default]
@@ -73,12 +73,6 @@ impl Component for InputGroup {
                         html!()
                     }
                 }
-                {
-                    self.props.placeholder.iter()
-                        .map(|placeholder| html!{<p>{placeholder}</p>})
-                        .collect::<Html>()
-                }
-                <input class="bp3-input" />
                 {self.props.children.clone()}
             </div>
         }

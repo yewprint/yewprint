@@ -10,7 +10,7 @@ pub struct ExampleProps {
     pub disabled: bool,
     pub large: bool,
     pub small: bool,
-    pub show_placeholder: bool,
+    pub placeholder: String,
 }
 
 impl Component for Example {
@@ -35,19 +35,17 @@ impl Component for Example {
     }
 
     fn view(&self) -> Html {
-        let placeholder = if self.props.show_placeholder {
-            Some("Test")
-        } else {
-            None
-        };
-
         html! {
             <InputGroup
-                disabled=self.props.disabled
                 large=self.props.large
                 small=self.props.small
-                left_icon=IconName::Cog
+                left_icon=IconName::Filter
             >
+            <input
+                class="bp3-input"
+                disabled=self.props.disabled
+                placeholder={"Filter histogram..."}
+                />
             </InputGroup>
         }
     }
