@@ -21,6 +21,7 @@ impl Component for InputGroupDoc {
                 disabled: false,
                 large: false,
                 small: false,
+                show_placeholder: true,
             },
         }
     }
