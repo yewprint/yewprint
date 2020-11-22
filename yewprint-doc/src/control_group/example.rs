@@ -36,17 +36,18 @@ impl Component for Example {
         html! {
             <ControlGroup
                 fill=self.props.fill
-                vertical=self.props.fill
+                vertical=self.props.vertical
             >
                 <HtmlSelect<Sorting>
                     options={vec![
+                        (Sorting::Filter, "Filter".to_string()),
                         (Sorting::NameAscending, "Name-Ascending".to_string()),
                         (Sorting::NameDescending, "Name-Descending".to_string()),
                         (Sorting::PriceAscending, "Price-Ascending".to_string()),
                         (Sorting::PriceDescending, "Price-Descending".to_string()),
                     ]}
                 />
-                <InputGroup />
+                <InputGroup placeholder={"Find filters..."} />
                 <Button icon=IconName::ArrowRight>
                     {""}
                 </Button>
@@ -57,6 +58,7 @@ impl Component for Example {
 
 #[derive(Debug, Clone, Copy, Hash, PartialEq)]
 pub enum Sorting {
+    Filter,
     NameAscending,
     NameDescending,
     PriceAscending,

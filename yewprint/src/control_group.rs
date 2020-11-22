@@ -41,8 +41,8 @@ impl Component for ControlGroup {
             <div
                 class=(
                     "bp3-control-group",
-                    self.props.fill.as_some("bp3-fill"),
                     self.props.vertical.as_some("bp3-vertical"),
+                    self.props.fill.as_some("bp3-fill"),
                 )
             >
                 {self.props.children.clone()}

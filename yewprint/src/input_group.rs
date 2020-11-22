@@ -72,6 +72,7 @@ impl Component for InputGroup {
                         html!()
                     }
                 }
+                <input class="bp3-input" />
                 {self.props.children.clone()}
             </div>
         }
