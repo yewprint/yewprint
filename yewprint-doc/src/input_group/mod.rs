@@ -19,8 +19,10 @@ impl Component for InputGroupDoc {
             callback: link.callback(|x| x),
             state: ExampleProps {
                 disabled: false,
+                fill: false,
                 large: false,
                 small: false,
+                round: false,
                 placeholder: String::from(""),
             },
         }
@@ -78,6 +80,14 @@ crate::build_example_prop_component! {
                 />
                 <Switch
                     onclick=self.update_props(|props, _| ExampleProps {
+                        fill: !props.fill,
+                        ..props
+                    })
+                    checked=self.props.fill
+                    label=html!("Fill")
+                />
+                <Switch
+                    onclick=self.update_props(|props, _| ExampleProps {
                         large: !props.large,
                         ..props
                     })
@@ -91,6 +101,14 @@ crate::build_example_prop_component! {
                     })
                     checked=self.props.small
                     label=html!("Small")
+                />
+                <Switch
+                    onclick=self.update_props(|props, _| ExampleProps {
+                        round: !props.round,
+                        ..props
+                    })
+                    checked=self.props.round
+                    label=html!("Round")
                 />
             </div>
         }

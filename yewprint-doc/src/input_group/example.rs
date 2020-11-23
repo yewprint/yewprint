@@ -8,8 +8,10 @@ pub struct Example {
 #[derive(Clone, PartialEq, Properties)]
 pub struct ExampleProps {
     pub disabled: bool,
+    pub fill: bool,
     pub large: bool,
     pub small: bool,
+    pub round: bool,
     pub placeholder: String,
 }
 
@@ -37,8 +39,10 @@ impl Component for Example {
     fn view(&self) -> Html {
         html! {
             <InputGroup
+                fill=self.props.fill
                 large=self.props.large
                 small=self.props.small
+                round=self.props.round
                 left_icon=IconName::Filter
             >
             <input
