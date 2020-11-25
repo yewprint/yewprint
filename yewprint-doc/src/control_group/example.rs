@@ -47,7 +47,9 @@ impl Component for Example {
                         (Sorting::PriceDescending, "Price-Descending".to_string()),
                     ]}
                 />
-                <InputGroup placeholder={"Find filters..."} />
+                <InputGroup>
+                        <input class="bp3-input" placeholder={"Find filters..."} />
+                </InputGroup>
                 <Button icon=IconName::ArrowRight>
                     {""}
                 </Button>
