@@ -38,19 +38,58 @@ impl Component for Example {
 
     fn view(&self) -> Html {
         html! {
-            <InputGroup
-                fill=self.props.fill
-                large=self.props.large
-                small=self.props.small
-                round=self.props.round
-                left_icon=IconName::Filter
-            >
-            <input
-                class="bp3-input"
-                disabled=self.props.disabled
-                placeholder={"Filter histogram..."}
-                />
-            </InputGroup>
+            <>
+                <InputGroup
+                    fill=self.props.fill
+                    large=self.props.large
+                    small=self.props.small
+                    round=self.props.round
+                    left_icon=IconName::Filter
+                >
+                    <input
+                        class="bp3-input"
+                        disabled=self.props.disabled
+                        placeholder={"Filter histogram..."}
+                    />
+                </InputGroup>
+                <InputGroup
+                    fill=self.props.fill
+                    large=self.props.large
+                    small=self.props.small
+                    round=self.props.round
+                >
+                    <input
+                        class="bp3-input"
+                        disabled=self.props.disabled
+                        placeholder={"Enter your password..."}
+                    />
+                </InputGroup>
+                <InputGroup
+                    fill=self.props.fill
+                    large=self.props.large
+                    small=self.props.small
+                    round=self.props.round
+                    left_icon=IconName::Tag
+                >
+                    <input
+                        class="bp3-input"
+                        disabled=self.props.disabled
+                        placeholder={"Find tags"}
+                    />
+                </InputGroup>
+                <InputGroup
+                    fill=self.props.fill
+                    large=self.props.large
+                    small=self.props.small
+                    round=self.props.round
+                >
+                    <input
+                        class="bp3-input"
+                        disabled=self.props.disabled
+                        placeholder={"Add people or groups..."}
+                    />
+                </InputGroup>
+            </>
         }
     }
 }
