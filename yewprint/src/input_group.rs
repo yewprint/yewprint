@@ -73,6 +73,17 @@ impl Component for InputGroup {
                         html!()
                     }
                 }
+                {
+                    if let Some(right_element) = self.props.right_element.clone() {
+                        html! {
+                            <span>
+                                {right_element}
+                            </span>
+                        }
+                    } else {
+                        html!()
+                    }
+                }
                 {self.props.children.clone()}
             </div>
         }
