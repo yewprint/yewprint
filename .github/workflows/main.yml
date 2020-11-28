@@ -1,0 +1,27 @@
+name: PR Workflow
+
+on:
+  push:
+    branches: [ netlify-pr-preview ]
+  schedule:
+    - cron: 0 0 1 * *
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: cargo test --all-features --verbose
+
+  doc:
+    runs-on: ubuntu-latest
+    steps:
+    - run: cargo doc --verbose --all-features
+    - name: Deploy doc
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./target/doc
