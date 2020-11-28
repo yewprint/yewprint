@@ -38,13 +38,13 @@ impl Component for Example {
                 fill=self.props.fill
                 vertical=self.props.vertical
             >
-                <HtmlSelect<Sorting>
+                <HtmlSelect<Option<Sorting>>
                     options={vec![
-                        (Sorting::Filter, "Filter".to_string()),
-                        (Sorting::NameAscending, "Name-Ascending".to_string()),
-                        (Sorting::NameDescending, "Name-Descending".to_string()),
-                        (Sorting::PriceAscending, "Price-Ascending".to_string()),
-                        (Sorting::PriceDescending, "Price-Descending".to_string()),
+                        (None, "Filter".to_string()),
+                        (Some(Sorting::NameAscending), "Name-ascending".to_string()),
+                        (Some(Sorting::NameDescending), "Name-descending".to_string()),
+                        (Some(Sorting::PriceAscending), "Price-ascending".to_string()),
+                        (Some(Sorting::PriceDescending), "Price-descending".to_string()),
                     ]}
                 />
                 <InputGroup>
@@ -58,7 +58,6 @@ impl Component for Example {
 
 #[derive(Debug, Clone, Copy, Hash, PartialEq)]
 pub enum Sorting {
-    Filter,
     NameAscending,
     NameDescending,
     PriceAscending,
