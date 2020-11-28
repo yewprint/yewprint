@@ -68,9 +68,17 @@ impl Component for Button {
                         html!()
                     }
                 }
-                <span class="bp3-button-text">
-                    {self.props.children.clone()}
-                </span>
+                {
+                    if self.props.children.is_empty() == true {
+                        html! ()
+                    } else {
+                        html! {
+                            <span class="bp3-button-text">
+                                {self.props.children.clone()}
+                            </span>
+                        }
+                    }
+                }
             </button>
         }
     }
