@@ -32,6 +32,16 @@ jobs:
     - name: Build (Release)
       id: build
       run: "./build.sh --release && echo ::set-output name=size::`cat public/wasm_bg.wasm | wc -c`"
+    - name: Deploy to Netlify
+      uses: nwtgck/actions-netlify@v1.1
+      with:
+        publish-dir: './public'
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        deploy-message: ${{ github.event.pull_request.title }}
+      env:
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      timeout-minutes: 1
 
   build-main:
 
