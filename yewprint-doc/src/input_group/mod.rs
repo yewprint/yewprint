@@ -23,7 +23,6 @@ impl Component for InputGroupDoc {
                 large: false,
                 small: false,
                 round: false,
-                placeholder: String::from(""),
             },
         }
     }

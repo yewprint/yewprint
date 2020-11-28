@@ -12,7 +12,6 @@ pub struct ExampleProps {
     pub large: bool,
     pub small: bool,
     pub round: bool,
-    pub placeholder: String,
 }
 
 impl Component for Example {
