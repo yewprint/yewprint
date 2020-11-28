@@ -1,0 +1,51 @@
+name: Main Workflow
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: 0 0 1 * *
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: cargo test --all-features --verbose
+
+  site:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install wasm-pack
+      run: |
+        curl -sSL https://github.com/rustwasm/wasm-pack/releases/download/v0.9.1/wasm-pack-v0.9.1-x86_64-unknown-linux-musl.tar.gz \
+          | tar xzO wasm-pack-v0.9.1-x86_64-unknown-linux-musl/wasm-pack \
+          > $HOME/.cargo/bin/wasm-pack
+        chmod +x $HOME/.cargo/bin/wasm-pack
+    - run: cargo doc --verbose --all-features
+    - name: Deploy doc
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./target/doc
+    - name: Build (Release)
+      run: "./build.sh --release"
+    - name: Move doc to public/api
+      run: mv ./target/doc ./public/api
+    - name: Deploy to Netlify
+      uses: nwtgck/actions-netlify@v1.1
+      with:
+        publish-dir: './public'
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        deploy-message: ${{ github.event.head_commit.message }}
+        production-deploy: true
+        production-branch: main
+      env:
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      timeout-minutes: 5
