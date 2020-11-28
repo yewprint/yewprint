@@ -34,6 +34,7 @@ impl Component for Example {
 
     fn view(&self) -> Html {
         html! {
+            <div style="width: 600px;">
             <ControlGroup
                 fill=self.props.fill
                 vertical=self.props.vertical
@@ -52,6 +53,7 @@ impl Component for Example {
                 </InputGroup>
                 <Button icon=IconName::ArrowRight />
             </ControlGroup>
+            </div>
         }
     }
 }
