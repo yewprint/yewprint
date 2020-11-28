@@ -50,9 +50,7 @@ impl Component for Example {
                 <InputGroup>
                         <input class="bp3-input" placeholder={"Find filters..."} />
                 </InputGroup>
-                <Button icon=IconName::ArrowRight>
-                    {""}
-                </Button>
+                <Button icon=IconName::ArrowRight />
             </ControlGroup>
         }
     }

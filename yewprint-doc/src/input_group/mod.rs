@@ -46,7 +46,7 @@ impl Component for InputGroupDoc {
 
         html! {
             <div>
-                <H1 class="docs-title">{"Input Group"}</H1>
+                <H1 class="docs-title">{"InputGroup"}</H1>
                 <ExampleContainer
                     source=source
                     props=Some(html! {
