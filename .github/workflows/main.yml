@@ -42,9 +42,10 @@ jobs:
         publish-dir: './public'
         github-token: ${{ secrets.GITHUB_TOKEN }}
         deploy-message: "Website & doc"
+        deploy-message: ${{ github.event.head_commit.message }}
         production-deploy: true
         production-branch: main
       env:
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-      timeout-minutes: 1
+      timeout-minutes: 5
