@@ -65,6 +65,17 @@ impl Component for InputGroup {
                 )
             >
                 {
+                    if let Some(left_element) = self.props.left_element.clone() {
+                        html! {
+                            <span>
+                                {left_element}
+                            </span>
+                        }
+                    } else {
+                        html!()
+                    }
+                }
+                {
                     if let Some(icon) = self.props.left_icon {
                         html! {
                             <Icon icon=icon />

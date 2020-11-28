@@ -1,5 +1,5 @@
 use yew::prelude::*;
-use yewprint::{IconName, InputGroup, Button};
+use yewprint::{Button, IconName, InputGroup};
 
 pub struct Example {
     props: ExampleProps,
@@ -63,7 +63,9 @@ impl Component for Example {
                         disabled=self.props.disabled
                         placeholder={"Enter your password..."}
                     />
-                    <Button icon=IconName::Lock />
+                    <Button
+                        icon=IconName::Lock
+                    />
                 </InputGroup>
                 <InputGroup
                     fill=self.props.fill
@@ -77,6 +79,7 @@ impl Component for Example {
                         disabled=self.props.disabled
                         placeholder={"Find tags"}
                     />
+                    <Button />
                 </InputGroup>
                 <InputGroup
                     fill=self.props.fill
@@ -89,6 +92,7 @@ impl Component for Example {
                         disabled=self.props.disabled
                         placeholder={"Add people or groups..."}
                     />
+                    <Button />
                 </InputGroup>
             </>
         }
