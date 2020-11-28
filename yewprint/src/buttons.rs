@@ -69,7 +69,7 @@ impl Component for Button {
                     }
                 }
                 {
-                    if self.props.children.is_empty() == true {
+                    if self.props.children.is_empty() {
                         html! ()
                     } else {
                         html! {
