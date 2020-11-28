@@ -1,4 +1,4 @@
-name: PR Workflow
+name: Main Workflow
 
 on:
   push:
@@ -19,6 +19,7 @@ jobs:
   doc:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v2
     - run: cargo doc --verbose --all-features
     - name: Deploy doc
       uses: peaceiris/actions-gh-pages@v3
