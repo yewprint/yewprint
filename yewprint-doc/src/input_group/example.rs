@@ -79,7 +79,6 @@ impl Component for Example {
                         disabled=self.props.disabled
                         placeholder={"Find tags"}
                     />
-                    <Button />
                 </InputGroup>
                 <InputGroup
                     fill=self.props.fill
@@ -92,7 +91,6 @@ impl Component for Example {
                         disabled=self.props.disabled
                         placeholder={"Add people or groups..."}
                     />
-                    <Button />
                 </InputGroup>
             </>
         }
