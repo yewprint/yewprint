@@ -41,7 +41,6 @@ jobs:
       with:
         publish-dir: './public'
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        deploy-message: "Website & doc"
         deploy-message: ${{ github.event.head_commit.message }}
         production-deploy: true
         production-branch: main
