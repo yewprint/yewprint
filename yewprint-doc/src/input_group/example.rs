@@ -63,6 +63,7 @@ impl Component for Example {
                         placeholder={"Enter your password..."}
                     />
                     <Button
+                        minimal=true
                         icon=IconName::Lock
                     />
                 </InputGroup>
