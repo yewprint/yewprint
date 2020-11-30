@@ -43,25 +43,18 @@ impl Component for Example {
                     large=self.props.large
                     small=self.props.small
                     round=self.props.round
+                    disabled=self.props.disabled
                     left_icon=IconName::Filter
-                >
-                    <input
-                        class="bp3-input"
-                        disabled=self.props.disabled
-                        placeholder={"Filter histogram..."}
-                    />
-                </InputGroup>
+                    placeholder={"Filter histogram..."}
+                />
                 <InputGroup
                     fill=self.props.fill
                     large=self.props.large
                     small=self.props.small
                     round=self.props.round
+                    disabled=self.props.disabled
+                    placeholder={"Enter your password..."}
                 >
-                    <input
-                        class="bp3-input"
-                        disabled=self.props.disabled
-                        placeholder={"Enter your password..."}
-                    />
                     <Button
                         minimal=true
                         icon=IconName::Lock
@@ -72,26 +65,18 @@ impl Component for Example {
                     large=self.props.large
                     small=self.props.small
                     round=self.props.round
+                    disabled=self.props.disabled
                     left_icon=IconName::Tag
-                >
-                    <input
-                        class="bp3-input"
-                        disabled=self.props.disabled
-                        placeholder={"Find tags"}
-                    />
-                </InputGroup>
+                    placeholder={"Find tags"}
+                />
                 <InputGroup
                     fill=self.props.fill
                     large=self.props.large
                     small=self.props.small
                     round=self.props.round
-                >
-                    <input
-                        class="bp3-input"
-                        disabled=self.props.disabled
-                        placeholder={"Add people or groups..."}
-                    />
-                </InputGroup>
+                    disabled=self.props.disabled
+                    placeholder={"Add people or groups..."}
+                />
             </>
         }
     }

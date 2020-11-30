@@ -34,7 +34,6 @@ impl Component for Example {
 
     fn view(&self) -> Html {
         html! {
-            <div style="width: 600px;">
             <ControlGroup
                 fill=self.props.fill
                 vertical=self.props.vertical
@@ -48,12 +47,9 @@ impl Component for Example {
                         (Some(Sorting::PriceDescending), "Price - descending".to_string()),
                     ]}
                 />
-                <InputGroup>
-                        <input class="bp3-input" placeholder={"Find filters..."} />
-                </InputGroup>
+                <InputGroup />
                 <Button icon=IconName::ArrowRight />
             </ControlGroup>
-            </div>
         }
     }
 }

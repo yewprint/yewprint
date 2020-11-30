@@ -67,7 +67,7 @@ impl Component for InputGroup {
                 {
                     if let Some(left_element) = self.props.left_element.clone() {
                         html! {
-                            <span>
+                            <span disabled=self.props.disabled>
                                 {left_element}
                             </span>
                         }
@@ -84,10 +84,11 @@ impl Component for InputGroup {
                         html!()
                     }
                 }
+                <input class="bp3-input" placeholder=&self.props.placeholder disabled=self.props.disabled/>
                 {
                     if let Some(right_element) = self.props.right_element.clone() {
                         html! {
-                            <span>
+                            <span disabled=self.props.disabled>
                                 {right_element}
                             </span>
                         }
