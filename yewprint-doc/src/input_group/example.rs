@@ -1,5 +1,5 @@
 use yew::prelude::*;
-use yewprint::{Button, HtmlSelect, IconName, InputGroup, Tag};
+use yewprint::{Button, IconName, InputGroup, Tag};
 
 pub struct Example {
     props: ExampleProps,
@@ -105,23 +105,9 @@ impl Component for Example {
                         round=self.props.round
                         disabled=self.props.disabled
                         placeholder={"Add people or groups..."}
-                        right_element=html! {
-                            <HtmlSelect<Option<Can>>
-                                options={vec![
-                                    (Some(Can::CanEdit), "can edit".to_string()),
-                                    (Some(Can::CanView), "can view".to_string()),
-                                ]}
-                            />
-                        }
                     />
                 </div>
             </div>
         }
     }
-}
-
-#[derive(Debug, Clone, Copy, Hash, PartialEq)]
-pub enum Can {
-    CanEdit,
-    CanView,
 }
