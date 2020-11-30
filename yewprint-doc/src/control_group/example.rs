@@ -34,22 +34,24 @@ impl Component for Example {
 
     fn view(&self) -> Html {
         html! {
-            <ControlGroup
-                fill=self.props.fill
-                vertical=self.props.vertical
-            >
-                <HtmlSelect<Option<Sorting>>
-                    options={vec![
-                        (None, "Filter".to_string()),
-                        (Some(Sorting::NameAscending), "Name - ascending".to_string()),
-                        (Some(Sorting::NameDescending), "Name - descending".to_string()),
-                        (Some(Sorting::PriceAscending), "Price - ascending".to_string()),
-                        (Some(Sorting::PriceDescending), "Price - descending".to_string()),
-                    ]}
-                />
-                <InputGroup />
-                <Button icon=IconName::ArrowRight />
-            </ControlGroup>
+            <div style="width: 90%;">
+                <ControlGroup
+                    fill=self.props.fill
+                    vertical=self.props.vertical
+                >
+                    <HtmlSelect<Option<Sorting>>
+                        options={vec![
+                            (None, "Filter".to_string()),
+                            (Some(Sorting::NameAscending), "Name - ascending".to_string()),
+                            (Some(Sorting::NameDescending), "Name - descending".to_string()),
+                            (Some(Sorting::PriceAscending), "Price - ascending".to_string()),
+                            (Some(Sorting::PriceDescending), "Price - descending".to_string()),
+                        ]}
+                    />
+                    <InputGroup placeholder="Find filters..." />
+                    <Button icon=IconName::ArrowRight />
+                </ControlGroup>
+            </div>
         }
     }
 }
