@@ -11,6 +11,7 @@ pub struct Example {
 pub struct ExampleProps {
     pub minimal: bool,
     pub fill: bool,
+    pub disabled: bool,
 }
 
 pub enum Msg {
@@ -54,6 +55,7 @@ impl Component for Example {
                         onclick=self.link.callback(|_| Msg::AddOne)
                         minimal=self.props.minimal
                         fill=self.props.fill
+                        disabled=self.props.disabled
                     >
                         {"Add 1"}
                     </Button>

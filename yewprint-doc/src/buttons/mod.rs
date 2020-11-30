@@ -20,6 +20,7 @@ impl Component for ButtonDoc {
             state: ExampleProps {
                 minimal: false,
                 fill: false,
+                disabled: false,
             },
         }
     }
@@ -82,6 +83,14 @@ crate::build_example_prop_component! {
                     })
                     checked=self.props.fill
                     label=html!("Fill")
+                />
+                <Switch
+                    onclick=self.update_props(|props, _| ExampleProps {
+                        disabled: !props.disabled,
+                        ..props
+                    })
+                    checked=self.props.disabled
+                    label=html!("Disabled")
                 />
             </div>
         }
