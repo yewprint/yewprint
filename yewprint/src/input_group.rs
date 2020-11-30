@@ -84,7 +84,11 @@ impl Component for InputGroup {
                         html!()
                     }
                 }
-                <input class="bp3-input" placeholder=&self.props.placeholder disabled=self.props.disabled />
+                <input
+                    class="bp3-input"
+                    placeholder=&self.props.placeholder
+                    disabled=self.props.disabled
+                />
                 {
                     if let Some(right_element) = self.props.right_element.clone() {
                         html! {
