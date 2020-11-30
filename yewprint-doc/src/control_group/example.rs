@@ -42,10 +42,10 @@ impl Component for Example {
                 <HtmlSelect<Option<Sorting>>
                     options={vec![
                         (None, "Filter".to_string()),
-                        (Some(Sorting::NameAscending), "Name-ascending".to_string()),
-                        (Some(Sorting::NameDescending), "Name-descending".to_string()),
-                        (Some(Sorting::PriceAscending), "Price-ascending".to_string()),
-                        (Some(Sorting::PriceDescending), "Price-descending".to_string()),
+                        (Some(Sorting::NameAscending), "Name - ascending".to_string()),
+                        (Some(Sorting::NameDescending), "Name - descending".to_string()),
+                        (Some(Sorting::PriceAscending), "Price - ascending".to_string()),
+                        (Some(Sorting::PriceDescending), "Price - descending".to_string()),
                     ]}
                 />
                 <InputGroup>
