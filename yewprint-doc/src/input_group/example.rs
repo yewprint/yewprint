@@ -54,9 +54,14 @@ impl Component for Example {
                     round=self.props.round
                     disabled=self.props.disabled
                     placeholder={"Enter your password..."}
-                    right_element=html!(<Button icon=IconName::Lock minimal=true disabled=self.props.disabled />)
-                >
-                </InputGroup>
+                    right_element=html!(
+                        <Button
+                            icon=IconName::Lock
+                            minimal=true
+                            disabled=self.props.disabled
+                        />
+                    )
+                />
                 <InputGroup
                     fill=self.props.fill
                     large=self.props.large
