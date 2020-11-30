@@ -26,7 +26,6 @@ pub struct InputGroupProps {
     pub left_element: Option<yew::virtual_dom::VNode>,
     #[prop_or_default]
     pub right_element: Option<yew::virtual_dom::VNode>,
-
 }
 
 impl Component for InputGroup {
