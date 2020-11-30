@@ -8,7 +8,8 @@ pub struct Tag {
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct Props {
-    pub children: Children,
+    #[prop_or_default]
+    pub children: html::Children,
     #[prop_or_default]
     // FIXME Not clear that this field has any effect without `interactive` on.
     pub active: bool,
