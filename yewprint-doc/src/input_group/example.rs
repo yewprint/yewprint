@@ -55,10 +55,6 @@ impl Component for Example {
                     disabled=self.props.disabled
                     placeholder={"Enter your password..."}
                 >
-                    <Button
-                        minimal=true
-                        icon=IconName::Lock
-                    />
                 </InputGroup>
                 <InputGroup
                     fill=self.props.fill

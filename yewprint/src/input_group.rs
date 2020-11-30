@@ -26,8 +26,7 @@ pub struct InputGroupProps {
     pub left_element: Option<yew::virtual_dom::VNode>,
     #[prop_or_default]
     pub right_element: Option<yew::virtual_dom::VNode>,
-    #[prop_or_default]
-    pub children: html::Children,
+
 }
 
 impl Component for InputGroup {
@@ -100,7 +99,6 @@ impl Component for InputGroup {
                         html!()
                     }
                 }
-                {self.props.children.clone()}
             </div>
         }
     }
