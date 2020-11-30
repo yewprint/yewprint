@@ -1,5 +1,5 @@
 use yew::prelude::*;
-use yewprint::{Button, IconName, InputGroup, Tag};
+use yewprint::{Button, IconName, InputGroup};
 
 pub struct Example {
     props: ExampleProps,
