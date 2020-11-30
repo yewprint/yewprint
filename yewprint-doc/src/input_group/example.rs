@@ -37,77 +37,49 @@ impl Component for Example {
 
     fn view(&self) -> Html {
         html! {
-            <div style="
-                display: flex;
-                flex-wrap: wrap;
-            ">
-                <div style="
-                    width: 50%;
-                    padding: 10px;
-                ">
-                    <InputGroup
-                        fill=self.props.fill
-                        large=self.props.large
-                        small=self.props.small
-                        round=self.props.round
-                        disabled=self.props.disabled
-                        left_icon=IconName::Filter
-                        placeholder={"Filter histogram..."}
-                    />
-                </div>
-                <div style="
-                    width: 50%;
-                    padding: 10px;
-                ">
-                    <InputGroup
-                        fill=self.props.fill
-                        large=self.props.large
-                        small=self.props.small
-                        round=self.props.round
-                        disabled=self.props.disabled
-                        placeholder={"Enter your password..."}
-                        right_element=html! {
-                            <Button
-                                icon=IconName::Lock
-                                minimal=true
-                                disabled=self.props.disabled
-                            />
-                        }
-                    />
-                </div>
-                <div style="
-                    width: 50%;
-                    padding: 10px;
-                ">
-                    <InputGroup
-                        fill=self.props.fill
-                        large=self.props.large
-                        small=self.props.small
-                        round=self.props.round
-                        disabled=self.props.disabled
-                        left_icon=IconName::Tag
-                        placeholder={"Find tags"}
-                        right_element=html! {
-                            <Tag
-                                minimal=true
-                            />
-                        }
-                    />
-                </div>
-                <div style="
-                    width: 50%;
-                    padding: 10px;
-                ">
-                    <InputGroup
-                        fill=self.props.fill
-                        large=self.props.large
-                        small=self.props.small
-                        round=self.props.round
-                        disabled=self.props.disabled
-                        placeholder={"Add people or groups..."}
-                    />
-                </div>
-            </div>
+            <>
+                <InputGroup
+                    fill=self.props.fill
+                    large=self.props.large
+                    small=self.props.small
+                    round=self.props.round
+                    disabled=self.props.disabled
+                    left_icon=IconName::Filter
+                    placeholder={"Filter histogram..."}
+                />
+                <InputGroup
+                    fill=self.props.fill
+                    large=self.props.large
+                    small=self.props.small
+                    round=self.props.round
+                    disabled=self.props.disabled
+                    placeholder={"Enter your password..."}
+                    right_element=html! {
+                        <Button
+                            icon=IconName::Lock
+                            minimal=true
+                            disabled=self.props.disabled
+                        />
+                    }
+                />
+                <InputGroup
+                    fill=self.props.fill
+                    large=self.props.large
+                    small=self.props.small
+                    round=self.props.round
+                    disabled=self.props.disabled
+                    left_icon=IconName::Tag
+                    placeholder={"Find tags"}
+                />
+                <InputGroup
+                    fill=self.props.fill
+                    large=self.props.large
+                    small=self.props.small
+                    round=self.props.round
+                    disabled=self.props.disabled
+                    placeholder={"Add people or groups..."}
+                />
+            </>
         }
     }
 }
