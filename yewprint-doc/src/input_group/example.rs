@@ -1,5 +1,5 @@
 use yew::prelude::*;
-use yewprint::{Button, IconName, InputGroup};
+use yewprint::{Button, IconName, InputGroup, Tag};
 
 pub struct Example {
     props: ExampleProps,
@@ -70,14 +70,14 @@ impl Component for Example {
                     disabled=self.props.disabled
                     left_icon=IconName::Tag
                     placeholder={"Find tags"}
-                />
-                <InputGroup
-                    fill=self.props.fill
-                    large=self.props.large
-                    small=self.props.small
-                    round=self.props.round
-                    disabled=self.props.disabled
-                    placeholder={"Add people or groups..."}
+                    right_element=html! {
+                        <Tag
+                            minimal=true
+                            round=self.props.round
+                        >
+                            {"10000"}
+                        </Tag>
+                    }
                 />
             </>
         }
