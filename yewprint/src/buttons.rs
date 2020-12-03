@@ -13,6 +13,8 @@ pub struct Props {
     #[prop_or_default]
     pub minimal: bool,
     #[prop_or_default]
+    pub disabled: bool,
+    #[prop_or_default]
     pub icon: Option<IconName>,
     #[prop_or_default]
     pub intent: Option<Intent>,
@@ -22,6 +24,7 @@ pub struct Props {
     pub onclick: Callback<MouseEvent>,
     #[prop_or_default]
     pub class: String,
+    #[prop_or_default]
     pub children: html::Children,
 }
 
@@ -53,6 +56,7 @@ impl Component for Button {
                     "bp3-button",
                     self.props.fill.as_some("bp3-fill"),
                     self.props.minimal.as_some("bp3-minimal"),
+                    self.props.disabled.as_some("bp3-disabled"),
                     self.props.intent,
                     self.props.class.clone(),
                 )
@@ -67,9 +71,17 @@ impl Component for Button {
                         html!()
                     }
                 }
-                <span class="bp3-button-text">
-                    {self.props.children.clone()}
-                </span>
+                {
+                    if self.props.children.is_empty() {
+                        html! ()
+                    } else {
+                        html! {
+                            <span class="bp3-button-text">
+                                {self.props.children.clone()}
+                            </span>
+                        }
+                    }
+                }
             </button>
         }
     }

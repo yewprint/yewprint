@@ -3,9 +3,11 @@ use crate::buttons::*;
 use crate::callout::*;
 use crate::card::*;
 use crate::collapse::*;
+use crate::control_group::*;
 use crate::divider::*;
 use crate::html_select::*;
 use crate::icon::*;
+use crate::input_group::*;
 use crate::menu::*;
 use crate::progressbar::*;
 use crate::switch::*;
@@ -105,13 +107,15 @@ impl Component for App {
                             <Menu>
                                 <MenuItem
                                     text={html!(go_to_theme_label)}
-                                    onclick=self.link.callback(|_| Msg::ToggleLight)
+                                    onclick=self.link
+                                        .callback(|_| Msg::ToggleLight)
                                     icon=go_to_theme_icon
                                 />
                                 <MenuItem
-                                text={html!("Button")}
-                                href="#button"
-                                onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Button))
+                                    text={html!("Button")}
+                                    href="#button"
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Button))
                                 />
                                 <MenuItem
                                     text={html!("ButtonGroup")}
@@ -138,6 +142,12 @@ impl Component for App {
                                         .callback(|_| Msg::GoToMenu(DocMenu::Collapse))
                                 />
                                 <MenuItem
+                                    text={html!("ControlGroup")}
+                                    href="#control-group"
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::ControlGroup))
+                                    />
+                                <MenuItem
                                     text={html!("Divider")}
                                     href="#divider"
                                     onclick=self.link
@@ -145,18 +155,27 @@ impl Component for App {
                                 />
                                 <MenuItem
                                     text={html!("HtmlSelect")}
+                                    href="#html-select"
                                     onclick=self.link
                                         .callback(|_| Msg::GoToMenu(DocMenu::HtmlSelect))
                                 />
                                 <MenuItem
                                     text={html!("Icon")}
                                     href="#icon"
-                                    onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Icon))
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Icon))
+                                />
+                                <MenuItem
+                                    text={html!("InputGroup")}
+                                    href="#input-group"
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::InputGroup))
                                 />
                                 <MenuItem
                                     text={html!("Menu")}
                                     href="#menu"
-                                    onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Menu))
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Menu))
                                 />
                                 <MenuItem
                                     text={html!("ProgressBar")}
@@ -167,17 +186,20 @@ impl Component for App {
                                 <MenuItem
                                     text={html!("Switch")}
                                     href="#switch"
-                                    onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Switch))
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Switch))
                                 />
                                 <MenuItem
                                     text={html!("Tabs")}
                                     href="#tabs"
-                                    onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Tabs))
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Tabs))
                                 />
                                 <MenuItem
                                     text={html!("Tag")}
                                     href="#tag"
-                                    onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Tag))
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Tag))
                                 />
                                 <MenuItem
                                     text={html!("Text")}
@@ -188,7 +210,8 @@ impl Component for App {
                                 <MenuItem
                                     text={html!("Tree")}
                                     href="#tree"
-                                    onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Tree))
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Tree))
                                 />
                                 // NOTE: thanks to keep this list of <MenuItem> sorted
                                 //       alphabetically (except for the light switch)
@@ -213,16 +236,18 @@ impl Component for App {
                                         DocMenu::Callout => html!(<CalloutDoc />),
                                         DocMenu::Card => html!(<CardDoc />),
                                         DocMenu::Collapse => html!(<CollapseDoc />),
-                                        DocMenu::HtmlSelect => html!(<HtmlSelectDoc />),
-                                        DocMenu::Text => html!(<TextDoc />),
+                                        DocMenu::ControlGroup => html!(<ControlGroupDoc />),
                                         DocMenu::Divider => html!(<DividerDoc />),
-                                        DocMenu::Tree => html!(<TreeDoc />),
+                                        DocMenu::HtmlSelect => html!(<HtmlSelectDoc />),
                                         DocMenu::Icon => html!(<IconDoc />),
+                                        DocMenu::InputGroup => html!(<InputGroupDoc />),
+                                        DocMenu::Menu => html!(<MenuDoc />),
                                         DocMenu::ProgressBar => html!(<ProgressBarDoc />),
                                         DocMenu::Switch => html!(<SwitchDoc />),
                                         DocMenu::Tabs => html!(<TabsDoc />),
                                         DocMenu::Tag => html!(<TagDoc />),
-                                        DocMenu::Menu => html!(<MenuDoc />),
+                                        DocMenu::Text => html!(<TextDoc />),
+                                        DocMenu::Tree => html!(<TreeDoc />),
                                     }
                                 })
                             />
@@ -246,12 +271,16 @@ pub enum DocMenu {
     Card,
     #[to = "/#collapse"]
     Collapse,
+    #[to = "/#control-group"]
+    ControlGroup,
     #[to = "/#html-select"]
     HtmlSelect,
     #[to = "/#divider"]
     Divider,
     #[to = "/#icon"]
     Icon,
+    #[to = "/#input-group"]
+    InputGroup,
     #[to = "/#menu"]
     Menu,
     #[to = "/#progress-bar"]
