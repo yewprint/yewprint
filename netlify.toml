@@ -1,3 +1,0 @@
-[build]
-publish = "public"
-command = "curl -sSL https://sh.rustup.rs | sh -s -- -q -y --profile minimal && source $HOME/.cargo/env && curl -sSL https://github.com/rustwasm/wasm-pack/releases/download/v0.9.1/wasm-pack-v0.9.1-x86_64-unknown-linux-musl.tar.gz | tar xzO wasm-pack-v0.9.1-x86_64-unknown-linux-musl/wasm-pack > $HOME/.cargo/bin/wasm-pack && chmod +x $HOME/.cargo/bin/wasm-pack && ./build.sh"

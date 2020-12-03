@@ -7,7 +7,7 @@ else
 fi
 
 if ! [ -f core.tgz ]; then
-	curl -o core.tgz https://registry.npmjs.org/@blueprintjs/core/-/core-3.30.0.tgz
+	curl -o core.tgz https://registry.npmjs.org/@blueprintjs/core/-/core-3.36.0.tgz
 fi
 
 if ! [ -f docs-theme.tgz ]; then

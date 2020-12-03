@@ -5,22 +5,24 @@ use example::*;
 use yew::prelude::*;
 use yewprint::{Switch, H1, H5};
 
-pub struct ButtonDoc {
+pub struct InputGroupDoc {
     callback: Callback<ExampleProps>,
     state: ExampleProps,
 }
 
-impl Component for ButtonDoc {
+impl Component for InputGroupDoc {
     type Message = ExampleProps;
     type Properties = ();
 
     fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
-        ButtonDoc {
+        InputGroupDoc {
             callback: link.callback(|x| x),
             state: ExampleProps {
-                minimal: false,
-                fill: false,
                 disabled: false,
+                fill: false,
+                large: false,
+                small: false,
+                round: false,
             },
         }
     }
@@ -43,38 +45,37 @@ impl Component for ButtonDoc {
 
         html! {
             <div>
-                <H1 class="docs-title">{"Button"}</H1>
-                <div>
-                    <ExampleContainer
-                        source=source
-                        props=Some(html! {
-                            <ButtonProps
-                                callback={self.callback.clone()}
-                                props=example_props.clone()
-                            />
-                        })
-                    >
-                        <Example with example_props />
-                    </ExampleContainer>
-                </div>
+                <H1 class="docs-title">{"InputGroup"}</H1>
+                <ExampleContainer
+                    source=source
+                    props=Some(html! {
+                        <InputGroupProps
+                            callback={self.callback.clone()}
+                            props=example_props.clone()
+                        >
+                        </InputGroupProps>
+                    })
+                >
+                    <Example with example_props />
+                </ExampleContainer>
             </div>
         }
     }
 }
 
 crate::build_example_prop_component! {
-    ButtonProps for ExampleProps =>
+    InputGroupProps for ExampleProps =>
     fn view(&self) -> Html {
         html! {
             <div>
                 <H5>{"Props"}</H5>
                 <Switch
                     onclick=self.update_props(|props, _| ExampleProps {
-                        minimal: !props.minimal,
+                        disabled: !props.disabled,
                         ..props
                     })
-                    checked=self.props.minimal
-                    label=html!("Minimal")
+                    checked=self.props.disabled
+                    label=html!("Disabled")
                 />
                 <Switch
                     onclick=self.update_props(|props, _| ExampleProps {
@@ -86,11 +87,27 @@ crate::build_example_prop_component! {
                 />
                 <Switch
                     onclick=self.update_props(|props, _| ExampleProps {
-                        disabled: !props.disabled,
+                        large: !props.large,
                         ..props
                     })
-                    checked=self.props.disabled
-                    label=html!("Disabled")
+                    checked=self.props.large
+                    label=html!("Large")
+                />
+                <Switch
+                    onclick=self.update_props(|props, _| ExampleProps {
+                        small: !props.small,
+                        ..props
+                    })
+                    checked=self.props.small
+                    label=html!("Small")
+                />
+                <Switch
+                    onclick=self.update_props(|props, _| ExampleProps {
+                        round: !props.round,
+                        ..props
+                    })
+                    checked=self.props.round
+                    label=html!("Round")
                 />
             </div>
         }

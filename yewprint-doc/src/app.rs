@@ -3,9 +3,11 @@ use crate::buttons::*;
 use crate::callout::*;
 use crate::card::*;
 use crate::collapse::*;
+use crate::control_group::*;
 use crate::divider::*;
 use crate::html_select::*;
 use crate::icon::*;
+use crate::input_group::*;
 use crate::menu::*;
 use crate::numeric_input::*;
 use crate::progressbar::*;
@@ -141,6 +143,12 @@ impl Component for App {
                                         .callback(|_| Msg::GoToMenu(DocMenu::Collapse))
                                 />
                                 <MenuItem
+                                    text={html!("ControlGroup")}
+                                    href="#control-group"
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::ControlGroup))
+                                    />
+                                <MenuItem
                                     text={html!("Divider")}
                                     href="#divider"
                                     onclick=self.link
@@ -157,6 +165,12 @@ impl Component for App {
                                     href="#icon"
                                     onclick=self.link
                                         .callback(|_| Msg::GoToMenu(DocMenu::Icon))
+                                />
+                                <MenuItem
+                                    text={html!("InputGroup")}
+                                    href="#input-group"
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::InputGroup))
                                 />
                                 <MenuItem
                                     text={html!("Menu")}
@@ -234,6 +248,8 @@ impl Component for App {
                                         DocMenu::Icon => html!(<IconDoc />),
                                         DocMenu::Menu => html!(<MenuDoc />),
                                         DocMenu::NumericInput => html!(<NumericInputDoc />),
+                                        DocMenu::ControlGroup => html!(<ControlGroupDoc />),
+                                        DocMenu::InputGroup => html!(<InputGroupDoc />),
                                         DocMenu::ProgressBar => html!(<ProgressBarDoc />),
                                         DocMenu::Switch => html!(<SwitchDoc />),
                                         DocMenu::Tabs => html!(<TabsDoc />),
@@ -263,12 +279,16 @@ pub enum DocMenu {
     Card,
     #[to = "/#collapse"]
     Collapse,
+    #[to = "/#control-group"]
+    ControlGroup,
     #[to = "/#html-select"]
     HtmlSelect,
     #[to = "/#divider"]
     Divider,
     #[to = "/#icon"]
     Icon,
+    #[to = "/#input-group"]
+    InputGroup,
     #[to = "/#menu"]
     Menu,
     #[to = "/#numeric-input"]
