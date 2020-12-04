@@ -12,6 +12,8 @@ pub struct ControlGroupProps {
     #[prop_or_default]
     pub vertical: bool,
     #[prop_or_default]
+    pub large: bool,
+    #[prop_or_default]
     pub class: String,
     #[prop_or_default]
     pub children: html::Children,
@@ -45,6 +47,7 @@ impl Component for ControlGroup {
                     "bp3-control-group",
                     self.props.fill.as_some("bp3-fill"),
                     self.props.vertical.as_some("bp3-vertical"),
+                    self.props.large.as_some("bp3-large"),
                     self.props.class.clone()
                 )
             >
