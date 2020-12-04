@@ -15,6 +15,8 @@ pub struct NumericInputProps {
     #[prop_or_default]
     pub large: bool,
     #[prop_or_default]
+    pub class: String,
+    #[prop_or_default]
     pub min_value: i32,
     #[prop_or_default]
     pub max_value: i32,

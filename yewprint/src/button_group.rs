@@ -16,6 +16,8 @@ pub struct ButtonGroupProps {
     #[prop_or_default]
     pub large: bool,
     #[prop_or_default]
+    pub class: String,
+    #[prop_or_default]
     pub style: Option<String>,
     #[prop_or_default]
     pub children: html::Children,
