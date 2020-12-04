@@ -1,5 +1,5 @@
 use yew::prelude::*;
-use yewprint::{IconName, Menu, MenuDivider, MenuItem};
+use yewprint::{Icon, IconName, Menu, MenuDivider, MenuItem};
 
 pub struct Example {}
 
@@ -29,52 +29,58 @@ impl Component for Example {
                     />
                     <MenuDivider />
                     <MenuItem
-                        text={html!{"New text box"}}
                         icon=IconName::NewTextBox
+                        text={html!{"New text box"}}
                     />
                     <MenuItem
-                        text={html!{"New object"}}
                         icon=IconName::NewObject
+                        text={html!{"New object"}}
                     />
                     <MenuItem
-                        text={html!{"New link"}}
                         icon=IconName::NewLink
+                        text={html!{"New link"}}
                     />
                     <MenuDivider />
                     <MenuItem
-                        text={html!{"Settings"}}
                         icon=IconName::Cog
-                        // add the label icon
+                        text={html!{"Settings"}}
+                        label=html! {
+                            <Icon icon=IconName::Share />
+                        }
                     />
                 </Menu>
                 <Menu>
                     <MenuDivider title={html!("Edit")} />
-                    <MenuItem 
-                        text={html!("Cut")}
+                    <MenuItem
                         icon=IconName::Cut
+                        text={html!("Cut")}
+                        label={html!("Ctrl+X")}
                     />
                     <MenuItem
-                        text={html!("Copy")}
                         icon=IconName::Duplicate
+                        text={html!("Copy")}
+                        label={html!("Ctrl+C")}
                     />
                     <MenuItem
-                        text={html!("Paste")}
                         icon=IconName::Clipboard
+                        text={html!("Paste")}
+                        label={html!("Ctrl+V")}
                         disabled=true
                     />
                     <MenuDivider title={html!("Text")} />
                     <MenuItem
-                        text={html!("Alignment")}
                         icon=IconName::AlignLeft
-                        disabled=true
+                        text={html!("Alignment")}
+                        disabled=false
                     />
                     <MenuItem
-                        text={html!("Style")}
                         icon=IconName::Style
+                        text={html!("Style")}
+
                     />
                     <MenuItem
-                        text={html!("Miscellaneous")}
                         icon=IconName::Asterisk
+                        text={html!("Miscellaneous")}
                     />
                 </Menu>
             </>
