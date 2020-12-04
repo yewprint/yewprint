@@ -1,5 +1,4 @@
-use crate::icon::{Icon, IconName};
-use crate::Intent;
+use crate::{Icon, IconName, Intent, H6};
 use boolinator::Boolinator;
 use yew::prelude::*;
 
@@ -150,27 +149,52 @@ impl Component for MenuItem {
     }
 }
 
-pub struct MenuDivider {}
+pub struct MenuDivider {
+    props: MenuDividerProps,
+}
+
+#[derive(Clone, PartialEq, Properties)]
+pub struct MenuDividerProps {
+    #[prop_or_default]
+    pub title: Option<yew::virtual_dom::VNode>,
+}
 
 impl Component for MenuDivider {
     type Message = ();
-    type Properties = ();
+    type Properties = MenuDividerProps;
 
-    fn create(_props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        Self {}
+    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
+        Self { props }
     }
 
-    fn update(&mut self, _: Self::Message) -> ShouldRender {
+    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
         true
     }
 
-    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
-        true
+    fn change(&mut self, props: Self::Properties) -> ShouldRender {
+        if self.props != props {
+            self.props = props;
+            true
+        } else {
+            false
+        }
     }
 
     fn view(&self) -> Html {
         html! {
-            <span class="bp3-menu-divider" />
+            if let Some(title) = self.props.title.clone() {
+                html! {
+                    <li
+                        class="bp3-menu-header"
+                    >
+                        <H6>{title}</H6>
+                    </li>
+                }
+            } else {
+                html! {
+                    <li class="bp3-menu-divider" />
+                }
+            }
         }
     }
 }
