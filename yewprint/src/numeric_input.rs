@@ -1,4 +1,4 @@
-use crate::{Button, ControlGroup, InputGroup, Intent};
+use crate::{Button, ButtonGroup, ControlGroup, IconName, InputGroup, Intent};
 use boolinator::Boolinator;
 use yew::prelude::*;
 
@@ -47,10 +47,14 @@ impl Component for NumericInput {
 
     fn view(&self) -> Html {
         html! {
-            <ControlGroup >
+            <ControlGroup
+                class="bp3-numeric-input"
+            >
                 <InputGroup />
-                <Button />
-                <Button />
+                <ButtonGroup vertical=true class="bp3-fixed">
+                    <Button icon=IconName::ChevronUp/>
+                    <Button icon=IconName::ChevronDown/>
+                </ButtonGroup>
             </ControlGroup>
         }
     }
