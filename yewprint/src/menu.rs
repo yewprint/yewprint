@@ -164,7 +164,7 @@ impl Component for MenuDivider {
     type Properties = MenuDividerProps;
 
     fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        MenuDivider { props }
+        Self { props }
     }
 
     fn update(&mut self, _msg: Self::Message) -> ShouldRender {
