@@ -21,7 +21,7 @@ impl Component for Example {
 
     fn view(&self) -> Html {
         html! {
-            <div>
+            <>
                 <Menu>
                     <MenuItem
                         text={html!("Custom SVG icon")}
@@ -47,7 +47,37 @@ impl Component for Example {
                         // add the label icon
                     />
                 </Menu>
-            </div>
+                <Menu>
+                    <MenuDivider title={html!("Edit")} />
+                    <MenuItem 
+                        text={html!("Cut")}
+                        icon=IconName::Cut
+                    />
+                    <MenuItem
+                        text={html!("Copy")}
+                        icon=IconName::Duplicate
+                    />
+                    <MenuItem
+                        text={html!("Paste")}
+                        icon=IconName::Clipboard
+                        disabled=true
+                    />
+                    <MenuDivider title={html!("Text")} />
+                    <MenuItem
+                        text={html!("Alignment")}
+                        icon=IconName::AlignLeft
+                        disabled=true
+                    />
+                    <MenuItem
+                        text={html!("Style")}
+                        icon=IconName::Style
+                    />
+                    <MenuItem
+                        text={html!("Miscellaneous")}
+                        icon=IconName::Asterisk
+                    />
+                </Menu>
+            </>
         }
     }
 }
