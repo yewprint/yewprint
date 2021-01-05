@@ -35,9 +35,11 @@ impl Component for Example {
 
     fn view(&self) -> Html {
         html! {
-            <div>
-                <NumericInput />
-            </div>
+            <NumericInput
+                disabled=self.props.disabled
+                fill=self.props.fill
+                large=self.props.large
+            />
         }
     }
 }

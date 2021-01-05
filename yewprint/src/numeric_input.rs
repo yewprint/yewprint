@@ -17,9 +17,11 @@ pub struct NumericInputProps {
     #[prop_or_default]
     pub class: String,
     #[prop_or_default]
-    pub min_value: i32,
+    pub left_icon: Option<IconName>,
     #[prop_or_default]
-    pub max_value: i32,
+    pub min_value: Option<i32>,
+    #[prop_or_default]
+    pub max_value: Option<i32>,
     #[prop_or_default]
     pub intent: Option<Intent>,
 }
