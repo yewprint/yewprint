@@ -48,7 +48,7 @@ impl Component for ControlGroup {
                     self.props.fill.as_some("bp3-fill"),
                     self.props.vertical.as_some("bp3-vertical"),
                     self.props.large.as_some("bp3-large"),
-                    self.props.class.clone()
+                    self.props.class.clone(),
                 )
             >
                 {self.props.children.clone()}

@@ -1,5 +1,4 @@
 use crate::{Button, ButtonGroup, ControlGroup, IconName, InputGroup, Intent};
-// use boolinator::Boolinator;
 use yew::prelude::*;
 
 pub struct NumericInput {
@@ -24,6 +23,8 @@ pub struct NumericInputProps {
     pub max_value: Option<i32>,
     #[prop_or_default]
     pub intent: Option<Intent>,
+    #[prop_or_default]
+    pub onchange: Callback<i32>,
 }
 
 impl Component for NumericInput {
@@ -54,10 +55,20 @@ impl Component for NumericInput {
                 fill=self.props.fill
                 large=self.props.large
             >
-                <InputGroup placeholder="Enter a number..." />
+                <InputGroup
+                    placeholder="Enter a number..."
+                    large=self.props.large
+                    disabled=self.props.disabled
+                />
                 <ButtonGroup vertical=true class="bp3-fixed">
-                    <Button icon=IconName::ChevronUp />
-                    <Button icon=IconName::ChevronDown />
+                    <Button
+                        icon=IconName::ChevronUp
+                        disabled=self.props.disabled
+                    />
+                    <Button
+                        icon=IconName::ChevronDown
+                        disabled=self.props.disabled
+                    />
                 </ButtonGroup>
             </ControlGroup>
         }

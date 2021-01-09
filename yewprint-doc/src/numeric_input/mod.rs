@@ -49,8 +49,8 @@ impl Component for NumericInputDoc {
                         source=source
                         props=Some(html! {
                             <NumericInputProps
-                            callback={self.callback.clone()}
-                            props=example_props.clone()
+                                callback={self.callback.clone()}
+                                props=example_props.clone()
                             />
                         })
                     >
