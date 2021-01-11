@@ -19,6 +19,8 @@ pub struct Props {
     pub onchange: Callback<ChangeData>,
     #[prop_or_default]
     pub label: yew::virtual_dom::VNode,
+    #[prop_or_default]
+    pub value: String,
 }
 
 impl Component for Radio {
@@ -56,6 +58,7 @@ impl Component for Radio {
                     checked={self.props.checked}
                     onchange={self.props.onchange.clone()}
                     disabled=self.props.disabled
+                    value={self.props.value.clone()}
                 />
                 <span
                     class="bp3-control-indicator"

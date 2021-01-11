@@ -1,4 +1,3 @@
-use boolinator::Boolinator;
 use yew::prelude::*;
 
 pub struct RadioGroup {
@@ -8,15 +7,16 @@ pub struct RadioGroup {
 #[derive(Clone, PartialEq, Properties)]
 pub struct Props {
     #[prop_or_default]
-    pub disabled: bool,
-    #[prop_or_default]
-    pub inline: bool,
+    pub onchange: Callback<ChangeData>,
     #[prop_or_default]
     pub label: Option<yew::virtual_dom::VNode>,
     #[prop_or_default]
     pub label_class: Option<String>,
     #[prop_or_default]
     pub children: html::Children,
+    #[prop_or_default]
+    pub name: String,
+    // selected_value
 }
 
 impl Component for RadioGroup {
@@ -45,9 +45,9 @@ impl Component for RadioGroup {
             <div
                 class=(
                     "bp3-radio-group",
-                    self.props.disabled.as_some("bp3-disabled"),
-                    self.props.inline.as_some("bp3-inline"),
                 )
+                onchange={self.props.onchange.clone()}
+                name={self.props.name.clone()}
             >
             {
                 if let Some(label) = self.props.label.clone() {

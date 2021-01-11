@@ -37,18 +37,29 @@ impl Component for Example {
         html! {
             <div>
                 <RadioGroup
-                    disabled=self.props.disabled
-                    inline=self.props.inline
                     label=html!("Determine lunch")
+                    name="group"
                 >
                     <Radio
+                        disabled=self.props.disabled
+                        inline=self.props.inline
+                        large=self.props.large
                         label=html!("Soup")
+                        value="one"
                     />
                     <Radio
+                        disabled=self.props.disabled
+                        inline=self.props.inline
+                        large=self.props.large
                         label=html!("Salad")
+                        value="two"
                     />
                     <Radio
+                        disabled=self.props.disabled
+                        inline=self.props.inline
+                        large=self.props.large
                         label=html!("Sandwich")
+                        value="three"
                     />
                 </RadioGroup>
             </div>
