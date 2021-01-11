@@ -1,5 +1,5 @@
 use yew::prelude::*;
-use yewprint::{Label, Radio};
+use yewprint::{Radio, RadioGroup};
 
 pub struct Example {
     props: ExampleProps,
@@ -36,25 +36,21 @@ impl Component for Example {
     fn view(&self) -> Html {
         html! {
             <div>
-                <Label>{"Determine lunch"}</Label>
+                <RadioGroup
+                    disabled=self.props.disabled
+                    inline=self.props.inline
+                    label=html!("Determine lunch")
+                >
                     <Radio
-                        disabled=self.props.disabled
-                        inline=self.props.inline
-                        large=self.props.large
                         label=html!("Soup")
                     />
                     <Radio
-                        disabled=self.props.disabled
-                        inline=self.props.inline
-                        large=self.props.large
                         label=html!("Salad")
                     />
                     <Radio
-                        disabled=self.props.disabled
-                        inline=self.props.inline
-                        large=self.props.large
                         label=html!("Sandwich")
                     />
+                </RadioGroup>
             </div>
         }
     }
