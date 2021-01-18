@@ -95,7 +95,7 @@ impl Component for Tag {
             >
                 {icon}
                 <Text
-                    class="bp3-fill"
+                    class=classes!("bp3-fill")
                     ellipsize={!self.props.multiline}
                     title=self.props.title.clone()
                     inline=true

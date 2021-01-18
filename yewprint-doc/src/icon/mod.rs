@@ -31,7 +31,7 @@ impl Component for IconDoc {
 
         html! {
             <div>
-                <H1 class="docs-title">{"Icon"}</H1>
+                <H1 class=classes!("docs-title")>{"Icon"}</H1>
                 <ExampleContainer source=source>
                     <Example />
                 </ExampleContainer>

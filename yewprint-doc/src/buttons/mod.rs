@@ -43,7 +43,7 @@ impl Component for ButtonDoc {
 
         html! {
             <div>
-                <H1 class="docs-title">{"Button"}</H1>
+                <H1 class=classes!("docs-title")>{"Button"}</H1>
                 <div>
                     <ExampleContainer
                         source=source

@@ -330,7 +330,7 @@ impl Component for TreeNode {
 
                             html! {
                                 <Icon
-                                    class=class.to_string()
+                                    class=classes!(class.to_string())
                                     icon=IconName::ChevronRight
                                     onclick=self.handler_caret_click.clone()
                                 />
@@ -342,7 +342,7 @@ impl Component for TreeNode {
                         }
                     }
                     <Icon
-                        class="bp3-tree-node-icon"
+                        class=classes!("bp3-tree-node-icon")
                         icon=self.props.icon.unwrap_or_default()
                         color=self.props.icon_color.clone()
                         intent=self.props.icon_intent

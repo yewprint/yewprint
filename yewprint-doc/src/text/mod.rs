@@ -42,7 +42,7 @@ impl Component for TextDoc {
 
         html! {
             <div>
-                <H1 class="docs-title">{"Text"}</H1>
+                <H1 class=classes!("docs-title")>{"Text"}</H1>
                 <div>
                     <ExampleContainer
                         source=source
