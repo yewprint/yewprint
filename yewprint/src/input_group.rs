@@ -52,7 +52,7 @@ impl Component for InputGroup {
     fn view(&self) -> Html {
         html! {
             <div
-                class=(
+                class=classes!(
                     "bp3-input-group",
                     self.props.disabled.as_some("bp3-disabled"),
                     self.props.fill.as_some("bp3-fill"),

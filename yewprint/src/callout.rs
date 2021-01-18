@@ -9,7 +9,7 @@ pub struct Callout {
 #[derive(Clone, PartialEq, Properties)]
 pub struct Props {
     #[prop_or_default]
-    pub class: String,
+    pub class: Classes,
     #[prop_or(false)]
     pub without_icon: bool,
     #[prop_or_default]

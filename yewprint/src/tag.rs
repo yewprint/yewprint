@@ -81,7 +81,7 @@ impl Component for Tag {
 
         html! {
             <span
-                class=(
+                class=classes!(
                     "bp3-tag",
                     self.props.intent,
                     self.props.active.as_some("bp3-active"),

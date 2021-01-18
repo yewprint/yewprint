@@ -69,7 +69,7 @@ impl Component for Icon {
 
         html! {
             <span
-                class=("bp3-icon", self.props.class.clone(), self.props.intent)
+                class=classes!("bp3-icon", self.props.class.clone(), self.props.intent)
                 onclick=self.props.onclick.clone()
             >
                 <svg

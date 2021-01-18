@@ -44,7 +44,7 @@ impl Component for Text {
     fn view(&self) -> Html {
         html! {
             <@{if self.props.inline { "span" } else { "div"}}
-                class=(
+                class=classes!(
                     self.props.class.clone(),
                     self.props.ellipsize.as_some("bp3-text-overflow-ellipsis"),
                 )

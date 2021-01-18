@@ -37,7 +37,7 @@ impl Component for Divider {
     fn view(&self) -> Html {
         html! {
             <span
-                class=(
+                class=classes!(
                     "bp3-divider",
                     self.props.vertical.as_some("bp3-vertical"),
                 )

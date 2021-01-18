@@ -339,8 +339,8 @@ impl Component for TreeNode {
                         }
                     }
                     <Icon
-                        class="bp3-tree-node-icon"
-                        icon=self.props.icon.unwrap_or_default()
+                        class=classes!("bp3-tree-node-icon"),
+                        icon=self.props.icon.unwrap_or_default(),
                         color=self.props.icon_color.clone(),
                         intent=self.props.icon_intent,
                     />

@@ -89,7 +89,7 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for HtmlSelect<T> {
 
         html! {
             <div
-                class=(
+                class=classes!(
                     "bp3-html-select",
                     self.props.minimal.as_some("bp3-minimal"),
                     self.props.large.as_some("bp3-large"),

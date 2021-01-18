@@ -50,7 +50,7 @@ impl Component for ProgressBar {
         };
         html! {
             <div
-                class=(
+                class=classes!(
                     "bp3-progress-bar",
                     self.props.intent,
                     (!self.props.animate).as_some("bp3-no-animation"),

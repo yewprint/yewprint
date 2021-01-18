@@ -52,7 +52,7 @@ impl Component for Button {
     fn view(&self) -> Html {
         html! {
             <button
-                class=(
+                class=classes!(
                     "bp3-button",
                     self.props.fill.as_some("bp3-fill"),
                     self.props.minimal.as_some("bp3-minimal"),

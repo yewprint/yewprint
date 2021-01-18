@@ -40,7 +40,7 @@ pub use text::*;
 #[cfg(feature = "tree")]
 pub use tree::*;
 
-use yew::virtual_dom::Classes;
+use yew::Classes;
 
 #[macro_export]
 macro_rules! if_html {

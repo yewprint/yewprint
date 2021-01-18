@@ -41,7 +41,7 @@ impl Component for Menu {
     fn view(&self) -> Html {
         html! {
             <ul
-                class=(
+                class=classes!(
                     "bp3-menu",
                     self.props.large.as_some("bp3-large"),
                     self.props.class.clone(),
@@ -112,7 +112,7 @@ impl Component for MenuItem {
         html! {
             <li>
                 <a
-                    class=(
+                    class=classes!(
                         "bp3-menu-item",
                         self.props.active.as_some("bp3-active"),
                         self.props.disabled.as_some("bp3-disabled"),
@@ -125,14 +125,14 @@ impl Component for MenuItem {
                     onclick={self.props.onclick.clone()}
                 >
                     <Icon icon={self.props.icon} />
-                    <div class=("bp3-text", "bp3-fill", self.props.text_class.clone())>
+                    <div class=classes!("bp3-text", "bp3-fill", self.props.text_class.clone())>
                         {self.props.text.clone()}
                     </div>
                     {
                         if let Some(label) = self.props.label.clone() {
                             html! {
                                 <span
-                                    class=(
+                                    class=classes!(
                                         "bp3-menu-item-label",
                                         self.props.label_class.clone())
                                 >
