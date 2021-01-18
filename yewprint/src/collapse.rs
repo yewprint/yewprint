@@ -177,9 +177,9 @@ impl Component for Collapse {
         }
 
         html! {
-            <div class="bp3-collapse" style={container_style}>
+            <div class=classes!("bp3-collapse") style={container_style}>
                 <div
-                    class="bp3-collapse-body"
+                    class=classes!("bp3-collapse-body")
                     style={content_style}
                     aria-hidden={!self.render_children}
                     ref={self.contents_ref.clone()}

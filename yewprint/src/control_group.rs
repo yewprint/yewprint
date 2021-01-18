@@ -39,7 +39,7 @@ impl Component for ControlGroup {
     fn view(&self) -> Html {
         html! {
             <div
-                class=(
+                class=classes!(
                     "bp3-control-group",
                     self.props.fill.as_some("bp3-fill"),
                     self.props.vertical.as_some("bp3-vertical"),

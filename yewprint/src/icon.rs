@@ -20,7 +20,7 @@ pub struct Icon {
 pub struct IconProps {
     pub icon: IconName,
     #[prop_or_default]
-    pub class: String,
+    pub class: Classes,
     #[prop_or_default]
     pub title: Option<String>,
     #[prop_or_default]
@@ -69,7 +69,7 @@ impl Component for Icon {
 
         html! {
             <span
-                class=("bp3-icon", self.props.class.clone(), self.props.intent)
+                class=classes!("bp3-icon", self.props.class.clone(), self.props.intent)
                 onclick=self.props.onclick.clone()
             >
                 <svg

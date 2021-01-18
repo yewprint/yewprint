@@ -42,7 +42,7 @@ impl Component for CardDoc {
 
         html! {
             <div>
-                <H1 class="docs-title">{"Card"}</H1>
+                <H1 class=classes!("docs-title")>{"Card"}</H1>
                 <ExampleContainer
                     source=source
                     props=Some(html! {

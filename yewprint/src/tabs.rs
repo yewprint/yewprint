@@ -27,7 +27,7 @@ pub struct TabsProps<T: Clone + PartialEq> {
     #[prop_or_default]
     pub onchange: Callback<T>,
     #[prop_or_default]
-    pub class: String,
+    pub class: Classes,
     pub tabs: Vec<Tab<T>>,
 }
 
@@ -91,14 +91,14 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
 
         html! {
             <div
-                class=(
+                class=classes!(
                     "bp3-tabs",
                     self.props.vertical.as_some("bp3-vertical"),
                     self.props.class.clone(),
                 )
             >
                 <div
-                    class=(
+                    class=classes!(
                         "bp3-tab-list",
                         self.props.large.as_some("bp3-large"),
                     )
@@ -137,7 +137,7 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
                             .iter()
                             .map(|(props, id, title_id, panel_id, selected)| html! {
                                 <div
-                                    class=(
+                                    class=classes!(
                                         "bp3-tab",
                                         props.title_class.clone(),
                                     )
@@ -183,7 +183,7 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
                         })
                         .map(|(props, id, title_id, panel_id, selected)| html! {
                             <div
-                                class=(
+                                class=classes!(
                                     "bp3-tab-panel",
                                     props.panel_class.clone(),
                                 )
@@ -209,6 +209,6 @@ pub struct Tab<T> {
     pub id: T,
     pub title: Html,
     pub panel: Html,
-    pub title_class: Option<String>,
-    pub panel_class: Option<String>,
+    pub title_class: Classes,
+    pub panel_class: Classes,
 }

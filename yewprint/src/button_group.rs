@@ -45,7 +45,7 @@ impl Component for ButtonGroup {
     fn view(&self) -> Html {
         html! {
             <div
-                class=(
+                class=classes!(
                     "bp3-button-group",
                     self.props.minimal.as_some("bp3-minimal"),
                     self.props.fill.as_some("bp3-fill"),

@@ -70,7 +70,7 @@ impl Component for Tag {
             let Some(callback) = self.props.onremove.clone() =>
             html!(
                 <button
-                    class="bp3-tag-remove"
+                    class=classes!("bp3-tag-remove")
                     onclick={callback}
                     tabindex?={self.props.interactive.as_some(0)}
                 >
@@ -81,7 +81,7 @@ impl Component for Tag {
 
         html! {
             <span
-                class=(
+                class=classes!(
                     "bp3-tag",
                     self.props.intent,
                     self.props.active.as_some("bp3-active"),
@@ -95,7 +95,7 @@ impl Component for Tag {
             >
                 {icon}
                 <Text
-                    class="bp3-fill"
+                    class=classes!("bp3-fill")
                     ellipsize={!self.props.multiline}
                     title=self.props.title.clone()
                     inline=true

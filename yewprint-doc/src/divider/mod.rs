@@ -39,7 +39,7 @@ impl Component for DividerDoc {
 
         html! {
             <div>
-                <H1 class="docs-title">{"Divider"}</H1>
+                <H1 class=classes!("docs-title")>{"Divider"}</H1>
                 <ExampleContainer
                     source=source
                     props=Some(html! {

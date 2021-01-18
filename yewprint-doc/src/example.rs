@@ -49,15 +49,15 @@ impl Component for ExampleContainer {
 
     fn view(&self) -> Html {
         html! {
-            <div class="docs-example-wrapper">
-                <div class="docs-example-frame docs-example-frame-row">
-                    <div class="docs-example">
+            <div class=classes!("docs-example-wrapper")>
+                <div class=classes!("docs-example-frame", "docs-example-frame-row")>
+                    <div class=classes!("docs-example")>
                         {self.props.children.clone()}
                     </div>
                     {
                         if let Some(props) = self.props.props.clone() {
                             html! {
-                                <div class="docs-example-options">
+                                <div class=classes!("docs-example-options")>
                                     {props}
                                 </div>
                             }
@@ -66,7 +66,7 @@ impl Component for ExampleContainer {
                         }
                     }
                 </div>
-                <div class="docs-source">
+                <div class=classes!("docs-source")>
                     <Button
                         icon=IconName::Code
                         fill={true}

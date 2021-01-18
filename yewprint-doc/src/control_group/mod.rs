@@ -42,7 +42,7 @@ impl Component for ControlGroupDoc {
 
         html! {
             <div>
-                <H1 class="docs-title">{"ControlGroup"}</H1>
+                <H1 class=classes!("docs-title")>{"ControlGroup"}</H1>
                 <ExampleContainer
                     source=source
                     props=Some(html! {

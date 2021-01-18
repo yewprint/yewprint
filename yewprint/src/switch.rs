@@ -45,8 +45,9 @@ impl Component for Switch {
     fn view(&self) -> Html {
         html! {
             <label
-                class=(
-                    "bp3-control bp3-switch",
+                class=classes!(
+                    "bp3-control",
+                    "bp3-switch",
                     self.props.disabled.as_some("bp3-disabled"),
                     self.props.inline.as_some("bp3-inline"),
                     self.props.large.as_some("bp3-large"),
@@ -59,7 +60,7 @@ impl Component for Switch {
                 disabled=self.props.disabled
             />
             <span
-                class="bp3-control-indicator"
+                class=classes!("bp3-control-indicator")
             >
             </span>
             {self.props.label.clone()}
