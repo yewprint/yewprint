@@ -54,13 +54,12 @@ impl Component for Callout {
                 })
             })
         };
-        let mut classes = Classes::from(self.props.class.clone()).extend("bp3-callout");
-        if icon.is_some() {
-            classes.push("bp3-callout-icon");
-        }
-        if let Some(ref intent) = self.props.intent {
-            classes.push(intent.as_ref());
-        }
+        let classes = classes!(
+            self.props.class.clone(),
+            "bp3-callout",
+            icon.map(|_| "bp3-callout-icon"),
+            self.props.intent,
+        );
         html! {
             <div class=classes>
                 {

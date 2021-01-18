@@ -83,7 +83,7 @@ impl Component for App {
         };
 
         html! {
-            <div class=("docs-root", self.dark_theme.as_some("bp3-dark"))>
+            <div class=classes!("docs-root", self.dark_theme.as_some("bp3-dark"))>
                 <div class="docs-app">
                     <div class="docs-nav-wrapper">
                         <div class="docs-nav">
