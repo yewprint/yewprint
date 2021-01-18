@@ -23,7 +23,7 @@ pub struct Props {
     #[prop_or_default]
     pub onclick: Callback<MouseEvent>,
     #[prop_or_default]
-    pub class: String,
+    pub class: Classes,
     #[prop_or_default]
     pub children: html::Children,
 }

@@ -12,7 +12,7 @@ pub struct Props {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
-    pub class: String,
+    pub class: Classes,
     /// Wrap text in `span` instead of `div`.
     #[prop_or_default]
     pub inline: bool,

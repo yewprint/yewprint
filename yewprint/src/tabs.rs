@@ -27,7 +27,7 @@ pub struct TabsProps<T: Clone + PartialEq> {
     #[prop_or_default]
     pub onchange: Callback<T>,
     #[prop_or_default]
-    pub class: String,
+    pub class: Classes,
     pub tabs: Vec<Tab<T>>,
 }
 

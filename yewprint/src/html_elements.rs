@@ -8,7 +8,7 @@ macro_rules! build_component {
         #[derive(Debug, Clone, PartialEq, Properties)]
         pub struct $props_name {
             #[prop_or_default]
-            pub class: String,
+            pub class: Classes,
             #[prop_or_default]
             pub children: html::Children,
         }

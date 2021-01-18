@@ -20,7 +20,7 @@ pub struct Icon {
 pub struct IconProps {
     pub icon: IconName,
     #[prop_or_default]
-    pub class: String,
+    pub class: Classes,
     #[prop_or_default]
     pub title: Option<String>,
     #[prop_or_default]

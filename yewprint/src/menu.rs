@@ -11,7 +11,7 @@ pub struct MenuProps {
     #[prop_or_default]
     pub large: bool,
     #[prop_or_default]
-    pub class: Option<String>,
+    pub class: Classes,
     #[prop_or_default]
     pub r#ref: NodeRef,
     pub children: html::Children,
@@ -67,7 +67,7 @@ pub struct MenuItemProps {
     #[prop_or_default]
     pub active: bool,
     #[prop_or_default]
-    pub class: Option<String>,
+    pub class: Classes,
     #[prop_or_default]
     pub disabled: bool,
     #[prop_or_default]
