@@ -1,16 +1,15 @@
 use crate::{Icon, IconName};
-use boolinator::Boolinator;
 use std::collections::hash_map::DefaultHasher;
 use std::hash::{Hash, Hasher};
 use yew::prelude::*;
 
 pub struct HtmlSelect<T: Clone + PartialEq + Hash + 'static> {
-    props: Props<T>,
+    props: HtmlSelectProps<T>,
     link: ComponentLink<Self>,
 }
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct Props<T: Clone + PartialEq + 'static> {
+pub struct HtmlSelectProps<T: Clone + PartialEq + 'static> {
     #[prop_or_default]
     pub fill: bool,
     #[prop_or_default]
@@ -32,7 +31,7 @@ pub struct Props<T: Clone + PartialEq + 'static> {
 
 impl<T: Clone + PartialEq + Hash + 'static> Component for HtmlSelect<T> {
     type Message = ChangeData;
-    type Properties = Props<T>;
+    type Properties = HtmlSelectProps<T>;
 
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
         Self { props, link }
@@ -89,12 +88,12 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for HtmlSelect<T> {
 
         html! {
             <div
-                class=(
+                class=classes!(
                     "bp3-html-select",
-                    self.props.minimal.as_some("bp3-minimal"),
-                    self.props.large.as_some("bp3-large"),
-                    self.props.fill.as_some("bp3-fill"),
-                    self.props.disabled.as_some("bp3-disabled"),
+                    self.props.minimal.then(|| "bp3-minimal"),
+                    self.props.large.then(|| "bp3-large"),
+                    self.props.fill.then(|| "bp3-fill"),
+                    self.props.disabled.then(|| "bp3-disabled"),
                 )
             >
                 <select

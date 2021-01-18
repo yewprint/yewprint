@@ -4,7 +4,7 @@ use yew::prelude::*;
 #[derive(Clone, PartialEq, Properties)]
 pub struct CardProps {
     #[prop_or_default]
-    pub class: Option<String>,
+    pub class: Classes,
     #[prop_or_default]
     pub elevation: Elevation,
     #[prop_or_default]
@@ -40,15 +40,14 @@ impl Component for Card {
     }
 
     fn view(&self) -> Html {
-        let mut classes = Classes::from("bp3-card")
-            .extend(&self.props.class)
-            .extend(self.props.elevation);
-        if self.props.interactive {
-            classes.push("bp3-interactive");
-        }
-
         html! {
-            <div class=classes onclick={self.props.onclick.clone()}>
+            <div class=classes!(
+                "bp3-card",
+                self.props.class.clone(),
+                self.props.elevation,
+                self.props.interactive.then(|| "bp3-interactive"),
+            )
+            onclick={self.props.onclick.clone()}>
                 {self.props.children.clone()}
             </div>
         }

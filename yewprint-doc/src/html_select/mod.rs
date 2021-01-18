@@ -44,7 +44,7 @@ impl Component for HtmlSelectDoc {
 
         html! {
             <div>
-                <H1 class="docs-title">{"HtmlSelect"}</H1>
+                <H1 class=classes!("docs-title")>{"HtmlSelect"}</H1>
                 <div>
                     <ExampleContainer
                         source=source

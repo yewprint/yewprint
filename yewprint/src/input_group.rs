@@ -1,9 +1,47 @@
 use crate::{Icon, IconName};
-use boolinator::Boolinator;
 use yew::prelude::*;
 
 pub struct InputGroup {
     props: InputGroupProps,
+}
+
+#[derive(Copy, Clone, PartialEq, Debug, Hash)]
+pub enum TextInputType {
+    Text,
+    Password,
+    Date,
+    DateTime,
+    Email,
+    Month,
+    Search,
+    Telephone,
+    Time,
+    Url,
+    Week,
+}
+
+impl TextInputType {
+    fn as_str(self) -> &'static str {
+        match self {
+            Self::Text => "text",
+            Self::Password => "password",
+            Self::Date => "date",
+            Self::DateTime => "datetime-local",
+            Self::Email => "email",
+            Self::Month => "month",
+            Self::Search => "search",
+            Self::Telephone => "tel",
+            Self::Time => "time",
+            Self::Url => "url",
+            Self::Week => "week",
+        }
+    }
+}
+
+impl Default for TextInputType {
+    fn default() -> Self {
+        Self::Text
+    }
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -26,6 +64,8 @@ pub struct InputGroupProps {
     pub left_element: Option<yew::virtual_dom::VNode>,
     #[prop_or_default]
     pub right_element: Option<yew::virtual_dom::VNode>,
+    #[prop_or_default]
+    pub input_type: TextInputType,
 }
 
 impl Component for InputGroup {
@@ -52,13 +92,13 @@ impl Component for InputGroup {
     fn view(&self) -> Html {
         html! {
             <div
-                class=(
+                class=classes!(
                     "bp3-input-group",
-                    self.props.disabled.as_some("bp3-disabled"),
-                    self.props.fill.as_some("bp3-fill"),
-                    self.props.large.as_some("bp3-large"),
-                    self.props.small.as_some("bp3-small"),
-                    self.props.round.as_some("bp3-round"),
+                    self.props.disabled.then(|| "bp3-disabled"),
+                    self.props.fill.then(|| "bp3-fill"),
+                    self.props.large.then(|| "bp3-large"),
+                    self.props.small.then(|| "bp3-small"),
+                    self.props.round.then(|| "bp3-round"),
                     self.props.placeholder.clone()
                 )
             >
@@ -84,6 +124,7 @@ impl Component for InputGroup {
                 }
                 <input
                     class="bp3-input"
+                    type=self.props.input_type.as_str()
                     placeholder=&self.props.placeholder
                     disabled=self.props.disabled
                 />

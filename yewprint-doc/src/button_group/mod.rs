@@ -44,7 +44,7 @@ impl Component for ButtonGroupDoc {
 
         html! {
             <div>
-                <H1 class="docs-title">{"Button Group"}</H1>
+                <H1 class=classes!("docs-title")>{"Button Group"}</H1>
                 <ExampleContainer
                     source=source
                     props=Some(html! {

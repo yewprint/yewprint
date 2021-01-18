@@ -17,11 +17,11 @@ Installation
 yewprint = { git = "https://github.com/cecton/yewprint.git", branch = "main" }
 
 # right now you need a specific version of Yew to use Yewprint
-yew = { git = "https://github.com/yewstack/yew.git", rev = "1507c21b" }
+yew = { git = "https://github.com/yewstack/yew.git", rev = "db3170f629f" }
 
 # other yew dependencies need to use this version
-# yew-router = { git = "https://github.com/yewstack/yew.git", rev = "1507c21b" }
-# yewtil = { git = "https://github.com/yewstack/yew.git", rev = "1507c21b", features = ["pure"] }
+# yew-router = { git = "https://github.com/yewstack/yew.git", rev = "db3170f629f" }
+# yewtil = { git = "https://github.com/yewstack/yew.git", rev = "db3170f629f", features = ["pure"] }
 ```
 
 You will also need the CSS from blueprint. For that you can either include the

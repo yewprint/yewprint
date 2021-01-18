@@ -42,7 +42,7 @@ impl Component for TabsDoc {
 
         html! {
             <div>
-                <H1 class="docs-title">{"Tabs"}</H1>
+                <H1 class=classes!("docs-title")>{"Tabs"}</H1>
                 <div>
                     <ExampleContainer
                         source=source

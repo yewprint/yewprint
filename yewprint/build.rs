@@ -1,30 +1,27 @@
+//! This build script parses the svg paths located in iconSvgPaths.js
+//! to generate the IconName enum and all the icons.
+//!
+//! If the js file need an update, you can download a npm archive at this url:
+//! https://registry.npmjs.org/@blueprintjs/icons/-/icons-3.19.0.tgz
+//!
+//! After that you can extract the file following this path:
+//! package/lib/esnext/generated/iconSvgPaths.js
+
 use heck::CamelCase;
 use regex::Regex;
 use std::collections::HashSet;
 use std::env;
 use std::fs;
 use std::path::Path;
-use std::process::Command;
-
-const ICON_URL: &str = "https://registry.npmjs.org/@blueprintjs/icons/-/icons-3.19.0.tgz";
-const ICON_PATH: &str = "package/lib/esnext/generated/iconSvgPaths.js";
 
 fn main() {
-    let icon_svg_paths = Command::new("sh")
-        .arg("-c")
-        .arg(format!(
-            "curl -sSLo - {} | tar xOzf - {}",
-            ICON_URL, ICON_PATH
-        ))
-        .output()
-        .map(|x| String::from_utf8(x.stdout).expect("source file is not UTF-8"))
-        .expect("could not download icons");
+    let icon_svg_paths = fs::read_to_string("iconSvgPaths.js").expect("cannot read file");
     let out_dir = env::var_os("OUT_DIR").unwrap();
     let dest_path = Path::new(&out_dir).join("icon_svg_paths.rs");
 
     let mut src = String::new();
     let re_map = Regex::new(r"export const IconSvgPaths([0-9]+) = \{([^}]+)\};").unwrap();
-    let re_item = Regex::new(r#"(?m)(?s)"([^"]+)": (\[.*?\]),$"#).unwrap();
+    let re_item = Regex::new(r#"(?m)(?s)"([^"]+)": (\[.*?\]),\s*$"#).unwrap();
     let mut keys = HashSet::new();
 
     for map in re_map.captures_iter(icon_svg_paths.as_str()) {
@@ -44,7 +41,7 @@ fn main() {
     }
 
     if keys.is_empty() {
-        panic!("failed parse downloaded icons");
+        panic!("failed parse icons");
     }
 
     let mut keys: Vec<_> = keys.iter().collect();

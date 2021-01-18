@@ -43,7 +43,7 @@ impl Component for CalloutDoc {
 
         html! {
             <div>
-                <H1 class="docs-title">{"Callout"}</H1>
+                <H1 class=classes!("docs-title")>{"Callout"}</H1>
                 <ExampleContainer
                     source=source
                     props=Some(html! {

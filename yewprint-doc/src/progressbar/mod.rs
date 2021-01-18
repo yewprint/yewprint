@@ -43,7 +43,7 @@ impl Component for ProgressBarDoc {
 
         html! {
             <div>
-                <H1 class="docs-title">{"ProgressBar"}</H1>
+                <H1 class=classes!("docs-title")>{"ProgressBar"}</H1>
                 <ExampleContainer
                     source=source
                     props=Some(html! {

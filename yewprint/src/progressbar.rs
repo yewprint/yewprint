@@ -1,13 +1,12 @@
 use crate::Intent;
-use boolinator::Boolinator;
 use yew::prelude::*;
 
 pub struct ProgressBar {
-    props: Props,
+    props: ProgressBarProps,
 }
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct Props {
+pub struct ProgressBarProps {
     #[prop_or_default]
     pub animate: bool,
     #[prop_or_default]
@@ -20,7 +19,7 @@ pub struct Props {
 
 impl Component for ProgressBar {
     type Message = ();
-    type Properties = Props;
+    type Properties = ProgressBarProps;
 
     fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
         Self { props }
@@ -50,14 +49,14 @@ impl Component for ProgressBar {
         };
         html! {
             <div
-                class=(
+                class=classes!(
                     "bp3-progress-bar",
                     self.props.intent,
-                    (!self.props.animate).as_some("bp3-no-animation"),
-                    (!self.props.stripes).as_some("bp3-no-stripes")
+                    (!self.props.animate).then(|| "bp3-no-animation"),
+                    (!self.props.stripes).then(|| "bp3-no-stripes")
                 )
             >
-                <div class="bp3-progress-meter" style={{width}}/>
+                <div class=classes!("bp3-progress-meter") style={{width}}/>
             </div>
         }
     }

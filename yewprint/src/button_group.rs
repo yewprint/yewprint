@@ -1,4 +1,3 @@
-use boolinator::Boolinator;
 use yew::prelude::*;
 
 pub struct ButtonGroup {
@@ -45,12 +44,12 @@ impl Component for ButtonGroup {
     fn view(&self) -> Html {
         html! {
             <div
-                class=(
+                class=classes!(
                     "bp3-button-group",
-                    self.props.minimal.as_some("bp3-minimal"),
-                    self.props.fill.as_some("bp3-fill"),
-                    self.props.large.as_some("bp3-large"),
-                    self.props.vertical.as_some("bp3-vertical"),
+                    self.props.minimal.then(|| "bp3-minimal"),
+                    self.props.fill.then(|| "bp3-fill"),
+                    self.props.large.then(|| "bp3-large"),
+                    self.props.vertical.then(|| "bp3-vertical"),
                 )
                 style?=self.props.style.clone()
             >

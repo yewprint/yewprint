@@ -1,7 +1,6 @@
 use crate::collapse::Collapse;
 use crate::icon::{Icon, IconName};
 use crate::Intent;
-use boolinator::Boolinator;
 use id_tree::*;
 use std::cell::{Ref, RefCell, RefMut};
 use std::collections::hash_map::DefaultHasher;
@@ -43,12 +42,12 @@ impl<T> From<id_tree::Tree<NodeData<T>>> for TreeData<T> {
 }
 
 pub struct Tree<T: Clone> {
-    props: Props<T>,
+    props: TreeProps<T>,
     previous_expanded_state: RefCell<HashMap<u64, bool>>,
 }
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct Props<T: Clone> {
+pub struct TreeProps<T: Clone> {
     #[prop_or_default]
     pub is_expanded: bool,
     pub tree: TreeData<T>,
@@ -109,7 +108,7 @@ impl<T: Clone> Clone for NodeData<T> {
 
 impl<T: Clone + PartialEq + 'static> Component for Tree<T> {
     type Message = ();
-    type Properties = Props<T>;
+    type Properties = TreeProps<T>;
 
     fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
         Tree {
@@ -141,8 +140,8 @@ impl<T: Clone + PartialEq + 'static> Component for Tree<T> {
         };
 
         html! {
-            <div class="bp3-tree">
-                <ul class="bp3-tree-node-list">
+            <div class=classes!("bp3-tree")>
+                <ul class=classes!("bp3-tree-node-list")>
                     {nodes}
                 </ul>
             </div>
@@ -310,7 +309,10 @@ impl Component for TreeNode {
         let content_style = format!("padding-left: {}px;", 23 * self.props.depth);
 
         html! {
-            <li class=("bp3-tree-node", self.props.is_selected.as_some("bp3-tree-node-selected"))>
+            <li class=classes!(
+                "bp3-tree-node",
+                self.props.is_selected.then(|| "bp3-tree-node-selected")
+            )>
                 <div
                     class="bp3-tree-node-content"
                     style=content_style
@@ -327,7 +329,7 @@ impl Component for TreeNode {
 
                             html! {
                                 <Icon
-                                    class=class.to_string()
+                                    class=classes!(class.to_string())
                                     icon=IconName::ChevronRight
                                     onclick=self.handler_caret_click.clone()
                                 />
@@ -339,22 +341,26 @@ impl Component for TreeNode {
                         }
                     }
                     <Icon
-                        class="bp3-tree-node-icon"
+                        class=classes!("bp3-tree-node-icon")
                         icon=self.props.icon.unwrap_or_default()
-                        color=self.props.icon_color.clone(),
-                        intent=self.props.icon_intent,
+                        color=self.props.icon_color.clone()
+                        intent=self.props.icon_intent
                     />
-                    <span class="bp3-tree-node-label">{self.props.label.clone()}</span>
+                    <span class=classes!("bp3-tree-node-label")>{self.props.label.clone()}</span>
                     {
                         if let Some(label) = self.props.secondary_label.clone() {
-                            html!(<span class="bp3-tree-node-secondary-label">{label}</span>)
+                            html!(
+                                <span class=classes!("bp3-tree-node-secondary-label")>
+                                    {label}
+                                </span>
+                            )
                         } else {
                             html!()
                         }
                     }
                 </div>
                 <Collapse is_open=self.props.is_expanded>
-                    <ul class="bp3-tree-node-list">
+                    <ul class=classes!("bp3-tree-node-list")>
                         {self.props.children.clone()}
                     </ul>
                 </Collapse>

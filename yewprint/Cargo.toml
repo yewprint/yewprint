@@ -16,14 +16,11 @@ is-it-maintained-issue-resolution = { repository = "cecton/yewprint" }
 is-it-maintained-open-issues = { repository = "cecton/yewprint" }
 
 [dependencies]
-yew = { git = "https://github.com/yewstack/yew.git", rev = "1507c21b" }
+yew = { git = "https://github.com/yewstack/yew.git", rev = "db3170f629f" }
 web-sys = "0.3"
 id_tree = { version = "1.7", optional = true }
-yewtil = { git = "https://github.com/yewstack/yew.git", rev = "1507c21b", features = ["pure"] }
-# NOTE: this dependency needs to be removed when the feature bool_to_option lands in stable
-#       https://github.com/rust-lang/rust/issues/64260
-boolinator = "2.4.0"
+yewtil = { git = "https://github.com/yewstack/yew.git", rev = "db3170f629f", features = ["pure"] }
 
 [build-dependencies]
-regex = { version = "1", default-features = false, features = ["std"] }
+regex = { version = "1", default-features = false, features = ["std", "unicode-perl"] }
 heck = "0.3"

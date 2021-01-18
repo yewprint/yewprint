@@ -1,13 +1,12 @@
 use crate::{Icon, IconName, Intent};
-use boolinator::Boolinator;
 use yew::prelude::*;
 
 pub struct Button {
-    props: Props,
+    props: ButtonProps,
 }
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct Props {
+pub struct ButtonProps {
     #[prop_or_default]
     pub fill: bool,
     #[prop_or_default]
@@ -23,14 +22,14 @@ pub struct Props {
     #[prop_or_default]
     pub onclick: Callback<MouseEvent>,
     #[prop_or_default]
-    pub class: String,
+    pub class: Classes,
     #[prop_or_default]
     pub children: html::Children,
 }
 
 impl Component for Button {
     type Message = ();
-    type Properties = Props;
+    type Properties = ButtonProps;
 
     fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
         Button { props }
@@ -52,11 +51,11 @@ impl Component for Button {
     fn view(&self) -> Html {
         html! {
             <button
-                class=(
+                class=classes!(
                     "bp3-button",
-                    self.props.fill.as_some("bp3-fill"),
-                    self.props.minimal.as_some("bp3-minimal"),
-                    self.props.disabled.as_some("bp3-disabled"),
+                    self.props.fill.then(|| "bp3-fill"),
+                    self.props.minimal.then(|| "bp3-minimal"),
+                    self.props.disabled.then(|| "bp3-disabled"),
                     self.props.intent,
                     self.props.class.clone(),
                 )
