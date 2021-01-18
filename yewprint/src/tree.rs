@@ -310,7 +310,7 @@ impl Component for TreeNode {
         let content_style = format!("padding-left: {}px;", 23 * self.props.depth);
 
         html! {
-            <li class=("bp3-tree-node", self.props.is_selected.as_some("bp3-tree-node-selected"))>
+            <li class=classes!("bp3-tree-node", self.props.is_selected.as_some("bp3-tree-node-selected"))>
                 <div
                     class="bp3-tree-node-content"
                     style=content_style
@@ -339,10 +339,10 @@ impl Component for TreeNode {
                         }
                     }
                     <Icon
-                        class=classes!("bp3-tree-node-icon"),
-                        icon=self.props.icon.unwrap_or_default(),
-                        color=self.props.icon_color.clone(),
-                        intent=self.props.icon_intent,
+                        class="bp3-tree-node-icon"
+                        icon=self.props.icon.unwrap_or_default()
+                        color=self.props.icon_color.clone()
+                        intent=self.props.icon_intent
                     />
                     <span class="bp3-tree-node-label">{self.props.label.clone()}</span>
                     {
