@@ -1,10 +1,11 @@
 use crate::Elevation;
+use boolinator::Boolinator;
 use yew::prelude::*;
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct CardProps {
     #[prop_or_default]
-    pub class: Option<String>,
+    pub class: Classes,
     #[prop_or_default]
     pub elevation: Elevation,
     #[prop_or_default]
@@ -43,9 +44,9 @@ impl Component for Card {
         html! {
             <div class=classes!(
                 "bp3-card",
-                &self.props.class,
+                self.props.class.clone(),
                 self.props.elevation,
-                Some("bp3-interactive"),
+                self.props.interactive.as_some("bp3-interactive"),
             )
             onclick={self.props.onclick.clone()}>
                 {self.props.children.clone()}
