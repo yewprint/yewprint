@@ -350,7 +350,11 @@ impl Component for TreeNode {
                     <span class=classes!("bp3-tree-node-label")>{self.props.label.clone()}</span>
                     {
                         if let Some(label) = self.props.secondary_label.clone() {
-                            html!(<span class=classes!("bp3-tree-node-secondary-label")>{label}</span>)
+                            html!(
+                                <span class=classes!("bp3-tree-node-secondary-label")>
+                                    {label}
+                                </span>
+                            )
                         } else {
                             html!()
                         }
