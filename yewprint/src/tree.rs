@@ -141,8 +141,8 @@ impl<T: Clone + PartialEq + 'static> Component for Tree<T> {
         };
 
         html! {
-            <div class="bp3-tree">
-                <ul class="bp3-tree-node-list">
+            <div class=classes!("bp3-tree")>
+                <ul class=classes!("bp3-tree-node-list")>
                     {nodes}
                 </ul>
             </div>
@@ -347,17 +347,17 @@ impl Component for TreeNode {
                         color=self.props.icon_color.clone()
                         intent=self.props.icon_intent
                     />
-                    <span class="bp3-tree-node-label">{self.props.label.clone()}</span>
+                    <span class=classes!("bp3-tree-node-label")>{self.props.label.clone()}</span>
                     {
                         if let Some(label) = self.props.secondary_label.clone() {
-                            html!(<span class="bp3-tree-node-secondary-label">{label}</span>)
+                            html!(<span class=classes!("bp3-tree-node-secondary-label")>{label}</span>)
                         } else {
                             html!()
                         }
                     }
                 </div>
                 <Collapse is_open=self.props.is_expanded>
-                    <ul class="bp3-tree-node-list">
+                    <ul class=classes!("bp3-tree-node-list")>
                         {self.props.children.clone()}
                     </ul>
                 </Collapse>

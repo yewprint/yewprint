@@ -60,7 +60,7 @@ impl Component for Switch {
                 disabled=self.props.disabled
             />
             <span
-                class="bp3-control-indicator"
+                class=classes!("bp3-control-indicator")
             >
             </span>
             {self.props.label.clone()}

@@ -84,19 +84,19 @@ impl Component for App {
 
         html! {
             <div class=classes!("docs-root", self.dark_theme.as_some("bp3-dark"))>
-                <div class="docs-app">
-                    <div class="docs-nav-wrapper">
-                        <div class="docs-nav">
-                            <div class="docs-nav-title">
-                                <a class="docs-logo" href="/">
+                <div class=classes!("docs-app")>
+                    <div class=classes!("docs-nav-wrapper")>
+                        <div class=classes!("docs-nav")>
+                            <div class=classes!("docs-nav-title")>
+                                <a class=classes!("docs-logo") href="/">
                                     {crate::include_raw_html!("logo.svg")}
                                 </a>
                                 <div>
-                                    <div class="bp3-navbar-heading docs-heading">
+                                    <div class=classes!("bp3-navbar-heading", "docs-heading")>
                                         {"Yewprint"}
                                     </div>
                                     <a
-                                        class="bp3-text-muted"
+                                        class=classes!("bp3-text-muted")
                                         href="https://github.com/cecton/yewprint"
                                         target="_blank"
                                     >
@@ -226,8 +226,8 @@ impl Component for App {
                             </div>
                         </div>
                     </div>
-                    <main class="docs-content-wrapper" role="main">
-                        <div class="docs-page">
+                    <main class=classes!("docs-content-wrapper") role="main">
+                        <div class=classes!("docs-page")>
                             <Router<DocMenu, ()>
                                 render=Router::render(|switch: DocMenu| {
                                     match switch {

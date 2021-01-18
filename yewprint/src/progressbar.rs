@@ -57,7 +57,7 @@ impl Component for ProgressBar {
                     (!self.props.stripes).as_some("bp3-no-stripes")
                 )
             >
-                <div class="bp3-progress-meter" style={{width}}/>
+                <div class=classes!("bp3-progress-meter") style={{width}}/>
             </div>
         }
     }

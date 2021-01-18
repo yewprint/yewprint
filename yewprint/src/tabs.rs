@@ -209,6 +209,6 @@ pub struct Tab<T> {
     pub id: T,
     pub title: Html,
     pub panel: Html,
-    pub title_class: Option<String>,
-    pub panel_class: Option<String>,
+    pub title_class: Classes,
+    pub panel_class: Classes,
 }

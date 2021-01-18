@@ -63,7 +63,7 @@ pub struct MenuItemProps {
     #[prop_or_default]
     pub text: yew::virtual_dom::VNode,
     #[prop_or_default]
-    pub text_class: Option<String>,
+    pub text_class: Classes,
     #[prop_or_default]
     pub active: bool,
     #[prop_or_default]
@@ -75,7 +75,7 @@ pub struct MenuItemProps {
     #[prop_or_default]
     pub label: Option<yew::virtual_dom::VNode>,
     #[prop_or_default]
-    pub label_class: Option<String>,
+    pub label_class: Classes,
     // TODO: pub multiline: bool, (requires <Text>)
     // TODO: popover_props, should_dismiss_popover
     #[prop_or_default]
@@ -185,14 +185,14 @@ impl Component for MenuDivider {
             if let Some(title) = self.props.title.clone() {
                 html! {
                     <li
-                        class="bp3-menu-header"
+                        class=classes!("bp3-menu-header")
                     >
                         <H6>{title}</H6>
                     </li>
                 }
             } else {
                 html! {
-                    <li class="bp3-menu-divider" />
+                    <li class=classes!("bp3-menu-divider") />
                 }
             }
         }

@@ -70,7 +70,7 @@ impl Component for Tag {
             let Some(callback) = self.props.onremove.clone() =>
             html!(
                 <button
-                    class="bp3-tag-remove"
+                    class=classes!("bp3-tag-remove")
                     onclick={callback}
                     tabindex?={self.props.interactive.as_some(0)}
                 >
