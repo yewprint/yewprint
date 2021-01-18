@@ -46,7 +46,7 @@ impl Component for Switch {
         html! {
             <label
                 class=classes!(
-                    "bp3-control", 
+                    "bp3-control",
                     "bp3-switch",
                     self.props.disabled.as_some("bp3-disabled"),
                     self.props.inline.as_some("bp3-inline"),

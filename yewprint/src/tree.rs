@@ -310,7 +310,10 @@ impl Component for TreeNode {
         let content_style = format!("padding-left: {}px;", 23 * self.props.depth);
 
         html! {
-            <li class=classes!("bp3-tree-node", self.props.is_selected.as_some("bp3-tree-node-selected"))>
+            <li class=classes!(
+                "bp3-tree-node",
+                self.props.is_selected.as_some("bp3-tree-node-selected")
+            )>
                 <div
                     class="bp3-tree-node-content"
                     style=content_style
