@@ -95,7 +95,7 @@ jobs:
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
-          target: wasm32-unknow-unknow
+          target: wasm32-unknown-unknown
 
       - name: cargo test (windows)
         uses: actions-rs/cargo@v1
