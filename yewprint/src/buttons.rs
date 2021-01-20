@@ -1,4 +1,4 @@
-use crate::{Icon, Intent};
+use crate::{Icon, IconName, Intent};
 use boolinator::Boolinator;
 use yew::prelude::*;
 
