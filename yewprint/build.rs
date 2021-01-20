@@ -5,6 +5,9 @@ use std::env;
 use std::fs;
 use std::path::Path;
 
+// Icon_url = "https://registry.npmjs.org/@blueprintjs/icons/-/icons-3.19.0.tgz";
+// Icon_path = "package/lib/esnext/generated/iconSvgPaths.js";
+
 fn main() {
     let icon_svg_paths = fs::read_to_string("iconSvgPaths.js").expect("Cannot read file");
     let out_dir = env::var_os("OUT_DIR").unwrap();
