@@ -6,9 +6,7 @@ use std::fs;
 use std::path::Path;
 
 fn main() {
-    let icon_svg_paths = fs::read("iconSvgPaths.js")
-        .map(|x| String::from_utf8(x).expect("source file is not UTF-8"))
-        .expect("could not read file");
+    let icon_svg_paths = fs::read_to_string("iconSvgPaths.js").expect("Cannot read file");
     let out_dir = env::var_os("OUT_DIR").unwrap();
     let dest_path = Path::new(&out_dir).join("icon_svg_paths.rs");
 
