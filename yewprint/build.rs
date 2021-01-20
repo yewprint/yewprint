@@ -32,7 +32,7 @@ fn main() {
     }
 
     if keys.is_empty() {
-        panic!("failed parse downloaded icons");
+        panic!("failed parse icons");
     }
 
     let mut keys: Vec<_> = keys.iter().collect();
