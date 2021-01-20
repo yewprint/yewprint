@@ -83,3 +83,22 @@ jobs:
           | File name | Old Size | New Size |
           | --- | --- | --- |
           | public/wasm_bg.wasm | ${{needs.build-main.outputs.size}} | ${{needs.build.outputs.size}} |
+
+  build-windows:
+    needs: [build]
+    runs-on: windows-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v2
+
+      - name: Install target wasm32-unknown-unknown
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          target: wasm32-unknow-unknow
+
+      - name: cargo test (windows)
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: --workspace
