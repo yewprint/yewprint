@@ -5,11 +5,16 @@ use std::env;
 use std::fs;
 use std::path::Path;
 
-// Icon_url = "https://registry.npmjs.org/@blueprintjs/icons/-/icons-3.19.0.tgz";
-// Icon_path = "package/lib/esnext/generated/iconSvgPaths.js";
+/*
+If the icon file (iconSvgPaths.js) need an update, you can download
+an npm archive at this url:
+"https://registry.npmjs.org/@blueprintjs/icons/-/icons-3.19.0.tgz";
+after that you can extract the file following this path:
+"package/lib/esnext/generated/iconSvgPaths.js";
+*/
 
 fn main() {
-    let icon_svg_paths = fs::read_to_string("iconSvgPaths.js").expect("Cannot read file");
+    let icon_svg_paths = fs::read_to_string("iconSvgPaths.js").expect("cannot read file");
     let out_dir = env::var_os("OUT_DIR").unwrap();
     let dest_path = Path::new(&out_dir).join("icon_svg_paths.rs");
 
