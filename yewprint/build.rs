@@ -8,9 +8,9 @@ use std::path::Path;
 /*
 If the icon file (iconSvgPaths.js) need an update, you can download
 an npm archive at this url:
-"https://registry.npmjs.org/@blueprintjs/icons/-/icons-3.19.0.tgz";
+https://registry.npmjs.org/@blueprintjs/icons/-/icons-3.19.0.tgz
 after that you can extract the file following this path:
-"package/lib/esnext/generated/iconSvgPaths.js";
+package/lib/esnext/generated/iconSvgPaths.js
 */
 
 fn main() {
