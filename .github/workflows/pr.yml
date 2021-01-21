@@ -45,11 +45,6 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: build
-          args: --target x86_64-pc-windows-pc-msvc
-      - name: cargo test (windows)
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
           args: --target x86_64-pc-windows-msvc
 
   build-main:
