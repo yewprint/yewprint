@@ -45,7 +45,7 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: build
-          args: --target x86_64-pc-windows-msvc
+          args: --target wasm32-unknown-unknown
 
   build-main:
     runs-on: ubuntu-latest
