@@ -16,14 +16,14 @@ use std::path::Path;
 
 fn main() {
     let icon_svg_paths = fs::read_to_string("iconSvgPaths.js").expect("cannot read file");
-    dbg!(&icon_svg_paths);
-    panic!("{:?}", icon_svg_paths.as_bytes()[..80].to_vec());
+    //dbg!(&icon_svg_paths);
+    //panic!("{:?}", icon_svg_paths.as_bytes()[..80].to_vec());
     let out_dir = env::var_os("OUT_DIR").unwrap();
     let dest_path = Path::new(&out_dir).join("icon_svg_paths.rs");
 
     let mut src = String::new();
     let re_map = Regex::new(r"export const IconSvgPaths([0-9]+) = \{([^}]+)\};").unwrap();
-    let re_item = Regex::new(r#"(?m)(?s)"([^"]+)": (\[.*?\]),$"#).unwrap();
+    let re_item = Regex::new(r#"(?m)(?s)"([^"]+)": (\[.*?\]),\s*$"#).unwrap();
     let mut keys = HashSet::new();
 
     for map in re_map.captures_iter(icon_svg_paths.as_str()) {
