@@ -16,8 +16,6 @@ use std::path::Path;
 
 fn main() {
     let icon_svg_paths = fs::read_to_string("iconSvgPaths.js").expect("cannot read file");
-    //dbg!(&icon_svg_paths);
-    //panic!("{:?}", icon_svg_paths.as_bytes()[..80].to_vec());
     let out_dir = env::var_os("OUT_DIR").unwrap();
     let dest_path = Path::new(&out_dir).join("icon_svg_paths.rs");
 
