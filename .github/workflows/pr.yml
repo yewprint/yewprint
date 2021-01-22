@@ -41,7 +41,6 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v2
-      - run: git config --system core.autocrlf
       - name: cargo build (windows)
         uses: actions-rs/cargo@v1
         with:
