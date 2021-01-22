@@ -1,5 +1,5 @@
-//! This main function is here to parse svg paths in iconSvgPaths.js
-//! and return an enum with all IconName
+//! This build script parse svg paths in iconSvgPaths.js
+//! for generate the IconName enum
 //!
 //! If the js file need an update, you can download an npm archive at this url:
 //! https://registry.npmjs.org/@blueprintjs/icons/-/icons-3.19.0.tgz
