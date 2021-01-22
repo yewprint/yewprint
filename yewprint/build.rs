@@ -5,13 +5,10 @@ use std::env;
 use std::fs;
 use std::path::Path;
 
-/*
-If the icon file (iconSvgPaths.js) need an update, you can download
-an npm archive at this url:
-https://registry.npmjs.org/@blueprintjs/icons/-/icons-3.19.0.tgz
-after that you can extract the file following this path:
-package/lib/esnext/generated/iconSvgPaths.js
-*/
+/// This main function is here to parse svg paths in iconSvgPaths.js and return a enum with the IconNames
+/// If the js file need an update, you can download an npm archive at this url:
+/// https://registry.npmjs.org/@blueprintjs/icons/-/icons-3.19.0.tgz
+/// after that you can extract the file following this path: package/lib/esnext/generated/iconSvgPaths.js
 
 fn main() {
     let icon_svg_paths = fs::read_to_string("iconSvgPaths.js").expect("cannot read file");
