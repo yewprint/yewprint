@@ -4,7 +4,7 @@
 //! If the js file need an update, you can download a npm archive at this url:
 //! https://registry.npmjs.org/@blueprintjs/icons/-/icons-3.19.0.tgz
 //!
-//! after that you can extract the file following this path:
+//! After that you can extract the file following this path:
 //! package/lib/esnext/generated/iconSvgPaths.js
 
 use heck::CamelCase;
