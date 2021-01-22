@@ -1,7 +1,7 @@
-//! This build script parses svg paths in iconSvgPaths.js
-//! for generate the IconName enum
+//! This build script parses the svg paths located in iconSvgPaths.js
+//! to generate the IconName enum and all the icons.
 //!
-//! If the js file need an update, you can download an npm archive at this url:
+//! If the js file need an update, you can download a npm archive at this url:
 //! https://registry.npmjs.org/@blueprintjs/icons/-/icons-3.19.0.tgz
 //!
 //! after that you can extract the file following this path:
