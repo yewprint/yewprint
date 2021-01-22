@@ -1,4 +1,4 @@
-//! This build script parse svg paths in iconSvgPaths.js
+//! This build script parses svg paths in iconSvgPaths.js
 //! for generate the IconName enum
 //!
 //! If the js file need an update, you can download an npm archive at this url:
