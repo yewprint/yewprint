@@ -25,5 +25,5 @@ yewtil = { git = "https://github.com/yewstack/yew.git", rev = "db3170f629f", fea
 boolinator = "2.4.0"
 
 [build-dependencies]
-regex = { version = "1", default-features = false, features = ["std"] }
+regex = { version = "1", default-features = false, features = ["std", "unicode-perl"] }
 heck = "0.3"
