@@ -6,7 +6,7 @@ pub struct InputGroup {
     props: InputGroupProps,
 }
 
-#[derive(Copy, Clone, PartialEq)]
+#[derive(Copy, Clone, PartialEq, Debug, Hash)]
 pub enum TextInputType {
     Text,
     Password,
@@ -17,7 +17,7 @@ pub enum TextInputType {
     Search,
     Telephone,
     Time,
-    URL,
+    Url,
     Week,
 }
 
@@ -33,7 +33,7 @@ impl TextInputType {
             Self::Search => "search",
             Self::Telephone => "tel",
             Self::Time => "time",
-            Self::URL => "url",
+            Self::Url => "url",
             Self::Week => "week",
         }
     }
