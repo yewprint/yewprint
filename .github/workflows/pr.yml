@@ -47,24 +47,6 @@ jobs:
           command: build
           args: --target wasm32-unknown-unknown
 
-  build-main:
-    runs-on: ubuntu-latest
-    outputs:
-      size: ${{ steps.build.outputs.size }}
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        ref: main
-    - name: Install wasm-pack
-      run: |
-        curl -sSL https://github.com/rustwasm/wasm-pack/releases/download/v0.9.1/wasm-pack-v0.9.1-x86_64-unknown-linux-musl.tar.gz \
-          | tar xzO wasm-pack-v0.9.1-x86_64-unknown-linux-musl/wasm-pack \
-          > $HOME/.cargo/bin/wasm-pack
-        chmod +x $HOME/.cargo/bin/wasm-pack
-    - name: Build (Release)
-      id: build
-      run: "./build.sh --release && echo ::set-output name=size::`cat public/wasm_bg.wasm | wc -c`"
-
   checks:
     runs-on: ubuntu-latest
     steps:
