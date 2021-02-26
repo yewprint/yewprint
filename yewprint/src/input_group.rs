@@ -6,6 +6,45 @@ pub struct InputGroup {
     props: InputGroupProps,
 }
 
+#[derive(Copy, Clone, PartialEq)]
+pub enum TextInputType {
+    Text,
+    Password,
+    Date,
+    DateTime,
+    Email,
+    Month,
+    Search,
+    Telephone,
+    Time,
+    URL,
+    Week,
+}
+
+impl TextInputType {
+    fn as_str(self) -> &'static str {
+        match self {
+            Self::Text => "text",
+            Self::Password => "password",
+            Self::Date => "date",
+            Self::DateTime => "datetime-local",
+            Self::Email => "email",
+            Self::Month => "month",
+            Self::Search => "search",
+            Self::Telephone => "tel",
+            Self::Time => "time",
+            Self::URL => "url",
+            Self::Week => "week",
+        }
+    }
+}
+
+impl Default for TextInputType {
+    fn default() -> Self {
+        Self::Text
+    }
+}
+
 #[derive(Clone, PartialEq, Properties)]
 pub struct InputGroupProps {
     #[prop_or_default]
@@ -26,6 +65,8 @@ pub struct InputGroupProps {
     pub left_element: Option<yew::virtual_dom::VNode>,
     #[prop_or_default]
     pub right_element: Option<yew::virtual_dom::VNode>,
+    #[prop_or_default]
+    pub input_type: TextInputType,
 }
 
 impl Component for InputGroup {
@@ -84,6 +125,7 @@ impl Component for InputGroup {
                 }
                 <input
                     class="bp3-input"
+                    type=self.props.input_type.as_str()
                     placeholder=&self.props.placeholder
                     disabled=self.props.disabled
                 />
