@@ -1,5 +1,4 @@
 use crate::{Icon, IconName, Intent, H6};
-use boolinator::Boolinator;
 use yew::prelude::*;
 
 pub struct Menu {

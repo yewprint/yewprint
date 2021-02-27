@@ -1,5 +1,4 @@
 use crate::{if_html, Icon, IconName, Intent, Text};
-use boolinator::Boolinator;
 use yew::prelude::*;
 
 pub struct Tag {

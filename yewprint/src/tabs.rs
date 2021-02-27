@@ -1,4 +1,3 @@
-use boolinator::Boolinator;
 use std::collections::{hash_map::DefaultHasher, HashMap};
 use std::hash::{Hash, Hasher};
 use web_sys::HtmlElement;

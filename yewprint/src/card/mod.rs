@@ -1,5 +1,4 @@
 use crate::Elevation;
-use boolinator::Boolinator;
 use yew::prelude::*;
 
 #[derive(Clone, PartialEq, Properties)]

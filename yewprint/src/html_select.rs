@@ -1,5 +1,4 @@
 use crate::{Icon, IconName};
-use boolinator::Boolinator;
 use std::collections::hash_map::DefaultHasher;
 use std::hash::{Hash, Hasher};
 use yew::prelude::*;

@@ -1,7 +1,6 @@
 use crate::collapse::Collapse;
 use crate::icon::{Icon, IconName};
 use crate::Intent;
-use boolinator::Boolinator;
 use id_tree::*;
 use std::cell::{Ref, RefCell, RefMut};
 use std::collections::hash_map::DefaultHasher;

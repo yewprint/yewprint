@@ -1,5 +1,4 @@
 use crate::{Icon, IconName};
-use boolinator::Boolinator;
 use yew::prelude::*;
 
 pub struct InputGroup {
