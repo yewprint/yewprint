@@ -5,12 +5,12 @@ use std::hash::{Hash, Hasher};
 use yew::prelude::*;
 
 pub struct HtmlSelect<T: Clone + PartialEq + Hash + 'static> {
-    props: Props<T>,
+    props: HtmlSelectProps<T>,
     link: ComponentLink<Self>,
 }
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct Props<T: Clone + PartialEq + 'static> {
+pub struct HtmlSelectProps<T: Clone + PartialEq + 'static> {
     #[prop_or_default]
     pub fill: bool,
     #[prop_or_default]
@@ -32,7 +32,7 @@ pub struct Props<T: Clone + PartialEq + 'static> {
 
 impl<T: Clone + PartialEq + Hash + 'static> Component for HtmlSelect<T> {
     type Message = ChangeData;
-    type Properties = Props<T>;
+    type Properties = HtmlSelectProps<T>;
 
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
         Self { props, link }

@@ -3,11 +3,11 @@ use crate::{Icon, IconName, Intent};
 use yew::prelude::*;
 
 pub struct Callout {
-    props: Props,
+    props: CalloutProps,
 }
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct Props {
+pub struct CalloutProps {
     #[prop_or_default]
     pub class: Classes,
     #[prop_or(false)]
@@ -23,7 +23,7 @@ pub struct Props {
 
 impl Component for Callout {
     type Message = ();
-    type Properties = Props;
+    type Properties = CalloutProps;
 
     fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
         Self { props }

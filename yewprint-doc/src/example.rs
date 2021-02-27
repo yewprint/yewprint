@@ -3,7 +3,7 @@ use yewprint::{Button, Collapse, IconName, Intent};
 
 pub struct ExampleContainer {
     collapsed: bool,
-    props: Props,
+    props: ExampleContainerProps,
     link: ComponentLink<Self>,
 }
 
@@ -12,7 +12,7 @@ pub enum Msg {
 }
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct Props {
+pub struct ExampleContainerProps {
     pub source: yew::virtual_dom::VNode,
     pub children: html::Children,
     #[prop_or_default]
@@ -21,7 +21,7 @@ pub struct Props {
 
 impl Component for ExampleContainer {
     type Message = Msg;
-    type Properties = Props;
+    type Properties = ExampleContainerProps;
 
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
         ExampleContainer {

@@ -2,11 +2,11 @@ use boolinator::Boolinator;
 use yew::prelude::*;
 
 pub struct Text {
-    props: Props,
+    props: TextProps,
 }
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct Props {
+pub struct TextProps {
     #[prop_or_default]
     pub ellipsize: bool,
     #[prop_or_default]
@@ -22,7 +22,7 @@ pub struct Props {
 
 impl Component for Text {
     type Message = ();
-    type Properties = Props;
+    type Properties = TextProps;
 
     fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
         Text { props }

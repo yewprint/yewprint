@@ -43,12 +43,12 @@ impl<T> From<id_tree::Tree<NodeData<T>>> for TreeData<T> {
 }
 
 pub struct Tree<T: Clone> {
-    props: Props<T>,
+    props: TreeProps<T>,
     previous_expanded_state: RefCell<HashMap<u64, bool>>,
 }
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct Props<T: Clone> {
+pub struct TreeProps<T: Clone> {
     #[prop_or_default]
     pub is_expanded: bool,
     pub tree: TreeData<T>,
@@ -109,7 +109,7 @@ impl<T: Clone> Clone for NodeData<T> {
 
 impl<T: Clone + PartialEq + 'static> Component for Tree<T> {
     type Message = ();
-    type Properties = Props<T>;
+    type Properties = TreeProps<T>;
 
     fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
         Tree {
