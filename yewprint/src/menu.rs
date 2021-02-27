@@ -42,7 +42,7 @@ impl Component for Menu {
             <ul
                 class=classes!(
                     "bp3-menu",
-                    self.props.large.as_some("bp3-large"),
+                    self.props.large.then(|| "bp3-large"),
                     self.props.class.clone(),
                 )
                 ref={self.props.r#ref.clone()}
@@ -113,14 +113,14 @@ impl Component for MenuItem {
                 <a
                     class=classes!(
                         "bp3-menu-item",
-                        self.props.active.as_some("bp3-active"),
-                        self.props.disabled.as_some("bp3-disabled"),
+                        self.props.active.then(|| "bp3-active"),
+                        self.props.disabled.then(|| "bp3-disabled"),
                         self.props.intent
-                            .or_else(|| self.props.active.as_some(Intent::Primary)),
+                            .or_else(|| self.props.active.then(|| Intent::Primary)),
                         self.props.class.clone(),
                     )
-                    href?={(!self.props.disabled).and_option(self.props.href.clone())}
-                    tabIndex?={(!self.props.disabled).as_some(0)}
+                    href?={(!self.props.disabled).and_option(|| self.props.href.clone())}
+                    tabIndex?={(!self.props.disabled).then(|| 0)}
                     onclick={self.props.onclick.clone()}
                 >
                     <Icon icon={self.props.icon} />

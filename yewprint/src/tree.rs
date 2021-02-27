@@ -311,7 +311,7 @@ impl Component for TreeNode {
         html! {
             <li class=classes!(
                 "bp3-tree-node",
-                self.props.is_selected.as_some("bp3-tree-node-selected")
+                self.props.is_selected.then(|| "bp3-tree-node-selected")
             )>
                 <div
                     class="bp3-tree-node-content"

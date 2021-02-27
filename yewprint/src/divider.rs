@@ -38,7 +38,7 @@ impl Component for Divider {
             <span
                 class=classes!(
                     "bp3-divider",
-                    self.props.vertical.as_some("bp3-vertical"),
+                    self.props.vertical.then(|| "bp3-vertical"),
                 )
             />
         }
