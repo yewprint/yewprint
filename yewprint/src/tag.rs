@@ -37,6 +37,8 @@ pub struct TagProps {
     pub round: bool,
     #[prop_or_default]
     pub title: Option<String>,
+    #[prop_or_default]
+    pub class: Classes,
 }
 
 impl Component for Tag {
@@ -90,6 +92,7 @@ impl Component for Tag {
                     self.props.large.as_some("bp3-large"),
                     self.props.minimal.as_some("bp3-minimal"),
                     self.props.round.as_some("bp3-round"),
+                    self.props.class.clone(),
                 )
                 onclick={self.props.onclick.clone()}
             >
