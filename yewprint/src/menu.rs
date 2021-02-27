@@ -119,11 +119,7 @@ impl Component for MenuItem {
                             .or_else(|| self.props.active.then(|| Intent::Primary)),
                         self.props.class.clone(),
                     )
-<<<<<<< HEAD
-                    href?={(!self.props.disabled).and_option(|| self.props.href.clone())}
-=======
                     href?={(!self.props.disabled).then(|| self.props.href.clone())}.flatten()
->>>>>>> 01b4690 (Replace boolinator and_option method by bool then method)
                     tabIndex?={(!self.props.disabled).then(|| 0)}
                     onclick={self.props.onclick.clone()}
                 >
