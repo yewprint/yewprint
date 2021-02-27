@@ -3,11 +3,11 @@ use boolinator::Boolinator;
 use yew::prelude::*;
 
 pub struct ProgressBar {
-    props: Props,
+    props: ProgressBarProps,
 }
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct Props {
+pub struct ProgressBarProps {
     #[prop_or_default]
     pub animate: bool,
     #[prop_or_default]
@@ -20,7 +20,7 @@ pub struct Props {
 
 impl Component for ProgressBar {
     type Message = ();
-    type Properties = Props;
+    type Properties = ProgressBarProps;
 
     fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
         Self { props }

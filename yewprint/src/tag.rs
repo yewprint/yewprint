@@ -3,11 +3,11 @@ use boolinator::Boolinator;
 use yew::prelude::*;
 
 pub struct Tag {
-    props: Props,
+    props: TagProps,
 }
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct Props {
+pub struct TagProps {
     #[prop_or_default]
     pub children: html::Children,
     #[prop_or_default]
@@ -37,11 +37,13 @@ pub struct Props {
     pub round: bool,
     #[prop_or_default]
     pub title: Option<String>,
+    #[prop_or_default]
+    pub class: Classes,
 }
 
 impl Component for Tag {
     type Message = ();
-    type Properties = Props;
+    type Properties = TagProps;
 
     fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
         Tag { props }
@@ -90,6 +92,7 @@ impl Component for Tag {
                     self.props.large.as_some("bp3-large"),
                     self.props.minimal.as_some("bp3-minimal"),
                     self.props.round.as_some("bp3-round"),
+                    self.props.class.clone(),
                 )
                 onclick={self.props.onclick.clone()}
             >

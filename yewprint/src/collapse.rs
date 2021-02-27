@@ -13,12 +13,12 @@ pub struct Collapse {
     contents_ref: NodeRef,
     callback_delayed_state_change: Callback<()>,
     handle_delayed_state_change: Option<Box<dyn Task>>,
-    props: Props,
+    props: CollapseProps,
     link: ComponentLink<Self>,
 }
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct Props {
+pub struct CollapseProps {
     #[prop_or_default]
     pub is_open: bool,
     #[prop_or_default]
@@ -48,7 +48,7 @@ enum Height {
 
 impl Component for Collapse {
     type Message = ();
-    type Properties = Props;
+    type Properties = CollapseProps;
 
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
         Collapse {
