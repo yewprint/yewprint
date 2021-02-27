@@ -1,5 +1,4 @@
 use crate::Elevation;
-use boolinator::Boolinator;
 use yew::prelude::*;
 
 #[derive(Clone, PartialEq, Properties)]
@@ -46,7 +45,7 @@ impl Component for Card {
                 "bp3-card",
                 self.props.class.clone(),
                 self.props.elevation,
-                self.props.interactive.as_some("bp3-interactive"),
+                self.props.interactive.then(|| "bp3-interactive"),
             )
             onclick={self.props.onclick.clone()}>
                 {self.props.children.clone()}

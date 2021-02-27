@@ -1,5 +1,4 @@
 use crate::Intent;
-use boolinator::Boolinator;
 use yew::prelude::*;
 
 pub struct ProgressBar {
@@ -53,8 +52,8 @@ impl Component for ProgressBar {
                 class=classes!(
                     "bp3-progress-bar",
                     self.props.intent,
-                    (!self.props.animate).as_some("bp3-no-animation"),
-                    (!self.props.stripes).as_some("bp3-no-stripes")
+                    (!self.props.animate).then(|| "bp3-no-animation"),
+                    (!self.props.stripes).then(|| "bp3-no-stripes")
                 )
             >
                 <div class=classes!("bp3-progress-meter") style={{width}}/>

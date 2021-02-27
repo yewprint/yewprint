@@ -1,5 +1,4 @@
 use crate::{if_html, Icon, IconName, Intent, Text};
-use boolinator::Boolinator;
 use yew::prelude::*;
 
 pub struct Tag {
@@ -74,7 +73,7 @@ impl Component for Tag {
                 <button
                     class=classes!("bp3-tag-remove")
                     onclick={callback}
-                    tabindex?={self.props.interactive.as_some(0)}
+                    tabindex?={self.props.interactive.then(|| 0)}
                 >
                     <Icon icon=IconName::SmallCross />
                 </button>
@@ -86,12 +85,12 @@ impl Component for Tag {
                 class=classes!(
                     "bp3-tag",
                     self.props.intent,
-                    self.props.active.as_some("bp3-active"),
-                    self.props.fill.as_some("bp3-fill"),
-                    self.props.interactive.as_some("bp3-interactive"),
-                    self.props.large.as_some("bp3-large"),
-                    self.props.minimal.as_some("bp3-minimal"),
-                    self.props.round.as_some("bp3-round"),
+                    self.props.active.then(|| "bp3-active"),
+                    self.props.fill.then(|| "bp3-fill"),
+                    self.props.interactive.then(|| "bp3-interactive"),
+                    self.props.large.then(|| "bp3-large"),
+                    self.props.minimal.then(|| "bp3-minimal"),
+                    self.props.round.then(|| "bp3-round"),
                     self.props.class.clone(),
                 )
                 onclick={self.props.onclick.clone()}

@@ -1,5 +1,4 @@
 use crate::{Icon, IconName, Intent};
-use boolinator::Boolinator;
 use yew::prelude::*;
 
 pub struct Button {
@@ -54,9 +53,9 @@ impl Component for Button {
             <button
                 class=classes!(
                     "bp3-button",
-                    self.props.fill.as_some("bp3-fill"),
-                    self.props.minimal.as_some("bp3-minimal"),
-                    self.props.disabled.as_some("bp3-disabled"),
+                    self.props.fill.then(|| "bp3-fill"),
+                    self.props.minimal.then(|| "bp3-minimal"),
+                    self.props.disabled.then(|| "bp3-disabled"),
                     self.props.intent,
                     self.props.class.clone(),
                 )

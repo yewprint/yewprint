@@ -1,7 +1,6 @@
 use crate::collapse::Collapse;
 use crate::icon::{Icon, IconName};
 use crate::Intent;
-use boolinator::Boolinator;
 use id_tree::*;
 use std::cell::{Ref, RefCell, RefMut};
 use std::collections::hash_map::DefaultHasher;
@@ -312,7 +311,7 @@ impl Component for TreeNode {
         html! {
             <li class=classes!(
                 "bp3-tree-node",
-                self.props.is_selected.as_some("bp3-tree-node-selected")
+                self.props.is_selected.then(|| "bp3-tree-node-selected")
             )>
                 <div
                     class="bp3-tree-node-content"

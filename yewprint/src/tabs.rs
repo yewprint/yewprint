@@ -1,4 +1,3 @@
-use boolinator::Boolinator;
 use std::collections::{hash_map::DefaultHasher, HashMap};
 use std::hash::{Hash, Hasher};
 use web_sys::HtmlElement;
@@ -93,14 +92,14 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
             <div
                 class=classes!(
                     "bp3-tabs",
-                    self.props.vertical.as_some("bp3-vertical"),
+                    self.props.vertical.then(|| "bp3-vertical"),
                     self.props.class.clone(),
                 )
             >
                 <div
                     class=classes!(
                         "bp3-tab-list",
-                        self.props.large.as_some("bp3-large"),
+                        self.props.large.then(|| "bp3-large"),
                     )
                 >
                     {

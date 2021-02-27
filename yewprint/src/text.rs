@@ -1,4 +1,3 @@
-use boolinator::Boolinator;
 use yew::prelude::*;
 
 pub struct Text {
@@ -46,7 +45,7 @@ impl Component for Text {
             <@{if self.props.inline { "span" } else { "div"}}
                 class=classes!(
                     self.props.class.clone(),
-                    self.props.ellipsize.as_some("bp3-text-overflow-ellipsis"),
+                    self.props.ellipsize.then (|| "bp3-text-overflow-ellipsis"),
                 )
                 title?=self.props.title.clone()
             >

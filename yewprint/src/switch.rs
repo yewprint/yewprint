@@ -1,4 +1,3 @@
-use boolinator::Boolinator;
 use yew::prelude::*;
 
 pub struct Switch {
@@ -48,9 +47,9 @@ impl Component for Switch {
                 class=classes!(
                     "bp3-control",
                     "bp3-switch",
-                    self.props.disabled.as_some("bp3-disabled"),
-                    self.props.inline.as_some("bp3-inline"),
-                    self.props.large.as_some("bp3-large"),
+                    self.props.disabled.then(|| "bp3-disabled"),
+                    self.props.inline.then(|| "bp3-inline"),
+                    self.props.large.then(|| "bp3-large"),
                 )
             >
             <input

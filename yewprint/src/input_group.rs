@@ -1,5 +1,4 @@
 use crate::{Icon, IconName};
-use boolinator::Boolinator;
 use yew::prelude::*;
 
 pub struct InputGroup {
@@ -95,11 +94,11 @@ impl Component for InputGroup {
             <div
                 class=classes!(
                     "bp3-input-group",
-                    self.props.disabled.as_some("bp3-disabled"),
-                    self.props.fill.as_some("bp3-fill"),
-                    self.props.large.as_some("bp3-large"),
-                    self.props.small.as_some("bp3-small"),
-                    self.props.round.as_some("bp3-round"),
+                    self.props.disabled.then(|| "bp3-disabled"),
+                    self.props.fill.then(|| "bp3-fill"),
+                    self.props.large.then(|| "bp3-large"),
+                    self.props.small.then(|| "bp3-small"),
+                    self.props.round.then(|| "bp3-round"),
                     self.props.placeholder.clone()
                 )
             >
