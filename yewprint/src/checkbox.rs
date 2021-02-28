@@ -1,4 +1,3 @@
-use boolinator::Boolinator;
 use yew::prelude::*;
 
 pub struct Checkbox {
@@ -45,11 +44,11 @@ impl Component for Checkbox {
     fn view(&self) -> Html {
         html! {
             <label
-                class=(
-                    "bp3-control bp3-checkbox",
-                    self.props.disabled.as_some("bp3-disabled"),
-                    self.props.inline.as_some("bp3-inline"),
-                    self.props.large.as_some("bp3-large")
+                class=classes!(
+                    "bp3-control", "bp3-checkbox",
+                    self.props.disabled.then(|| "bp3-disabled"),
+                    self.props.inline.then(|| "bp3-inline"),
+                    self.props.large.then(|| "bp3-large")
                 )
             >
                 <input
