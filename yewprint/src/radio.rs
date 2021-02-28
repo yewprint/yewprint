@@ -1,4 +1,3 @@
-use boolinator::Boolinator;
 use yew::prelude::*;
 
 pub struct Radio {
@@ -46,11 +45,11 @@ impl Component for Radio {
     fn view(&self) -> Html {
         html! {
             <label
-                class=(
-                    "bp3-control bp3-radio",
-                    self.props.disabled.as_some("bp3-disabled"),
-                    self.props.inline.as_some("bp3-inline"),
-                    self.props.large.as_some("bp3-large"),
+                class=classes!(
+                    "bp3-control", "bp3-radio",
+                    self.props.disabled.then(|| "bp3-disabled"),
+                    self.props.inline.then(|| "bp3-inline"),
+                    self.props.large.then(|| "bp3-large"),
                 )
             >
                 <input
@@ -61,7 +60,7 @@ impl Component for Radio {
                     value={self.props.value.clone()}
                 />
                 <span
-                    class="bp3-control-indicator"
+                    class=classes!("bp3-control-indicator")
                 >
                 </span>
                 {self.props.label.clone()}

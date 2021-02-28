@@ -43,7 +43,7 @@ impl Component for RadioGroup {
     fn view(&self) -> Html {
         html! {
             <div
-                class=(
+                class=classes!(
                     "bp3-radio-group",
                 )
                 onchange={self.props.onchange.clone()}
@@ -53,7 +53,7 @@ impl Component for RadioGroup {
                 if let Some(label) = self.props.label.clone() {
                     html! {
                         <label
-                            class=(
+                            class=classes!(
                                 "bp3-label",
                                 self.props.label_class.clone())
                         >
