@@ -57,6 +57,8 @@ pub struct TreeProps<T: Clone> {
     pub on_expand: Option<Callback<(NodeId, MouseEvent)>>,
     #[prop_or_default]
     pub onclick: Option<Callback<(NodeId, MouseEvent)>>,
+    #[prop_or_default]
+    pub class: Classes,
 }
 
 pub struct NodeData<T> {
@@ -140,7 +142,10 @@ impl<T: Clone + PartialEq + 'static> Component for Tree<T> {
         };
 
         html! {
-            <div class=classes!("bp3-tree")>
+            <div class=classes!(
+                "bp3-tree",
+                self.props.class.clone(),
+            )>
                 <ul class=classes!("bp3-tree-node-list")>
                     {nodes}
                 </ul>
