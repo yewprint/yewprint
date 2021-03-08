@@ -66,6 +66,8 @@ pub struct InputGroupProps {
     pub right_element: Option<yew::virtual_dom::VNode>,
     #[prop_or_default]
     pub input_type: TextInputType,
+    #[prop_or_default]
+    pub class: Classes,
 }
 
 impl Component for InputGroup {
@@ -99,7 +101,8 @@ impl Component for InputGroup {
                     self.props.large.then(|| "bp3-large"),
                     self.props.small.then(|| "bp3-small"),
                     self.props.round.then(|| "bp3-round"),
-                    self.props.placeholder.clone()
+                    self.props.placeholder.clone(),
+                    self.props.class.clone(),
                 )
             >
                 {
