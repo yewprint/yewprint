@@ -27,6 +27,8 @@ pub struct HtmlSelectProps<T: Clone + PartialEq + 'static> {
     pub options: Vec<(T, String)>,
     #[prop_or_default]
     pub value: Option<T>,
+    #[prop_or_default]
+    pub class: Classes,
 }
 
 impl<T: Clone + PartialEq + Hash + 'static> Component for HtmlSelect<T> {
@@ -94,6 +96,7 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for HtmlSelect<T> {
                     self.props.large.then(|| "bp3-large"),
                     self.props.fill.then(|| "bp3-fill"),
                     self.props.disabled.then(|| "bp3-disabled"),
+                    self.props.class.clone(),
                 )
             >
                 <select
