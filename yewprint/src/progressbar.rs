@@ -15,6 +15,8 @@ pub struct ProgressBarProps {
     pub value: Option<f32>,
     #[prop_or_default]
     pub intent: Option<Intent>,
+    #[prop_or_default]
+    pub class: Classes,
 }
 
 impl Component for ProgressBar {
@@ -53,7 +55,8 @@ impl Component for ProgressBar {
                     "bp3-progress-bar",
                     self.props.intent,
                     (!self.props.animate).then(|| "bp3-no-animation"),
-                    (!self.props.stripes).then(|| "bp3-no-stripes")
+                    (!self.props.stripes).then(|| "bp3-no-stripes"),
+                    self.props.class.clone(),
                 )
             >
                 <div class=classes!("bp3-progress-meter") style={{width}}/>
