@@ -1,12 +1,15 @@
 use yew::prelude::*;
-use yewprint::Spinner;
+use yewprint::{Intent, Spinner};
 
 pub struct Example {
     props: ExampleProps,
 }
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct ExampleProps {}
+pub struct ExampleProps {
+    pub intent: Option<Intent>,
+    pub size: i32,
+}
 
 impl Component for Example {
     type Message = ();

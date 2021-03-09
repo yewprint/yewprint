@@ -1,3 +1,4 @@
+use crate::Intent;
 use yew::prelude::*;
 
 pub struct Spinner {
@@ -5,7 +6,14 @@ pub struct Spinner {
 }
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct SpinnerProps {}
+pub struct SpinnerProps {
+    #[prop_or_default]
+    pub intent: Option<Intent>,
+    #[prop_or_default]
+    pub class: Classes,
+    #[prop_or_default]
+    pub size: i32,
+}
 
 impl Component for Spinner {
     type Message = ();

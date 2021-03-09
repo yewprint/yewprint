@@ -3,7 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::{H1, H5};
+use yewprint::{HtmlSelect, Intent, H1, H5};
 
 pub struct SpinnerDoc {
     callback: Callback<ExampleProps>,
@@ -17,7 +17,10 @@ impl Component for SpinnerDoc {
     fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
         SpinnerDoc {
             callback: link.callback(|x| x),
-            state: ExampleProps {},
+            state: ExampleProps {
+                intent: None,
+                size: 10,
+            },
         }
     }
 
@@ -64,6 +67,22 @@ crate::build_example_prop_component! {
         html! {
             <div>
                 <H5>{"Props"}</H5>
+                <div>
+                    <p>{"Select intent:"}</p>
+                    <HtmlSelect<Option<Intent>>
+                        options={vec![
+                            (None, "None".to_string()),
+                            (Some(Intent::Primary), "Primary".to_string()),
+                            (Some(Intent::Success), "Success".to_string()),
+                            (Some(Intent::Warning), "Warning".to_string()),
+                            (Some(Intent::Danger), "Danger".to_string()),
+                        ]}
+                        onchange=self.update_props(|props, intent| ExampleProps {
+                            intent,
+                            ..props
+                        })
+                    />
+                </div>
             </div>
         }
     }
