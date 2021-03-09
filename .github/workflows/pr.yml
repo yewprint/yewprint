@@ -14,8 +14,8 @@ jobs:
     outputs:
       size: ${{ steps.build.outputs.size }}
     steps:
-    - uses: Swatinem/rust-cache@v1
     - uses: actions/checkout@v2
+    - uses: Swatinem/rust-cache@v1
     - name: Install wasm-pack
       run: |
         curl -sSL https://github.com/rustwasm/wasm-pack/releases/download/v0.9.1/wasm-pack-v0.9.1-x86_64-unknown-linux-musl.tar.gz \
