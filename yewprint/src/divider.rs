@@ -10,6 +10,8 @@ pub struct DividerProps {
     pub vertical: bool,
     #[prop_or_default]
     pub children: html::Children,
+    #[prop_or_default]
+    pub class: Classes,
 }
 
 impl Component for Divider {
@@ -39,6 +41,7 @@ impl Component for Divider {
                 class=classes!(
                     "bp3-divider",
                     self.props.vertical.then(|| "bp3-vertical"),
+                    self.props.class.clone(),
                 )
             />
         }

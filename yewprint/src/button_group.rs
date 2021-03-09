@@ -18,6 +18,8 @@ pub struct ButtonGroupProps {
     pub style: Option<String>,
     #[prop_or_default]
     pub children: html::Children,
+    #[prop_or_default]
+    pub class: Classes,
 }
 
 impl Component for ButtonGroup {
@@ -50,6 +52,7 @@ impl Component for ButtonGroup {
                     self.props.fill.then(|| "bp3-fill"),
                     self.props.large.then(|| "bp3-large"),
                     self.props.vertical.then(|| "bp3-vertical"),
+                    self.props.class.clone(),
                 )
                 style?=self.props.style.clone()
             >
