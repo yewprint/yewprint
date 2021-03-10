@@ -38,6 +38,8 @@ pub struct TagProps {
     pub title: Option<String>,
     #[prop_or_default]
     pub class: Classes,
+    #[prop_or_default]
+    pub href: Option<String>,
 }
 
 impl Component for Tag {
@@ -81,7 +83,7 @@ impl Component for Tag {
         };
 
         html! {
-            <span
+            <a
                 class=classes!(
                     "bp3-tag",
                     self.props.intent,
@@ -93,6 +95,8 @@ impl Component for Tag {
                     self.props.round.then(|| "bp3-round"),
                     self.props.class.clone(),
                 )
+                href?={self.props.interactive.then(|| self.props.href.clone()).flatten()}
+                tabindex?={self.props.interactive.then(|| 0)}
                 onclick={self.props.onclick.clone()}
             >
                 {icon}
@@ -106,7 +110,7 @@ impl Component for Tag {
                 </Text>
                 {right_icon}
                 {remove_button}
-            </span>
+            </a>
         }
     }
 }

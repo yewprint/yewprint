@@ -45,6 +45,7 @@ impl Component for TagDoc {
                 right_icon: false,
                 round: false,
                 reset_tags: 0,
+                href: Some("#tag".to_string()),
             },
         }
     }

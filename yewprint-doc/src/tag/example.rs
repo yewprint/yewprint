@@ -23,6 +23,7 @@ pub struct ExampleProps {
     pub right_icon: bool,
     pub round: bool,
     pub reset_tags: u64,
+    pub href: Option<String>,
 }
 
 pub enum ExampleMsg {
@@ -90,6 +91,7 @@ impl Component for Example {
                         right_icon=self.props.right_icon.as_some(IconName::Star)
                         round=self.props.round
                         onremove=remove
+                        href="#tag"
                         onclick=self.link.callback(|_| ExampleMsg::Click)
                     >
                         {label.clone()}
