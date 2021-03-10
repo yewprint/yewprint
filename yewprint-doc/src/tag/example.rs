@@ -79,11 +79,12 @@ impl Component for Example {
                     )
                 };
                 html! {
-                    <Tag
-                        active=self.props.active
-                        fill=self.props.fill
-                        icon=self.props.icon.as_some(IconName::Print)
-                        intent=self.props.intent
+                    <>
+                        <Tag
+                            active=self.props.active
+                            fill=self.props.fill
+                            icon=self.props.icon.as_some(IconName::Print)
+                            intent=self.props.intent
                         interactive=self.props.interactive
                         large=self.props.large
                         minimal=self.props.minimal
@@ -93,9 +94,15 @@ impl Component for Example {
                         onremove=remove
                         href="#tag"
                         onclick=self.link.callback(|_| ExampleMsg::Click)
-                    >
-                        {label.clone()}
-                    </Tag>
+                        >
+                            {label.clone()}
+                        </Tag>
+                        <Tag
+                            interactive=self.props.interactive
+                        >
+                            {"test"}
+                        </Tag>
+                    </>
                 }
             })
             .collect::<Html>()
