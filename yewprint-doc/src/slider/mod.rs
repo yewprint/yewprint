@@ -3,7 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::{H1, H5};
+use yewprint::{Switch, H1, H5};
 
 pub struct SliderDoc {
     callback: Callback<ExampleProps>,
@@ -17,7 +17,12 @@ impl Component for SliderDoc {
     fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
         SliderDoc {
             callback: link.callback(|x| x),
-            state: ExampleProps {},
+            state: ExampleProps {
+                value1: 0,
+                value2: 2.5,
+                value3: 30,
+                vertical: false,
+            },
         }
     }
 
@@ -62,6 +67,14 @@ crate::build_example_prop_component! {
         html! {
             <div>
                 <H5>{"Props"}</H5>
+                <Switch
+                    onclick=self.update_props(|props, _| ExampleProps {
+                        vertical: !props.vertical,
+                        ..props
+                    })
+                    checked=self.props.vertical
+                    label=html!("Vertical")
+                />
             </div>
         }
     }

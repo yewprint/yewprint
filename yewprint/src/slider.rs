@@ -5,7 +5,16 @@ pub struct Slider {
 }
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct SliderProps {}
+pub struct SliderProps {
+    #[prop_or_default]
+    pub class: Classes,
+    #[prop_or_default]
+    pub vertical: bool,
+    #[prop_or_default]
+    pub initial_value: i32,
+    #[prop_or_default]
+    pub value: i32,
+}
 
 impl Component for Slider {
     type Message = ();
@@ -30,8 +39,12 @@ impl Component for Slider {
 
     fn view(&self) -> Html {
         html! {
-            <div>
-                <p>{"Hello, world!"}</p>
+            <div
+                class=classes!(
+                    "bp3-slider",
+                    self.props.vertical.then(|| "bp3-vertical"),
+                )
+            >
             </div>
         }
     }

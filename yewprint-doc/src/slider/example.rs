@@ -6,7 +6,12 @@ pub struct Example {
 }
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct ExampleProps {}
+pub struct ExampleProps {
+    pub value1: i32,
+    pub value2: f32,
+    pub value3: i32,
+    pub vertical: bool,
+}
 
 impl Component for Example {
     type Message = ();
