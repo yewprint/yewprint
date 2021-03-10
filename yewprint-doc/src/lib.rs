@@ -12,6 +12,7 @@ mod icon;
 mod input_group;
 mod menu;
 mod progressbar;
+mod slider;
 mod switch;
 mod tabs;
 mod tag;
