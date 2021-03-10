@@ -2,10 +2,14 @@ use crate::Intent;
 use yew::prelude::*;
 
 pub const R: i32 = 45;
-// pub const SPINNER_TRACK
+pub const SPINNER_TRACK: i32 = 0; // `M 50,50 m 0,-${R} a ${R},${R} 0 1 1 0,${R * 2} a ${R},${R} 0 1 1 0,-${R * 2}`;
 pub const PATH_LENGTH: i32 = 280;
-pub const MIN_SIZE: i32 = 4;
+pub const MIN_SIZE: i32 = 10;
+pub const STROKE_WIDTH: i32 = 4;
 pub const MIN_STROKE_WIDTH: i32 = 16;
+pub const SIZE_SMALL: i32 = 20;
+pub const SIZE_STANDARD: i32 = 50;
+pub const SIZE_LARGE: i32 = 100;
 
 pub struct Spinner {
     props: SpinnerProps,
@@ -19,6 +23,10 @@ pub struct SpinnerProps {
     pub class: Classes,
     #[prop_or_default]
     pub size: i32,
+    #[prop_or_default]
+    pub has_value: bool,
+    #[prop_or_default]
+    pub value: i32,
 }
 
 impl Component for Spinner {
