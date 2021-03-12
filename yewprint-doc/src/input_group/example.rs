@@ -28,6 +28,14 @@ pub enum Msg {
     Nope,
 }
 
+macro_rules! alert {
+    ($($arg:tt)*) => {
+        yew::services::DialogService::alert(&format!(
+            $($arg)*
+        ))
+    };
+}
+
 impl Component for Example {
     type Message = Msg;
     type Properties = ExampleProps;
@@ -43,13 +51,6 @@ impl Component for Example {
     }
 
     fn update(&mut self, msg: Self::Message) -> bool {
-        macro_rules! alert {
-            ($($arg:tt)*) => {
-                yew::services::DialogService::alert(&format!(
-                    $($arg)*
-                ))
-            };
-        }
         match msg {
             Msg::AddHistogramEntry => {
                 alert!("You sent: {}", self.histogram_value);
