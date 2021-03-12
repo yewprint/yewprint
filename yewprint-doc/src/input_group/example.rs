@@ -92,6 +92,10 @@ impl Component for Example {
                     round=self.props.round
                     disabled=self.props.disabled
                     placeholder={"Enter your password..."}
+                    oninput=self.link.callback(|e: InputData| Msg::Update(e.value))
+                    onkeypress=self.link.callback(|e: KeyboardEvent| {
+                        if e.key() == "Enter" { Msg::AddEntry } else { Msg::Nope }
+                    })
                     right_element=html! {
                         <Button
                             icon=IconName::Lock
@@ -108,6 +112,10 @@ impl Component for Example {
                     disabled=self.props.disabled
                     left_icon=IconName::Tag
                     placeholder={"Find tags"}
+                    oninput=self.link.callback(|e: InputData| Msg::Update(e.value))
+                    onkeypress=self.link.callback(|e: KeyboardEvent| {
+                        if e.key() == "Enter" { Msg::AddEntry } else { Msg::Nope }
+                    })
                     right_element=html! {
                         <Tag
                             minimal=true
