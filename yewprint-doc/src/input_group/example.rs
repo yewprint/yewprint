@@ -33,15 +33,12 @@ impl Component for Example {
     type Properties = ExampleProps;
 
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
-        let histogram_value = String::new();
-        let password_value = String::new();
-        let tags_value = String::new();
         Example {
             props,
             link,
-            histogram_value,
-            password_value,
-            tags_value,
+            histogram_value: String::new(),
+            password_value: String::new(),
+            tags_value: String::new(),
         }
     }
 
@@ -49,6 +46,7 @@ impl Component for Example {
         match msg {
             Msg::AddHistogramEntry => {
                 self.histogram_value = String::new();
+                yew::services::DialogService::alert("Are you sure? All data will be lost!");
                 true
             }
             Msg::UpdateHistogram(val) => {
@@ -57,6 +55,7 @@ impl Component for Example {
             }
             Msg::AddPasswordEntry => {
                 self.password_value = String::new();
+                yew::services::DialogService::alert("Are you sure? All data will be lost!");
                 true
             }
             Msg::UpdatePassword(val) => {
@@ -65,6 +64,7 @@ impl Component for Example {
             }
             Msg::AddTagsEntry => {
                 self.tags_value = String::new();
+                yew::services::DialogService::alert("Are you sure? All data will be lost!");
                 true
             }
             Msg::UpdateTags(val) => {
