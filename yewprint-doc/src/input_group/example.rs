@@ -43,11 +43,16 @@ impl Component for Example {
     }
 
     fn update(&mut self, msg: Self::Message) -> bool {
+        macro_rules! alert {
+            ($($arg:tt)*) => {
+                yew::services::DialogService::alert(&format!(
+                    $($arg)*
+                ))
+            };
+        }
         match msg {
             Msg::AddHistogramEntry => {
-                yew::services::DialogService::alert(
-                    format!("You sent: {}", self.histogram_value).as_str(),
-                );
+                alert!("You sent: {}", self.histogram_value);
                 self.histogram_value = String::new();
                 true
             }
@@ -56,9 +61,7 @@ impl Component for Example {
                 true
             }
             Msg::AddPasswordEntry => {
-                yew::services::DialogService::alert(
-                    format!("You sent: {}", self.password_value).as_str(),
-                );
+                alert!("you sent: {}", self.password_value);
                 self.password_value = String::new();
                 true
             }
@@ -67,9 +70,7 @@ impl Component for Example {
                 true
             }
             Msg::AddTagsEntry => {
-                yew::services::DialogService::alert(
-                    format!("You sent: {}", self.tags_value).as_str(),
-                );
+                alert!("You sent: {}", self.tags_value);
                 self.tags_value = String::new();
                 true
             }
