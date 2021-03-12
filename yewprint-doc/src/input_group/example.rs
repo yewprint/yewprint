@@ -45,8 +45,10 @@ impl Component for Example {
     fn update(&mut self, msg: Self::Message) -> bool {
         match msg {
             Msg::AddHistogramEntry => {
+                yew::services::DialogService::alert(
+                    format!("You send: {}", self.histogram_value).as_str(),
+                );
                 self.histogram_value = String::new();
-                yew::services::DialogService::alert("Are you sure? All data will be lost!");
                 true
             }
             Msg::UpdateHistogram(val) => {
@@ -54,8 +56,10 @@ impl Component for Example {
                 true
             }
             Msg::AddPasswordEntry => {
+                yew::services::DialogService::alert(
+                    format!("You send: {}", self.password_value).as_str(),
+                );
                 self.password_value = String::new();
-                yew::services::DialogService::alert("Are you sure? All data will be lost!");
                 true
             }
             Msg::UpdatePassword(val) => {
@@ -63,8 +67,10 @@ impl Component for Example {
                 true
             }
             Msg::AddTagsEntry => {
+                yew::services::DialogService::alert(
+                    format!("You send: {}", self.tags_value).as_str(),
+                );
                 self.tags_value = String::new();
-                yew::services::DialogService::alert("Are you sure? All data will be lost!");
                 true
             }
             Msg::UpdateTags(val) => {
