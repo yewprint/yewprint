@@ -18,9 +18,6 @@ pub struct ExampleProps {
     pub round: bool,
 }
 
-#[derive(Debug)]
-pub struct Entry(String);
-
 pub enum Msg {
     AddHistogramEntry,
     UpdateHistogram(String),
@@ -53,7 +50,7 @@ impl Component for Example {
             Msg::AddHistogramEntry => {
                 let entry_value = self.histogram_value.trim();
                 if !entry_value.is_empty() {
-                    Entry(entry_value.to_string());
+                    entry_value.to_string();
                 }
                 self.histogram_value = String::new();
                 true
@@ -65,7 +62,7 @@ impl Component for Example {
             Msg::AddPasswordEntry => {
                 let entry_value = self.password_value.trim();
                 if !entry_value.is_empty() {
-                    Entry(entry_value.to_string());
+                    entry_value.to_string();
                 }
                 self.password_value = String::new();
                 true
@@ -77,7 +74,7 @@ impl Component for Example {
             Msg::AddTagsEntry => {
                 let entry_value = self.tags_value.trim();
                 if !entry_value.is_empty() {
-                    Entry(entry_value.to_string());
+                    entry_value.to_string();
                 }
                 self.tags_value = String::new();
                 true
