@@ -46,7 +46,7 @@ impl Component for Example {
         match msg {
             Msg::AddHistogramEntry => {
                 yew::services::DialogService::alert(
-                    format!("You send: {}", self.histogram_value).as_str(),
+                    format!("You sent: {}", self.histogram_value).as_str(),
                 );
                 self.histogram_value = String::new();
                 true
@@ -57,7 +57,7 @@ impl Component for Example {
             }
             Msg::AddPasswordEntry => {
                 yew::services::DialogService::alert(
-                    format!("You send: {}", self.password_value).as_str(),
+                    format!("You sent: {}", self.password_value).as_str(),
                 );
                 self.password_value = String::new();
                 true
@@ -68,7 +68,7 @@ impl Component for Example {
             }
             Msg::AddTagsEntry => {
                 yew::services::DialogService::alert(
-                    format!("You send: {}", self.tags_value).as_str(),
+                    format!("You sent: {}", self.tags_value).as_str(),
                 );
                 self.tags_value = String::new();
                 true
