@@ -48,10 +48,6 @@ impl Component for Example {
     fn update(&mut self, msg: Self::Message) -> bool {
         match msg {
             Msg::AddHistogramEntry => {
-                let entry_value = self.histogram_value.trim();
-                if !entry_value.is_empty() {
-                    entry_value.to_string();
-                }
                 self.histogram_value = String::new();
                 true
             }
@@ -60,10 +56,6 @@ impl Component for Example {
                 true
             }
             Msg::AddPasswordEntry => {
-                let entry_value = self.password_value.trim();
-                if !entry_value.is_empty() {
-                    entry_value.to_string();
-                }
                 self.password_value = String::new();
                 true
             }
@@ -72,10 +64,6 @@ impl Component for Example {
                 true
             }
             Msg::AddTagsEntry => {
-                let entry_value = self.tags_value.trim();
-                if !entry_value.is_empty() {
-                    entry_value.to_string();
-                }
                 self.tags_value = String::new();
                 true
             }
