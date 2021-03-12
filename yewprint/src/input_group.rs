@@ -67,6 +67,12 @@ pub struct InputGroupProps {
     #[prop_or_default]
     pub input_type: TextInputType,
     #[prop_or_default]
+    pub oninput: Callback<InputData>,
+    #[prop_or_default]
+    pub onkeypress: Callback<KeyboardEvent>,
+    #[prop_or_default]
+    pub value: String,
+    #[prop_or_default]
     pub class: Classes,
 }
 
@@ -130,6 +136,9 @@ impl Component for InputGroup {
                     type=self.props.input_type.as_str()
                     placeholder=&self.props.placeholder
                     disabled=self.props.disabled
+                    oninput={self.props.oninput.clone()}
+                    onkeypress={self.props.onkeypress.clone()}
+                    value=&self.props.value
                 />
                 {
                     if let Some(right_element) = self.props.right_element.clone() {
