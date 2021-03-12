@@ -4,8 +4,9 @@ use yewprint::{Button, IconName, InputGroup, Tag};
 pub struct Example {
     link: ComponentLink<Self>,
     props: ExampleProps,
-    entries: Vec<Entry>,
-    value: String,
+    histogram_value: String,
+    password_value: String,
+    tags_value: String,
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -21,8 +22,12 @@ pub struct ExampleProps {
 pub struct Entry(String);
 
 pub enum Msg {
-    AddEntry,
-    Update(String),
+    AddHistogramEntry,
+    UpdateHistogram(String),
+    AddPasswordEntry,
+    UpdatePassword(String),
+    AddTagsEntry,
+    UpdateTags(String),
     Nope,
 }
 
@@ -31,32 +36,58 @@ impl Component for Example {
     type Properties = ExampleProps;
 
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
-        let entries = Vec::new();
-        let value = String::new();
+        let histogram_value = String::new();
+        let password_value = String::new();
+        let tags_value = String::new();
         Example {
             props,
             link,
-            entries,
-            value,
+            histogram_value,
+            password_value,
+            tags_value,
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, msg: Self::Message) -> bool {
         match msg {
-            Msg::AddEntry => {
-                let entry_value = self.value.trim();
+            Msg::AddHistogramEntry => {
+                let entry_value = self.histogram_value.trim();
                 if !entry_value.is_empty() {
-                    let entry = Entry(entry_value.to_string());
-                    self.entries.push(entry);
+                    Entry(entry_value.to_string());
                 }
-                self.value = String::new();
+                self.histogram_value = String::new();
+                true
             }
-            Msg::Update(val) => {
-                self.value = val;
+            Msg::UpdateHistogram(val) => {
+                self.histogram_value = val;
+                true
             }
-            Msg::Nope => {}
+            Msg::AddPasswordEntry => {
+                let entry_value = self.password_value.trim();
+                if !entry_value.is_empty() {
+                    Entry(entry_value.to_string());
+                }
+                self.password_value = String::new();
+                true
+            }
+            Msg::UpdatePassword(val) => {
+                self.password_value = val;
+                true
+            }
+            Msg::AddTagsEntry => {
+                let entry_value = self.tags_value.trim();
+                if !entry_value.is_empty() {
+                    Entry(entry_value.to_string());
+                }
+                self.tags_value = String::new();
+                true
+            }
+            Msg::UpdateTags(val) => {
+                self.tags_value = val;
+                true
+            }
+            Msg::Nope => false,
         }
-        true
     }
 
     fn change(&mut self, props: Self::Properties) -> ShouldRender {
@@ -79,10 +110,10 @@ impl Component for Example {
                     disabled=self.props.disabled
                     left_icon=IconName::Filter
                     placeholder={"Filter histogram..."}
-                    value=&self.value
-                    oninput=self.link.callback(|e: InputData| Msg::Update(e.value))
+                    value=&self.histogram_value
+                    oninput=self.link.callback(|e: InputData| Msg::UpdateHistogram(e.value))
                     onkeypress=self.link.callback(|e: KeyboardEvent| {
-                        if e.key() == "Enter" { Msg::AddEntry } else { Msg::Nope }
+                        if e.key() == "Enter" { Msg::AddHistogramEntry } else { Msg::Nope }
                     })
                 />
                 <InputGroup
@@ -92,9 +123,10 @@ impl Component for Example {
                     round=self.props.round
                     disabled=self.props.disabled
                     placeholder={"Enter your password..."}
-                    oninput=self.link.callback(|e: InputData| Msg::Update(e.value))
+                    value=&self.password_value
+                    oninput=self.link.callback(|e: InputData| Msg::UpdatePassword(e.value))
                     onkeypress=self.link.callback(|e: KeyboardEvent| {
-                        if e.key() == "Enter" { Msg::AddEntry } else { Msg::Nope }
+                        if e.key() == "Enter" { Msg::AddPasswordEntry } else { Msg::Nope }
                     })
                     right_element=html! {
                         <Button
@@ -112,9 +144,10 @@ impl Component for Example {
                     disabled=self.props.disabled
                     left_icon=IconName::Tag
                     placeholder={"Find tags"}
-                    oninput=self.link.callback(|e: InputData| Msg::Update(e.value))
+                    value=&self.tags_value
+                    oninput=self.link.callback(|e: InputData| Msg::UpdateTags(e.value))
                     onkeypress=self.link.callback(|e: KeyboardEvent| {
-                        if e.key() == "Enter" { Msg::AddEntry } else { Msg::Nope }
+                        if e.key() == "Enter" { Msg::AddTagsEntry } else { Msg::Nope }
                     })
                     right_element=html! {
                         <Tag
