@@ -82,6 +82,7 @@ crate::build_example_prop_component! {
                             ..props
                         })
                     />
+                    <p>{"Select Size:"}</p>
                     <HtmlSelect<Size>
                         options={vec![
                             (Size::Small, "Small".to_string()),

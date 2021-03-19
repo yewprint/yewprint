@@ -82,8 +82,8 @@ impl Component for Spinner {
         };
         let spinner_track: String = format!(
             "M 50,50 m 0,-{R} a {R},{R} 0 1 1 0,{R2} a {R},{R} 0 1 1 0,-{R2}",
-            R = 45,
-            R2 = 45 * 2,
+            R = R,
+            R2 = R * 2,
         );
         let stroke_offset = path_length_float
             - path_length_float
@@ -106,8 +106,8 @@ impl Component for Spinner {
                     <svg
                         width=size
                         height=size
-                        stroke_width=stroke_width
-                        view_box= get_view_box(stroke_width)
+                        stroke-width=stroke_width
+                        viewBox= get_view_box(stroke_width)
                     >
                         <path
                             class=classes!("bp3-spinner-track")
@@ -116,9 +116,9 @@ impl Component for Spinner {
                         <path
                             class=classes!("bp3-spinner-head")
                             d=spinner_track
-                            path_length=PATH_LENGTH
-                            stroke_dash_array=format!("{} {}", PATH_LENGTH, PATH_LENGTH)
-                            stroke_dash_offset=stroke_offset
+                            pathLength=PATH_LENGTH
+                            stroke-dasharray=format!("{} {}", PATH_LENGTH, PATH_LENGTH)
+                            stroke-dashoffset=stroke_offset
                         />
                     </svg>
                 </div>
