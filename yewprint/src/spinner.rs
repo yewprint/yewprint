@@ -59,7 +59,7 @@ impl Component for Spinner {
             let view_box_x = 50.00 - radius;
             let view_box_width = radius * 2.00;
             format!(
-                "{:.2} {:.2} {:.2} {:.2}",
+                "{:.2} {:.2} {:.2} {:.2}",
                 view_box_x, view_box_x, view_box_width, view_box_width,
             )
         };
