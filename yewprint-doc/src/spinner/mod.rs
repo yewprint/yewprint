@@ -82,6 +82,17 @@ crate::build_example_prop_component! {
                             ..props
                         })
                     />
+                    <HtmlSelect<Size>
+                        options={vec![
+                            (Size::Small, "Small".to_string()),
+                            (Size::Standard, "Standard".to_string()),
+                            (Size::Large, "Large".to_string()),
+                        ]}
+                        onchange=self.update_props(|props, size| ExampleProps {
+                            size,
+                            ..props
+                        })
+                    />
                 </div>
             </div>
         }

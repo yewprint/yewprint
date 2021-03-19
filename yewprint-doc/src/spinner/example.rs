@@ -36,7 +36,7 @@ impl Component for Example {
         html! {
             <div>
                 <Spinner
-                    size=Size::Standard
+                    size=self.props.size.clone()
                     intent=self.props.intent
                 />
             </div>

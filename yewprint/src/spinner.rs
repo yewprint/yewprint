@@ -15,7 +15,7 @@ pub struct Spinner {
     props: SpinnerProps,
 }
 
-#[derive(Clone, PartialEq)]
+#[derive(Clone, PartialEq, Hash)]
 pub enum Size {
     Small,
     Standard,
