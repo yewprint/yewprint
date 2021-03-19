@@ -1,4 +1,5 @@
 use crate::Intent;
+use std::cmp::{max, min};
 use yew::prelude::*;
 
 pub const R: i32 = 45;
@@ -63,6 +64,7 @@ impl Component for Spinner {
             R = 45,
             R2 = 45 * 2,
         );
+        // let size = self.get_size();
         // let stroke_width =
         //     Math.min(MIN_STROKE_WIDTH, (STROKE_WIDTH * Spinner.SIZE_LARGE) / size);
         // let stroke_offset =
