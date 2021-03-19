@@ -107,7 +107,7 @@ impl Component for Spinner {
                         width=size
                         height=size
                         stroke-width=stroke_width
-                        viewBox= get_view_box(stroke_width)
+                        viewBox=get_view_box(stroke_width)
                     >
                         <path
                             class=classes!("bp3-spinner-track")
