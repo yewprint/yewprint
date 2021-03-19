@@ -66,7 +66,7 @@ impl Component for Spinner {
         );
         // let size = self.get_size();
         // let stroke_width =
-        //     Math.min(MIN_STROKE_WIDTH, (STROKE_WIDTH * Spinner.SIZE_LARGE) / size);
+        //     cmp::min(MIN_STROKE_WIDTH, (STROKE_WIDTH * SIZE_LARGE) / size);
         // let stroke_offset =
         //    PATH_LENGTH - PATH_LENGTH * (value == null ? 0.25 : clamp(value, 0, 1));
         html! {
