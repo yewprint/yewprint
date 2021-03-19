@@ -71,12 +71,12 @@ impl Component for Spinner {
         };
         let stroke_width = min(MIN_STROKE_WIDTH, (STROKE_WIDTH * SIZE_LARGE) / size);
 
-        fn get_view_box(stroke_width: i32) -> String {
-            let radius = R + stroke_width / 2;
-            let view_box_x = 50 - radius;
-            let view_box_width = radius * 2;
+        fn get_view_box(stroke_width: f32) -> String {
+            let radius = R as f32 + stroke_width / 2.00;
+            let view_box_x = 50.00 - radius;
+            let view_box_width = radius * 2.00;
             format!(
-                "{} {} {} {}",
+                "{:.2} {:.2} {:.2} {:.2}",
                 view_box_x, view_box_x, view_box_width, view_box_width,
             )
         };
@@ -107,7 +107,7 @@ impl Component for Spinner {
                         width=size
                         height=size
                         stroke-width=stroke_width
-                        viewBox=get_view_box(stroke_width)
+                        viewBox=get_view_box(stroke_width as f32)
                     >
                         <path
                             class=classes!("bp3-spinner-track")
