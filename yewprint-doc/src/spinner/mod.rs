@@ -87,7 +87,7 @@ crate::build_example_prop_component! {
                         options={vec![
                             (20, "Small".to_string()),
                             (50, "Standard".to_string()),
-                            (10, "Large".to_string()),
+                            (100, "Large".to_string()),
                         ]}
                         onchange=self.update_props(|props, size| ExampleProps {
                             size,
