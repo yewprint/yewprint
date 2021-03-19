@@ -1,12 +1,12 @@
 use crate::Intent;
-use std::cmp::{max, min};
+use std::cmp::max;
 use yew::prelude::*;
 
-const R: u32 = 45;
-const PATH_LENGTH: u32 = 280;
+const R: f32 = 45.0;
+const PATH_LENGTH: f32 = 280.0;
 const SPINNER_MIN_SIZE: u32 = 10;
-const STROKE_WIDTH: u32 = 4;
-const MIN_STROKE_WIDTH: u32 = 16;
+const STROKE_WIDTH: f32 = 4.0;
+const MIN_STROKE_WIDTH: f32 = 16.0;
 pub const SPINNER_SIZE_SMALL: u32 = 20;
 pub const SPINNER_SIZE_STANDARD: u32 = 50;
 pub const SPINNER_SIZE_LARGE: u32 = 100;
@@ -49,11 +49,13 @@ impl Component for Spinner {
     }
 
     fn view(&self) -> Html {
-        let path_length_float = PATH_LENGTH as f32;
         let size = max(SPINNER_MIN_SIZE, self.props.size);
-        let stroke_width = min(MIN_STROKE_WIDTH, (STROKE_WIDTH * SPINNER_SIZE_LARGE) / size);
+        let stroke_width = f32::min(
+            MIN_STROKE_WIDTH,
+            (STROKE_WIDTH * SPINNER_SIZE_LARGE as f32) / size as f32,
+        );
         let view_box = {
-            let radius = R as f32 + stroke_width as f32 / 2.00;
+            let radius = R + stroke_width / 2.00;
             let view_box_x = 50.00 - radius;
             let view_box_width = radius * 2.00;
             format!(
@@ -62,12 +64,11 @@ impl Component for Spinner {
             )
         };
         let spinner_track = format!(
-            "M 50,50 m 0,-{R} a {R},{R} 0 1 1 0,{R2} a {R},{R} 0 1 1 0,-{R2}",
+            "M 50,50 m 0,-{R:.0} a {R:.0},{R:.0} 0 1 1 0,{R2:.0} a {R:.0},{R:.0} 0 1 1 0,-{R2:.0}",
             R = R,
-            R2 = R * 2,
+            R2 = R * 2.0,
         );
-        let stroke_offset =
-            path_length_float - path_length_float * self.props.value.clamp(0.0, 1.0);
+        let stroke_offset = PATH_LENGTH - PATH_LENGTH * self.props.value.clamp(0.0, 1.0);
 
         html! {
             <div
