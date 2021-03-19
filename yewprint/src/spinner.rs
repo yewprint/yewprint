@@ -2,8 +2,6 @@ use crate::Intent;
 use yew::prelude::*;
 
 pub const R: i32 = 45;
-pub const SPINNER_TRACK: &str =
-    "M 50,50 m 0,-${R} a ${R},${R} 0 1 1 0,${R * 2} a ${R},${R} 0 1 1 0,-${R * 2}";
 pub const PATH_LENGTH: i32 = 280;
 pub const MIN_SIZE: i32 = 10;
 pub const STROKE_WIDTH: i32 = 4;
@@ -25,9 +23,7 @@ pub struct SpinnerProps {
     #[prop_or_default]
     pub size: i32,
     #[prop_or_default]
-    pub has_value: bool,
-    #[prop_or_default]
-    pub value: i32,
+    pub value: Option<i32>,
 }
 
 impl Component for Spinner {
@@ -52,6 +48,21 @@ impl Component for Spinner {
     }
 
     fn view(&self) -> Html {
+        // fn get_size() -> i32 {}
+        /* fn get_view_box(stroke_width: i32) -> String {
+            let radius = R + stroke_width / 2;
+            let view_box_x = (50 - radius).to_fixed(2);
+            let view_box_width = (radius * 2).to_fixed(2);
+            format!(
+                "{} {} {} {}",
+                view_box_x, view_box_x, view_box_width, view_box_width,
+            )
+        };*/
+        let spinner_track: String = format!(
+            "M 50,50 m 0,-{R} a {R},{R} 0 1 1 0,{R2} a {R},{R} 0 1 1 0,-{R2}",
+            R = 45,
+            R2 = 45 * 2,
+        );
         // let stroke_width =
         //     Math.min(MIN_STROKE_WIDTH, (STROKE_WIDTH * Spinner.SIZE_LARGE) / size);
         // let stroke_offset =
@@ -75,13 +86,13 @@ impl Component for Spinner {
                     >
                         <path
                             class=classes!("bp3-spinner-track")
-                            d=SPINNER_TRACK
+                            d=spinner_track
                         />
                         <path
                             class=classes!("bp3-spinner-head")
-                            d=SPINNER_TRACK
+                            d=spinner_track
                             path_length=PATH_LENGTH
-                            // stroke_dash_array="${PATH_LENGTH} ${PATH_LENGTH}"
+                            stroke_dash_array=format!("{} {}", PATH_LENGTH, PATH_LENGTH)
                             // stroke_dash_offset=stroke_offset
                         />
                     </svg>
