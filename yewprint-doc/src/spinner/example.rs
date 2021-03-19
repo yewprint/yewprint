@@ -1,5 +1,5 @@
 use yew::prelude::*;
-use yewprint::{Intent, Size, Spinner};
+use yewprint::{Intent, Spinner};
 
 pub struct Example {
     props: ExampleProps,
@@ -8,7 +8,7 @@ pub struct Example {
 #[derive(Clone, PartialEq, Properties)]
 pub struct ExampleProps {
     pub intent: Option<Intent>,
-    pub size: Size,
+    pub size: i32,
 }
 
 impl Component for Example {
