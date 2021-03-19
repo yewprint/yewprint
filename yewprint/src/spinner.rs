@@ -52,7 +52,6 @@ impl Component for Spinner {
         let path_length_float = PATH_LENGTH as f32;
         let size = max(SPINNER_MIN_SIZE, self.props.size);
         let stroke_width = min(MIN_STROKE_WIDTH, (STROKE_WIDTH * SPINNER_SIZE_LARGE) / size);
-
         let view_box = {
             let radius = R as f32 + stroke_width as f32 / 2.00;
             let view_box_x = 50.00 - radius;
@@ -62,13 +61,14 @@ impl Component for Spinner {
                 view_box_x, view_box_x, view_box_width, view_box_width,
             )
         };
-        let spinner_track: String = format!(
+        let spinner_track = format!(
             "M 50,50 m 0,-{R} a {R},{R} 0 1 1 0,{R2} a {R},{R} 0 1 1 0,-{R2}",
             R = R,
             R2 = R * 2,
         );
         let stroke_offset =
-            path_length_float - path_length_float * (self.props.value.clamp(0.0, 1.0));
+            path_length_float - path_length_float * self.props.value.clamp(0.0, 1.0);
+
         html! {
             <div
                 class=classes!(
