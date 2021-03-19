@@ -1,15 +1,15 @@
 use crate::Intent;
-use std::cmp::min;
+use std::cmp::{max, min};
 use yew::prelude::*;
 
-const R: i32 = 45;
-const PATH_LENGTH: i32 = 280;
-const SPINNER_MIN_SIZE: i32 = 10;
-pub const STROKE_WIDTH: i32 = 4;
-pub const MIN_STROKE_WIDTH: i32 = 16;
-pub const SPINNER_SIZE_SMALL: i32 = 20;
-pub const SPINNER_SIZE_STANDARD: i32 = 50;
-pub const SPINNER_SIZE_LARGE: i32 = 100;
+const R: u32 = 45;
+const PATH_LENGTH: u32 = 280;
+const SPINNER_MIN_SIZE: u32 = 10;
+const STROKE_WIDTH: u32 = 4;
+const MIN_STROKE_WIDTH: u32 = 16;
+pub const SPINNER_SIZE_SMALL: u32 = 20;
+pub const SPINNER_SIZE_STANDARD: u32 = 50;
+pub const SPINNER_SIZE_LARGE: u32 = 100;
 
 pub struct Spinner {
     props: SpinnerProps,
@@ -22,7 +22,7 @@ pub struct SpinnerProps {
     #[prop_or_default]
     pub class: Classes,
     #[prop_or(SPINNER_SIZE_STANDARD)]
-    pub size: i32,
+    pub size: u32,
     #[prop_or(0.25)]
     pub value: f32,
 }
@@ -50,7 +50,7 @@ impl Component for Spinner {
 
     fn view(&self) -> Html {
         let path_length_float = PATH_LENGTH as f32;
-        let size = self.props.size;
+        let size = max(SPINNER_MIN_SIZE, self.props.size);
         let stroke_width = min(MIN_STROKE_WIDTH, (STROKE_WIDTH * SPINNER_SIZE_LARGE) / size);
 
         let view_box = {

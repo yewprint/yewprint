@@ -8,7 +8,7 @@ pub struct Example {
 #[derive(Clone, PartialEq, Properties)]
 pub struct ExampleProps {
     pub intent: Option<Intent>,
-    pub size: i32,
+    pub size: u32,
 }
 
 impl Component for Example {
