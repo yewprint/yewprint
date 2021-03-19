@@ -1,5 +1,5 @@
 use crate::Intent;
-use std::cmp::{max, min};
+// use std::cmp::{min};
 use yew::prelude::*;
 
 pub const R: i32 = 45;
@@ -24,7 +24,7 @@ pub struct SpinnerProps {
     #[prop_or_default]
     pub size: i32,
     #[prop_or_default]
-    pub value: Option<i32>,
+    pub value: Option<f32>,
 }
 
 impl Component for Spinner {
@@ -49,6 +49,8 @@ impl Component for Spinner {
     }
 
     fn view(&self) -> Html {
+        let default_value = 0.25;
+        let path_length_float = PATH_LENGTH as f32;
         // fn get_size() -> i32 {}
         /* fn get_view_box(stroke_width: i32) -> String {
             let radius = R + stroke_width / 2;
@@ -67,8 +69,13 @@ impl Component for Spinner {
         // let size = self.get_size();
         // let stroke_width =
         //     cmp::min(MIN_STROKE_WIDTH, (STROKE_WIDTH * SIZE_LARGE) / size);
-        // let stroke_offset =
-        //    PATH_LENGTH - PATH_LENGTH * (value == null ? 0.25 : clamp(value, 0, 1));
+        let stroke_offset = path_length_float
+            - path_length_float
+                * (self
+                    .props
+                    .value
+                    .map(|x| x.clamp(0.0, 1.0))
+                    .unwrap_or(default_value));
         html! {
             <div
                 class=classes!(
@@ -95,7 +102,7 @@ impl Component for Spinner {
                             d=spinner_track
                             path_length=PATH_LENGTH
                             stroke_dash_array=format!("{} {}", PATH_LENGTH, PATH_LENGTH)
-                            // stroke_dash_offset=stroke_offset
+                            stroke_dash_offset=stroke_offset
                         />
                     </svg>
                 </div>
