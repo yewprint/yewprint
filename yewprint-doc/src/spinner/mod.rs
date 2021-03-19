@@ -3,7 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::{HtmlSelect, Intent, H1, H5};
+use yewprint::{HtmlSelect, Intent, Size, H1, H5};
 
 pub struct SpinnerDoc {
     callback: Callback<ExampleProps>,
@@ -19,7 +19,7 @@ impl Component for SpinnerDoc {
             callback: link.callback(|x| x),
             state: ExampleProps {
                 intent: None,
-                size: 10,
+                size: Size::Standard,
             },
         }
     }

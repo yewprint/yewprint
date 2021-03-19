@@ -1,5 +1,5 @@
 use yew::prelude::*;
-use yewprint::{Intent, Spinner};
+use yewprint::{Intent, Size, Spinner};
 
 pub struct Example {
     props: ExampleProps,
@@ -8,7 +8,7 @@ pub struct Example {
 #[derive(Clone, PartialEq, Properties)]
 pub struct ExampleProps {
     pub intent: Option<Intent>,
-    pub size: i32,
+    pub size: Size,
 }
 
 impl Component for Example {
@@ -35,7 +35,10 @@ impl Component for Example {
     fn view(&self) -> Html {
         html! {
             <div>
-                <Spinner />
+                <Spinner
+                    size=Size::Standard
+                    intent=self.props.intent
+                />
             </div>
         }
     }
