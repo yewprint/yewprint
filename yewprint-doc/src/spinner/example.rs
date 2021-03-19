@@ -36,7 +36,7 @@ impl Component for Example {
         html! {
             <div>
                 <Spinner
-                    size=self.props.size
+                    size=self.props.size as f32
                     intent=self.props.intent
                 />
             </div>
