@@ -51,7 +51,8 @@ impl Component for Spinner {
     fn view(&self) -> Html {
         let default_value = 0.25;
         let path_length_float = PATH_LENGTH as f32;
-        // fn get_size() -> i32 {}
+        // let stroke_width =
+        //     cmp::min(MIN_STROKE_WIDTH, (STROKE_WIDTH * SIZE_LARGE) / size);
         /* fn get_view_box(stroke_width: i32) -> String {
             let radius = R + stroke_width / 2;
             let view_box_x = (50 - radius).to_fixed(2);
@@ -66,9 +67,6 @@ impl Component for Spinner {
             R = 45,
             R2 = 45 * 2,
         );
-        // let size = self.get_size();
-        // let stroke_width =
-        //     cmp::min(MIN_STROKE_WIDTH, (STROKE_WIDTH * SIZE_LARGE) / size);
         let stroke_offset = path_length_float
             - path_length_float
                 * (self
