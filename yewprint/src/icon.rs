@@ -9,8 +9,8 @@ impl Default for IconName {
     }
 }
 
-pub const SIZE_STANDARD: i32 = 16;
-pub const SIZE_LARGE: i32 = 20;
+pub const ICON_SIZE_STANDARD: i32 = 16;
+pub const ICON_SIZE_LARGE: i32 = 20;
 
 pub struct Icon {
     props: IconProps,
@@ -55,15 +55,15 @@ impl Component for Icon {
     }
 
     fn view(&self) -> Html {
-        let paths = if self.props.icon_size == SIZE_STANDARD {
+        let paths = if self.props.icon_size == ICON_SIZE_STANDARD {
             icon_svg_paths_16(self.props.icon)
         } else {
             icon_svg_paths_20(self.props.icon)
         };
-        let pixel_grid_size = if self.props.icon_size >= SIZE_LARGE {
-            SIZE_LARGE
+        let pixel_grid_size = if self.props.icon_size >= ICON_SIZE_LARGE {
+            ICON_SIZE_LARGE
         } else {
-            SIZE_STANDARD
+            ICON_SIZE_STANDARD
         };
         let icon_string = format!("{:?}", self.props.icon);
 
