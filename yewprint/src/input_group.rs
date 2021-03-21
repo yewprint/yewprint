@@ -76,6 +76,8 @@ pub struct InputGroupProps {
     pub value: String,
     #[prop_or_default]
     pub class: Classes,
+    #[prop_or_default]
+    pub input_ref: NodeRef,
 }
 
 impl Component for InputGroup {
@@ -134,6 +136,7 @@ impl Component for InputGroup {
                     }
                 }
                 <input
+                    ref=self.props.input_ref.clone()
                     class="bp3-input"
                     type=self.props.input_type.as_str()
                     placeholder=&self.props.placeholder
