@@ -60,13 +60,6 @@ impl Component for Slider {
                 )
             >
                 <div class=classes!("bp3-slider-track")>
-                    <div
-                        class=classes!("bp3-slider-progress")
-                        style="left: 0%; right: 100%; top: 0px;"
-                    >
-                    </div>
-                    <div class=classes!("bp3-slider-progress", "bp3-intent-primary")>
-                    </div>
                     <div class=classes!("bp3-slider-progress")>
                     </div>
                 </div>
