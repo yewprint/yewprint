@@ -6,6 +6,7 @@ use yew::prelude::*;
 pub struct Slider {
     props: SliderProps,
     mouse_move: Closure<dyn FnMut(MouseEvent)>,
+    mouse_up: Closure<dyn FnMut(MouseEvent)>,
     link: ComponentLink<Self>,
 }
 
@@ -38,11 +39,15 @@ impl Component for Slider {
 
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
         let mouse_move = Closure::wrap(Box::new(move |event: web_sys::MouseEvent| {
-            yew::services::ConsoleService::log("here")
+            yew::services::ConsoleService::log("mousemove")
+        }) as Box<dyn FnMut(_)>);
+        let mouse_up = Closure::wrap(Box::new(move |event: web_sys::MouseEvent| {
+            yew::services::ConsoleService::log("mouseup")
         }) as Box<dyn FnMut(_)>);
         Self {
             props,
             mouse_move,
+            mouse_up,
             link,
         }
     }
@@ -63,9 +68,9 @@ impl Component for Slider {
                 let document = yew::utils::document();
                 let event_target: &web_sys::EventTarget = document.as_ref();
                 event_target
-                    .remove_event_listener_with_callback(
-                        "mousemove",
-                        self.mouse_move.as_ref().unchecked_ref(),
+                    .add_event_listener_with_callback(
+                        "mouseup",
+                        self.mouse_up.as_ref().unchecked_ref(),
                     )
                     .unwrap();
             }
