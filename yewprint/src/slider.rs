@@ -29,6 +29,7 @@ pub struct SliderProps {
 
 pub enum Msg {
     StartChange,
+    StopChange,
 }
 
 impl Component for Slider {
@@ -53,6 +54,16 @@ impl Component for Slider {
                 let event_target: &web_sys::EventTarget = document.as_ref();
                 event_target
                     .add_event_listener_with_callback(
+                        "mousemove",
+                        self.mouse_move.as_ref().unchecked_ref(),
+                    )
+                    .unwrap();
+            }
+            Msg::StopChange => {
+                let document = yew::utils::document();
+                let event_target: &web_sys::EventTarget = document.as_ref();
+                event_target
+                    .remove_event_listener_with_callback(
                         "mousemove",
                         self.mouse_move.as_ref().unchecked_ref(),
                     )
@@ -104,6 +115,7 @@ impl Component for Slider {
                     class=classes!("bp3-slider-handle")
                     style=format!("left: {}%", percentage)
                     onmousedown=self.link.callback(|_| Msg::StartChange)
+                    onmouseup=self.link.callback(|_| Msg::StopChange)
                 >
                     <span class=classes!("bp3-slider-label")>
                         {self.props.value}
