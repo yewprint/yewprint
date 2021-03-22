@@ -23,7 +23,7 @@ impl Component for Example {
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
         Example {
             props,
-            value: 15,
+            value: 0,
             link,
         }
     }

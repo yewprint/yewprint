@@ -1,8 +1,12 @@
 use crate::Intent;
+use wasm_bindgen::closure::Closure;
+use wasm_bindgen::JsCast;
 use yew::prelude::*;
 
 pub struct Slider {
     props: SliderProps,
+    mouse_move: Closure<dyn FnMut(MouseEvent)>,
+    link: ComponentLink<Self>,
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -23,15 +27,38 @@ pub struct SliderProps {
     pub onchange: Callback<i32>,
 }
 
+pub enum Msg {
+    StartChange,
+}
+
 impl Component for Slider {
-    type Message = ();
+    type Message = Msg;
     type Properties = SliderProps;
 
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        Self { props }
+    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+        let mouse_move = Closure::wrap(Box::new(move |event: web_sys::MouseEvent| {
+            yew::services::ConsoleService::log("here")
+        }) as Box<dyn FnMut(_)>);
+        Self {
+            props,
+            mouse_move,
+            link,
+        }
     }
 
-    fn update(&mut self, _: Self::Message) -> ShouldRender {
+    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+        match msg {
+            Msg::StartChange => {
+                let document = yew::utils::document();
+                let event_target: &web_sys::EventTarget = document.as_ref();
+                event_target
+                    .add_event_listener_with_callback(
+                        "mousemove",
+                        self.mouse_move.as_ref().unchecked_ref(),
+                    )
+                    .unwrap();
+            }
+        }
         true
     }
 
@@ -76,6 +103,7 @@ impl Component for Slider {
                 <span
                     class=classes!("bp3-slider-handle")
                     style=format!("left: {}%", percentage)
+                    onmousedown=self.link.callback(|_| Msg::StartChange)
                 >
                     <span class=classes!("bp3-slider-label")>
                         {self.props.value}
