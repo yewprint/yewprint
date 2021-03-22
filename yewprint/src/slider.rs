@@ -13,14 +13,14 @@ pub struct SliderProps {
     pub vertical: bool,
     #[prop_or_default]
     pub intent: Option<Intent>,
-    #[prop_or_default]
     pub value: i32,
     #[prop_or_default]
     pub step_size: i32,
     #[prop_or_default]
     pub min: i32,
-    #[prop_or_default]
     pub max: i32,
+    #[prop_or_default]
+    pub onchange: Callback<i32>,
 }
 
 impl Component for Slider {
@@ -45,6 +45,8 @@ impl Component for Slider {
     }
 
     fn view(&self) -> Html {
+        let percentage = (100 * self.props.value / self.props.max).clamp(0, 100);
+
         html! {
             <div
                 class=classes!(
@@ -71,7 +73,10 @@ impl Component for Slider {
                         {self.props.max}
                     </div>
                 </div>
-                <span class=classes!("bp3-slider-handle")>
+                <span
+                    class=classes!("bp3-slider-handle")
+                    style=format!("left: {}%", percentage)
+                >
                     <span class=classes!("bp3-slider-label")>
                         {self.props.value}
                     </span>
