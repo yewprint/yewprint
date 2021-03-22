@@ -59,6 +59,25 @@ impl Component for Slider {
                     self.props.intent,
                 )
             >
+                <div class=classes!("bp3-slider-track")>
+                    <div class=classes!("bp3-slider-progress")>
+                    </div>
+                </div>
+                <div class=classes!("bp3-slider-axis")>
+                    <div
+                        class=classes!("bp3-slider-label")
+                        style="left: 0%;"
+                    >
+                        {self.props.min}
+                    </div>
+                    <div
+                        class=classes!("bp3-slider-label")
+                        style="left: 100%;"
+                    >
+                        {self.props.max}
+                    </div>
+                </div>
+                <span class=classes!("bp3-slider-handle") />
             </div>
         }
     }
