@@ -17,12 +17,7 @@ impl Component for SliderDoc {
     fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
         SliderDoc {
             callback: link.callback(|x| x),
-            state: ExampleProps {
-                value1: 0,
-                value2: 2.5,
-                value3: 30,
-                vertical: false,
-            },
+            state: ExampleProps { vertical: false },
         }
     }
 

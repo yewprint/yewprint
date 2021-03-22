@@ -1,3 +1,4 @@
+use crate::Intent;
 use yew::prelude::*;
 
 pub struct Slider {
@@ -11,9 +12,21 @@ pub struct SliderProps {
     #[prop_or_default]
     pub vertical: bool,
     #[prop_or_default]
+    pub intent: Option<Intent>,
+    #[prop_or_default]
     pub initial_value: i32,
     #[prop_or_default]
     pub value: i32,
+    #[prop_or_default]
+    pub min: i32,
+    #[prop_or_default]
+    pub max: i32,
+    #[prop_or_default]
+    pub step_size: f32,
+    #[prop_or_default]
+    pub label_step_size: i32,
+    // onchange
+    // onrelease
 }
 
 impl Component for Slider {
@@ -43,6 +56,7 @@ impl Component for Slider {
                 class=classes!(
                     "bp3-slider",
                     self.props.vertical.then(|| "bp3-vertical"),
+                    self.props.intent,
                 )
             >
             </div>

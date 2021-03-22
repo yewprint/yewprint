@@ -7,9 +7,6 @@ pub struct Example {
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct ExampleProps {
-    pub value1: i32,
-    pub value2: f32,
-    pub value3: i32,
     pub vertical: bool,
 }
 
@@ -36,7 +33,15 @@ impl Component for Example {
 
     fn view(&self) -> Html {
         html! {
-            <Slider />
+            <Slider
+                min={0}
+                max={10}
+                step_size={0.1}
+                label_step_size={10}
+                // onchange
+                // value
+                vertical=self.props.vertical
+            />
         }
     }
 }
