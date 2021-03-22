@@ -105,7 +105,7 @@ impl Component for Example {
                     placeholder={"Filter histogram..."}
                     value=&self.histogram_value
                     oninput=self.link.callback(|e: InputData| Msg::UpdateHistogram(e.value))
-                    onkeypress=self.link.callback(|e: KeyboardEvent| {
+                    onkeydown=self.link.callback(|e: KeyboardEvent| {
                         if e.key() == "Enter" { Msg::AddHistogramEntry } else { Msg::Nope }
                     })
                 />
@@ -118,7 +118,7 @@ impl Component for Example {
                     placeholder={"Enter your password..."}
                     value=&self.password_value
                     oninput=self.link.callback(|e: InputData| Msg::UpdatePassword(e.value))
-                    onkeypress=self.link.callback(|e: KeyboardEvent| {
+                    onkeydown=self.link.callback(|e: KeyboardEvent| {
                         if e.key() == "Enter" { Msg::AddPasswordEntry } else { Msg::Nope }
                     })
                     right_element=html! {
@@ -139,7 +139,7 @@ impl Component for Example {
                     placeholder={"Find tags"}
                     value=&self.tags_value
                     oninput=self.link.callback(|e: InputData| Msg::UpdateTags(e.value))
-                    onkeypress=self.link.callback(|e: KeyboardEvent| {
+                    onkeydown=self.link.callback(|e: KeyboardEvent| {
                         if e.key() == "Enter" { Msg::AddTagsEntry } else { Msg::Nope }
                     })
                     right_element=html! {
