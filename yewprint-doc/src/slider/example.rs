@@ -36,10 +36,7 @@ impl Component for Example {
             <Slider
                 min={0}
                 max={10}
-                step_size={0.1}
-                label_step_size={10}
-                // onchange
-                // value
+                step_size={1}
                 vertical=self.props.vertical
             />
         }

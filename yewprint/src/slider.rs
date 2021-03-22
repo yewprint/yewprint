@@ -14,19 +14,13 @@ pub struct SliderProps {
     #[prop_or_default]
     pub intent: Option<Intent>,
     #[prop_or_default]
-    pub initial_value: i32,
-    #[prop_or_default]
     pub value: i32,
+    #[prop_or_default]
+    pub step_size: i32,
     #[prop_or_default]
     pub min: i32,
     #[prop_or_default]
     pub max: i32,
-    #[prop_or_default]
-    pub step_size: f32,
-    #[prop_or_default]
-    pub label_step_size: i32,
-    // onchange
-    // onrelease
 }
 
 impl Component for Slider {
