@@ -124,13 +124,13 @@ impl Component for Slider {
                     )
                     .unwrap();
             }
-            Msg::KeyDown(event) => {
-                /* if event == arrow_down || event == arrow_left {
-
-                    } else if event == arrow_up || event == arrow_right {
-
-                    }
-                */
+            Msg::KeyDown(event) => { /*
+                 if event == arrow_down || event == arrow_left {
+                     self.props.value - self.props.step_size
+                 } else if event == arrow_up || event == arrow_right {
+                     self.props.value + self.props.step_size
+                 };
+                 */
             }
             Msg::KeyUp(event) => { /*
 
