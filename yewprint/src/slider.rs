@@ -1,6 +1,7 @@
 use crate::Intent;
 use wasm_bindgen::closure::Closure;
 use wasm_bindgen::JsCast;
+use web_sys::Element;
 use yew::prelude::*;
 
 pub struct Slider {
@@ -8,6 +9,9 @@ pub struct Slider {
     mouse_move: Closure<dyn FnMut(MouseEvent)>,
     mouse_up: Closure<dyn FnMut(MouseEvent)>,
     link: ComponentLink<Self>,
+    handle_ref: NodeRef,
+    track_ref: NodeRef,
+    tick_size: f64,
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -30,6 +34,7 @@ pub struct SliderProps {
 
 pub enum Msg {
     StartChange,
+    Change(i32),
     StopChange,
 }
 
@@ -38,17 +43,27 @@ impl Component for Slider {
     type Properties = SliderProps;
 
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
-        let mouse_move = Closure::wrap(Box::new(move |event: web_sys::MouseEvent| {
-            yew::services::ConsoleService::log("mousemove")
-        }) as Box<dyn FnMut(_)>);
-        let mouse_up = Closure::wrap(Box::new(move |event: web_sys::MouseEvent| {
-            yew::services::ConsoleService::log("mouseup")
-        }) as Box<dyn FnMut(_)>);
+        let mouse_move = {
+            let link = link.clone();
+            Closure::wrap(Box::new(move |event: web_sys::MouseEvent| {
+                link.send_message(Msg::Change(event.client_x()));
+            }) as Box<dyn FnMut(_)>)
+        };
+        let mouse_up = {
+            let link = link.clone();
+            Closure::wrap(Box::new(move |event: web_sys::MouseEvent| {
+                link.send_message(Msg::StopChange);
+                yew::services::ConsoleService::log("mouseup")
+            }) as Box<dyn FnMut(_)>)
+        };
         Self {
             props,
             mouse_move,
             mouse_up,
             link,
+            handle_ref: NodeRef::default(),
+            track_ref: NodeRef::default(),
+            tick_size: 0.0,
         }
     }
 
@@ -63,12 +78,45 @@ impl Component for Slider {
                         self.mouse_move.as_ref().unchecked_ref(),
                     )
                     .unwrap();
+                event_target
+                    .add_event_listener_with_callback(
+                        "mouseup",
+                        self.mouse_up.as_ref().unchecked_ref(),
+                    )
+                    .unwrap();
+            }
+            Msg::Change(value) => {
+                yew::services::ConsoleService::log(&format!("mousemove, {}", value));
+                let handle_rect = self
+                    .handle_ref
+                    .cast::<Element>()
+                    .unwrap()
+                    .get_bounding_client_rect();
+                let pixel_delta = value as f64 - (handle_rect.left() + handle_rect.width() / 2.0);
+                let value = if pixel_delta.is_nan() {
+                    self.props.value as f64
+                } else {
+                    self.props.value as f64
+                        + (pixel_delta / (self.tick_size as f64 * self.props.step_size as f64))
+                            .round()
+                            * self.props.step_size as f64
+                };
+                let value = (value as i32).clamp(self.props.min, self.props.max);
+                if value != self.props.value {
+                    self.props.onchange.emit(value);
+                }
             }
             Msg::StopChange => {
                 let document = yew::utils::document();
                 let event_target: &web_sys::EventTarget = document.as_ref();
                 event_target
-                    .add_event_listener_with_callback(
+                    .remove_event_listener_with_callback(
+                        "mousemove",
+                        self.mouse_move.as_ref().unchecked_ref(),
+                    )
+                    .unwrap();
+                event_target
+                    .remove_event_listener_with_callback(
                         "mouseup",
                         self.mouse_up.as_ref().unchecked_ref(),
                     )
@@ -98,7 +146,10 @@ impl Component for Slider {
                     self.props.intent,
                 )
             >
-                <div class=classes!("bp3-slider-track")>
+                <div
+                    class=classes!("bp3-slider-track")
+                    ref={self.track_ref.clone()}
+                >
                     <div class=classes!("bp3-slider-progress")>
                     </div>
                 </div>
@@ -118,9 +169,9 @@ impl Component for Slider {
                 </div>
                 <span
                     class=classes!("bp3-slider-handle")
+                    ref={self.handle_ref.clone()}
                     style=format!("left: {}%", percentage)
                     onmousedown=self.link.callback(|_| Msg::StartChange)
-                    onmouseup=self.link.callback(|_| Msg::StopChange)
                 >
                     <span class=classes!("bp3-slider-label")>
                         {self.props.value}
@@ -128,5 +179,11 @@ impl Component for Slider {
                 </span>
             </div>
         }
+    }
+
+    fn rendered(&mut self, _first_render: bool) {
+        let track_size = self.track_ref.cast::<Element>().unwrap().client_width();
+        let tick_size_ratio = 1.0 / (self.props.max as f64 - self.props.min as f64);
+        self.tick_size = track_size as f64 * tick_size_ratio;
     }
 }
