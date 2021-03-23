@@ -189,6 +189,8 @@ impl Component for App {
                                     text={html!("Slider")}
                                     href="#slider"
                                     onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Slider))
+                                />
+                                <MenuItem
                                     text={html!("Spinner")}
                                     href="#spinner"
                                     onclick=self.link
