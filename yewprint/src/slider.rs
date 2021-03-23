@@ -36,6 +36,8 @@ pub enum Msg {
     StartChange,
     Change(i32),
     StopChange,
+    KeyDown(KeyboardEvent),
+    KeyUp(KeyboardEvent),
 }
 
 impl Component for Slider {
@@ -51,7 +53,7 @@ impl Component for Slider {
         };
         let mouse_up = {
             let link = link.clone();
-            Closure::wrap(Box::new(move |_event: web_sys::MouseEvent| {
+            Closure::wrap(Box::new(move |event: web_sys::MouseEvent| {
                 link.send_message(Msg::StopChange);
                 yew::services::ConsoleService::log("mouseup")
             }) as Box<dyn FnMut(_)>)
@@ -121,6 +123,18 @@ impl Component for Slider {
                         self.mouse_up.as_ref().unchecked_ref(),
                     )
                     .unwrap();
+            }
+            Msg::KeyDown(event) => {
+                /* if event == arrow_down || event == arrow_left {
+
+                    } else if event == arrow_up || event == arrow_right {
+
+                    }
+                */
+            }
+            Msg::KeyUp(event) => { /*
+
+                 */
             }
         }
         true
