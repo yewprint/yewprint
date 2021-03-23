@@ -67,7 +67,17 @@ pub struct InputGroupProps {
     #[prop_or_default]
     pub input_type: TextInputType,
     #[prop_or_default]
+    pub oninput: Callback<InputData>,
+    #[prop_or_default]
+    pub onkeyup: Callback<KeyboardEvent>,
+    #[prop_or_default]
+    pub onkeydown: Callback<KeyboardEvent>,
+    #[prop_or_default]
+    pub value: String,
+    #[prop_or_default]
     pub class: Classes,
+    #[prop_or_default]
+    pub input_ref: NodeRef,
 }
 
 impl Component for InputGroup {
@@ -126,10 +136,15 @@ impl Component for InputGroup {
                     }
                 }
                 <input
+                    ref=self.props.input_ref.clone()
                     class="bp3-input"
                     type=self.props.input_type.as_str()
                     placeholder=&self.props.placeholder
                     disabled=self.props.disabled
+                    oninput={self.props.oninput.clone()}
+                    onkeyup={self.props.onkeyup.clone()}
+                    onkeydown={self.props.onkeydown.clone()}
+                    value=&self.props.value
                 />
                 {
                     if let Some(right_element) = self.props.right_element.clone() {
