@@ -28,7 +28,7 @@ pub struct SliderProps {
     #[prop_or_default]
     pub label_values: Option<Vec<i32>>,
     #[prop_or_default]
-    pub label_step_size: Option<usize>,
+    pub label_step_size: Option<i32>,
     pub value: i32,
     pub step_size: i32,
     pub min: i32,
@@ -157,11 +157,11 @@ impl Component for Slider {
         let percentage = (100 * (self.props.value - self.props.min)
             / (self.props.max - self.props.min))
             .clamp(0, 100);
-        let label_values = if self.props.label_values.is_some() {
-            self.props.label_values.clone().unwrap()
-        } else if self.props.label_step_size.is_some() {
+        let label_values = if let Some(value) = &self.props.label_values {
+            value.clone()
+        } else if let Some(value) = self.props.label_step_size {
             (self.props.min..=self.props.max)
-                .step_by(self.props.label_step_size.unwrap())
+                .step_by(value as usize)
                 .collect::<Vec<i32>>()
         } else {
             vec![self.props.min, self.props.max]
