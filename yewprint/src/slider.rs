@@ -131,14 +131,12 @@ impl Component for Slider {
                     .unwrap();
             }
             Msg::KeyDown(event) => match event.key().as_str() {
-                "ArrowDown" | "ArrowLeft" => self
-                    .props
-                    .onchange
-                    .emit(self.props.value - self.props.step_size),
-                "ArrowUp" | "ArrowRight" => self
-                    .props
-                    .onchange
-                    .emit(self.props.value + self.props.step_size),
+                "ArrowDown" | "ArrowLeft" => self.props.onchange.emit(
+                    (self.props.value - self.props.step_size).clamp(self.props.min, self.props.max),
+                ),
+                "ArrowUp" | "ArrowRight" => self.props.onchange.emit(
+                    (self.props.value + self.props.step_size).clamp(self.props.min, self.props.max),
+                ),
                 x => yew::services::ConsoleService::log(&format!("keydown, {}", x)),
             },
         }
