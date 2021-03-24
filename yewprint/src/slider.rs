@@ -152,7 +152,9 @@ impl Component for Slider {
     }
 
     fn view(&self) -> Html {
-        let percentage = (100 * self.props.value / self.props.max).clamp(0, 100);
+        let percentage = (100 * (self.props.value - self.props.min)
+            / (self.props.max - self.props.min))
+            .clamp(0, 100);
         let labels = {
             let values = &self.props.label_values;
             values
