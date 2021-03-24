@@ -26,7 +26,7 @@ pub struct SliderProps {
     #[prop_or_default]
     pub onchange: Callback<i32>,
     #[prop_or_default]
-    pub label_step_size: i32,
+    pub label_values: Box<[i32]>,
     pub value: i32,
     pub step_size: i32,
     pub min: i32,
@@ -153,6 +153,23 @@ impl Component for Slider {
 
     fn view(&self) -> Html {
         let percentage = (100 * self.props.value / self.props.max).clamp(0, 100);
+        let labels = {
+            let values = self.props.label_values;
+            values
+                .iter()
+                .map(|x| {
+                    // let offset_percentage =
+                    html! {
+                        <div
+                            class=classes!("bp3-slider-label")
+                            style=format!("left: {}%;", offset_percentage)
+                        >
+                            {x}
+                        </div>
+                    }
+                })
+                .collect::<Html>()
+        };
 
         html! {
             <div
@@ -169,18 +186,7 @@ impl Component for Slider {
                     </div>
                 </div>
                 <div class=classes!("bp3-slider-axis")>
-                    <div
-                        class=classes!("bp3-slider-label")
-                        style="left: 0%;"
-                    >
-                        {self.props.min}
-                    </div>
-                    <div
-                        class=classes!("bp3-slider-label")
-                        style="left: 100%;"
-                    >
-                        {self.props.max}
-                    </div>
+                    {labels}
                 </div>
                 <span
                     class=classes!(

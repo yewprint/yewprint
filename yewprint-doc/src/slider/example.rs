@@ -52,6 +52,7 @@ impl Component for Example {
                 min={0}
                 max={10}
                 step_size={1}
+                label_values=[0, 2, 4, 8, 10];
                 value=self.value
                 onchange=self.link.callback(|x| Msg::ValueUpdate(x))
                 vertical=self.props.vertical
