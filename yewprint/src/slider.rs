@@ -1,4 +1,5 @@
 use crate::Intent;
+use std::iter;
 use wasm_bindgen::closure::Closure;
 use wasm_bindgen::JsCast;
 use web_sys::Element;
@@ -159,9 +160,9 @@ impl Component for Slider {
             .clamp(0, 100);
         let label_values = if let Some(value) = &self.props.label_values {
             value.clone()
-        } else if let Some(value) = self.props.label_step_size {
-            (self.props.min..=self.props.max)
-                .step_by(value as usize)
+        } else if let Some(step) = self.props.label_step_size {
+            iter::successors(Some(self.props.min), move |x| Some(*x + step))
+                .take_while(|x| *x < self.props.max)
                 .collect::<Vec<i32>>()
         } else {
             vec![self.props.min, self.props.max]
