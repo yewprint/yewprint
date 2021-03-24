@@ -69,6 +69,7 @@ crate::build_example_prop_component! {
                     })
                     checked=self.props.vertical
                     label=html!("Vertical")
+                    disabled=true
                 />
             </div>
         }

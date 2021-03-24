@@ -23,14 +23,14 @@ pub struct SliderProps {
     pub vertical: bool,
     #[prop_or_default]
     pub intent: Option<Intent>,
-    pub value: i32,
-    #[prop_or_default]
-    pub step_size: i32,
-    #[prop_or_default]
-    pub min: i32,
-    pub max: i32,
     #[prop_or_default]
     pub onchange: Callback<i32>,
+    #[prop_or_default]
+    pub label_step_size: i32,
+    pub value: i32,
+    pub step_size: i32,
+    pub min: i32,
+    pub max: i32,
 }
 
 pub enum Msg {
