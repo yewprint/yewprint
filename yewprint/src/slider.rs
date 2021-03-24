@@ -37,7 +37,6 @@ pub enum Msg {
     Change(i32),
     StopChange,
     KeyDown(KeyboardEvent),
-    KeyUp(KeyboardEvent),
 }
 
 impl Component for Slider {
@@ -124,17 +123,18 @@ impl Component for Slider {
                     )
                     .unwrap();
             }
-            Msg::KeyDown(event) => { /*
-                 if event == arrow_down || event == arrow_left {
-                     self.props.value - self.props.step_size
-                 } else if event == arrow_up || event == arrow_right {
-                     self.props.value + self.props.step_size
-                 };
-                 */
-            }
-            Msg::KeyUp(event) => { /*
-
-                 */
+            Msg::KeyDown(event) => {
+                yew::services::ConsoleService::log(&format!("keydown, {}", event.key()));
+                let key = event.key();
+                if key == "ArrowDown" || key == "ArrowLeft" {
+                    self.props
+                        .onchange
+                        .emit(self.props.value - self.props.step_size);
+                } else if key == "ArrowUp" || key == "ArrowRight" {
+                    self.props
+                        .onchange
+                        .emit(self.props.value + self.props.step_size);
+                }
             }
         }
         true
@@ -186,6 +186,8 @@ impl Component for Slider {
                     ref={self.handle_ref.clone()}
                     style=format!("left: {}%", percentage)
                     onmousedown=self.link.callback(|_| Msg::StartChange)
+                    onkeydown=self.link.callback(|event| Msg::KeyDown(event))
+                    tabindex=0
                 >
                     <span class=classes!("bp3-slider-label")>
                         {self.props.value}
