@@ -208,7 +208,7 @@ impl Component for Slider {
                     ref={self.handle_ref.clone()}
                     style=format!("left: {}%", percentage)
                     onmousedown=self.link.callback(|_| Msg::StartChange)
-                    onkeydown=self.link.callback(|event| Msg::KeyDown(event))
+                    onkeydown=self.link.callback(Msg::KeyDown)
                     tabindex=0
                 >
                     <span class=classes!("bp3-slider-label")>
