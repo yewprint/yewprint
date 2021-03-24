@@ -53,7 +53,7 @@ impl Component for Slider {
         };
         let mouse_up = {
             let link = link.clone();
-            Closure::wrap(Box::new(move |event: web_sys::MouseEvent| {
+            Closure::wrap(Box::new(move |_event: web_sys::MouseEvent| {
                 link.send_message(Msg::StopChange);
                 yew::services::ConsoleService::log("mouseup")
             }) as Box<dyn FnMut(_)>)
@@ -158,7 +158,9 @@ impl Component for Slider {
             values
                 .iter()
                 .map(|x| {
-                    let offset_percentage = (x * 100 / self.props.max).clamp(0, 100);
+                    let offset_percentage = ((x - self.props.min) * 100
+                        / (self.props.max - self.props.min))
+                        .clamp(0, 100);
                     html! {
                         <div
                             class=classes!("bp3-slider-label")

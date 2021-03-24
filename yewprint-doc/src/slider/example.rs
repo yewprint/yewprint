@@ -49,10 +49,10 @@ impl Component for Example {
     fn view(&self) -> Html {
         html! {
             <Slider
-                min={0}
-                max={10}
+                min={-2}
+                max={12}
                 step_size={1}
-                label_values=vec![0, 2, 4, 6, 8, 10]
+                label_values=vec![-2, -1, 0, 1, 2, 4, 8, 12]
                 value=self.value
                 onchange=self.link.callback(|x| Msg::ValueUpdate(x))
                 vertical=self.props.vertical
