@@ -158,10 +158,7 @@ impl Component for Slider {
             values
                 .iter()
                 .map(|x| {
-                    let x_percentage = (100 * x / self.props.max).clamp(0, 100);
-                    let offset_percentage = (x_percentage as f64 - self.props.min as f64)
-                        / (self.props.max as f64 - self.props.min as f64)
-                        * 10.0;
+                    let offset_percentage = (x * 100 / self.props.max).clamp(0, 100);
                     html! {
                         <div
                             class=classes!("bp3-slider-label")
