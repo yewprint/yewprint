@@ -65,7 +65,6 @@ crate::build_example_prop_component! {
                 <Switch
                     onclick=self.update_props(|props, _| ExampleProps {
                         vertical: !props.vertical,
-                        ..props
                     })
                     checked=self.props.vertical
                     label=html!("Vertical")
