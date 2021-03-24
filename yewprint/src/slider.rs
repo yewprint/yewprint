@@ -155,25 +155,23 @@ impl Component for Slider {
         let percentage = (100 * (self.props.value - self.props.min)
             / (self.props.max - self.props.min))
             .clamp(0, 100);
-        let labels = {
-            self.props
-                .label_values
-                .iter()
-                .map(|x| {
-                    let offset_percentage = ((x - self.props.min) * 100
-                        / (self.props.max - self.props.min))
-                        .clamp(0, 100);
-                    html! {
-                        <div
-                            class=classes!("bp3-slider-label")
-                            style=format!("left: {}%;", offset_percentage)
-                        >
-                            {x}
-                        </div>
-                    }
-                })
-                .collect::<Html>()
-        };
+        let labels = self
+            .props
+            .label_values
+            .iter()
+            .map(|x| {
+                let offset_percentage =
+                    ((x - self.props.min) * 100 / (self.props.max - self.props.min)).clamp(0, 100);
+                html! {
+                    <div
+                        class=classes!("bp3-slider-label")
+                        style=format!("left: {}%;", offset_percentage)
+                    >
+                        {x}
+                    </div>
+                }
+            })
+            .collect::<Html>();
 
         html! {
             <div
