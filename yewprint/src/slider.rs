@@ -12,6 +12,7 @@ pub struct Slider {
     handle_ref: NodeRef,
     track_ref: NodeRef,
     tick_size: f64,
+    is_moving: bool,
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -65,6 +66,7 @@ impl Component for Slider {
             handle_ref: NodeRef::default(),
             track_ref: NodeRef::default(),
             tick_size: 0.0,
+            is_moving: false,
         }
     }
 
@@ -73,6 +75,7 @@ impl Component for Slider {
             Msg::StartChange => {
                 let document = yew::utils::document();
                 let event_target: &web_sys::EventTarget = document.as_ref();
+                self.is_moving = true;
                 event_target
                     .add_event_listener_with_callback(
                         "mousemove",
@@ -110,6 +113,7 @@ impl Component for Slider {
             Msg::StopChange => {
                 let document = yew::utils::document();
                 let event_target: &web_sys::EventTarget = document.as_ref();
+                self.is_moving = false;
                 event_target
                     .remove_event_listener_with_callback(
                         "mousemove",
@@ -123,19 +127,17 @@ impl Component for Slider {
                     )
                     .unwrap();
             }
-            Msg::KeyDown(event) => {
-                yew::services::ConsoleService::log(&format!("keydown, {}", event.key()));
-                let key = event.key();
-                if key == "ArrowDown" || key == "ArrowLeft" {
-                    self.props
-                        .onchange
-                        .emit(self.props.value - self.props.step_size);
-                } else if key == "ArrowUp" || key == "ArrowRight" {
-                    self.props
-                        .onchange
-                        .emit(self.props.value + self.props.step_size);
-                }
-            }
+            Msg::KeyDown(event) => match event.key().as_str() {
+                "ArrowDown" | "ArrowLeft" => self
+                    .props
+                    .onchange
+                    .emit(self.props.value - self.props.step_size),
+                "ArrowUp" | "ArrowRight" => self
+                    .props
+                    .onchange
+                    .emit(self.props.value + self.props.step_size),
+                x => yew::services::ConsoleService::log(&format!("keydown, {}", x)),
+            },
         }
         true
     }
@@ -157,7 +159,6 @@ impl Component for Slider {
                 class=classes!(
                     "bp3-slider",
                     self.props.vertical.then(|| "bp3-vertical"),
-                    self.props.intent,
                 )
             >
                 <div
@@ -182,7 +183,10 @@ impl Component for Slider {
                     </div>
                 </div>
                 <span
-                    class=classes!("bp3-slider-handle")
+                    class=classes!(
+                        "bp3-slider-handle",
+                        self.is_moving.then(|| "bp3-active"),
+                    )
                     ref={self.handle_ref.clone()}
                     style=format!("left: {}%", percentage)
                     onmousedown=self.link.callback(|_| Msg::StartChange)
