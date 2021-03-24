@@ -160,7 +160,7 @@ impl Component for Slider {
             value.clone()
         } else if let Some(step) = self.props.label_step_size {
             iter::successors(Some(self.props.min), move |x| Some(*x + step))
-                .take_while(|x| *x < self.props.max)
+                .take_while(|x| *x <= self.props.max)
                 .collect::<Vec<i32>>()
         } else {
             vec![self.props.min, self.props.max]
