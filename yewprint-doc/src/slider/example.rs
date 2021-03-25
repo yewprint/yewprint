@@ -54,7 +54,7 @@ impl Component for Example {
                 step_size=1
                 label_step_size=2
                 value=self.value
-                onchange=self.link.callback(Msg::ValueUpdate)
+                onchange=self.link.callback(|x| Msg::ValueUpdate(x))
                 vertical=self.props.vertical
             />
         }
