@@ -3,7 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::{Switch, H1, H5};
+use yewprint::{HtmlSelect, Intent, Switch, H1, H5};
 
 pub struct SliderDoc {
     callback: Callback<ExampleProps>,
@@ -17,7 +17,10 @@ impl Component for SliderDoc {
     fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
         SliderDoc {
             callback: link.callback(|x| x),
-            state: ExampleProps { vertical: false },
+            state: ExampleProps {
+                vertical: false,
+                intent: None,
+            },
         }
     }
 
@@ -70,6 +73,20 @@ crate::build_example_prop_component! {
                     checked=self.props.vertical
                     label=html!("Vertical")
                     disabled=true
+                />
+                <p>{"Select intent:"}</p>
+                <HtmlSelect<Option<Intent>>
+                    options={vec![
+                        (None, "None".to_string()),
+                        (Some(Intent::Primary), "Primary".to_string()),
+                        (Some(Intent::Success), "Success".to_string()),
+                        (Some(Intent::Warning), "Warning".to_string()),
+                        (Some(Intent::Danger), "Danger".to_string()),
+                    ]}
+                    onchange=self.update_props(|props, intent| ExampleProps {
+                        intent,
+                        ..props
+                    })
                 />
             </div>
         }

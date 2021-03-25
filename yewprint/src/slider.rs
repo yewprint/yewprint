@@ -242,6 +242,14 @@ where
                         style="top: 0px;"
                     >
                     </div>
+                    <div
+                        class=classes!("bp3-slider-progress", self.props.intent)
+                        style=format!(
+                            "left: 0%; right: {}%; top: 0px;",
+                            (T::from(100_i32) - percentage),
+                        )
+                    >
+                    </div>
                 </div>
                 <div class=classes!("bp3-slider-axis")>
                     {labels}

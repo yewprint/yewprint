@@ -1,5 +1,5 @@
 use yew::prelude::*;
-use yewprint::Slider;
+use yewprint::{Intent, Slider};
 
 pub struct Example {
     props: ExampleProps,
@@ -11,6 +11,7 @@ pub struct Example {
 #[derive(Clone, PartialEq, Properties)]
 pub struct ExampleProps {
     pub vertical: bool,
+    pub intent: Option<Intent>,
 }
 
 pub enum Msg {
@@ -57,10 +58,11 @@ impl Component for Example {
             <>
                 <Slider<f64>
                     min=0.0
-                    max=10.0
-                    step_size=0.5
+                    max=1.0
+                    step_size=0.1
                     label_step_size=1.0
                     value=self.value1
+                    intent=self.props.intent
                     onchange=self.link.callback(|x| Msg::Value1Update(x))
                     vertical=self.props.vertical
                 />
@@ -70,6 +72,7 @@ impl Component for Example {
                     step_size=1
                     label_step_size=25
                     value=self.value2
+                    intent=self.props.intent
                     onchange=self.link.callback(|x| Msg::Value2Update(x))
                     vertical=self.props.vertical
                 />
