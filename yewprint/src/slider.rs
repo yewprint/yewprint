@@ -237,7 +237,10 @@ where
                     class=classes!("bp3-slider-track")
                     ref={self.track_ref.clone()}
                 >
-                    <div class=classes!("bp3-slider-progress")>
+                    <div
+                        class=classes!("bp3-slider-progress")
+                        style="top: 0px;"
+                    >
                     </div>
                 </div>
                 <div class=classes!("bp3-slider-axis")>
@@ -249,7 +252,7 @@ where
                         self.is_moving.then(|| "bp3-active"),
                     )
                     ref={self.handle_ref.clone()}
-                    style=format!("left: {}%", percentage)
+                    style=format!("left: calc({}% - 8px);", percentage)
                     onmousedown=self.link.callback(|_| Msg::StartChange)
                     onkeydown=self.link.callback(Msg::KeyDown)
                     tabindex=0
