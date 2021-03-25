@@ -3,7 +3,8 @@ use yewprint::Slider;
 
 pub struct Example {
     props: ExampleProps,
-    value: f64,
+    value1: f64,
+    value2: i32,
     link: ComponentLink<Self>,
 }
 
@@ -13,7 +14,8 @@ pub struct ExampleProps {
 }
 
 pub enum Msg {
-    ValueUpdate(f64),
+    Value1Update(f64),
+    Value2Update(i32),
 }
 
 impl Component for Example {
@@ -23,15 +25,19 @@ impl Component for Example {
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
         Example {
             props,
-            value: Default::default(),
+            value1: Default::default(),
+            value2: Default::default(),
             link,
         }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
-            Msg::ValueUpdate(value) => {
-                self.value = value;
+            Msg::Value1Update(value) => {
+                self.value1 = value;
+            }
+            Msg::Value2Update(value) => {
+                self.value2 = value;
             }
         }
         true
@@ -48,15 +54,26 @@ impl Component for Example {
 
     fn view(&self) -> Html {
         html! {
-            <Slider<f64>
-                min=-10.0
-                max=10.0
-                step_size=1.0
-                label_step_size=2.0
-                value=self.value
-                onchange=self.link.callback(|x| Msg::ValueUpdate(x))
-                vertical=self.props.vertical
-            />
+            <>
+                <Slider<f64>
+                    min=0.0
+                    max=10.0
+                    step_size=0.5
+                    label_step_size=1.0
+                    value=self.value1
+                    onchange=self.link.callback(|x| Msg::Value1Update(x))
+                    vertical=self.props.vertical
+                />
+                <Slider<i32>
+                    min=0
+                    max=100
+                    step_size=1
+                    label_step_size=25
+                    value=self.value2
+                    onchange=self.link.callback(|x| Msg::Value2Update(x))
+                    vertical=self.props.vertical
+                />
+            </>
         }
     }
 }
