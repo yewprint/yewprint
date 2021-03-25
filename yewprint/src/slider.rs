@@ -1,23 +1,52 @@
 use crate::Intent;
+use std::fmt;
 use std::iter;
+use std::ops;
 use wasm_bindgen::closure::Closure;
 use wasm_bindgen::JsCast;
 use web_sys::Element;
 use yew::prelude::*;
 
-pub struct Slider {
-    props: SliderProps,
+pub struct Slider<T>
+where
+    T: Clone
+        + Copy
+        + From<i32>
+        + ops::Add<Output = T>
+        + ops::Sub<Output = T>
+        + ops::Mul<Output = T>
+        + ops::Div<Output = T>
+        + PartialOrd
+        + fmt::Display
+        + 'static,
+{
+    props: SliderProps<T>,
     mouse_move: Closure<dyn FnMut(MouseEvent)>,
     mouse_up: Closure<dyn FnMut(MouseEvent)>,
     link: ComponentLink<Self>,
     handle_ref: NodeRef,
     track_ref: NodeRef,
-    tick_size: f64,
+    tick_size: Option<T>,
     is_moving: bool,
 }
 
+trait Clamp: PartialOrd + Sized {
+    fn clamp(self, min: Self, max: Self) -> Self {
+        assert!(min <= max);
+        if self < min {
+            min
+        } else if self > max {
+            max
+        } else {
+            self
+        }
+    }
+}
+
+impl<T: PartialOrd> Clamp for T {}
+
 #[derive(Clone, PartialEq, Properties)]
-pub struct SliderProps {
+pub struct SliderProps<T: Clone> {
     #[prop_or_default]
     pub class: Classes,
     #[prop_or_default]
@@ -25,33 +54,45 @@ pub struct SliderProps {
     #[prop_or_default]
     pub intent: Option<Intent>,
     #[prop_or_default]
-    pub onchange: Callback<i32>,
+    pub onchange: Callback<T>,
     #[prop_or_default]
-    pub label_values: Option<Vec<i32>>,
+    pub label_values: Option<Vec<T>>,
     #[prop_or_default]
-    pub label_step_size: Option<i32>,
-    pub value: i32,
-    pub step_size: i32,
-    pub min: i32,
-    pub max: i32,
+    pub label_step_size: Option<T>,
+    pub value: T,
+    pub step_size: T,
+    pub min: T,
+    pub max: T,
 }
 
-pub enum Msg {
+pub enum Msg<T> {
     StartChange,
-    Change(i32),
+    Change(T),
     StopChange,
     KeyDown(KeyboardEvent),
 }
 
-impl Component for Slider {
-    type Message = Msg;
-    type Properties = SliderProps;
+impl<T> Component for Slider<T>
+where
+    T: Clone
+        + Copy
+        + From<i32>
+        + ops::Add<Output = T>
+        + ops::Sub<Output = T>
+        + ops::Mul<Output = T>
+        + ops::Div<Output = T>
+        + PartialOrd
+        + fmt::Display
+        + 'static,
+{
+    type Message = Msg<T>;
+    type Properties = SliderProps<T>;
 
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
         let mouse_move = {
             let link = link.clone();
             Closure::wrap(Box::new(move |event: web_sys::MouseEvent| {
-                link.send_message(Msg::Change(event.client_x()));
+                link.send_message(Msg::Change(T::from(event.client_x())));
             }) as Box<dyn FnMut(_)>)
         };
         let mouse_up = {
@@ -68,7 +109,7 @@ impl Component for Slider {
             link,
             handle_ref: NodeRef::default(),
             track_ref: NodeRef::default(),
-            tick_size: 0.0,
+            tick_size: None,
             is_moving: false,
         }
     }
@@ -93,22 +134,25 @@ impl Component for Slider {
                     .unwrap();
             }
             Msg::Change(value) => {
-                yew::services::ConsoleService::log(&format!("mousemove, {}", value));
                 let handle_rect = self
                     .handle_ref
                     .cast::<Element>()
                     .unwrap()
                     .get_bounding_client_rect();
-                let pixel_delta = value as f64 - (handle_rect.left() + handle_rect.width() / 2.0);
-                let value = if pixel_delta.is_nan() {
-                    self.props.value as f64
-                } else {
-                    self.props.value as f64
-                        + (pixel_delta / (self.tick_size as f64 * self.props.step_size as f64))
-                            .round()
-                            * self.props.step_size as f64
-                };
-                let value = (value as i32).clamp(self.props.min, self.props.max);
+                let pixel_delta =
+                    value - T::from((handle_rect.left() + handle_rect.width() / 2.0) as i32);
+                let value = self.props.value
+                    + (pixel_delta
+                        / (self
+                            .tick_size
+                            .expect("tick_size has been set in fn rendered()")
+                            * self.props.step_size))
+                        * self.props.step_size;
+                let value =
+                    iter::successors(Some(self.props.min), |x| Some(*x + self.props.step_size))
+                        .take_while(|x| *x <= value && *x <= self.props.max)
+                        .last()
+                        .unwrap_or(self.props.min);
                 if value != self.props.value {
                     self.props.onchange.emit(value);
                 }
@@ -153,23 +197,24 @@ impl Component for Slider {
     }
 
     fn view(&self) -> Html {
-        let percentage = (100 * (self.props.value - self.props.min)
+        let percentage = (T::from(100_i32) * (self.props.value - self.props.min)
             / (self.props.max - self.props.min))
-            .clamp(0, 100);
+            .clamp(T::from(0_i32), T::from(100_i32));
         let label_values = if let Some(value) = &self.props.label_values {
             value.clone()
         } else if let Some(step) = self.props.label_step_size {
             iter::successors(Some(self.props.min), move |x| Some(*x + step))
                 .take_while(|x| *x <= self.props.max)
-                .collect::<Vec<i32>>()
+                .collect::<Vec<_>>()
         } else {
             vec![self.props.min, self.props.max]
         };
         let labels = label_values
-            .iter()
+            .into_iter()
             .map(|x| {
-                let offset_percentage =
-                    ((x - self.props.min) * 100 / (self.props.max - self.props.min)).clamp(0, 100);
+                let offset_percentage = ((x - self.props.min) * T::from(100_i32)
+                    / (self.props.max - self.props.min))
+                    .clamp(T::from(0_i32), T::from(100_i32));
                 html! {
                     <div
                         class=classes!("bp3-slider-label")
@@ -218,8 +263,51 @@ impl Component for Slider {
     }
 
     fn rendered(&mut self, _first_render: bool) {
-        let track_size = self.track_ref.cast::<Element>().unwrap().client_width();
-        let tick_size_ratio = 1.0 / (self.props.max as f64 - self.props.min as f64);
-        self.tick_size = track_size as f64 * tick_size_ratio;
+        let track_size = T::from(self.track_ref.cast::<Element>().unwrap().client_width());
+        self.tick_size = Some(track_size / (self.props.max - self.props.min));
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn it_compiles_with_f64() {
+        html! {
+            <Slider<f64>
+                min=-10.0
+                max=10.0
+                step_size=1.0
+                label_step_size=2.0
+                value=0.0
+            />
+        };
+    }
+
+    #[test]
+    fn it_compiles_with_i64() {
+        html! {
+            <Slider<i64>
+                min=-10
+                max=10
+                step_size=1
+                label_step_size=2
+                value=0
+            />
+        };
+    }
+
+    #[test]
+    fn it_compiles_with_i32() {
+        html! {
+            <Slider<i32>
+                min=-10
+                max=10
+                step_size=1
+                label_step_size=2
+                value=0
+            />
+        };
     }
 }

@@ -3,7 +3,7 @@ use yewprint::Slider;
 
 pub struct Example {
     props: ExampleProps,
-    value: i32,
+    value: f64,
     link: ComponentLink<Self>,
 }
 
@@ -13,7 +13,7 @@ pub struct ExampleProps {
 }
 
 pub enum Msg {
-    ValueUpdate(i32),
+    ValueUpdate(f64),
 }
 
 impl Component for Example {
@@ -23,7 +23,7 @@ impl Component for Example {
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
         Example {
             props,
-            value: 0,
+            value: Default::default(),
             link,
         }
     }
@@ -48,11 +48,11 @@ impl Component for Example {
 
     fn view(&self) -> Html {
         html! {
-            <Slider
-                min=0
-                max=10
-                step_size=1
-                label_step_size=2
+            <Slider<f64>
+                min=-10.0
+                max=10.0
+                step_size=1.0
+                label_step_size=2.0
                 value=self.value
                 onchange=self.link.callback(|x| Msg::ValueUpdate(x))
                 vertical=self.props.vertical
