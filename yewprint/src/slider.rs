@@ -59,6 +59,7 @@ pub struct SliderProps<T: Clone> {
     pub label_values: Option<Vec<T>>,
     #[prop_or_default]
     pub label_step_size: Option<T>,
+    pub label_renderer: Box<dyn Fn(T) -> String>,
     pub value: T,
     pub step_size: T,
     pub min: T,
@@ -266,7 +267,7 @@ where
                     tabindex=0
                 >
                     <span class=classes!("bp3-slider-label")>
-                        {self.props.value}
+                        {(self.props.label_renderer)(self.props.value)}
                     </span>
                 </span>
             </div>
