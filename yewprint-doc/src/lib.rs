@@ -1,3 +1,5 @@
+#![allow(clippy::redundant_closure, clippy::needless_update)]
+
 mod app;
 mod button_group;
 mod buttons;
