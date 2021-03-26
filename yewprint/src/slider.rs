@@ -56,7 +56,7 @@ pub struct SliderProps<T: Clone> {
     #[prop_or_default]
     pub onchange: Callback<T>,
     #[prop_or_default]
-    pub label_values: Option<Vec<T>>,
+    pub label_values: Option<Vec<(T, String)>>,
     pub value: T,
     pub step_size: T,
     pub min: T,
@@ -201,11 +201,14 @@ where
         let label_values = if let Some(value) = &self.props.label_values {
             value.clone()
         } else {
-            vec![self.props.min, self.props.max]
+            vec![
+                (self.props.min, self.props.min.to_string()),
+                (self.props.max, self.props.max.to_string()),
+            ]
         };
         let labels = label_values
             .into_iter()
-            .map(|x| {
+            .map(|(x, y)| {
                 let offset_percentage = ((x - self.props.min) * T::from(100_i32)
                     / (self.props.max - self.props.min))
                     .clamp(T::from(0_i32), T::from(100_i32));
@@ -214,7 +217,7 @@ where
                         class=classes!("bp3-slider-label")
                         style=format!("left: {}%;", offset_percentage)
                     >
-                        {x}
+                        {y}
                     </div>
                 }
             })
