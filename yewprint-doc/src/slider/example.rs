@@ -86,14 +86,14 @@ impl Component for Example {
                     label_values=Some(vec![
                         (0, String::from("0%")),
                         (10, String::from("10%")),
-                        (20, String::from("10%")),
-                        (30, String::from("10%")),
-                        (40, String::from("10%")),
-                        (50, String::from("10%")),
-                        (60, String::from("10%")),
-                        (70, String::from("10%")),
-                        (80, String::from("10%")),
-                        (90, String::from("10%")),
+                        (20, String::from("20%")),
+                        (30, String::from("30%")),
+                        (40, String::from("40%")),
+                        (50, String::from("50%")),
+                        (60, String::from("60%")),
+                        (70, String::from("70%")),
+                        (80, String::from("80%")),
+                        (90, String::from("90%")),
                         (100, String::from("100%")),
                     ])
                     intent=self.props.intent
