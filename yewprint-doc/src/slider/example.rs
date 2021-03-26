@@ -1,3 +1,4 @@
+use std::rc::Rc;
 use yew::prelude::*;
 use yewprint::{Intent, Slider};
 
@@ -61,7 +62,7 @@ impl Component for Example {
                     max=1.0
                     step_size=0.1
                     label_step_size=1.0
-                    label_renderer=format!("{}", self.value1)
+                    label_renderer=Rc::new(Box::new(|value: f64| format!("{:.1}", value)))
                     value=self.value1
                     intent=self.props.intent
                     onchange=self.link.callback(|x| Msg::Value1Update(x))
@@ -72,6 +73,7 @@ impl Component for Example {
                     max=100
                     step_size=1
                     label_step_size=25
+                    label_renderer=Rc::new(Box::new(|value: i32| format!("{}%", value)))
                     value=self.value2
                     intent=self.props.intent
                     onchange=self.link.callback(|x| Msg::Value2Update(x))
