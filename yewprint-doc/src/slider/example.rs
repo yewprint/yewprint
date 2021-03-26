@@ -5,7 +5,6 @@ pub struct Example {
     props: ExampleProps,
     value1: f64,
     value2: i32,
-    value3: i64,
     link: ComponentLink<Self>,
 }
 
@@ -18,7 +17,6 @@ pub struct ExampleProps {
 pub enum Msg {
     Value1Update(f64),
     Value2Update(i32),
-    Value3Update(i64),
 }
 
 impl Component for Example {
@@ -30,7 +28,6 @@ impl Component for Example {
             props,
             value1: Default::default(),
             value2: Default::default(),
-            value3: Default::default(),
             link,
         }
     }
@@ -42,9 +39,6 @@ impl Component for Example {
             }
             Msg::Value2Update(value) => {
                 self.value2 = value;
-            }
-            Msg::Value3Update(value) => {
-                self.value3 = value;
             }
         }
         true
@@ -60,15 +54,10 @@ impl Component for Example {
     }
 
     fn view(&self) -> Html {
-        let percentage_labels = (0..=100)
+        let labels = (0..=100)
             .step_by(10)
             .map(|x| (x, format!("{}%", x)))
             .collect::<Vec<(i32, String)>>();
-
-        let pounds_labels = (-12_000..48_000)
-            .step_by(10_000)
-            .map(|x| (x, format!("£{}", x)))
-            .collect::<Vec<(i64, String)>>();
 
         html! {
             <>
@@ -99,18 +88,9 @@ impl Component for Example {
                     max=100
                     step_size=1
                     value=self.value2
-                    label_values=Some(percentage_labels)
+                    label_values=Some(labels)
                     intent=self.props.intent
                     onchange=self.link.callback(|x| Msg::Value2Update(x))
-                    vertical=self.props.vertical
-                />
-                <Slider<i64>
-                    min=-12_000
-                    max=48_000
-                    step_size=6_000
-                    value=self.value3
-                    label_values=Some(pounds_labels)
-                    onchange=self.link.callback(|x| Msg::Value3Update(x))
                     vertical=self.props.vertical
                 />
             </>
