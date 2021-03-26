@@ -2,7 +2,6 @@ use crate::Intent;
 use std::fmt;
 use std::iter;
 use std::ops;
-use std::rc::Rc;
 use wasm_bindgen::closure::Closure;
 use wasm_bindgen::JsCast;
 use web_sys::Element;
@@ -46,7 +45,7 @@ trait Clamp: PartialOrd + Sized {
 
 impl<T: PartialOrd> Clamp for T {}
 
-#[derive(Clone, Properties)]
+#[derive(Clone, PartialEq, Properties)]
 pub struct SliderProps<T: Clone> {
     #[prop_or_default]
     pub class: Classes,
@@ -58,29 +57,10 @@ pub struct SliderProps<T: Clone> {
     pub onchange: Callback<T>,
     #[prop_or_default]
     pub label_values: Option<Vec<T>>,
-    #[prop_or_default]
-    pub label_step_size: Option<T>,
-    pub label_renderer: Rc<Box<dyn Fn(T) -> String>>,
     pub value: T,
     pub step_size: T,
     pub min: T,
     pub max: T,
-}
-
-impl<T: Clone + PartialEq> PartialEq for SliderProps<T> {
-    fn eq(&self, other: &Self) -> bool {
-        self.class == other.class
-            && self.vertical == other.vertical
-            && self.intent == other.intent
-            && self.onchange == other.onchange
-            && self.label_values == other.label_values
-            && self.label_step_size == other.label_step_size
-            && self.value == other.value
-            && self.step_size == other.step_size
-            && self.min == other.min
-            && self.max == other.max
-            && Rc::ptr_eq(&self.label_renderer, &other.label_renderer)
-    }
 }
 
 pub enum Msg<T> {
@@ -220,10 +200,6 @@ where
             .clamp(T::from(0_i32), T::from(100_i32));
         let label_values = if let Some(value) = &self.props.label_values {
             value.clone()
-        } else if let Some(step) = self.props.label_step_size {
-            iter::successors(Some(self.props.min), move |x| Some(*x + step))
-                .take_while(|x| *x <= self.props.max)
-                .collect::<Vec<_>>()
         } else {
             vec![self.props.min, self.props.max]
         };
@@ -284,7 +260,7 @@ where
                     tabindex=0
                 >
                     <span class=classes!("bp3-slider-label")>
-                        {(self.props.label_renderer)(self.props.value)}
+                        {self.props.value}
                     </span>
                 </span>
             </div>
@@ -308,7 +284,6 @@ mod tests {
                 min=-10.0
                 max=10.0
                 step_size=1.0
-                label_step_size=2.0
                 value=0.0
             />
         };
@@ -321,7 +296,6 @@ mod tests {
                 min=-10
                 max=10
                 step_size=1
-                label_step_size=2
                 value=0
             />
         };
@@ -334,7 +308,6 @@ mod tests {
                 min=-10
                 max=10
                 step_size=1
-                label_step_size=2
                 value=0
             />
         };
