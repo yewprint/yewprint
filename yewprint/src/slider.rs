@@ -2,6 +2,7 @@ use crate::Intent;
 use std::fmt;
 use std::iter;
 use std::ops;
+use std::rc::Rc;
 use wasm_bindgen::closure::Closure;
 use wasm_bindgen::JsCast;
 use web_sys::Element;
@@ -45,7 +46,7 @@ trait Clamp: PartialOrd + Sized {
 
 impl<T: PartialOrd> Clamp for T {}
 
-#[derive(Clone, PartialEq, Properties)]
+#[derive(Clone, Properties)]
 pub struct SliderProps<T: Clone> {
     #[prop_or_default]
     pub class: Classes,
@@ -59,11 +60,27 @@ pub struct SliderProps<T: Clone> {
     pub label_values: Option<Vec<T>>,
     #[prop_or_default]
     pub label_step_size: Option<T>,
-    pub label_renderer: Box<dyn Fn(T) -> String>,
+    pub label_renderer: Rc<Box<dyn Fn(T) -> String>>,
     pub value: T,
     pub step_size: T,
     pub min: T,
     pub max: T,
+}
+
+impl<T: Clone + PartialEq> PartialEq for SliderProps<T> {
+    fn eq(&self, other: &Self) -> bool {
+        self.class == other.class
+            && self.vertical == other.vertical
+            && self.intent == other.intent
+            && self.onchange == other.onchange
+            && self.label_values == other.label_values
+            && self.label_step_size == other.label_step_size
+            && self.value == other.value
+            && self.step_size == other.step_size
+            && self.min == other.min
+            && self.max == other.max
+            && Rc::ptr_eq(&self.label_renderer, &other.label_renderer)
+    }
 }
 
 pub enum Msg<T> {

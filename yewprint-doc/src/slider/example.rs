@@ -61,6 +61,7 @@ impl Component for Example {
                     max=1.0
                     step_size=0.1
                     label_step_size=1.0
+                    label_renderer=format!("{}", self.value1)
                     value=self.value1
                     intent=self.props.intent
                     onchange=self.link.callback(|x| Msg::Value1Update(x))
