@@ -54,6 +54,11 @@ impl Component for Example {
     }
 
     fn view(&self) -> Html {
+        let labels = (0..=100)
+            .step_by(10)
+            .map(|x| (x, format!("{}%", x)))
+            .collect::<Vec<(i32, String)>>();
+
         html! {
             <>
                 <Slider<f64>
@@ -83,19 +88,7 @@ impl Component for Example {
                     max=100
                     step_size=1
                     value=self.value2
-                    label_values=Some(vec![
-                        (0, String::from("0%")),
-                        (10, String::from("10%")),
-                        (20, String::from("20%")),
-                        (30, String::from("30%")),
-                        (40, String::from("40%")),
-                        (50, String::from("50%")),
-                        (60, String::from("60%")),
-                        (70, String::from("70%")),
-                        (80, String::from("80%")),
-                        (90, String::from("90%")),
-                        (100, String::from("100%")),
-                    ])
+                    label_values=Some(labels)
                     intent=self.props.intent
                     onchange=self.link.callback(|x| Msg::Value2Update(x))
                     vertical=self.props.vertical
