@@ -56,11 +56,8 @@ pub struct SliderProps<T: Clone> {
     #[prop_or_default]
     pub onchange: Callback<T>,
     #[prop_or_default]
-    pub label_values: Option<Vec<(T, String)>>,
+    pub options: Vec<(T, Option<String>)>,
     pub value: T,
-    pub step_size: T,
-    pub min: T,
-    pub max: T,
 }
 
 pub enum Msg<T> {
