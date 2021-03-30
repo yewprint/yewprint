@@ -3,8 +3,8 @@ use yewprint::{Intent, Slider};
 
 pub struct Example {
     props: ExampleProps,
-    // value1: f64,
-    // value2: i32,
+    float: f64,
+    integer: i32,
     log_level: LogLevel,
     link: ComponentLink<Self>,
 }
@@ -16,9 +16,9 @@ pub struct ExampleProps {
 }
 
 pub enum Msg {
-    // Value1Update(f64),
-    // Value2Update(i32),
-    Update(LogLevel),
+    FloatUpdate(f64),
+    IntegerUpdate(i32),
+    LogLevelUpdate(LogLevel),
 }
 
 impl Component for Example {
@@ -28,8 +28,8 @@ impl Component for Example {
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
         Example {
             props,
-            // value1: Default::default(),
-            // value2: Default::default(),
+            float: Default::default(),
+            integer: Default::default(),
             log_level: LogLevel::Info,
             link,
         }
@@ -37,15 +37,13 @@ impl Component for Example {
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
-            /*
-            Msg::Value1Update(value) => {
-                self.value1 = value;
+            Msg::FloatUpdate(value) => {
+                self.float = value;
             }
-            Msg::Value2Update(value) => {
-                self.value2 = value;
+            Msg::IntegerUpdate(value) => {
+                self.integer = value;
             }
-            */
-            Msg::Update(value) => {
+            Msg::LogLevelUpdate(value) => {
                 self.log_level = value;
             }
         }
@@ -62,22 +60,16 @@ impl Component for Example {
     }
 
     fn view(&self) -> Html {
-        /*
         let labels = (0..=100)
             .step_by(10)
             .map(|x| (x, format!("{}%", x)))
             .collect::<Vec<(i32, String)>>();
-        */
 
         html! {
             <>
-                /*
                 <Slider<f64>
-                    min=0.0
-                    max=1.0
-                    step_size=0.1
-                    value=self.value1
-                    label_values=Some(vec![
+                    value=self.float
+                    options=vec![
                         (0.0, String::from("0.0")),
                         (0.1, String::from("0.1")),
                         (0.2, String::from("0.2")),
@@ -89,36 +81,28 @@ impl Component for Example {
                         (0.8, String::from("0.8")),
                         (0.9, String::from("0.9")),
                         (1.0, String::from("1.0")),
-                    ])
+                    ]
                     intent=self.props.intent
-                    onchange=self.link.callback(|x| Msg::Value1Update(x))
-                    vertical=self.props.vertical
+                    onchange=self.link.callback(|x| Msg::FloatUpdate(x))
                 />
-                */
-                /*
                 <Slider<i32>
-                    min=0
-                    max=100
-                    step_size=1
-                    value=self.value2
-                    label_values=Some(labels)
+                    options=labels
+                    value=self.integer
                     intent=self.props.intent
-                    onchange=self.link.callback(|x| Msg::Value2Update(x))
-                    vertical=self.props.vertical
+                    onchange=self.link.callback(|x| Msg::IntegerUpdate(x))
                 />
-                */
                 <Slider<LogLevel>
-                    options={vec![
+                    options=vec![
                         (LogLevel::Trace, "TRACE".to_string()),
                         (LogLevel::Debug, "DEBUG".to_string()),
                         (LogLevel::Info, "INFO".to_string()),
                         (LogLevel::Warn, "WARN".to_string()),
                         (LogLevel::Error, "ERROR".to_string()),
                         (LogLevel::Off, "OFF".to_string()),
-                    ]}
+                    ]
                     intent=self.props.intent
                     value=self.log_level.clone()
-                    onchange=self.link.callback(|x| Msg::Update(x))
+                    onchange=self.link.callback(|x| Msg::LogLevelUpdate(x))
                 />
             </>
         }
