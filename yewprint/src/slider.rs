@@ -101,15 +101,17 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                         / (self
                             .tick_size
                             .expect("tick_size has been set in fn rendered()")
-                            * (1 * 100 / self.props.options.len() - 1) as i32))
-                        * (1 * 100 / self.props.options.len() - 1) as i32;
+                            * (1 * 100 / (self.props.options.len() - 1)) as i32))
+                        * (1 * 100 / (self.props.options.len() - 1)) as i32;
                 let value =
                     iter::successors(Some(0), |x| Some(*x + (self.props.options.len() - 1)))
                         .take_while(|x| *x <= value && *x <= (self.props.options.len() - 1))
                         .last()
                         .unwrap_or(0);
-                if value != self.props.value {
-                    self.props.onchange.emit(value);
+                if self.props.options[value].0 != self.props.value {
+                    self.props
+                        .onchange
+                        .emit(self.props.options[value].0.clone());
                 }
             }
             Msg::StopChange => {
