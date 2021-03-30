@@ -29,7 +29,7 @@ pub struct SliderProps<T: Clone + PartialEq + 'static> {
     #[prop_or_default]
     pub onchange: Callback<T>,
     #[prop_or_default]
-    pub options: Vec<(T, Option<String>)>,
+    pub options: Vec<(T, String)>,
     pub value: T,
 }
 
@@ -160,6 +160,30 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
     }
 
     fn view(&self) -> Html {
+        let labels = self
+            .props
+            .options
+            .iter()
+            .map(|(x, y)| {
+                let percentage = self
+                    .props
+                    .options
+                    .iter()
+                    .position(|i| *i == (x.clone(), y.clone()))
+                    .unwrap()
+                    * 100
+                    / (self.props.options.len() - 1);
+                html! {
+                    <div
+                        class=classes!("bp3-slider-label")
+                        style=format!("left: {}%;", percentage)
+                    >
+                        {y}
+                    </div>
+                }
+            })
+            .collect::<Html>();
+
         html! {
             <div
                 class=classes!(
@@ -182,6 +206,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                 </div>
             </div>
                 <div class=classes!("bp3-slider-axis")>
+                    {labels}
                 </div>
                 <span
                     class=classes!(

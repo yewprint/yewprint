@@ -109,12 +109,12 @@ impl Component for Example {
                 */
                 <Slider<LogLevel>
                     options={vec![
-                        (LogLevel::Trace, Some("TRACE".to_string())),
-                        (LogLevel::Debug, Some("DEBUG".to_string())),
-                        (LogLevel::Info, Some("INFO".to_string())),
-                        (LogLevel::Warn, Some("WARN".to_string())),
-                        (LogLevel::Error, Some("ERROR".to_string())),
-                        (LogLevel::Off, Some("OFF".to_string())),
+                        (LogLevel::Trace, "TRACE".to_string()),
+                        (LogLevel::Debug, "DEBUG".to_string()),
+                        (LogLevel::Info, "INFO".to_string()),
+                        (LogLevel::Warn, "WARN".to_string()),
+                        (LogLevel::Error, "ERROR".to_string()),
+                        (LogLevel::Off, "OFF".to_string()),
                     ]}
                     value=self.log_level.clone()
                     onchange=self.link.callback(|x| Msg::Update(x))
