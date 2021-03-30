@@ -195,15 +195,9 @@ where
         let percentage = (T::from(100_i32) * (self.props.value - self.props.min)
             / (self.props.max - self.props.min))
             .clamp(T::from(0_i32), T::from(100_i32));
-        let label_values = if let Some(value) = &self.props.label_values {
-            value.clone()
-        } else {
-            vec![
-                (self.props.min, self.props.min.to_string()),
-                (self.props.max, self.props.max.to_string()),
-            ]
-        };
-        let labels = label_values
+        let labels = self
+            .props
+            .options
             .into_iter()
             .map(|(x, y)| {
                 let offset_percentage = ((x - self.props.min) * T::from(100_i32)
