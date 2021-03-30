@@ -1,20 +1,20 @@
 use crate::Intent;
 // use std::fmt;
-// use std::iter;
+use std::iter;
 // use std::ops;
 use wasm_bindgen::closure::Closure;
 use wasm_bindgen::JsCast;
-// use web_sys::Element;
+use web_sys::Element;
 use yew::prelude::*;
 
 pub struct Slider<T: Clone + PartialEq + 'static> {
     props: SliderProps<T>,
-    // mouse_move: Closure<dyn FnMut(MouseEvent)>,
+    mouse_move: Closure<dyn FnMut(MouseEvent)>,
     mouse_up: Closure<dyn FnMut(MouseEvent)>,
     link: ComponentLink<Self>,
     handle_ref: NodeRef,
     track_ref: NodeRef,
-    // tick_size: Option<i32>,
+    tick_size: Option<i32>,
     is_moving: bool,
 }
 
@@ -33,25 +33,24 @@ pub struct SliderProps<T: Clone + PartialEq + 'static> {
     pub value: T,
 }
 
-pub enum Msg {
+pub enum Msg<T> {
     StartChange,
-    // Change(T),
+    Change(T),
     StopChange,
     //KeyDown(KeyboardEvent),
 }
 
 impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
-    type Message = Msg;
+    type Message = Msg<T>;
     type Properties = SliderProps<T>;
 
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
-        /* let mouse_move = {
+        let mouse_move = {
             let link = link.clone();
             Closure::wrap(Box::new(move |event: web_sys::MouseEvent| {
                 link.send_message(Msg::Change(event.client_x()));
             }) as Box<dyn FnMut(_)>)
         };
-        */
         let mouse_up = {
             let link = link.clone();
             Closure::wrap(Box::new(move |_event: web_sys::MouseEvent| {
@@ -61,12 +60,12 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
         };
         Self {
             props,
-            // mouse_move,
+            mouse_move,
             mouse_up,
             link,
             handle_ref: NodeRef::default(),
             track_ref: NodeRef::default(),
-            // tick_size: None,
+            tick_size: None,
             is_moving: false,
         }
     }
@@ -77,14 +76,12 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                 let document = yew::utils::document();
                 let event_target: &web_sys::EventTarget = document.as_ref();
                 self.is_moving = true;
-                /*
                 event_target
                     .add_event_listener_with_callback(
                         "mousemove",
                         self.mouse_move.as_ref().unchecked_ref(),
                     )
                     .unwrap();
-                */
                 event_target
                     .add_event_listener_with_callback(
                         "mouseup",
@@ -92,7 +89,6 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     )
                     .unwrap();
             }
-            /*
             Msg::Change(value) => {
                 let handle_rect = self
                     .handle_ref
@@ -105,30 +101,27 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                         / (self
                             .tick_size
                             .expect("tick_size has been set in fn rendered()")
-                            * self.props.step_size))
-                        * self.props.step_size;
+                            * (1 * 100 / self.props.options.len() - 1) as i32))
+                        * (1 * 100 / self.props.options.len() - 1) as i32;
                 let value =
-                    iter::successors(Some(self.props.min), |x| Some(*x + self.props.step_size))
-                        .take_while(|x| *x <= value && *x <= self.props.max)
+                    iter::successors(Some(0), |x| Some(*x + (self.props.options.len() - 1)))
+                        .take_while(|x| *x <= value && *x <= (self.props.options.len() - 1))
                         .last()
-                        .unwrap_or(self.props.min);
+                        .unwrap_or(0);
                 if value != self.props.value {
                     self.props.onchange.emit(value);
                 }
             }
-            */
             Msg::StopChange => {
                 let document = yew::utils::document();
                 let event_target: &web_sys::EventTarget = document.as_ref();
                 self.is_moving = false;
-                /*
                 event_target
                     .remove_event_listener_with_callback(
                         "mousemove",
                         self.mouse_move.as_ref().unchecked_ref(),
                     )
                     .unwrap();
-                */
                 event_target
                     .remove_event_listener_with_callback(
                         "mouseup",
@@ -160,12 +153,19 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
     }
 
     fn view(&self) -> Html {
+        let value_index = self
+            .props
+            .options
+            .iter()
+            .position(|i| i.0 == self.props.value)
+            .unwrap();
+        let percentage = 100 * (value_index - 0) / ((self.props.options.len() - 1) - 0);
         let labels = self
             .props
             .options
             .iter()
             .map(|(x, y)| {
-                let percentage = self
+                let offset_percentage = self
                     .props
                     .options
                     .iter()
@@ -176,7 +176,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                 html! {
                     <div
                         class=classes!("bp3-slider-label")
-                        style=format!("left: {}%;", percentage)
+                        style=format!("left: {}%;", offset_percentage)
                     >
                         {y}
                     </div>
@@ -214,7 +214,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                         self.is_moving.then(|| "bp3-active"),
                     )
                     ref={self.handle_ref.clone()}
-                    // style=format!("left: calc({}% - 8px);", percentage)
+                    style=format!("left: calc({}% - 8px);", percentage)
                     onmousedown=self.link.callback(|_| Msg::StartChange)
                     // onkeydown=self.link.callback(Msg::KeyDown)
                     tabindex=0
@@ -226,10 +226,8 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
         }
     }
 
-    /*
     fn rendered(&mut self, _first_render: bool) {
         let track_size = self.track_ref.cast::<Element>().unwrap().client_width();
-        self.tick_size = Some(track_size / (self.props.max - self.props.min));
+        self.tick_size = Some(track_size / ((self.props.options.len() - 1) - 0) as i32);
     }
-    */
 }
