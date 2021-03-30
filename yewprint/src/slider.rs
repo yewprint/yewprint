@@ -108,10 +108,8 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                         .take_while(|x| *x <= value && *x <= (self.props.options.len() - 1))
                         .last()
                         .unwrap_or(0);
-                if self.props.options[value].0 != self.props.value {
-                    self.props
-                        .onchange
-                        .emit(self.props.options[value].0.clone());
+                if value != self.props.value {
+                    self.props.onchange.emit(value);
                 }
             }
             Msg::StopChange => {
