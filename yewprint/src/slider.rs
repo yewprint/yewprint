@@ -14,7 +14,7 @@ pub struct Slider<T: Clone + PartialEq + 'static> {
     link: ComponentLink<Self>,
     handle_ref: NodeRef,
     track_ref: NodeRef,
-    tick_size: Option<T>,
+    tick_size: Option<i32>,
     is_moving: bool,
 }
 
@@ -48,7 +48,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
         let mouse_move = {
             let link = link.clone();
             Closure::wrap(Box::new(move |event: web_sys::MouseEvent| {
-                link.send_message(Msg::Change(T::from(event.client_x())));
+                link.send_message(Msg::Change(event.client_x()));
             }) as Box<dyn FnMut(_)>)
         };
         let mouse_up = {
@@ -95,8 +95,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     .cast::<Element>()
                     .unwrap()
                     .get_bounding_client_rect();
-                let pixel_delta =
-                    value - T::from((handle_rect.left() + handle_rect.width() / 2.0) as i32);
+                let pixel_delta = value - (handle_rect.left() + handle_rect.width() / 2.0) as i32;
                 let value = self.props.value
                     + (pixel_delta
                         / (self
@@ -164,7 +163,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
             .map(|(x, y)| {
                 let offset_percentage = ((x - self.props.min) * T::from(100_i32)
                     / (self.props.max - self.props.min))
-                    .clamp(T::from(0_i32), T::from(100_i32));
+                    .clamp(0_i32, 100_i32);
                 html! {
                     <div
                         class=classes!("bp3-slider-label")
@@ -224,7 +223,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
     }
 
     fn rendered(&mut self, _first_render: bool) {
-        let track_size = T::from(self.track_ref.cast::<Element>().unwrap().client_width());
+        let track_size = self.track_ref.cast::<Element>().unwrap().client_width();
         self.tick_size = Some(track_size / (self.props.max - self.props.min));
     }
 }
