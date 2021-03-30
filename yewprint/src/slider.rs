@@ -1,7 +1,4 @@
 use crate::Intent;
-// use std::fmt;
-use std::iter;
-// use std::ops;
 use wasm_bindgen::closure::Closure;
 use wasm_bindgen::JsCast;
 use web_sys::Element;
@@ -89,28 +86,35 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     )
                     .unwrap();
             }
-            Msg::Change(value) => {
+            Msg::Change(position) => {
                 let handle_rect = self
                     .handle_ref
                     .cast::<Element>()
                     .unwrap()
                     .get_bounding_client_rect();
-                let pixel_delta = value - (handle_rect.left() + handle_rect.width() / 2.0) as i32;
-                let value = value
-                    + (pixel_delta
-                        / (self
-                            .tick_size
-                            .expect("tick_size has been set in fn rendered()")
-                            * (1 * 100 / (self.props.options.len() - 1)) as i32))
-                        * (1 * 100 / (self.props.options.len() - 1)) as i32;
-                let value =
-                    iter::successors(Some(0), |x| Some(*x + (self.props.options.len() - 1)))
-                        .take_while(|x| *x <= value && *x <= (self.props.options.len() - 1))
-                        .last()
-                        .unwrap_or(0);
+                let pixel_delta =
+                    position - (handle_rect.left() + handle_rect.width() / 2.0) as i32;
+                let position_delta = pixel_delta / self.tick_size.unwrap();
+
+                let index = self
+                    .props
+                    .options
+                    .iter()
+                    .position(|i| i.0 == self.props.value)
+                    .unwrap();
+
+                let new_index = (index as i32)
+                    .saturating_add(position_delta)
+                    .clamp(0, (self.props.options.len() - 1) as i32);
+
+                let (value, _) = self.props.options[new_index as usize].clone();
+
                 if value != self.props.value {
                     self.props.onchange.emit(value);
                 }
+                yew::services::ConsoleService::log(
+                    format!("{} {} {}", position_delta, index, new_index).as_str(),
+                )
             }
             Msg::StopChange => {
                 let document = yew::utils::document();
