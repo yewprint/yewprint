@@ -180,7 +180,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
             .iter()
             .position(|i| i.0 == self.props.value)
             .unwrap();
-        let percentage = 100 * (value_index - 0) / ((self.props.options.len() - 1) - 0);
+        let percentage = 100 * (value_index) / (self.props.options.len() - 1);
         let labels = self
             .props
             .options
@@ -251,6 +251,6 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
 
     fn rendered(&mut self, _first_render: bool) {
         let track_size = self.track_ref.cast::<Element>().unwrap().client_width();
-        self.tick_size = Some(track_size / ((self.props.options.len() - 1) - 0) as i32);
+        self.tick_size = Some(track_size / (self.props.options.len() - 1) as i32);
     }
 }
