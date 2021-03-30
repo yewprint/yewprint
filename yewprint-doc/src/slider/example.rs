@@ -3,8 +3,9 @@ use yewprint::{Intent, Slider};
 
 pub struct Example {
     props: ExampleProps,
-    value1: f64,
-    value2: i32,
+    // value1: f64,
+    // value2: i32,
+    log_level: LogLevel,
     link: ComponentLink<Self>,
 }
 
@@ -15,8 +16,9 @@ pub struct ExampleProps {
 }
 
 pub enum Msg {
-    Value1Update(f64),
-    Value2Update(i32),
+    // Value1Update(f64),
+    // Value2Update(i32),
+    Update(LogLevel),
 }
 
 impl Component for Example {
@@ -26,19 +28,25 @@ impl Component for Example {
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
         Example {
             props,
-            value1: Default::default(),
-            value2: Default::default(),
+            // value1: Default::default(),
+            // value2: Default::default(),
+            log_level: LogLevel::Info,
             link,
         }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
+            /*
             Msg::Value1Update(value) => {
                 self.value1 = value;
             }
             Msg::Value2Update(value) => {
                 self.value2 = value;
+            }
+            */
+            Msg::Update(value) => {
+                self.log_level = value;
             }
         }
         true
@@ -54,13 +62,16 @@ impl Component for Example {
     }
 
     fn view(&self) -> Html {
+        /*
         let labels = (0..=100)
             .step_by(10)
             .map(|x| (x, format!("{}%", x)))
             .collect::<Vec<(i32, String)>>();
+        */
 
         html! {
             <>
+                /*
                 <Slider<f64>
                     min=0.0
                     max=1.0
@@ -83,6 +94,8 @@ impl Component for Example {
                     onchange=self.link.callback(|x| Msg::Value1Update(x))
                     vertical=self.props.vertical
                 />
+                */
+                /*
                 <Slider<i32>
                     min=0
                     max=100
@@ -93,7 +106,29 @@ impl Component for Example {
                     onchange=self.link.callback(|x| Msg::Value2Update(x))
                     vertical=self.props.vertical
                 />
+                */
+                <Slider<LogLevel>
+                    options={vec![
+                        (LogLevel::Trace, Some("TRACE".to_string())),
+                        (LogLevel::Debug, Some("DEBUG".to_string())),
+                        (LogLevel::Info, Some("INFO".to_string())),
+                        (LogLevel::Warn, Some("WARN".to_string())),
+                        (LogLevel::Error, Some("ERROR".to_string())),
+                        (LogLevel::Off, Some("OFF".to_string())),
+                    ]}
+                    onchange=self.link.callback(|x| Msg::Update(x))
+                />
             </>
         }
     }
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub enum LogLevel {
+    Trace,
+    Debug,
+    Info,
+    Warn,
+    Error,
+    Off,
 }

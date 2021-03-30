@@ -7,19 +7,8 @@ use wasm_bindgen::JsCast;
 use web_sys::Element;
 use yew::prelude::*;
 
-pub struct Slider<T>
-where
-    T: Clone
-        + Copy
-        + From<i32>
-        + ops::Add<Output = T>
-        + ops::Sub<Output = T>
-        + ops::Mul<Output = T>
-        + ops::Div<Output = T>
-        + PartialOrd
-        + fmt::Display
-        + 'static,
-{
+#[derive(Clone, PartialEq, Properties)]
+pub struct Slider<T: Clone + PartialEq + 'static> {
     props: SliderProps<T>,
     mouse_move: Closure<dyn FnMut(MouseEvent)>,
     mouse_up: Closure<dyn FnMut(MouseEvent)>,
@@ -30,23 +19,8 @@ where
     is_moving: bool,
 }
 
-trait Clamp: PartialOrd + Sized {
-    fn clamp(self, min: Self, max: Self) -> Self {
-        assert!(min <= max);
-        if self < min {
-            min
-        } else if self > max {
-            max
-        } else {
-            self
-        }
-    }
-}
-
-impl<T: PartialOrd> Clamp for T {}
-
 #[derive(Clone, PartialEq, Properties)]
-pub struct SliderProps<T: Clone> {
+pub struct SliderProps<T: Clone + PartialEq + 'static> {
     #[prop_or_default]
     pub class: Classes,
     #[prop_or_default]
@@ -67,19 +41,7 @@ pub enum Msg<T> {
     KeyDown(KeyboardEvent),
 }
 
-impl<T> Component for Slider<T>
-where
-    T: Clone
-        + Copy
-        + From<i32>
-        + ops::Add<Output = T>
-        + ops::Sub<Output = T>
-        + ops::Mul<Output = T>
-        + ops::Div<Output = T>
-        + PartialOrd
-        + fmt::Display
-        + 'static,
-{
+impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
     type Message = Msg<T>;
     type Properties = SliderProps<T>;
 
