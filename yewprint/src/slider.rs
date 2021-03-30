@@ -7,7 +7,6 @@ use wasm_bindgen::JsCast;
 use web_sys::Element;
 use yew::prelude::*;
 
-#[derive(Clone, PartialEq, Properties)]
 pub struct Slider<T: Clone + PartialEq + 'static> {
     props: SliderProps<T>,
     mouse_move: Closure<dyn FnMut(MouseEvent)>,
@@ -38,7 +37,7 @@ pub enum Msg<T> {
     StartChange,
     Change(T),
     StopChange,
-    KeyDown(KeyboardEvent),
+    //KeyDown(KeyboardEvent),
 }
 
 impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
@@ -130,16 +129,17 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                         self.mouse_up.as_ref().unchecked_ref(),
                     )
                     .unwrap();
-            }
-            Msg::KeyDown(event) => match event.key().as_str() {
-                "ArrowDown" | "ArrowLeft" => self.props.onchange.emit(
-                    (self.props.value - self.props.step_size).clamp(self.props.min, self.props.max),
-                ),
-                "ArrowUp" | "ArrowRight" => self.props.onchange.emit(
-                    (self.props.value + self.props.step_size).clamp(self.props.min, self.props.max),
-                ),
-                x => yew::services::ConsoleService::log(&format!("keydown, {}", x)),
-            },
+            } /*
+              Msg::KeyDown(event) => match event.key().as_str() {
+                  "ArrowDown" | "ArrowLeft" => self.props.onchange.emit(
+                      (self.props.value - self.props.step_size).clamp(self.props.min, self.props.max),
+                  ),
+                  "ArrowUp" | "ArrowRight" => self.props.onchange.emit(
+                      (self.props.value + self.props.step_size).clamp(self.props.min, self.props.max),
+                  ),
+                  x => yew::services::ConsoleService::log(&format!("keydown, {}", x)),
+              },
+              */
         }
         true
     }
@@ -212,7 +212,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     ref={self.handle_ref.clone()}
                     style=format!("left: calc({}% - 8px);", percentage)
                     onmousedown=self.link.callback(|_| Msg::StartChange)
-                    onkeydown=self.link.callback(Msg::KeyDown)
+                    // onkeydown=self.link.callback(Msg::KeyDown)
                     tabindex=0
                 >
                     <span class=classes!("bp3-slider-label")>
