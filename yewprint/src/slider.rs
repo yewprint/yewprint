@@ -35,7 +35,7 @@ pub struct SliderProps<T: Clone + PartialEq + 'static> {
 
 pub enum Msg {
     StartChange,
-    // Change(T),
+    Change(i32),
     StopChange,
     //KeyDown(KeyboardEvent),
 }
@@ -48,7 +48,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
         let mouse_move = {
             let link = link.clone();
             Closure::wrap(Box::new(move |event: web_sys::MouseEvent| {
-                // link.send_message(Msg::Change(event.client_x()));
+                link.send_message(Msg::Change(event.client_x()));
             }) as Box<dyn FnMut(_)>)
         };
         let mouse_up = {
@@ -89,7 +89,6 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     )
                     .unwrap();
             }
-            /*
             Msg::Change(value) => {
                 let handle_rect = self
                     .handle_ref
@@ -113,7 +112,6 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     self.props.onchange.emit(value);
                 }
             }
-            */
             Msg::StopChange => {
                 let document = yew::utils::document();
                 let event_target: &web_sys::EventTarget = document.as_ref();
