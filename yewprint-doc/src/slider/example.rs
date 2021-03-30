@@ -116,6 +116,7 @@ impl Component for Example {
                         (LogLevel::Error, Some("ERROR".to_string())),
                         (LogLevel::Off, Some("OFF".to_string())),
                     ]}
+                    value=self.log_level.clone()
                     onchange=self.link.callback(|x| Msg::Update(x))
                 />
             </>
