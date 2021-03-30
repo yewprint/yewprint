@@ -116,6 +116,7 @@ impl Component for Example {
                         (LogLevel::Error, "ERROR".to_string()),
                         (LogLevel::Off, "OFF".to_string()),
                     ]}
+                    intent=self.props.intent
                     value=self.log_level.clone()
                     onchange=self.link.callback(|x| Msg::Update(x))
                 />

@@ -33,22 +33,22 @@ pub struct SliderProps<T: Clone + PartialEq + 'static> {
     pub value: T,
 }
 
-pub enum Msg<T> {
+pub enum Msg {
     StartChange,
-    Change(T),
+    // Change(T),
     StopChange,
     //KeyDown(KeyboardEvent),
 }
 
 impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
-    type Message = Msg<T>;
+    type Message = Msg;
     type Properties = SliderProps<T>;
 
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
         let mouse_move = {
             let link = link.clone();
             Closure::wrap(Box::new(move |event: web_sys::MouseEvent| {
-                link.send_message(Msg::Change(event.client_x()));
+                // link.send_message(Msg::Change(event.client_x()));
             }) as Box<dyn FnMut(_)>)
         };
         let mouse_up = {
@@ -89,6 +89,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     )
                     .unwrap();
             }
+            /*
             Msg::Change(value) => {
                 let handle_rect = self
                     .handle_ref
@@ -96,7 +97,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     .unwrap()
                     .get_bounding_client_rect();
                 let pixel_delta = value - (handle_rect.left() + handle_rect.width() / 2.0) as i32;
-                let value = self.props.value
+                let value = value
                     + (pixel_delta
                         / (self
                             .tick_size
@@ -112,6 +113,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     self.props.onchange.emit(value);
                 }
             }
+            */
             Msg::StopChange => {
                 let document = yew::utils::document();
                 let event_target: &web_sys::EventTarget = document.as_ref();
@@ -202,6 +204,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                 </div>
                 <div
                     class=classes!("bp3-slider-progress", self.props.intent)
+                    style=format!("left: 0%; right: {}%; top: 0px;", 100 - percentage)
                 >
                 </div>
             </div>
@@ -220,6 +223,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     tabindex=0
                 >
                     <span class=classes!("bp3-slider-label")>
+                        {self.props.options[value_index].1.clone()}
                     </span>
                 </span>
             </div>
