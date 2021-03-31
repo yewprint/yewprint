@@ -11,7 +11,7 @@ pub struct Slider<T: Clone + PartialEq + 'static> {
     link: ComponentLink<Self>,
     handle_ref: NodeRef,
     track_ref: NodeRef,
-    tick_size: Option<i32>,
+    tick_size: Option<u32>,
     is_moving: bool,
 }
 
@@ -32,7 +32,7 @@ pub struct SliderProps<T: Clone + PartialEq + 'static> {
 
 pub enum Msg {
     StartChange,
-    Change(i32),
+    Change(u32),
     StopChange,
     KeyDown(KeyboardEvent),
 }
@@ -45,7 +45,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
         let mouse_move = {
             let link = link.clone();
             Closure::wrap(Box::new(move |event: web_sys::MouseEvent| {
-                link.send_message(Msg::Change(event.client_x()));
+                link.send_message(Msg::Change(event.client_x() as u32));
             }) as Box<dyn FnMut(_)>)
         };
         let mouse_up = {
@@ -87,13 +87,13 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     .unwrap();
             }
             Msg::Change(position) => {
-                let handle_rect = self
-                    .handle_ref
+                let track_rect = self
+                    .track_ref
                     .cast::<Element>()
                     .unwrap()
                     .get_bounding_client_rect();
                 let pixel_delta =
-                    position - (handle_rect.left() + handle_rect.width() / 2.0) as i32;
+                    position.saturating_sub((track_rect.left() + track_rect.width() / 2.0) as u32);
                 let position_delta = pixel_delta / self.tick_size.unwrap();
 
                 let index = self
@@ -103,16 +103,23 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     .position(|i| i.0 == self.props.value)
                     .unwrap();
 
-                let index = (index as i32)
-                    .saturating_add(position_delta)
-                    .clamp(0, (self.props.options.len() - 1) as i32);
+                let new_index = index
+                    .saturating_add(position_delta as usize)
+                    .clamp(0, self.props.options.len() - 1);
 
-                let (value, _) = self.props.options[index as usize].clone();
+                let (value, _) = self
+                    .props
+                    .options
+                    .get(new_index)
+                    .unwrap_or(self.props.options.last().unwrap())
+                    .clone();
 
                 if value != self.props.value {
                     self.props.onchange.emit(value);
                 }
-                yew::services::ConsoleService::log(format!("{} {}", position_delta, index).as_str())
+                yew::services::ConsoleService::log(
+                    format!("{} {} {}", position_delta, index, new_index).as_str(),
+                )
             }
             Msg::StopChange => {
                 let document = yew::utils::document();
@@ -250,7 +257,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
     }
 
     fn rendered(&mut self, _first_render: bool) {
-        let track_size = self.track_ref.cast::<Element>().unwrap().client_width();
-        self.tick_size = Some(track_size / (self.props.options.len() - 1) as i32);
+        let track_size = self.track_ref.cast::<Element>().unwrap().client_width() as u32;
+        self.tick_size = Some(track_size / (self.props.options.len() - 1) as u32);
     }
 }
