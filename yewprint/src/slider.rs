@@ -26,7 +26,7 @@ pub struct SliderProps<T: Clone + PartialEq + 'static> {
     #[prop_or_default]
     pub onchange: Callback<T>,
     #[prop_or_default]
-    pub options: Vec<(T, String)>,
+    pub options: Vec<(T, Option<String>)>,
     pub value: T,
 }
 
@@ -131,9 +131,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                         .iter()
                         .position(|i| i.0 == self.props.value)
                         .unwrap();
-                    let index = index
-                        .saturating_sub(1)
-                        .clamp(0, self.props.options.len() - 1);
+                    let index = index.saturating_sub(1);
                     let (value, _) = self.props.options[index].clone();
                     self.props.onchange.emit(value);
                 }
@@ -144,10 +142,13 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                         .iter()
                         .position(|i| i.0 == self.props.value)
                         .unwrap();
-                    let index = index
-                        .saturating_add(1)
-                        .clamp(0, self.props.options.len() - 1);
-                    let (value, _) = self.props.options[index].clone();
+                    let index = index.saturating_add(1);
+                    let (value, _) = self
+                        .props
+                        .options
+                        .get(index)
+                        .unwrap_or(self.props.options.last().unwrap())
+                        .clone();
                     self.props.onchange.emit(value);
                 }
                 x => yew::services::ConsoleService::log(&format!("keydown, {}", x)),
@@ -191,7 +192,9 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                         class=classes!("bp3-slider-label")
                         style=format!("left: {}%;", offset_percentage)
                     >
-                        {y}
+                        {
+                            y.clone().unwrap_or("".to_string())
+                        }
                     </div>
                 }
             })
@@ -234,7 +237,14 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     tabindex=0
                 >
                     <span class=classes!("bp3-slider-label")>
-                        {self.props.options[value_index].1.clone()}
+                        {
+                            self
+                            .props
+                            .options[value_index]
+                            .1
+                            .clone()
+                            .unwrap_or("".to_string())
+                        }
                     </span>
                 </span>
             </div>

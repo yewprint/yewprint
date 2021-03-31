@@ -61,26 +61,29 @@ impl Component for Example {
 
     fn view(&self) -> Html {
         let labels = (0..=100)
-            .step_by(10)
-            .map(|x| (x, format!("{}%", x)))
-            .collect::<Vec<(i32, String)>>();
+            .step_by(1)
+            .map(|x| match x % 10 {
+                0 => (x, Some(format!("{}%", x))),
+                _ => (x, None),
+            })
+            .collect::<Vec<(i32, Option<String>)>>();
 
         html! {
             <>
                 <Slider<f64>
                     value=self.float
                     options=vec![
-                        (0.0, String::from("0.0")),
-                        (0.1, String::from("0.1")),
-                        (0.2, String::from("0.2")),
-                        (0.3, String::from("0.3")),
-                        (0.4, String::from("0.4")),
-                        (0.5, String::from("0.5")),
-                        (0.6, String::from("0.6")),
-                        (0.7, String::from("0.7")),
-                        (0.8, String::from("0.8")),
-                        (0.9, String::from("0.9")),
-                        (1.0, String::from("1.0")),
+                        (0.0, Some(String::from("0.0"))),
+                        (0.1, None),
+                        (0.2, None),
+                        (0.3, None),
+                        (0.4, None),
+                        (0.5, Some(String::from("0.5"))),
+                        (0.6, None),
+                        (0.7, None),
+                        (0.8, None),
+                        (0.9, None),
+                        (1.0, Some(String::from("1.0"))),
                     ]
                     intent=self.props.intent
                     onchange=self.link.callback(|x| Msg::FloatUpdate(x))
@@ -93,12 +96,12 @@ impl Component for Example {
                 />
                 <Slider<LogLevel>
                     options=vec![
-                        (LogLevel::Trace, "TRACE".to_string()),
-                        (LogLevel::Debug, "DEBUG".to_string()),
-                        (LogLevel::Info, "INFO".to_string()),
-                        (LogLevel::Warn, "WARN".to_string()),
-                        (LogLevel::Error, "ERROR".to_string()),
-                        (LogLevel::Off, "OFF".to_string()),
+                        (LogLevel::Trace, Some("TRACE".to_string())),
+                        (LogLevel::Debug, Some("DEBUG".to_string())),
+                        (LogLevel::Info, Some("INFO".to_string())),
+                        (LogLevel::Warn, Some("WARN".to_string())),
+                        (LogLevel::Error, Some("ERROR".to_string())),
+                        (LogLevel::Off, Some("OFF".to_string())),
                     ]
                     intent=self.props.intent
                     value=self.log_level.clone()
