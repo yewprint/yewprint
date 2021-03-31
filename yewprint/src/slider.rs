@@ -99,7 +99,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     .props
                     .options
                     .get(position as usize)
-                    .unwrap_or(self.props.options.last().unwrap())
+                    .unwrap_or_else(|| self.props.options.last().unwrap())
                     .clone();
 
                 if value != self.props.value {
@@ -147,7 +147,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                         .props
                         .options
                         .get(index)
-                        .unwrap_or(self.props.options.last().unwrap())
+                        .unwrap_or_else(|| self.props.options.last().unwrap())
                         .clone();
                     self.props.onchange.emit(value);
                 }
@@ -193,7 +193,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                         style=format!("left: {}%;", offset_percentage)
                     >
                         {
-                            y.clone().unwrap_or("".to_string())
+                            y.clone().unwrap_or_else(|| "".to_string())
                         }
                     </div>
                 }
@@ -243,7 +243,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                             .options[value_index]
                             .1
                             .clone()
-                            .unwrap_or("".to_string())
+                            .unwrap_or_else(|| "".to_string())
                         }
                     </span>
                 </span>
