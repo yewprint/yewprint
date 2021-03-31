@@ -92,34 +92,19 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     .cast::<Element>()
                     .unwrap()
                     .get_bounding_client_rect();
-                let pixel_delta =
-                    position.saturating_sub((track_rect.left() + track_rect.width() / 2.0) as u32);
-                let position_delta = pixel_delta / self.tick_size.unwrap();
-
-                let index = self
-                    .props
-                    .options
-                    .iter()
-                    .position(|i| i.0 == self.props.value)
-                    .unwrap();
-
-                let new_index = index
-                    .saturating_add(position_delta as usize)
-                    .clamp(0, self.props.options.len() - 1);
+                let pixel_delta = position.saturating_sub(track_rect.left() as u32);
+                let position = pixel_delta / self.tick_size.unwrap();
 
                 let (value, _) = self
                     .props
                     .options
-                    .get(new_index)
+                    .get(position as usize)
                     .unwrap_or(self.props.options.last().unwrap())
                     .clone();
 
                 if value != self.props.value {
                     self.props.onchange.emit(value);
                 }
-                yew::services::ConsoleService::log(
-                    format!("{} {} {}", position_delta, index, new_index).as_str(),
-                )
             }
             Msg::StopChange => {
                 let document = yew::utils::document();
