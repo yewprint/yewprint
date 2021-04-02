@@ -190,7 +190,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                         style=format!("left: {}%;", offset_percentage)
                     >
                         {
-                            label.clone().unwrap_or_else(|| "".to_string())
+                            label.clone().unwrap()
                         }
                     </div>
                 }
