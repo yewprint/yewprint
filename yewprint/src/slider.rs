@@ -125,6 +125,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
             }
             Msg::KeyDown(event) => match event.key().as_str() {
                 "ArrowDown" | "ArrowLeft" => {
+                    event.prevent_default();
                     let index = self
                         .props
                         .options
@@ -136,6 +137,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     self.props.onchange.emit(value);
                 }
                 "ArrowUp" | "ArrowRight" => {
+                    event.prevent_default();
                     let index = self
                         .props
                         .options
