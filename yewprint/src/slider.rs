@@ -180,22 +180,16 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
             .props
             .options
             .iter()
-            .map(|(x, y)| {
-                let offset_percentage = self
-                    .props
-                    .options
-                    .iter()
-                    .position(|i| *i == (x.clone(), y.clone()))
-                    .unwrap()
-                    * 100
-                    / (self.props.options.len() - 1);
+            .enumerate()
+            .map(|(i, (_, label))| {
+                let offset_percentage = i * 100 / (self.props.options.len() - 1);
                 html! {
                     <div
                         class=classes!("bp3-slider-label")
                         style=format!("left: {}%;", offset_percentage)
                     >
                         {
-                            y.clone().unwrap_or_else(|| "".to_string())
+                            label.clone().unwrap_or_else(|| "".to_string())
                         }
                     </div>
                 }
