@@ -181,19 +181,17 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
             .options
             .iter()
             .enumerate()
-            .filter(|(_i, (_, label))| label.is_some())
-            .map(|(i, (_, label))| {
-                let offset_percentage = i * 100 / (self.props.options.len() - 1);
-                html! {
-                    <div
-                        class=classes!("bp3-slider-label")
-                        style=format!("left: {}%;", offset_percentage)
-                    >
-                        {
-                            label.clone().unwrap()
-                        }
-                    </div>
-                }
+            .filter_map(|(i, (_, label))| {
+                label.clone().map(|x| {
+                    html! {
+                        <div
+                            class=classes!("bp3-slider-label")
+                            style=format!("left: {}%;", i * 100 / (self.props.options.len() - 1))
+                        >
+                            {x}
+                        </div>
+                    }
+                })
             })
             .collect::<Html>();
 
