@@ -181,6 +181,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
             .options
             .iter()
             .enumerate()
+            .filter(|(_i, (_, label))| label.is_some())
             .map(|(i, (_, label))| {
                 let offset_percentage = i * 100 / (self.props.options.len() - 1);
                 html! {
