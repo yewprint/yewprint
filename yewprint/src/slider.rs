@@ -6,6 +6,7 @@ use yew::prelude::*;
 
 pub struct Slider<T: Clone + PartialEq + 'static> {
     props: SliderProps<T>,
+    mouse_down: Closure<dyn FnMut(MouseEvent)>,
     mouse_move: Closure<dyn FnMut(MouseEvent)>,
     mouse_up: Closure<dyn FnMut(MouseEvent)>,
     link: ComponentLink<Self>,
@@ -33,6 +34,8 @@ pub struct SliderProps<T: Clone + PartialEq + 'static> {
 }
 
 pub enum Msg {
+    OnClick,
+    Click(u32),
     StartChange,
     Change(u32),
     StopChange,
@@ -44,6 +47,12 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
     type Properties = SliderProps<T>;
 
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+        let mouse_down = {
+            let link = link.clone();
+            Closure::wrap(Box::new(move |event: web_sys::MouseEvent| {
+                link.send_message(Msg::Click(event.client_x() as u32));
+            }) as Box<dyn FnMut(_)>)
+        };
         let mouse_move = {
             let link = link.clone();
             Closure::wrap(Box::new(move |event: web_sys::MouseEvent| {
@@ -59,6 +68,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
         };
         Self {
             props,
+            mouse_down,
             mouse_move,
             mouse_up,
             link,
@@ -71,6 +81,16 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
+            Msg::OnClick => {
+                let document = yew::utils::document();
+                let event_target: &web_sys::EventTarget = document.as_ref();
+                event_target
+                    .add_event_listener_with_callback(
+                        "mousedown",
+                        self.mouse_down.as_ref().unchecked_ref(),
+                    )
+                    .unwrap();
+            }
             Msg::StartChange => {
                 let document = yew::utils::document();
                 let event_target: &web_sys::EventTarget = document.as_ref();
@@ -87,6 +107,24 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                         self.mouse_up.as_ref().unchecked_ref(),
                     )
                     .unwrap();
+            }
+            Msg::Click(position) => {
+                let track_rect = self
+                    .track_ref
+                    .cast::<Element>()
+                    .unwrap()
+                    .get_bounding_client_rect();
+                let pixel_delta = position.saturating_sub(track_rect.left() as u32);
+                let position = pixel_delta / self.tick_size.unwrap();
+
+                let (value, _) = self
+                    .props
+                    .options
+                    .get(position as usize)
+                    .unwrap_or_else(|| self.props.options.last().unwrap())
+                    .clone();
+
+                self.props.onchange.emit(value);
             }
             Msg::Change(position) => {
                 let track_rect = self
@@ -215,6 +253,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                 <div
                     class=classes!("bp3-slider-track")
                     ref={self.track_ref.clone()}
+                    onclick=self.link.callback(|_| Msg::OnClick)
                 >
                     <div
                         class=classes!("bp3-slider-progress")
