@@ -27,6 +27,8 @@ pub struct SliderProps<T: Clone + PartialEq + 'static> {
     pub onchange: Callback<T>,
     #[prop_or_default]
     pub options: Vec<(T, Option<String>)>,
+    #[prop_or_default]
+    pub value_label: Option<String>,
     pub value: T,
 }
 
@@ -194,6 +196,13 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                 })
             })
             .collect::<Html>();
+        if let Some(value) = &self.props.value_label {
+            html! {
+                <div>
+                    {value}
+                </div>
+            };
+        }
 
         html! {
             <div
@@ -242,6 +251,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                         }
                     </span>
                 </span>
+
             </div>
         }
     }
