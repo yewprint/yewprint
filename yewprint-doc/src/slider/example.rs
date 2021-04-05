@@ -73,7 +73,7 @@ impl Component for Example {
                 <Slider<f64>
                     value=self.float
                     options=vec![
-                        (0.0, Some(String::from("0.0"))),
+                        (0.0, Some(String::from("0"))),
                         (0.1, None),
                         (0.2, None),
                         (0.3, None),
@@ -83,15 +83,17 @@ impl Component for Example {
                         (0.7, None),
                         (0.8, None),
                         (0.9, None),
-                        (1.0, Some(String::from("1.0"))),
+                        (1.0, Some(String::from("1"))),
                     ]
                     intent=self.props.intent
+                    value_label=format!("{}", self.float)
                     onchange=self.link.callback(|x| Msg::FloatUpdate(x))
                 />
                 <Slider<i32>
                     options=labels
                     value=self.integer
                     intent=self.props.intent
+                    value_label=format!("{}%", self.integer)
                     onchange=self.link.callback(|x| Msg::IntegerUpdate(x))
                 />
                 <Slider<LogLevel>

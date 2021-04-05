@@ -196,13 +196,14 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                 })
             })
             .collect::<Html>();
-        if let Some(value) = &self.props.value_label {
-            html! {
-                <div>
+        let value_label = match &self.props.value_label {
+            Some(value) => html! {
+                <span class=classes!("bp3-slider-label")>
                     {value}
-                </div>
-            };
-        }
+                </span>
+            },
+            None => html! {},
+        };
 
         html! {
             <div
@@ -211,21 +212,21 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     self.props.vertical.then(|| "bp3-vertical"),
                 )
             >
-            <div
-                class=classes!("bp3-slider-track")
-                ref={self.track_ref.clone()}
-            >
                 <div
-                    class=classes!("bp3-slider-progress")
-                    style="top: 0px;"
+                    class=classes!("bp3-slider-track")
+                    ref={self.track_ref.clone()}
                 >
+                    <div
+                        class=classes!("bp3-slider-progress")
+                        style="top: 0px;"
+                    >
+                    </div>
+                    <div
+                        class=classes!("bp3-slider-progress", self.props.intent)
+                        style=format!("left: 0%; right: {}%; top: 0px;", 100 - percentage)
+                    >
+                    </div>
                 </div>
-                <div
-                    class=classes!("bp3-slider-progress", self.props.intent)
-                    style=format!("left: 0%; right: {}%; top: 0px;", 100 - percentage)
-                >
-                </div>
-            </div>
                 <div class=classes!("bp3-slider-axis")>
                     {labels}
                 </div>
@@ -240,18 +241,8 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     onkeydown=self.link.callback(Msg::KeyDown)
                     tabindex=0
                 >
-                    <span class=classes!("bp3-slider-label")>
-                        {
-                            self
-                            .props
-                            .options[value_index]
-                            .1
-                            .clone()
-                            .unwrap_or_else(|| "".to_string())
-                        }
-                    </span>
+                    {value_label}
                 </span>
-
             </div>
         }
     }
