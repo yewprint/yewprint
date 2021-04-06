@@ -33,7 +33,6 @@ pub struct SliderProps<T: Clone + PartialEq + 'static> {
 }
 
 pub enum Msg {
-    OnClick(u32),
     StartChange,
     Change(u32),
     StopChange,
@@ -71,10 +70,15 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
+        let document = yew::utils::document();
+        let event_target: &web_sys::EventTarget = document.as_ref();
+        let track_rect = self
+            .track_ref
+            .cast::<Element>()
+            .unwrap()
+            .get_bounding_client_rect();
         match msg {
             Msg::StartChange => {
-                let document = yew::utils::document();
-                let event_target: &web_sys::EventTarget = document.as_ref();
                 self.is_moving = true;
                 event_target
                     .add_event_listener_with_callback(
@@ -89,30 +93,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     )
                     .unwrap();
             }
-            Msg::OnClick(position) => {
-                let track_rect = self
-                    .track_ref
-                    .cast::<Element>()
-                    .unwrap()
-                    .get_bounding_client_rect();
-                let pixel_delta = position.saturating_sub(track_rect.left() as u32);
-                let position = pixel_delta as f64 / self.tick_size.unwrap() as f64;
-
-                let (value, _) = self
-                    .props
-                    .options
-                    .get(position.round() as usize)
-                    .unwrap_or_else(|| self.props.options.last().unwrap())
-                    .clone();
-
-                self.props.onchange.emit(value);
-            }
             Msg::Change(position) => {
-                let track_rect = self
-                    .track_ref
-                    .cast::<Element>()
-                    .unwrap()
-                    .get_bounding_client_rect();
                 let pixel_delta = position.saturating_sub(track_rect.left() as u32);
                 let position = pixel_delta as f64 / self.tick_size.unwrap() as f64;
 
@@ -126,20 +107,8 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                 if value != self.props.value {
                     self.props.onchange.emit(value);
                 };
-
-                yew::services::ConsoleService::log(
-                    format!(
-                        "{} / {} = {}",
-                        pixel_delta,
-                        self.tick_size.unwrap(),
-                        position
-                    )
-                    .as_str(),
-                );
             }
             Msg::StopChange => {
-                let document = yew::utils::document();
-                let event_target: &web_sys::EventTarget = document.as_ref();
                 self.is_moving = false;
                 event_target
                     .remove_event_listener_with_callback(
@@ -184,7 +153,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                         .clone();
                     self.props.onchange.emit(value);
                 }
-                x => yew::services::ConsoleService::log(&format!("keydown, {}", x)),
+                _ => (),
             },
         }
         true
@@ -241,7 +210,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     self.props.vertical.then(|| "bp3-vertical"),
                 )
                 onclick=self.link.callback(
-                    |event: MouseEvent| Msg::OnClick(event.client_x() as u32)
+                    |event: MouseEvent| Msg::Change(event.client_x() as u32)
                 )
             >
                 <div
