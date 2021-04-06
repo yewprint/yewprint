@@ -96,7 +96,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     .unwrap()
                     .get_bounding_client_rect();
                 let pixel_delta = position.saturating_sub(track_rect.left() as u32);
-                let position = pixel_delta / self.tick_size.unwrap();
+                let position = pixel_delta as f64 / self.tick_size.unwrap() as f64;
 
                 let (value, _) = self
                     .props
@@ -114,7 +114,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     .unwrap()
                     .get_bounding_client_rect();
                 let pixel_delta = position.saturating_sub(track_rect.left() as u32);
-                let position = pixel_delta / self.tick_size.unwrap();
+                let position = pixel_delta as f64 / self.tick_size.unwrap() as f64;
 
                 let (value, _) = self
                     .props
@@ -125,7 +125,17 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
 
                 if value != self.props.value {
                     self.props.onchange.emit(value);
-                }
+                };
+
+                yew::services::ConsoleService::log(
+                    format!(
+                        "{} / {} = {}",
+                        pixel_delta,
+                        self.tick_size.unwrap(),
+                        position
+                    )
+                    .as_str(),
+                );
             }
             Msg::StopChange => {
                 let document = yew::utils::document();
@@ -271,6 +281,6 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
 
     fn rendered(&mut self, _first_render: bool) {
         let track_size = self.track_ref.cast::<Element>().unwrap().client_width() as u32;
-        self.tick_size = Some(track_size / (self.props.options.len() - 1) as u32);
+        self.tick_size = Some(track_size / self.props.options.len() as u32);
     }
 }
