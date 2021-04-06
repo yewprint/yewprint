@@ -11,7 +11,7 @@ pub struct Slider<T: Clone + PartialEq + 'static> {
     link: ComponentLink<Self>,
     handle_ref: NodeRef,
     track_ref: NodeRef,
-    tick_size: Option<u32>,
+    tick_size: Option<f64>,
     is_moving: bool,
 }
 
@@ -280,7 +280,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
     }
 
     fn rendered(&mut self, _first_render: bool) {
-        let track_size = self.track_ref.cast::<Element>().unwrap().client_width() as u32;
-        self.tick_size = Some(track_size / self.props.options.len() as u32);
+        let track_size = self.track_ref.cast::<Element>().unwrap().client_width() as f64;
+        self.tick_size = Some(track_size / self.props.options.len() as f64);
     }
 }
