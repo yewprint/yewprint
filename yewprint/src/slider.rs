@@ -101,7 +101,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                 let (value, _) = self
                     .props
                     .options
-                    .get(position as usize)
+                    .get(position.round() as usize)
                     .unwrap_or_else(|| self.props.options.last().unwrap())
                     .clone();
 
@@ -119,7 +119,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                 let (value, _) = self
                     .props
                     .options
-                    .get(position as usize)
+                    .get(position.round() as usize)
                     .unwrap_or_else(|| self.props.options.last().unwrap())
                     .clone();
 
@@ -281,6 +281,6 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
 
     fn rendered(&mut self, _first_render: bool) {
         let track_size = self.track_ref.cast::<Element>().unwrap().client_width() as f64;
-        self.tick_size = Some(track_size / self.props.options.len() as f64);
+        self.tick_size = Some(track_size / (self.props.options.len() - 1) as f64);
     }
 }
