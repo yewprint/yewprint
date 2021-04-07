@@ -182,11 +182,6 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
             .options
             .iter()
             .position(|(value, _)| *value == self.props.value);
-        let percentage = if let Some(value) = value_index {
-            100.0 * (value as f64) / (self.props.options.len() as f64 - 1.0)
-        } else {
-            0.0
-        };
         let labels = self
             .props
             .options
@@ -232,17 +227,31 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                         style="top: 0px;"
                     >
                     </div>
-                    <div
-                        class=classes!("bp3-slider-progress", self.props.intent)
-                        style=format!("left: 0%; right: {}%; top: 0px;", 100.0 - percentage)
-                    >
-                    </div>
+                    {
+                        if let Some(value) = value_index {
+                            html! {
+                                <div
+                                    class=classes!("bp3-slider-progress", self.props.intent)
+                                    style=format!(
+                                        "left: 0%; right: {}%; top: 0px;",
+                                        100.0 - (
+                                            100.0 * (value as f64)
+                                            / (self.props.options.len() as f64 - 1.0)
+                                        )
+                                    )
+                                >
+                                </div>
+                            }
+                        } else {
+                            html!()
+                        }
+                    }
                 </div>
                 <div class=classes!("bp3-slider-axis")>
                     {labels}
                 </div>
                 {
-                    if let Some(_) = self.props.options.iter().position(|(value, _)| *value == self.props.value) {
+                    if let Some(value) = self.props.options.iter().position(|(value, _)| *value == self.props.value) {
                         html! {
                             <span
                                 class=classes!(
@@ -250,7 +259,11 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                                     self.is_moving.then(|| "bp3-active"),
                                 )
                                 ref={self.handle_ref.clone()}
-                                style=format!("left: calc({}% - 8px);", percentage)
+                                style=format!(
+                                    "left: calc({}% - 8px);",
+                                    100.0 * (value as f64)
+                                    / (self.props.options.len() as f64 - 1.0),
+                                )
                                 onmousedown=self.link.callback(|_| Msg::StartChange)
                                 onkeydown=self.link.callback(|event| Msg::Keyboard(event))
                                 tabindex=0
