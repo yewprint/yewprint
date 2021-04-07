@@ -30,10 +30,10 @@ impl Component for Example {
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
         Example {
             props,
-            float: Default::default(),
+            float: 1.2,
             integer: Default::default(),
             log_level: LogLevel::Info,
-            string: Default::default(),
+            string: "test".to_string(),
             link,
         }
     }

@@ -97,8 +97,6 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     if *value != self.props.value {
                         self.props.onchange.emit(value.clone());
                     }
-                } else {
-                    ()
                 };
             }
             Msg::StopChange => {
