@@ -97,7 +97,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     if *value != self.props.value {
                         self.props.onchange.emit(value.clone());
                     }
-                };
+                }
             }
             Msg::StopChange => {
                 let document = yew::utils::document();
