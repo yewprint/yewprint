@@ -60,11 +60,14 @@ impl Component for Example {
     }
 
     fn view(&self) -> Html {
-        let labels = (0..=100)
+        let percentage_labels = (0..=100)
             .step_by(1)
-            .map(|x| match x % 10 {
-                0 => (x, Some(format!("{}%", x))),
-                _ => (x, None),
+            .map(|x| {
+                if x % 10 == 0 {
+                    (x, Some(format!("{}%", x)))
+                } else {
+                    (x, None)
+                }
             })
             .collect::<Vec<(i32, Option<String>)>>();
 
@@ -90,7 +93,7 @@ impl Component for Example {
                     onchange=self.link.callback(|x| Msg::FloatUpdate(x))
                 />
                 <Slider<i32>
-                    options=labels
+                    options=percentage_labels
                     value=self.integer
                     intent=self.props.intent
                     value_label=format!("{}%", self.integer)
