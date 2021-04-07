@@ -177,20 +177,21 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
     }
 
     fn view(&self) -> Html {
-        let value_index = self
+        if let Some(position) = self
             .props
             .options
             .iter()
             .position(|(value, _)| *value == self.props.value)
-            .expect("self.props.options is empty");
-        let percentage = 100.0 * (value_index as f64) / (self.props.options.len() as f64 - 1.0);
-        let labels = self
-            .props
-            .options
-            .iter()
-            .enumerate()
-            .filter_map(|(i, (_, label))| {
-                label.clone().map(|x| {
+        {
+            let value_index = position;
+            let percentage = 100.0 * (value_index as f64) / (self.props.options.len() as f64 - 1.0);
+            let labels = self
+                .props
+                .options
+                .iter()
+                .enumerate()
+                .filter_map(|(i, (_, label))| {
+                    label.clone().map(|x| {
                     html! {
                         <div
                             class=classes!("bp3-slider-label")
@@ -199,59 +200,87 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                             {x}
                         </div>
                     }
+                    })
                 })
-            })
-            .collect::<Html>();
-        let value_label = self.props.value_label.clone().map(|x| {
-            html! {
-                <span class=classes!("bp3-slider-label")>
-                    {x}
-                </span>
-            }
-        });
+                .collect::<Html>();
+            let value_label = self.props.value_label.clone().map(|x| {
+                html! {
+                    <span class=classes!("bp3-slider-label")>
+                        {x}
+                    </span>
+                }
+            });
 
-        html! {
-            <div
-                class=classes!(
-                    "bp3-slider",
-                    self.props.vertical.then(|| "bp3-vertical"),
-                )
-                onclick=self.link.callback(
-                    |event| Msg::Mouse(event)
-                )
-            >
+            html! {
                 <div
-                    class=classes!("bp3-slider-track")
-                    ref={self.track_ref.clone()}
-                >
-                    <div
-                        class=classes!("bp3-slider-progress")
-                        style="top: 0px;"
-                    >
-                    </div>
-                    <div
-                        class=classes!("bp3-slider-progress", self.props.intent)
-                        style=format!("left: 0%; right: {}%; top: 0px;", 100.0 - percentage)
-                    >
-                    </div>
-                </div>
-                <div class=classes!("bp3-slider-axis")>
-                    {labels}
-                </div>
-                <span
                     class=classes!(
-                        "bp3-slider-handle",
-                        self.is_moving.then(|| "bp3-active"),
+                        "bp3-slider",
+                        self.props.vertical.then(|| "bp3-vertical"),
                     )
-                    ref={self.handle_ref.clone()}
-                    style=format!("left: calc({}% - 8px);", percentage)
-                    onmousedown=self.link.callback(|_| Msg::StartChange)
-                    onkeydown=self.link.callback(|event| Msg::Keyboard(event))
-                    tabindex=0
+                    onclick=self.link.callback(
+                        |event| Msg::Mouse(event)
+                    )
                 >
-                    {value_label.clone().unwrap_or_default()}
-                </span>
-            </div>
+                    <div
+                        class=classes!("bp3-slider-track")
+                        ref={self.track_ref.clone()}
+                    >
+                        <div
+                            class=classes!("bp3-slider-progress")
+                            style="top: 0px;"
+                        >
+                        </div>
+                        <div
+                            class=classes!("bp3-slider-progress", self.props.intent)
+                            style=format!("left: 0%; right: {}%; top: 0px;", 100.0 - percentage)
+                        >
+                        </div>
+                    </div>
+                    <div class=classes!("bp3-slider-axis")>
+                        {labels}
+                    </div>
+                    <span
+                        class=classes!(
+                            "bp3-slider-handle",
+                            self.is_moving.then(|| "bp3-active"),
+                        )
+                        ref={self.handle_ref.clone()}
+                        style=format!("left: calc({}% - 8px);", percentage)
+                        onmousedown=self.link.callback(|_| Msg::StartChange)
+                        onkeydown=self.link.callback(|event| Msg::Keyboard(event))
+                        tabindex=0
+                    >
+                        {value_label.clone().unwrap_or_default()}
+                    </span>
+                </div>
+            }
+        } else {
+            html! {
+                <div
+                    class=classes!(
+                        "bp3-slider",
+                        self.props.vertical.then(|| "bp3-vertical"),
+                    )
+                    onclick=self.link.callback(
+                        |event| Msg::Mouse(event)
+                    )
+                >
+                    <div
+                        class=classes!("bp3-slider-track")
+                    >
+                        <div
+                            class=classes!("bp3-slider-progress")
+                            style="top: 0px;"
+                        >
+                        </div>
+                        <div
+                            class=classes!("bp3-slider-progress")
+                            style="top: 0px;"
+                        >
+                        </div>
+                    </div>
+                </div>
+            }
         }
     }
 }
