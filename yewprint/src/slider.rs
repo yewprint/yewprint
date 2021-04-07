@@ -87,7 +87,8 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
             Msg::Mouse(event) => {
                 let track_rect = self.track_ref.cast::<Element>().unwrap();
                 let tick_size = Some(
-                    (track_rect.client_width() as f64) / (self.props.options.len() - 1) as f64,
+                    (track_rect.client_width() as f64)
+                        / self.props.options.len().saturating_sub(1) as f64,
                 );
                 let pixel_delta = (event.client_x() as u32)
                     .saturating_sub(track_rect.get_bounding_client_rect().left() as u32);
@@ -98,7 +99,12 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     .props
                     .options
                     .get(position)
-                    .unwrap_or_else(|| self.props.options.last().unwrap())
+                    .unwrap_or_else(|| {
+                        self.props
+                            .options
+                            .last()
+                            .expect("value is not in the options")
+                    })
                     .clone();
 
                 if value != self.props.value {
@@ -173,7 +179,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
             .options
             .iter()
             .position(|(value, _)| *value == self.props.value)
-            .unwrap();
+            .expect("self.props.options is empty");
         let percentage = 100.0 * (value_index as f64) / (self.props.options.len() as f64 - 1.0);
         let labels = self
             .props
