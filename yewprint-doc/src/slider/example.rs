@@ -62,13 +62,7 @@ impl Component for Example {
     fn view(&self) -> Html {
         let percentage_labels = (0..=100)
             .step_by(1)
-            .map(|x| {
-                if x % 10 == 0 {
-                    (x, Some(format!("{}%", x)))
-                } else {
-                    (x, None)
-                }
-            })
+            .map(|x| (x, (x % 10 == 0).then(|| format!("{}%", x))))
             .collect::<Vec<(i32, Option<String>)>>();
 
         html! {
