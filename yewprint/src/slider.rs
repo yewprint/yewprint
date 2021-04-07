@@ -76,13 +76,13 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                         "mousemove",
                         self.mouse_move.as_ref().unchecked_ref(),
                     )
-                    .unwrap();
+                    .expect("No event listener to add");
                 event_target
                     .add_event_listener_with_callback(
                         "mouseup",
                         self.mouse_up.as_ref().unchecked_ref(),
                     )
-                    .unwrap();
+                    .expect("No event listener to add");
             }
             Msg::Mouse(event) => {
                 let track_rect = self.track_ref.cast::<Element>().unwrap();
@@ -120,13 +120,13 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                         "mousemove",
                         self.mouse_move.as_ref().unchecked_ref(),
                     )
-                    .unwrap();
+                    .expect("No event listener to remove");
                 event_target
                     .remove_event_listener_with_callback(
                         "mouseup",
                         self.mouse_up.as_ref().unchecked_ref(),
                     )
-                    .unwrap();
+                    .unwrap("No event listener to remove");
             }
             Msg::Keyboard(event) => match event.key().as_str() {
                 "ArrowDown" | "ArrowLeft" => {
@@ -136,7 +136,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                         .options
                         .iter()
                         .position(|(value, _)| *value == self.props.value)
-                        .unwrap();
+                        .expect("Not in self.props.options");
                     let index = index.saturating_sub(1);
                     let (value, _) = self.props.options[index].clone();
                     self.props.onchange.emit(value);
@@ -148,13 +148,18 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                         .options
                         .iter()
                         .position(|(value, _)| *value == self.props.value)
-                        .unwrap();
+                        .expect("Not in self.props.options");
                     let index = index.saturating_add(1);
                     let (value, _) = self
                         .props
                         .options
                         .get(index)
-                        .unwrap_or_else(|| self.props.options.last().unwrap())
+                        .unwrap_or_else(|| {
+                            self.props
+                                .options
+                                .last()
+                                .expect("No values in self.props.options")
+                        })
                         .clone();
                     self.props.onchange.emit(value);
                 }
