@@ -182,7 +182,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
             .options
             .iter()
             .position(|(value, _)| *value == self.props.value)
-            .expect("self.props.options is empty");
+            .unwrap_or_default();
         let percentage = 100.0 * (value_index as f64) / (self.props.options.len() as f64 - 1.0);
         let labels = self
             .props
@@ -209,6 +209,25 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                 </span>
             }
         });
+        let options = if self.props.options.is_empty() {
+            html!()
+        } else {
+            html! {
+                <span
+                    class=classes!(
+                        "bp3-slider-handle",
+                        self.is_moving.then(|| "bp3-active"),
+                    )
+                    ref={self.handle_ref.clone()}
+                    style=format!("left: calc({}% - 8px);", percentage)
+                    onmousedown=self.link.callback(|_| Msg::StartChange)
+                    onkeydown=self.link.callback(|event| Msg::Keyboard(event))
+                    tabindex=0
+                >
+                    {value_label.clone().unwrap_or_default()}
+                </span>
+            }
+        };
 
         html! {
             <div
@@ -238,19 +257,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                 <div class=classes!("bp3-slider-axis")>
                     {labels}
                 </div>
-                <span
-                    class=classes!(
-                        "bp3-slider-handle",
-                        self.is_moving.then(|| "bp3-active"),
-                    )
-                    ref={self.handle_ref.clone()}
-                    style=format!("left: calc({}% - 8px);", percentage)
-                    onmousedown=self.link.callback(|_| Msg::StartChange)
-                    onkeydown=self.link.callback(|event| Msg::Keyboard(event))
-                    tabindex=0
-                >
-                    {value_label.clone().unwrap_or_default()}
-                </span>
+                {options}
             </div>
         }
     }
