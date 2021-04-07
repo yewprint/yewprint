@@ -99,7 +99,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     }
                 } else {
                     if let Some((value, _)) = self.props.options.last() {
-                        self.props.onchange.emit(value.clone());
+                        self.props.value = value.clone();
                     }
                 }
             }
