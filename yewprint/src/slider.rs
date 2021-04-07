@@ -126,7 +126,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                         "mouseup",
                         self.mouse_up.as_ref().unchecked_ref(),
                     )
-                    .unwrap("No event listener to remove");
+                    .expect("No event listener to remove");
             }
             Msg::Keyboard(event) => match event.key().as_str() {
                 "ArrowDown" | "ArrowLeft" => {
