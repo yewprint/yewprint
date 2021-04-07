@@ -6,7 +6,6 @@ pub struct Example {
     float: f64,
     integer: i32,
     log_level: LogLevel,
-    string: String,
     link: ComponentLink<Self>,
 }
 
@@ -20,7 +19,6 @@ pub enum Msg {
     FloatUpdate(f64),
     IntegerUpdate(i32),
     LogLevelUpdate(LogLevel),
-    StringUpdate(String),
 }
 
 impl Component for Example {
@@ -30,10 +28,9 @@ impl Component for Example {
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
         Example {
             props,
-            float: 1.2,
+            float: Default::default(),
             integer: Default::default(),
             log_level: LogLevel::Info,
-            string: "test".to_string(),
             link,
         }
     }
@@ -48,9 +45,6 @@ impl Component for Example {
             }
             Msg::LogLevelUpdate(value) => {
                 self.log_level = value;
-            }
-            Msg::StringUpdate(value) => {
-                self.string = value;
             }
         }
         true
@@ -111,12 +105,6 @@ impl Component for Example {
                     intent=self.props.intent
                     value=self.log_level.clone()
                     onchange=self.link.callback(|x| Msg::LogLevelUpdate(x))
-                />
-                <Slider<String>
-                    options=vec![]
-                    intent=self.props.intent
-                    value=self.string.clone()
-                    onchange=self.link.callback(|x| Msg::StringUpdate(x))
                 />
             </>
         }
