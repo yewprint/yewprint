@@ -93,21 +93,13 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
 
                 let position = (pixel_delta as f64 / tick_size).round() as usize;
 
-                let (value, _) = self
-                    .props
-                    .options
-                    .get(position)
-                    .unwrap_or_else(|| {
-                        self.props
-                            .options
-                            .last()
-                            .expect("value is not in the options")
-                    })
-                    .clone();
-
-                if value != self.props.value {
-                    self.props.onchange.emit(value);
-                }
+                if let Some((value, _)) = self.props.options.get(position) {
+                    if *value != self.props.value {
+                        self.props.onchange.emit(value.clone());
+                    }
+                } else {
+                    ()
+                };
             }
             Msg::StopChange => {
                 let document = yew::utils::document();
@@ -251,7 +243,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     {labels}
                 </div>
                 {
-                    if let Some(value) = self.props.options.iter().position(|(value, _)| *value == self.props.value) {
+                    if let Some(value) = value_index {
                         html! {
                             <span
                                 class=classes!(
