@@ -11,7 +11,6 @@ pub struct Slider<T: Clone + PartialEq + 'static> {
     link: ComponentLink<Self>,
     handle_ref: NodeRef,
     track_ref: NodeRef,
-    tick_size: Option<f64>,
     is_moving: bool,
 }
 
@@ -25,7 +24,6 @@ pub struct SliderProps<T: Clone + PartialEq + 'static> {
     pub intent: Option<Intent>,
     #[prop_or_default]
     pub onchange: Callback<T>,
-    #[prop_or_default]
     pub options: Vec<(T, Option<String>)>,
     #[prop_or_default]
     pub value_label: Option<String>,
@@ -34,9 +32,9 @@ pub struct SliderProps<T: Clone + PartialEq + 'static> {
 
 pub enum Msg {
     StartChange,
-    Change(u32),
+    Mouse(MouseEvent),
     StopChange,
-    KeyDown(KeyboardEvent),
+    Keyboard(KeyboardEvent),
 }
 
 impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
@@ -47,7 +45,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
         let mouse_move = {
             let link = link.clone();
             Closure::wrap(Box::new(move |event: web_sys::MouseEvent| {
-                link.send_message(Msg::Change(event.client_x() as u32));
+                link.send_message(Msg::Mouse(event));
             }) as Box<dyn FnMut(_)>)
         };
         let mouse_up = {
@@ -63,16 +61,15 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
             link,
             handle_ref: NodeRef::default(),
             track_ref: NodeRef::default(),
-            tick_size: None,
             is_moving: false,
         }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
-        let document = yew::utils::document();
-        let event_target: &web_sys::EventTarget = document.as_ref();
         match msg {
             Msg::StartChange => {
+                let document = yew::utils::document();
+                let event_target: &web_sys::EventTarget = document.as_ref();
                 self.is_moving = true;
                 event_target
                     .add_event_listener_with_callback(
@@ -87,23 +84,22 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     )
                     .unwrap();
             }
-            Msg::Change(position) => {
-                let track_rect = self
-                    .track_ref
-                    .cast::<Element>()
-                    .unwrap()
-                    .get_bounding_client_rect();
+            Msg::Mouse(event) => {
+                let track_rect = self.track_ref.cast::<Element>().unwrap();
 
-                let track_size = self.track_ref.cast::<Element>().unwrap().client_width() as f64;
-                self.tick_size = Some(track_size / (self.props.options.len() - 1) as f64);
+                let track_size = track_rect.client_width() as f64;
+                let tick_size = Some(track_size / (self.props.options.len() - 1) as f64);
 
-                let pixel_delta = position.saturating_sub(track_rect.left() as u32);
-                let position = pixel_delta as f64 / self.tick_size.unwrap() as f64;
+                let position = event.client_x() as u32;
+                let pixel_delta =
+                    position.saturating_sub(track_rect.get_bounding_client_rect().left() as u32);
+                let position = pixel_delta as f64 / tick_size.unwrap() as f64;
+                let position = position.round() as usize;
 
                 let (value, _) = self
                     .props
                     .options
-                    .get(position.round() as usize)
+                    .get(position)
                     .unwrap_or_else(|| self.props.options.last().unwrap())
                     .clone();
 
@@ -112,6 +108,8 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                 }
             }
             Msg::StopChange => {
+                let document = yew::utils::document();
+                let event_target: &web_sys::EventTarget = document.as_ref();
                 self.is_moving = false;
                 event_target
                     .remove_event_listener_with_callback(
@@ -126,14 +124,14 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     )
                     .unwrap();
             }
-            Msg::KeyDown(event) => match event.key().as_str() {
+            Msg::Keyboard(event) => match event.key().as_str() {
                 "ArrowDown" | "ArrowLeft" => {
                     event.prevent_default();
                     let index = self
                         .props
                         .options
                         .iter()
-                        .position(|i| i.0 == self.props.value)
+                        .position(|(v, _)| *v == self.props.value)
                         .unwrap();
                     let index = index.saturating_sub(1);
                     let (value, _) = self.props.options[index].clone();
@@ -145,7 +143,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                         .props
                         .options
                         .iter()
-                        .position(|i| i.0 == self.props.value)
+                        .position(|(v, _)| *v == self.props.value)
                         .unwrap();
                     let index = index.saturating_add(1);
                     let (value, _) = self
@@ -176,9 +174,9 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
             .props
             .options
             .iter()
-            .position(|i| i.0 == self.props.value)
+            .position(|(v, _)| *v == self.props.value)
             .unwrap();
-        let percentage = 100 * (value_index) / (self.props.options.len() - 1);
+        let percentage = 100.0 * (value_index as f64) / (self.props.options.len() as f64 - 1.0);
         let labels = self
             .props
             .options
@@ -197,14 +195,13 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                 })
             })
             .collect::<Html>();
-        let value_label = match &self.props.value_label {
-            Some(value) => html! {
+        let value_label = self.props.value_label.clone().map(|x| {
+            html! {
                 <span class=classes!("bp3-slider-label")>
-                    {value}
+                    {x}
                 </span>
-            },
-            None => html!(),
-        };
+            }
+        });
 
         html! {
             <div
@@ -213,7 +210,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     self.props.vertical.then(|| "bp3-vertical"),
                 )
                 onclick=self.link.callback(
-                    |event: MouseEvent| Msg::Change(event.client_x() as u32)
+                    |event| Msg::Mouse(event)
                 )
             >
                 <div
@@ -227,7 +224,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     </div>
                     <div
                         class=classes!("bp3-slider-progress", self.props.intent)
-                        style=format!("left: 0%; right: {}%; top: 0px;", 100 - percentage)
+                        style=format!("left: 0%; right: {}%; top: 0px;", 100.0 - percentage)
                     >
                     </div>
                 </div>
@@ -242,10 +239,10 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     ref={self.handle_ref.clone()}
                     style=format!("left: calc({}% - 8px);", percentage)
                     onmousedown=self.link.callback(|_| Msg::StartChange)
-                    onkeydown=self.link.callback(|event| Msg::KeyDown(event))
+                    onkeydown=self.link.callback(|event| Msg::Keyboard(event))
                     tabindex=0
                 >
-                    {value_label}
+                    {value_label.clone().unwrap_or_default()}
                 </span>
             </div>
         }
