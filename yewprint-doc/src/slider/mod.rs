@@ -3,7 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::{HtmlSelect, Intent, Switch, Text, H1, H2, H5};
+use yewprint::{HtmlSelect, Intent, Switch, H1, H2, H5};
 
 pub struct SliderDoc {
     callback: Callback<ExampleProps>,
@@ -55,56 +55,58 @@ impl Component for SliderDoc {
                     <Example with example_props />
                 </ExampleContainer>
                 <H2>{"Edge Cases"}</H2>
-                <ul>
-                    <li>
-                        <Text>
-                            {"The "}
-                        <code>{"values"}</code>
-                            {" property is empty:"}
-                        </Text>
-                        <Text>
-                            {"If the component is provided an empty "}
-                        <code>{"Vec"}</code>
-                            {
-                                " the slider will have no handle \
-                                and the user won't be able to interact with it."
-                            }
-                        </Text>
-                    </li>
-                    <li>
-                        <Text style="margin-right: 3px;">
-                            {"The "}
-                        <code>{"values"}</code>
-                           {" property does not contain the value property:"}
-                        </Text>
-                        <Text>
-                            {"If the "}
-                        <code>{"selected"}</code>
-                            {" property of the slider is not in the"}
-                        <code>{"values"}</code>
-                            {
-                                ", the handle will not be displayed until the user clicks \
-                                on the slider."
-                            }
-                        </Text>
-                    </li>
-                    <li>
-                        <Text>
-                            {"The "}
-                        <code>{"values"}</code>
-                            {" property contains only one value:"}
-                        </Text>
-                        <Text>
-                            {"If the "}
+                <div class=classes!("bp3-running-text")>
+                    <ul>
+                        <li>
+                            <p>
+                                {"The "}
                             <code>{"values"}</code>
-                            {
-                                " property contains only one value, the handle \
-                                and the label will be display at the center of the slider \
-                                and the user won't be able to interact with it."
-                            }
-                        </Text>
-                    </li>
-                </ul>
+                                {" property is empty:"}
+                            </p>
+                            <p>
+                                {"If the component is provided an empty "}
+                            <code>{"Vec"}</code>
+                                {
+                                    " the slider will have no handle \
+                                    and the user won't be able to interact with it."
+                                }
+                            </p>
+                        </li>
+                        <li>
+                            <p style="margin-right: 3px;">
+                                {"The "}
+                            <code>{"values"}</code>
+                            {" property does not contain the value property:"}
+                            </p>
+                            <p>
+                                {"If the "}
+                            <code>{"selected"}</code>
+                                {" property of the slider is not in the"}
+                            <code>{"values"}</code>
+                                {
+                                    ", the handle will not be displayed until the user clicks \
+                                    on the slider."
+                                }
+                            </p>
+                        </li>
+                        <li>
+                            <p>
+                                {"The "}
+                            <code>{"values"}</code>
+                                {" property contains only one value:"}
+                            </p>
+                            <p>
+                                {"If the "}
+                                <code>{"values"}</code>
+                                {
+                                    " property contains only one value, the handle \
+                                    and the label will be display at the center of the slider \
+                                    and the user won't be able to interact with it."
+                                }
+                            </p>
+                        </li>
+                    </ul>
+                </div>
             </div>
         }
     }
