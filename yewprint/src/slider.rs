@@ -189,24 +189,26 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
             .iter()
             .position(|(value, _)| *value == self.props.value);
         let labels = if self.props.options.len() > 1 {
-            self
-            .props
-            .options
-            .iter()
-            .enumerate()
-            .filter_map(|(i, (_, label))| {
-                label.clone().map(|x| {
-                    html! {
-                        <div
-                            class=classes!("bp3-slider-label")
-                            style=format!("left: {}%;", (i as f64) * 100.0 / ((self.props.options.len() as f64) - 1.0))
-                        >
-                            {x}
-                        </div>
-                    }
+            self.props
+                .options
+                .iter()
+                .enumerate()
+                .filter_map(|(i, (_, label))| {
+                    label.clone().map(|x| {
+                        html! {
+                            <div
+                                class=classes!("bp3-slider-label")
+                                style=format!(
+                                    "left: {}%;", (i as f64) * 100.0
+                                        / ((self.props.options.len() as f64) - 1.0)
+                                )
+                            >
+                                {x}
+                            </div>
+                        }
+                    })
                 })
-            })
-            .collect::<Html>()
+                .collect::<Html>()
         } else if let Some((_, Some(label))) = self.props.options.first() {
             html! {
                 <div
