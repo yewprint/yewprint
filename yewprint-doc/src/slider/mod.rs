@@ -76,7 +76,9 @@ impl Component for SliderDoc {
                             <p style="margin-right: 3px;">
                                 {"The "}
                             <code>{"values"}</code>
-                            {" property does not contain the value property:"}
+                            {" property does not contain the "}
+                            <code>{"selected"}</code>
+                            {" property:"}
                             </p>
                             <p>
                                 {"If the "}
