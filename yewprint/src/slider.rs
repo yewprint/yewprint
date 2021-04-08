@@ -96,7 +96,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
 
                 let position = (pixel_delta as f64 / tick_size).round() as usize;
 
-                if let Some((value, _)) = self.props.options.get(position) {
+                if let Some((value, _)) = self.props.options.get(position) && value != self.props.value {
                     if *value != self.props.value {
                         self.props.onchange.emit(value.clone());
                     }
