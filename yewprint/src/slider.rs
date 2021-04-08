@@ -23,10 +23,9 @@ pub struct SliderProps<T: Clone + PartialEq + 'static> {
     #[prop_or_default]
     pub intent: Option<Intent>,
     #[prop_or_default]
+    pub value_label: Option<String>,
     pub onchange: Callback<T>,
     pub options: Vec<(T, Option<String>)>,
-    #[prop_or_default]
-    pub value_label: Option<String>,
     pub value: T,
 }
 
@@ -96,13 +95,16 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
 
                 let position = (pixel_delta as f64 / tick_size).round() as usize;
 
-                if let Some((value, _)) = self.props.options.get(position) && value != self.props.value {
-                    if *value != self.props.value {
-                        self.props.onchange.emit(value.clone());
-                    }
-                } else if let Some((value, _)) = self.props.options.last() {
-                    self.props.value = value.clone();
+                let (value, _) = self
+                    .props
+                    .options
+                    .get(position)
+                    .unwrap_or_else(|| self.props.options.last().expect("No value in the vec"));
+
+                if *value != self.props.value {
+                    self.props.onchange.emit(value.clone());
                 }
+
                 true
             }
             Msg::Mouse(_) => false,
@@ -181,7 +183,8 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
             .options
             .iter()
             .position(|(value, _)| *value == self.props.value);
-        let labels = self
+        let labels = if self.props.options.len() > 1 {
+            self
             .props
             .options
             .iter()
@@ -191,14 +194,26 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     html! {
                         <div
                             class=classes!("bp3-slider-label")
-                            style=format!("left: {}%;", i * 100 / (self.props.options.len() - 1))
+                            style=format!("left: {}%;", (i as f64) * 100.0 / ((self.props.options.len() as f64) - 1.0))
                         >
                             {x}
                         </div>
                     }
                 })
             })
-            .collect::<Html>();
+            .collect::<Html>()
+        } else if let Some((_, Some(label))) = self.props.options.first() {
+            html! {
+                <div
+                    class=classes!("bp3-slider-label")
+                    style="left: 50%;"
+                >
+                    {label}
+                </div>
+            }
+        } else {
+            html!()
+        };
         let value_label = self.props.value_label.clone().map(|x| {
             html! {
                 <span class=classes!("bp3-slider-label")>
@@ -227,22 +242,23 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     >
                     </div>
                     {
-                        if let Some(value) = value_index {
-                            html! {
-                                <div
-                                    class=classes!("bp3-slider-progress", self.props.intent)
-                                    style=format!(
-                                        "left: 0%; right: {}%; top: 0px;",
-                                        100.0 - (
-                                            100.0 * (value as f64)
-                                            / (self.props.options.len() as f64 - 1.0)
+                        match value_index {
+                            Some(index) if self.props.options.len() > 1 => {
+                                html! {
+                                    <div
+                                        class=classes!("bp3-slider-progress", self.props.intent)
+                                        style=format!(
+                                            "left: 0%; right: {}%; top: 0px;",
+                                            100.0 - (
+                                                100.0 * (index as f64)
+                                                / (self.props.options.len() as f64 - 1.0)
+                                            )
                                         )
-                                    )
-                                >
-                                </div>
+                                    >
+                                    </div>
+                                }
                             }
-                        } else {
-                            html!()
+                            _ => html!(),
                         }
                     }
                 </div>
@@ -250,28 +266,44 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     {labels}
                 </div>
                 {
-                    if let Some(value) = value_index {
-                        html! {
-                            <span
-                                class=classes!(
-                                    "bp3-slider-handle",
-                                    self.is_moving.then(|| "bp3-active"),
-                                )
-                                ref={self.handle_ref.clone()}
-                                style=format!(
-                                    "left: calc({}% - 8px);",
-                                    100.0 * (value as f64)
-                                    / (self.props.options.len() as f64 - 1.0),
-                                )
-                                onmousedown=self.link.callback(|_| Msg::StartChange)
-                                onkeydown=self.link.callback(|event| Msg::Keyboard(event))
-                                tabindex=0
-                            >
-                                {value_label.clone().unwrap_or_default()}
-                            </span>
+                    match value_index {
+                        Some(index) if self.props.options.len() > 1 =>
+                            {
+                            html! {
+                                <span
+                                    class=classes!(
+                                        "bp3-slider-handle",
+                                        self.is_moving.then(|| "bp3-active"),
+                                    )
+                                    ref={self.handle_ref.clone()}
+                                    style=format!(
+                                        "left: calc({}% - 8px);",
+                                        100.0 * (index as f64)
+                                            / (self.props.options.len() as f64 - 1.0),
+                                    )
+                                    onmousedown=self.link.callback(|_| Msg::StartChange)
+                                    onkeydown=self.link.callback(|event| Msg::Keyboard(event))
+                                    tabindex=0
+                                >
+                                    {value_label.clone().unwrap_or_default()}
+                                </span>
+                            }
                         }
-                    } else {
-                        html!()
+                        Some(_) => {
+                            html! {
+                                <span
+                                    class=classes!(
+                                        "bp3-slider-handle",
+                                        self.is_moving.then(|| "bp3-active"),
+                                    )
+                                    ref={self.handle_ref.clone()}
+                                    style="left: calc(50% - 8px);"
+                                >
+                                    {value_label.clone().unwrap_or_default()}
+                                </span>
+                            }
+                        }
+                        None => html!(),
                     }
                 }
             </div>

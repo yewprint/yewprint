@@ -3,7 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::{HtmlSelect, Intent, Switch, H1, H5};
+use yewprint::{HtmlSelect, Intent, Switch, H1, H2, H5};
 
 pub struct SliderDoc {
     callback: Callback<ExampleProps>,
@@ -54,6 +54,12 @@ impl Component for SliderDoc {
                 >
                     <Example with example_props />
                 </ExampleContainer>
+                <H2>{"Edge Cases"}</H2>
+                <ul>
+                    <li>{"Case one"}</li>
+                    <li>{"Case two"}</li>
+                    <li>{"Case three"}</li>
+                </ul>
             </div>
         }
     }
