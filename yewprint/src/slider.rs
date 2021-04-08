@@ -12,6 +12,7 @@ pub struct Slider<T: Clone + PartialEq + 'static> {
     handle_ref: NodeRef,
     track_ref: NodeRef,
     is_moving: bool,
+    focus_handle: bool,
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -61,6 +62,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
             handle_ref: NodeRef::default(),
             track_ref: NodeRef::default(),
             is_moving: false,
+            focus_handle: false,
         }
     }
 
@@ -126,38 +128,40 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     .expect("No event listener to remove");
                 true
             }
-            Msg::Keyboard(event) => match event.key().as_str() {
+            Msg::Keyboard(event) if self.props.options.len() > 1 => match event.key().as_str() {
                 "ArrowDown" | "ArrowLeft" => {
+                    self.focus_handle = true;
                     event.prevent_default();
                     let index = self
                         .props
                         .options
                         .iter()
                         .position(|(value, _)| *value == self.props.value)
-                        .expect("Not in self.props.options");
-                    let index = index.saturating_sub(1);
+                        .map(|i| i.saturating_sub(1))
+                        .unwrap_or(0);
                     let (value, _) = self.props.options[index].clone();
                     self.props.onchange.emit(value);
                     true
                 }
                 "ArrowUp" | "ArrowRight" => {
+                    self.focus_handle = true;
                     event.prevent_default();
                     let index = self
                         .props
                         .options
                         .iter()
                         .position(|(value, _)| *value == self.props.value)
-                        .expect("Not in self.props.options");
-                    let index = index.saturating_add(1);
+                        .map(|i| i.saturating_add(1))
+                        .unwrap_or(0);
                     let (value, _) = self
                         .props
                         .options
                         .get(index)
                         .unwrap_or_else(|| {
-                            self.props
-                                .options
-                                .last()
-                                .expect("No values in self.props.options")
+                            self.props.options.last().expect(
+                                "Already check, \
+                                    there are at least 2 values in self.props.options; qed",
+                            )
                         })
                         .clone();
                     self.props.onchange.emit(value);
@@ -165,6 +169,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                 }
                 _ => false,
             },
+            Msg::Keyboard(_) => false,
         }
     }
 
@@ -236,11 +241,27 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     class=classes!("bp3-slider-track")
                     ref={self.track_ref.clone()}
                 >
-                    <div
-                        class=classes!("bp3-slider-progress")
-                        style="top: 0px;"
-                    >
-                    </div>
+                    {
+                        if value_index.is_none() && !self.props.options.is_empty() {
+                            html! {
+                                <div
+                                    class=classes!("bp3-slider-progress")
+                                    style="top: 0px;"
+                                    onkeydown=self.link.callback(|event| Msg::Keyboard(event))
+                                    tabindex=0
+                                >
+                                </div>
+                            }
+                        } else {
+                            html! {
+                                <div
+                                    class=classes!("bp3-slider-progress")
+                                    style="top: 0px;"
+                                >
+                                </div>
+                            }
+                        }
+                    }
                     {
                         match value_index {
                             Some(index) if self.props.options.len() > 1 => {
@@ -258,7 +279,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                                     </div>
                                 }
                             }
-                            _ => html!(),
+                            _ => html! {},
                         }
                     }
                 </div>
@@ -307,6 +328,15 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     }
                 }
             </div>
+        }
+    }
+
+    fn rendered(&mut self, _: bool) {
+        if self.focus_handle {
+            if let Some(element) = self.handle_ref.cast::<web_sys::HtmlElement>() {
+                let _ = element.focus();
+            }
+            self.focus_handle = false;
         }
     }
 }
