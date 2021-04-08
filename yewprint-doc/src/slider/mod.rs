@@ -57,83 +57,52 @@ impl Component for SliderDoc {
                 <H2>{"Edge Cases"}</H2>
                 <ul>
                     <li>
-                        <div style="display: flex;">
-                            <Text style="margin-right: 3px;">
-                                {"The"}
-                            </Text>
-                            <code>{"options"}</code>
-                            <Text style="margin-left: 3px;">
-                                {"property is empty:"}
-                            </Text>
-                        </div>
-                        <div style="display: flex; flex-wrap: wrap;">
-                            <Text style="margin-right: 3px;">
-                                {"If the component is provided an empty"}
-                            </Text>
-                            <code>{"Vec"}</code>
-                            <Text style="margin-left: 3px;">
-                                {"the slider will have no handle"}
-                            </Text>
-                            <Text style="margin-left: 3px;">
-                                {"and the user won't be able to interact with it."}
-                            </Text>
-                        </div>
+                        <Text>
+                            {"The "}
+                        <code>{"values"}</code>
+                            {" property is empty:"}
+                        </Text>
+                        <Text>
+                            {"If the component is provided an empty "}
+                        <code>{"Vec"}</code>
+                            {
+                                " the slider will have no handle \
+                                and the user won't be able to interact with it."
+                            }
+                        </Text>
                     </li>
                     <li>
-                        <div style="display: flex;">
-                            <Text style="margin-right: 3px;">
-                                {"The"}
-                            </Text>
-                            <code>{"options"}</code>
-                            <Text style="margin-left: 3px;">
-                                {"property does not contain the value property"}
-                            </Text>
-                        </div>
-                        <div style="display: flex;">
-                            <Text style="margin-right: 3px;">
-                                {"If the"}
-                            </Text>
-                            <code>{"value"}</code>
-                            <Text style="margin-left: 3px; margin-right: 3px;">
-                                {"of the slider is not in the"}
-                            </Text>
-                            <code>{"options"}</code>
-                            <Text>
-                                {
-                                    ", the handle will not be displayed until the user clicks \
-                                    on the slider."
-                                }
-                            </Text>
-                        </div>
+                        <Text style="margin-right: 3px;">
+                            {"The "}
+                        <code>{"values"}</code>
+                           {" property does not contain the value property:"}
+                        </Text>
+                        <Text>
+                            {"If the "}
+                        <code>{"selected"}</code>
+                            {" property of the slider is not in the"}
+                        <code>{"values"}</code>
+                            {
+                                ", the handle will not be displayed until the user clicks \
+                                on the slider."
+                            }
+                        </Text>
                     </li>
                     <li>
-                        <div style="display: flex;">
-                            <Text style="margin-right: 3px;">
-                                {"The"}
-                            </Text>
-                            <code>{"options"}</code>
-                            <Text style="margin-left: 3px;">
-                                {"property contains only one value:"}
-                            </Text>
-                        </div>
-                        <div style="display: flex; flex-wrap: wrap;">
-                            <Text style="margin-right: 3px;">
-                                {"If the"}
-                            </Text>
-                            <code>{"options"}</code>
-                            <Text style="margin-left: 3px;">
-                                {"property contains only one value"}
-                            </Text>
-                            <Text style="margin-left: 3px;">
-                                {
-                                    "the handle and the label will be display \
-                                    at the center of the slider"
-                                }
-                            </Text>
-                            <Text>
-                                {"and the user won't be able to interact with it."}
-                            </Text>
-                        </div>
+                        <Text>
+                            {"The "}
+                        <code>{"values"}</code>
+                            {" property contains only one value:"}
+                        </Text>
+                        <Text>
+                            {"If the "}
+                            <code>{"values"}</code>
+                            {
+                                " property contains only one value, the handle \
+                                and the label will be display at the center of the slider \
+                                and the user won't be able to interact with it."
+                            }
+                        </Text>
                     </li>
                 </ul>
             </div>
