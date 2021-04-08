@@ -26,8 +26,8 @@ pub struct SliderProps<T: Clone + PartialEq + 'static> {
     #[prop_or_default]
     pub value_label: Option<String>,
     pub onchange: Callback<T>,
-    pub options: Vec<(T, Option<String>)>,
-    pub value: T,
+    pub values: Vec<(T, Option<String>)>,
+    pub selected: T,
 }
 
 pub enum Msg {
@@ -68,7 +68,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
-            Msg::StartChange if self.props.options.len() > 1 => {
+            Msg::StartChange if self.props.values.len() > 1 => {
                 let document = yew::utils::document();
                 let event_target: &web_sys::EventTarget = document.as_ref();
                 self.is_moving = true;
@@ -88,10 +88,10 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                 true
             }
             Msg::StartChange => false,
-            Msg::Mouse(event) if self.props.options.len() > 1 => {
+            Msg::Mouse(event) if self.props.values.len() > 1 => {
                 let track_rect = self.track_ref.cast::<Element>().expect("no track ref");
                 let tick_size = (track_rect.client_width() as f64)
-                    / self.props.options.len().saturating_sub(1) as f64;
+                    / self.props.values.len().saturating_sub(1) as f64;
                 let pixel_delta = (event.client_x() as u32)
                     .saturating_sub(track_rect.get_bounding_client_rect().left() as u32);
 
@@ -99,11 +99,11 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
 
                 let (value, _) = self
                     .props
-                    .options
+                    .values
                     .get(position)
-                    .unwrap_or_else(|| self.props.options.last().expect("No value in the vec"));
+                    .unwrap_or_else(|| self.props.values.last().expect("No value in the vec"));
 
-                if *value != self.props.value {
+                if *value != self.props.selected {
                     self.props.onchange.emit(value.clone());
                 }
 
@@ -128,18 +128,18 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     .expect("No event listener to remove");
                 true
             }
-            Msg::Keyboard(event) if self.props.options.len() > 1 => match event.key().as_str() {
+            Msg::Keyboard(event) if self.props.values.len() > 1 => match event.key().as_str() {
                 "ArrowDown" | "ArrowLeft" => {
                     self.focus_handle = true;
                     event.prevent_default();
                     let index = self
                         .props
-                        .options
+                        .values
                         .iter()
-                        .position(|(value, _)| *value == self.props.value)
+                        .position(|(value, _)| *value == self.props.selected)
                         .map(|i| i.saturating_sub(1))
                         .unwrap_or(0);
-                    let (value, _) = self.props.options[index].clone();
+                    let (value, _) = self.props.values[index].clone();
                     self.props.onchange.emit(value);
                     true
                 }
@@ -148,17 +148,17 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     event.prevent_default();
                     let index = self
                         .props
-                        .options
+                        .values
                         .iter()
-                        .position(|(value, _)| *value == self.props.value)
+                        .position(|(value, _)| *value == self.props.selected)
                         .map(|i| i.saturating_add(1))
                         .unwrap_or(0);
                     let (value, _) = self
                         .props
-                        .options
+                        .values
                         .get(index)
                         .unwrap_or_else(|| {
-                            self.props.options.last().expect(
+                            self.props.values.last().expect(
                                 "Already check, \
                                     there are at least 2 values in self.props.options; qed",
                             )
@@ -185,12 +185,12 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
     fn view(&self) -> Html {
         let value_index = self
             .props
-            .options
+            .values
             .iter()
-            .position(|(value, _)| *value == self.props.value);
-        let labels = if self.props.options.len() > 1 {
+            .position(|(value, _)| *value == self.props.selected);
+        let labels = if self.props.values.len() > 1 {
             self.props
-                .options
+                .values
                 .iter()
                 .enumerate()
                 .filter_map(|(i, (_, label))| {
@@ -200,7 +200,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                                 class=classes!("bp3-slider-label")
                                 style=format!(
                                     "left: {}%;", (i as f64) * 100.0
-                                        / ((self.props.options.len() as f64) - 1.0)
+                                        / ((self.props.values.len() as f64) - 1.0)
                                 )
                             >
                                 {x}
@@ -209,7 +209,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     })
                 })
                 .collect::<Html>()
-        } else if let Some((_, Some(label))) = self.props.options.first() {
+        } else if let Some((_, Some(label))) = self.props.values.first() {
             html! {
                 <div
                     class=classes!("bp3-slider-label")
@@ -235,7 +235,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     "bp3-slider",
                     self.props.vertical.then(|| "bp3-vertical"),
                 )
-                onclick?=(self.props.options.len() > 1).then(|| self.link.callback(
+                onclick?=(self.props.values.len() > 1).then(|| self.link.callback(
                     |event| Msg::Mouse(event)
                 ))
             >
@@ -244,7 +244,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     ref={self.track_ref.clone()}
                 >
                     {
-                        if value_index.is_none() && !self.props.options.is_empty() {
+                        if value_index.is_none() && !self.props.values.is_empty() {
                             html! {
                                 <div
                                     class=classes!("bp3-slider-progress")
@@ -266,7 +266,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     }
                     {
                         match value_index {
-                            Some(index) if self.props.options.len() > 1 => {
+                            Some(index) if self.props.values.len() > 1 => {
                                 html! {
                                     <div
                                         class=classes!("bp3-slider-progress", self.props.intent)
@@ -274,7 +274,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                                             "left: 0%; right: {}%; top: 0px;",
                                             100.0 - (
                                                 100.0 * (index as f64)
-                                                / (self.props.options.len() as f64 - 1.0)
+                                                / (self.props.values.len() as f64 - 1.0)
                                             )
                                         )
                                     >
@@ -290,7 +290,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                 </div>
                 {
                     match value_index {
-                        Some(index) if self.props.options.len() > 1 =>
+                        Some(index) if self.props.values.len() > 1 =>
                             {
                             html! {
                                 <span
@@ -302,7 +302,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                                     style=format!(
                                         "left: calc({}% - 8px);",
                                         100.0 * (index as f64)
-                                            / (self.props.options.len() as f64 - 1.0),
+                                            / (self.props.values.len() as f64 - 1.0),
                                     )
                                     onmousedown=self.link.callback(|_| Msg::StartChange)
                                     onkeydown=self.link.callback(|event| Msg::Keyboard(event))

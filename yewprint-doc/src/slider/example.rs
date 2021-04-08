@@ -73,8 +73,8 @@ impl Component for Example {
                     style="display: flex; align-items: flex-start; width: 100%"
                 >
                     <Slider<f64>
-                        value=self.float
-                        options=vec![
+                        selected=self.float
+                        values=vec![
                             (0.0, Some(String::from("0"))),
                             (0.1, None),
                             (0.2, None),
@@ -99,14 +99,14 @@ impl Component for Example {
                     </Tag>
                 </div>
                 <Slider<i32>
-                    options=percentage_labels
-                    value=self.integer
+                    values=percentage_labels
+                    selected=self.integer
                     intent=self.props.intent
                     value_label=format!("{}%", self.integer)
                     onchange=self.link.callback(|x| Msg::IntegerUpdate(x))
                 />
                 <Slider<LogLevel>
-                    options=vec![
+                    values=vec![
                         (LogLevel::Off, Some("OFF".to_string())),
                         (LogLevel::Error, Some("ERROR".to_string())),
                         (LogLevel::Warn, Some("WARN".to_string())),
@@ -115,13 +115,13 @@ impl Component for Example {
                         (LogLevel::Trace, Some("TRACE".to_string())),
                     ]
                     intent=self.props.intent
-                    value=self.log_level.clone()
+                    selected=self.log_level.clone()
                     onchange=self.link.callback(|x| Msg::LogLevelUpdate(x))
                 />
                 <Slider<()>
-                    options=vec![((), Some("Neo".to_string()))]
+                    values=vec![((), Some("Neo".to_string()))]
                     intent=self.props.intent
-                    value=()
+                    selected=()
                     onchange=self.link.callback(|_| Msg::Noop)
                 />
             </>
