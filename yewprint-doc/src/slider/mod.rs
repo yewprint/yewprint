@@ -3,7 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::{HtmlSelect, Intent, Switch, H1, H2, H5};
+use yewprint::{HtmlSelect, Intent, Switch, Text, H1, H2, H5};
 
 pub struct SliderDoc {
     callback: Callback<ExampleProps>,
@@ -56,9 +56,85 @@ impl Component for SliderDoc {
                 </ExampleContainer>
                 <H2>{"Edge Cases"}</H2>
                 <ul>
-                    <li>{"Case one"}</li>
-                    <li>{"Case two"}</li>
-                    <li>{"Case three"}</li>
+                    <li>
+                        <div style="display: flex;">
+                            <Text style="margin-right: 3px;">
+                                {"The"}
+                            </Text>
+                            <code>{"options"}</code>
+                            <Text style="margin-left: 3px;">
+                                {"property is empty:"}
+                            </Text>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap;">
+                            <Text style="margin-right: 3px;">
+                                {"If the component is provided an empty"}
+                            </Text>
+                            <code>{"Vec"}</code>
+                            <Text style="margin-left: 3px;">
+                                {"the slider will have no handle"}
+                            </Text>
+                            <Text style="margin-left: 3px;">
+                                {"and the user won't be able to interact with it."}
+                            </Text>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="display: flex;">
+                            <Text style="margin-right: 3px;">
+                                {"The"}
+                            </Text>
+                            <code>{"options"}</code>
+                            <Text style="margin-left: 3px;">
+                                {"property does not contain the value property"}
+                            </Text>
+                        </div>
+                        <div style="display: flex;">
+                            <Text style="margin-right: 3px;">
+                                {"If the"}
+                            </Text>
+                            <code>{"value"}</code>
+                            <Text style="margin-left: 3px; margin-right: 3px;">
+                                {"of the slider is not in the"}
+                            </Text>
+                            <code>{"options"}</code>
+                            <Text>
+                                {
+                                    ", the handle will not be displayed until the user clicks \
+                                    on the slider."
+                                }
+                            </Text>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="display: flex;">
+                            <Text style="margin-right: 3px;">
+                                {"The"}
+                            </Text>
+                            <code>{"options"}</code>
+                            <Text style="margin-left: 3px;">
+                                {"property contains only one value:"}
+                            </Text>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap;">
+                            <Text style="margin-right: 3px;">
+                                {"If the"}
+                            </Text>
+                            <code>{"options"}</code>
+                            <Text style="margin-left: 3px;">
+                                {"property contains only one value"}
+                            </Text>
+                            <Text style="margin-left: 3px;">
+                                {
+                                    "the handle and the label will be display \
+                                    at the center of the slider"
+                                }
+                            </Text>
+                            <Text>
+                                {"and the user won't be able to interact with it."}
+                            </Text>
+                        </div>
+                    </li>
                 </ul>
             </div>
         }
