@@ -67,7 +67,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
-            Msg::StartChange => {
+            Msg::StartChange if self.props.options.len() > 1 => {
                 let document = yew::utils::document();
                 let event_target: &web_sys::EventTarget = document.as_ref();
                 self.is_moving = true;
@@ -83,8 +83,11 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                         self.mouse_up.as_ref().unchecked_ref(),
                     )
                     .expect("No event listener to add");
+
+                true
             }
-            Msg::Mouse(event) => {
+            Msg::StartChange => false,
+            Msg::Mouse(event) if self.props.options.len() > 1 => {
                 let track_rect = self.track_ref.cast::<Element>().expect("no track ref");
                 let tick_size = (track_rect.client_width() as f64)
                     / self.props.options.len().saturating_sub(1) as f64;
@@ -97,8 +100,12 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     if *value != self.props.value {
                         self.props.onchange.emit(value.clone());
                     }
+                } else if let Some((value, _)) = self.props.options.last() {
+                    self.props.value = value.clone();
                 }
+                true
             }
+            Msg::Mouse(_) => false,
             Msg::StopChange => {
                 let document = yew::utils::document();
                 let event_target: &web_sys::EventTarget = document.as_ref();
@@ -115,6 +122,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                         self.mouse_up.as_ref().unchecked_ref(),
                     )
                     .expect("No event listener to remove");
+                true
             }
             Msg::Keyboard(event) => match event.key().as_str() {
                 "ArrowDown" | "ArrowLeft" => {
@@ -128,6 +136,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     let index = index.saturating_sub(1);
                     let (value, _) = self.props.options[index].clone();
                     self.props.onchange.emit(value);
+                    true
                 }
                 "ArrowUp" | "ArrowRight" => {
                     event.prevent_default();
@@ -150,11 +159,11 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                         })
                         .clone();
                     self.props.onchange.emit(value);
+                    true
                 }
-                _ => (),
+                _ => false,
             },
         }
-        true
     }
 
     fn change(&mut self, props: Self::Properties) -> ShouldRender {
@@ -204,9 +213,9 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     "bp3-slider",
                     self.props.vertical.then(|| "bp3-vertical"),
                 )
-                onclick=self.link.callback(
+                onclick?=(self.props.options.len() > 1).then(|| self.link.callback(
                     |event| Msg::Mouse(event)
-                )
+                ))
             >
                 <div
                     class=classes!("bp3-slider-track")
