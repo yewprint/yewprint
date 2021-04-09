@@ -1,3 +1,5 @@
+#![allow(clippy::redundant_closure, clippy::needless_update)]
+
 mod button_group;
 mod buttons;
 mod callout;
@@ -11,6 +13,7 @@ mod icon;
 mod input_group;
 mod menu;
 mod progressbar;
+mod slider;
 mod spinner;
 mod switch;
 mod tabs;
@@ -34,6 +37,7 @@ pub use id_tree;
 pub use input_group::*;
 pub use menu::*;
 pub use progressbar::*;
+pub use slider::*;
 pub use spinner::*;
 pub use switch::*;
 pub use tabs::*;

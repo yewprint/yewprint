@@ -10,6 +10,7 @@ use crate::icon::*;
 use crate::input_group::*;
 use crate::menu::*;
 use crate::progressbar::*;
+use crate::slider::*;
 use crate::spinner::*;
 use crate::switch::*;
 use crate::tabs::*;
@@ -185,6 +186,11 @@ impl Component for App {
                                         .callback(|_| Msg::GoToMenu(DocMenu::ProgressBar))
                                 />
                                 <MenuItem
+                                    text={html!("Slider")}
+                                    href="#slider"
+                                    onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Slider))
+                                />
+                                <MenuItem
                                     text={html!("Spinner")}
                                     href="#spinner"
                                     onclick=self.link
@@ -250,6 +256,7 @@ impl Component for App {
                                         DocMenu::InputGroup => html!(<InputGroupDoc />),
                                         DocMenu::Menu => html!(<MenuDoc />),
                                         DocMenu::ProgressBar => html!(<ProgressBarDoc />),
+                                        DocMenu::Slider => html!(<SliderDoc />),
                                         DocMenu::Spinner => html!(<SpinnerDoc />),
                                         DocMenu::Switch => html!(<SwitchDoc />),
                                         DocMenu::Tabs => html!(<TabsDoc />),
@@ -293,6 +300,8 @@ pub enum DocMenu {
     Menu,
     #[to = "/#progress-bar"]
     ProgressBar,
+    #[to = "/#slider"]
+    Slider,
     #[to = "/#spinner"]
     Spinner,
     #[to = "/#switch"]
