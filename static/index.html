@@ -1,20 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
 	<meta charset="utf-8" />
-	<meta name="description" content="A port of Blueprint (a React-based UI toolkit for the web) to Yew (a Rust / Wasm client web app framework)" />
-	<meta property="og:description" content="A port of Blueprint (a React-based UI toolkit for the web) to Yew (a Rust / Wasm client web app framework)" />
+	<meta name="description"
+		content="A port of Blueprint (a React-based UI toolkit for the web) to Yew (a Rust / Wasm client web app framework)" />
+	<meta property="og:description"
+		content="A port of Blueprint (a React-based UI toolkit for the web) to Yew (a Rust / Wasm client web app framework)" />
 	<meta property="og:title" content="A UI toolkit based on Yew" />
 	<meta property="og:site_name" content="Yewprint" />
 	<meta property="og:image" content="/logo_512.png" />
 	<title>Yewprint</title>
-    <script type="module">
-      import init from "/wasm.js";
-      init();
-    </script>
-    <link rel="icon" href="/favicon.svg">
-    <link rel="stylesheet" href="/blueprint.css">
-    <link rel="stylesheet" href="/docs-theme.css">
+	<script type="module">
+		import init from "/wasm.js";
+		init();
+	</script>
+	<link rel="icon" href="/favicon.svg">
+	<link rel="stylesheet" href="/blueprint.css">
+	<link rel="stylesheet" href="/docs-theme.css">
 	<style>
 		body {
 			margin: 0;
@@ -69,11 +72,11 @@
 			background-color: #293742;
 		}
 
-		.docs-source > .bp3-button {
+		.docs-source>.bp3-button {
 			background-color: #ebf1f5;
 		}
 
-		.bp3-dark .docs-source > .bp3-button {
+		.bp3-dark .docs-source>.bp3-button {
 			background-color: #394b59;
 		}
 
@@ -90,7 +93,13 @@
 		.bp3-dark .docs-source .bp3-code-block {
 			filter: inherit;
 		}
+
+		.bp3-slider-handle:focus {
+			outline: none !important;
+		}
 	</style>
-  </head>
-  <body></body>
+</head>
+
+<body></body>
+
 </html>

@@ -1,3 +1,5 @@
+#![allow(clippy::redundant_closure, clippy::needless_update)]
+
 mod app;
 mod button_group;
 mod buttons;
@@ -13,6 +15,7 @@ mod icon;
 mod input_group;
 mod menu;
 mod progressbar;
+mod slider;
 mod spinner;
 mod switch;
 mod tabs;
