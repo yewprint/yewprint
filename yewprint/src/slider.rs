@@ -235,9 +235,9 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     "bp3-slider",
                     self.props.vertical.then(|| "bp3-vertical"),
                 )
-                onclick?=(self.props.values.len() > 1).then(|| self.link.callback(
-                    |event| Msg::Mouse(event)
-                ))
+                onmousedown=self.link.batch_callback(
+                    |event: MouseEvent| vec![Msg::StartChange, Msg::Mouse(event)]
+                )
             >
                 <div
                     class=classes!("bp3-slider-track")
@@ -266,7 +266,8 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     }
                     {
                         match value_index {
-                            Some(index) if self.props.values.len() > 1 => {
+                            Some(index) if self.props.values.len() > 1
+                                && self.props.intent != None => {
                                 html! {
                                     <div
                                         class=classes!("bp3-slider-progress", self.props.intent)

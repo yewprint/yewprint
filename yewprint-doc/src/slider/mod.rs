@@ -64,8 +64,6 @@ impl Component for SliderDoc {
                                 {" property is empty:"}
                             </p>
                             <p>
-                                {"If the component is provided an empty "}
-                            <code>{"Vec"}</code>
                                 {
                                     " the slider will have no handle \
                                     and the user won't be able to interact with it."
@@ -81,12 +79,8 @@ impl Component for SliderDoc {
                             {" property:"}
                             </p>
                             <p>
-                                {"If the "}
-                            <code>{"selected"}</code>
-                                {" property of the slider is not in the"}
-                            <code>{"values"}</code>
                                 {
-                                    ", the handle will not be displayed until the user clicks \
+                                    "the handle will not be displayed until the user clicks \
                                     on the slider."
                                 }
                             </p>
@@ -98,12 +92,9 @@ impl Component for SliderDoc {
                                 {" property contains only one value:"}
                             </p>
                             <p>
-                                {"If the "}
-                                <code>{"values"}</code>
                                 {
-                                    " property contains only one value, the handle \
-                                    and the label will be display at the center of the slider \
-                                    and the user won't be able to interact with it."
+                                    "the handle and the label will be display at the center \
+                                    of the slider and the user won't be able to interact with it."
                                 }
                             </p>
                         </li>
