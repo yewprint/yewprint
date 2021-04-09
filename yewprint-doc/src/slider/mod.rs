@@ -59,41 +59,41 @@ impl Component for SliderDoc {
                     <ul>
                         <li>
                             <p>
-                                {"The "}
-                            <code>{"values"}</code>
-                                {" property is empty:"}
+                                <strong>{"The "}
+                                <code>{"values"}</code>
+                                {" property is empty:"}</strong>
                             </p>
                             <p>
                                 {
-                                    " the slider will have no handle \
-                                    and the user won't be able to interact with it."
-                                }
-                            </p>
-                        </li>
-                        <li>
-                            <p style="margin-right: 3px;">
-                                {"The "}
-                            <code>{"values"}</code>
-                            {" property does not contain the "}
-                            <code>{"selected"}</code>
-                            {" property:"}
-                            </p>
-                            <p>
-                                {
-                                    "the handle will not be displayed until the user clicks \
-                                    on the slider."
+                                    "The slider will have no handle and the user won't be able \
+                                    to interact with it."
                                 }
                             </p>
                         </li>
                         <li>
                             <p>
-                                {"The "}
-                            <code>{"values"}</code>
-                                {" property contains only one value:"}
+                                <strong>{"The "}
+                                <code>{"values"}</code>
+                                {" property does not contain the "}
+                                <code>{"selected"}</code>
+                                {" property:"}</strong>
                             </p>
                             <p>
                                 {
-                                    "the handle and the label will be display at the center \
+                                    "The handle will not be displayed until the \
+                                    user clicks on the slider."
+                                }
+                            </p>
+                        </li>
+                        <li>
+                            <p>
+                                <strong>{"The "}
+                                <code>{"values"}</code>
+                                {" property contains only one value:"}</strong>
+                            </p>
+                            <p>
+                                {
+                                    "The handle and the label will be display at the center \
                                     of the slider and the user won't be able to interact with it."
                                 }
                             </p>
