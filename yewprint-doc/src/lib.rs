@@ -51,6 +51,8 @@ macro_rules! include_raw_html {
 
 #[wasm_bindgen::prelude::wasm_bindgen(start)]
 pub fn run_app() -> Result<(), wasm_bindgen::JsValue> {
+    #[cfg(feature = "console_error_panic_hook")]
+    console_error_panic_hook::set_once();
     yew::start_app::<app::App>();
 
     Ok(())
