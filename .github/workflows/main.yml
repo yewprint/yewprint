@@ -22,12 +22,7 @@ jobs:
     if: ${{ github.event_name == 'push' }}
     steps:
     - uses: actions/checkout@v2
-    - run: cargo doc --verbose --all-features
-    - name: Deploy doc
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./target/doc
+    - run: cargo doc --verbose --all-features --no-deps
     - name: Build (Release)
       run: "cargo run -- build"
     - name: Move doc to build/api
