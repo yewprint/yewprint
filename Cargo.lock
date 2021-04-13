@@ -1988,7 +1988,13 @@ version = "0.1.0"
 dependencies = [
  "console_error_panic_hook",
  "structopt",
+ "syntect",
+ "wasm-bindgen",
  "wasm-run",
+ "web-sys",
+ "yew",
+ "yew-router",
+ "yewprint",
 ]
 
 [[package]]
