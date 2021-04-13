@@ -25,28 +25,17 @@ jobs:
     - run: cargo test --all-features --verbose
     - name: Build (Release)
       id: build
-      run: "./build.sh --release && echo ::set-output name=size::`cat public/wasm_bg.wasm | wc -c`"
+      run: "cargo run -- build && echo ::set-output name=size::`cat build/wasm_bg.wasm | wc -c`"
     - name: Deploy to Netlify
       uses: nwtgck/actions-netlify@v1.1
       with:
-        publish-dir: './public'
+        publish-dir: './build'
         github-token: ${{ secrets.GITHUB_TOKEN }}
         deploy-message: ${{ github.event.pull_request.title }}
       env:
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
       timeout-minutes: 1
-
-  build-windows:
-    runs-on: windows-latest
-    steps:
-      - name: Checkout source
-        uses: actions/checkout@v2
-      - name: cargo build (windows)
-        uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: --target wasm32-unknown-unknown
 
   checks:
     runs-on: ubuntu-latest
