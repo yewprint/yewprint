@@ -1992,7 +1992,6 @@ checksum = "56770675ebc04927ded3e60633437841581c285dc6236109ea25fbf3beb7b59e"
 name = "run"
 version = "0.1.0"
 dependencies = [
- "console_error_panic_hook",
  "structopt",
  "wasm-run",
 ]
@@ -3149,6 +3148,7 @@ dependencies = [
 name = "yewprint-doc"
 version = "0.1.0"
 dependencies = [
+ "console_error_panic_hook",
  "syntect",
  "wasm-bindgen",
  "web-sys",
