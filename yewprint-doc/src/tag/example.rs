@@ -1,4 +1,3 @@
-use boolinator::Boolinator;
 use yew::prelude::*;
 use yewprint::{IconName, Intent, Tag};
 
@@ -72,22 +71,22 @@ impl Component for Example {
             .map(|label| {
                 let remove = {
                     let label = label.clone();
-                    self.props.removable.as_some(
+                    self.props.removable.then(|| {
                         self.link
-                            .callback(move |_| ExampleMsg::Remove(label.clone())),
-                    )
+                            .callback(move |_| ExampleMsg::Remove(label.clone()))
+                    })
                 };
                 html! {
                     <Tag
                         active=self.props.active
                         fill=self.props.fill
-                        icon=self.props.icon.as_some(IconName::Print)
+                        icon=self.props.icon.then(|| IconName::Print)
                         intent=self.props.intent
                         interactive=self.props.interactive
                         large=self.props.large
                         minimal=self.props.minimal
                         multiline=self.props.multiline
-                        right_icon=self.props.right_icon.as_some(IconName::Star)
+                        right_icon=self.props.right_icon.then(|| IconName::Star)
                         round=self.props.round
                         onremove=remove
                         onclick=self.link.callback(|_| ExampleMsg::Click)
