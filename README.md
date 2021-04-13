@@ -24,9 +24,8 @@ yew = { git = "https://github.com/yewstack/yew.git", rev = "db3170f629f" }
 # yewtil = { git = "https://github.com/yewstack/yew.git", rev = "db3170f629f", features = ["pure"] }
 ```
 
-You will also need the CSS from blueprint. For that you can either include the
-CSS file directly or you can look at the script [build.sh](./build.sh) and see
-how it is downloaded automatically.
+You will also need the CSS from blueprint, for that you can include the
+CSS file directly
 
 ## Development
 
@@ -36,23 +35,14 @@ the source of `yewprint`.
 ### Prerequisites
 
  *  [Rust (stable)](https://rustup.rs/)
- *  [wasm-pack](https://github.com/rustwasm/wasm-pack)
- *  [simple-http-server](https://github.com/TheWaWaR/simple-http-server)
- *  [cargo-watch](https://github.com/passcod/cargo-watch)
-
-### Troubleshooting
-
- -  I can't install `cargo-watch` on OSX.
-
-    This happens on some machines. Try installing the
-    [pre-compiled binary](https://github.com/passcod/cargo-watch/releases)
-    instead.
 
 ### Run the development server
 
 ```
-./dev.sh
+cargo run -- serve
 ```
+
+You can now go to http://localhost:3000
 
 Roadmap
 -------
@@ -92,7 +82,7 @@ Roadmap
  -  [x] [ProgressBar](https://blueprintjs.com/docs/#core/components/progress-bar)
  -  [ ] [ResizeSensor](https://blueprintjs.com/docs/#core/components/resize-sensor)
  -  [ ] [Skeleton](https://blueprintjs.com/docs/#core/components/skeleton)
- -  [ ] [Spinner](https://blueprintjs.com/docs/#core/components/spinner)
+ -  [x] [Spinner](https://blueprintjs.com/docs/#core/components/spinner)
  -  [x] [Tabs](https://blueprintjs.com/docs/#core/components/tabs)
  -  [x] [Tag](https://blueprintjs.com/docs/#core/components/tag)
      -  depends on: Text
