@@ -18,7 +18,6 @@ use crate::tabs::*;
 use crate::tag::*;
 use crate::text::*;
 use crate::tree::*;
-use boolinator::Boolinator;
 use yew::prelude::*;
 use yew_router::{
     agent::{RouteAgentDispatcher, RouteRequest},
@@ -86,7 +85,7 @@ impl Component for App {
         };
 
         html! {
-            <div class=classes!("docs-root", self.dark_theme.as_some("bp3-dark"))>
+            <div class=classes!("docs-root", self.dark_theme.then(|| "bp3-dark"))>
                 <div class=classes!("docs-app")>
                     <div class=classes!("docs-nav-wrapper")>
                         <div class=classes!("docs-nav")>
