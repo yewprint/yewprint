@@ -19,7 +19,7 @@ impl Component for SpinnerDoc {
             callback: link.callback(|x| x),
             state: ExampleProps {
                 intent: None,
-                size: 10,
+                size: 50,
             },
         }
     }
@@ -84,9 +84,17 @@ crate::build_example_prop_component! {
                     />
                     <p>{"Select Size:"}</p>
                     <HtmlSelect<u32>
+                        value=self.props.size
                         options={vec![
+                            (10, "Very Small".to_string()),
                             (20, "Small".to_string()),
+                            (30, "Small +10".to_string()),
+                            (40, "Standard -10".to_string()),
                             (50, "Standard".to_string()),
+                            (60, "Standard +10".to_string()),
+                            (70, "Not really Standard".to_string()),
+                            (80, "Not really Large".to_string()),
+                            (90, "Large -10".to_string()),
                             (100, "Large".to_string()),
                         ]}
                         onchange=self.update_props(|props, size| ExampleProps {
