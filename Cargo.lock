@@ -808,7 +808,6 @@ dependencies = [
 name = "yewprint-doc"
 version = "0.1.0"
 dependencies = [
- "boolinator",
  "syntect",
  "wasm-bindgen",
  "web-sys",
