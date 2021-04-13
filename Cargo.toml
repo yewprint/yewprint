@@ -2,17 +2,8 @@
 name = "run"
 version = "0.1.0"
 edition = "2018"
-build = "yewprint-doc/build.rs"
-
-[lib]
-path = "yewprint-doc/src/lib.rs"
 
 [dependencies]
-wasm-bindgen = "^0.2"
-yew = { git = "https://github.com/yewstack/yew.git", rev = "db3170f629f" }
-web-sys = { version = "0.3", features = ["Window", "MediaQueryList"] }
-yewprint = { path = "yewprint" }
-yew-router = { git = "https://github.com/yewstack/yew.git", rev = "db3170f629f" }
 wasm-run = { version = "0.8.1" }
 structopt = "0.3"
 
@@ -21,9 +12,6 @@ structopt = "0.3"
 # all the `std::fmt` and `std::panicking` infrastructure, so isn't great for
 # code size when deploying.
 console_error_panic_hook = { version = "0.1.6", optional = true }
-
-[build-dependencies]
-syntect = "4.4.0"
 
 [workspace]
 members = ["yewprint", "yewprint-doc"]

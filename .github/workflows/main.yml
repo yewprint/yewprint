@@ -35,13 +35,13 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./target/doc
     - name: Build (Release)
-      run: "./build.sh --release"
-    - name: Move doc to public/api
-      run: mv ./target/doc ./public/api
+      run: "cargo run -- build"
+    - name: Move doc to build/api
+      run: mv ./target/doc ./build/api
     - name: Deploy to Netlify
       uses: nwtgck/actions-netlify@v1.1
       with:
-        publish-dir: './public'
+        publish-dir: './build'
         github-token: ${{ secrets.GITHUB_TOKEN }}
         deploy-message: ${{ github.event.head_commit.message }}
         production-deploy: true

@@ -1477,6 +1477,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0ee1c47aaa256ecabcaea351eae4a9b01ef39ed810004e298d2511ed284b1525"
 
 [[package]]
+name = "memory_units"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8452105ba047068f40ff7093dd1d9da90898e63dd61736462e9cdda6a90ad3c3"
+
+[[package]]
 name = "miniz_oxide"
 version = "0.3.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1988,13 +1994,7 @@ version = "0.1.0"
 dependencies = [
  "console_error_panic_hook",
  "structopt",
- "syntect",
- "wasm-bindgen",
  "wasm-run",
- "web-sys",
- "yew",
- "yew-router",
- "yewprint",
 ]
 
 [[package]]
@@ -2893,6 +2893,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "wee_alloc"
+version = "0.4.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "dbb3b5a6b2bb17cb6ad44a2e68a43e8d2722c997da10e928665c72ec6c0a0b8e"
+dependencies = [
+ "cfg-if 0.1.10",
+ "libc",
+ "memory_units",
+ "winapi 0.3.9",
+]
+
+[[package]]
 name = "wepoll-sys"
 version = "3.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3136,6 +3148,15 @@ dependencies = [
 [[package]]
 name = "yewprint-doc"
 version = "0.1.0"
+dependencies = [
+ "syntect",
+ "wasm-bindgen",
+ "web-sys",
+ "wee_alloc",
+ "yew",
+ "yew-router",
+ "yewprint",
+]
 
 [[package]]
 name = "yewtil"
