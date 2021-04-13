@@ -3,7 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::{HtmlSelect, Intent, H1, H5};
+use yewprint::{HtmlSelect, Intent, Slider, H1, H5};
 
 pub struct SpinnerDoc {
     callback: Callback<ExampleProps>,
@@ -82,20 +82,24 @@ crate::build_example_prop_component! {
                             ..props
                         })
                     />
-                    <p>{"Select Size:"}</p>
-                    <HtmlSelect<u32>
-                        value=self.props.size
-                        options={vec![
-                            (10, "Very Small".to_string()),
-                            (20, "Small".to_string()),
-                            (30, "Small +10".to_string()),
-                            (40, "Standard -10".to_string()),
-                            (50, "Standard".to_string()),
-                            (60, "Standard +10".to_string()),
-                            (70, "Not really Standard".to_string()),
-                            (80, "Not really Large".to_string()),
-                            (90, "Large -10".to_string()),
-                            (100, "Large".to_string()),
+                    <p
+                        style="margin-top: 5px;"
+                    >
+                        {"Select Size:"}
+                    </p>
+                    <Slider<u32>
+                        selected=self.props.size
+                        values={vec![
+                            (10, Some("10".to_string())),
+                            (20, None),
+                            (30, None),
+                            (40, None),
+                            (50, Some("50".to_string())),
+                            (60, None),
+                            (70, None),
+                            (80, None),
+                            (90, None),
+                            (100, Some("100".to_string())),
                         ]}
                         onchange=self.update_props(|props, size| ExampleProps {
                             size,
