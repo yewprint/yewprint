@@ -92,10 +92,10 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                 let track_rect = self.track_ref.cast::<Element>().expect("no track ref");
                 let tick_size = (track_rect.client_width() as f64)
                     / self.props.values.len().saturating_sub(1) as f64;
-                let pixel_delta = (event.client_x() as u32)
-                    .saturating_sub(track_rect.get_bounding_client_rect().left() as u32);
+                let pixel_delta =
+                    (event.client_x() as f64) - track_rect.get_bounding_client_rect().left();
 
-                let position = (pixel_delta as f64 / tick_size).round() as usize;
+                let position = (pixel_delta / tick_size).round() as usize;
 
                 let (value, _) = self
                     .props
