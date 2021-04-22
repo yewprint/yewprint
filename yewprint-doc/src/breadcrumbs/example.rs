@@ -38,12 +38,18 @@ impl Component for Example {
                 style=format!("width: {}%", self.props.width)>
                     <Breadcrumbs
                     >
-                    <BreadcrumbItem text="All files".to_string() icon=IconName::FolderClose/>
-                    <BreadcrumbItem text="Users".to_string() icon=IconName::FolderClose/>
-                    <BreadcrumbItem text="Janet".to_string() icon=IconName::FolderClose/>
-                    <BreadcrumbItem text="Photos".to_string() icon=IconName::FolderClose href="#".to_string()/>
-                    <BreadcrumbItem text="Wednesday".to_string() icon=IconName::FolderClose href="#".to_string()/>
-                    <BreadcrumbItem text="image.jpg".to_string() icon=IconName::Document current=true/>
+                    <BreadcrumbItem text="All files".to_string()
+                        icon=IconName::FolderClose/>
+                    <BreadcrumbItem text="Users".to_string()
+                        icon=IconName::FolderClose/>
+                    <BreadcrumbItem text="Janet".to_string()
+                        icon=IconName::FolderClose/>
+                    <BreadcrumbItem text="Photos".to_string()
+                        icon=IconName::FolderClose href="#".to_string()/>
+                    <BreadcrumbItem text="Wednesday".to_string()
+                        icon=IconName::FolderClose href="#".to_string()/>
+                    <BreadcrumbItem text="image.jpg".to_string()
+                        icon=IconName::Document current=true/>
                     </Breadcrumbs>
             </Card>
         }
