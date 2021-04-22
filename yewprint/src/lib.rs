@@ -1,5 +1,6 @@
 #![allow(clippy::redundant_closure, clippy::needless_update)]
 
+mod breadcrumbs;
 mod button_group;
 mod buttons;
 mod callout;
@@ -22,6 +23,7 @@ mod text;
 #[cfg(feature = "tree")]
 mod tree;
 
+pub use breadcrumbs::*;
 pub use button_group::*;
 pub use buttons::*;
 pub use callout::*;

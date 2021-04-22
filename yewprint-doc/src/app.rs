@@ -1,3 +1,4 @@
+use crate::breadcrumbs::*;
 use crate::button_group::*;
 use crate::buttons::*;
 use crate::callout::*;
@@ -111,6 +112,12 @@ impl Component for App {
                                     onclick=self.link
                                         .callback(|_| Msg::ToggleLight)
                                     icon=go_to_theme_icon
+                                />
+                                <MenuItem
+                                    text={html!("Breadcrumbs")}
+                                    href="#breadcrumbs"
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Breadcrumbs))
                                 />
                                 <MenuItem
                                     text={html!("Button")}
@@ -243,6 +250,7 @@ impl Component for App {
                             <Router<DocMenu, ()>
                                 render=Router::render(|switch: DocMenu| {
                                     match switch {
+                                        DocMenu::Breadcrumbs | DocMenu::Home => html! (<BreadcrumbsDoc />),
                                         DocMenu::Button | DocMenu::Home => html! (<ButtonDoc />),
                                         DocMenu::ButtonGroup => html! (<ButtonGroupDoc />),
                                         DocMenu::Callout => html!(<CalloutDoc />),
@@ -275,6 +283,8 @@ impl Component for App {
 
 #[derive(Debug, Copy, Clone, Switch)]
 pub enum DocMenu {
+    #[to = "/#breadcrumbs"]
+    Breadcrumbs,
     #[to = "/#button-group"]
     ButtonGroup,
     #[to = "/#button"]
