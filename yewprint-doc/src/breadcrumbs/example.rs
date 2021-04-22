@@ -9,7 +9,6 @@ pub struct Example {
 #[derive(Clone, PartialEq, Properties)]
 pub struct ExampleProps {
     pub width: u64,
-
 }
 
 impl Component for Example {
@@ -17,10 +16,7 @@ impl Component for Example {
     type Properties = ExampleProps;
 
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
-        Example {
-            link,
-            props,
-        }
+        Example { link, props }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
@@ -38,7 +34,7 @@ impl Component for Example {
 
     fn view(&self) -> Html {
         html! {
-            <Card 
+            <Card
                 style=format!("width: {}%", self.props.width)>
                     <Breadcrumbs
                     >
