@@ -66,7 +66,10 @@ crate::build_example_prop_component! {
                 <H5>{"Props"}</H5>
                 <Slider<u64>
                         selected=self.props.width
-                        values={(0..=100).map(|x| (x, (x % 25 == 0).then(|| format!("{}%", x)) )).collect::<Vec<_>>()}
+                        values={(0..=100)
+                            .map(|x| (x, (x % 25 == 0)
+                            .then(|| format!("{}%", x)) ))
+                            .collect::<Vec<_>>()}
                         onchange=self.update_props(|props, width| ExampleProps {
                             width,
                             ..props

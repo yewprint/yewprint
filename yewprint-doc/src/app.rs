@@ -251,7 +251,7 @@ impl Component for App {
                                 render=Router::render(|switch: DocMenu| {
                                     match switch {
                                         DocMenu::Breadcrumbs | DocMenu::Home => html! (<BreadcrumbsDoc />),
-                                        DocMenu::Button | DocMenu::Home => html! (<ButtonDoc />),
+                                        DocMenu::Button => html! (<ButtonDoc />),
                                         DocMenu::ButtonGroup => html! (<ButtonGroupDoc />),
                                         DocMenu::Callout => html!(<CalloutDoc />),
                                         DocMenu::Card => html!(<CardDoc />),
