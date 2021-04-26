@@ -1,4 +1,4 @@
-use crate::{Icon, IconName};
+use crate::{Icon, IconName, OverflowList, OverflowListProps};
 use yew::prelude::*;
 
 pub struct Breadcrumbs {
@@ -7,26 +7,16 @@ pub struct Breadcrumbs {
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct BreadcrumbsProps {
-    #[prop_or_default]
     pub children: Children,
-    #[prop_or_default]
-    pub collapse_from: Boundary,
+    // TODO: use Radio (with options Start, End) when available
+    #[prop_or(true)]
+    pub collapse_from_start: bool,
     #[prop_or_default]
     pub min_visible_itens: usize,
     #[prop_or_default]
     pub class: Classes,
-}
-
-#[derive(Clone, PartialEq)]
-pub enum Boundary {
-    Start,
-    End,
-}
-
-impl Default for Boundary {
-    fn default() -> Self {
-        Boundary::End
-    }
+    #[prop_or_default]
+    pub overflow_list_props: Option<OverflowListProps>,
 }
 
 impl Component for Breadcrumbs {
@@ -53,16 +43,12 @@ impl Component for Breadcrumbs {
 
     fn view(&self) -> Html {
         html! {
-            <ul
-                class=classes!(
-                    "bp3-breadcrumbs",
-                    self.props.class.clone()
-
-            )>
-            {
-                self.props.children.clone()
-            }
-            </ul>
+            <OverflowList
+                children=self.props.children.clone()
+                min_visible_itens=self.props.min_visible_itens
+                collapse_from_start=self.props.collapse_from_start
+            >
+            </OverflowList>
         }
     }
 }
@@ -108,7 +94,7 @@ impl Component for BreadcrumbItem {
         Self { props, link }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
         true
     }
 
@@ -155,6 +141,7 @@ impl Component for BreadcrumbItem {
                         class=classes
                         href?=self.props.href.clone()
                         onclick?=self.props.onclick.clone()
+                        target?=self.props.target.clone()
                     >
                     {
                         inner

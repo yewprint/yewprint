@@ -9,6 +9,7 @@ pub struct Example {
 #[derive(Clone, PartialEq, Properties)]
 pub struct ExampleProps {
     pub width: u64,
+    pub collapse_from_start: bool,
 }
 
 impl Component for Example {
@@ -19,7 +20,7 @@ impl Component for Example {
         Example { link, props }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
         true
     }
 
@@ -37,19 +38,22 @@ impl Component for Example {
             <Card
                 style=format!("width: {}%", self.props.width)>
                     <Breadcrumbs
+                        collapse_from_start=self.props.collapse_from_start
+                        min_visible_itens = 2
                     >
-                    <BreadcrumbItem text="All files".to_string()
-                        icon=IconName::FolderClose/>
-                    <BreadcrumbItem text="Users".to_string()
-                        icon=IconName::FolderClose/>
-                    <BreadcrumbItem text="Janet".to_string()
-                        icon=IconName::FolderClose/>
-                    <BreadcrumbItem text="Photos".to_string()
-                        icon=IconName::FolderClose href="#".to_string()/>
-                    <BreadcrumbItem text="Wednesday".to_string()
-                        icon=IconName::FolderClose href="#".to_string()/>
-                    <BreadcrumbItem text="image.jpg".to_string()
-                        icon=IconName::Document current=true/>
+                         <BreadcrumbItem text="All files".to_string()
+                            icon=IconName::FolderClose/>
+                        <BreadcrumbItem text="Users".to_string()
+                            icon=IconName::FolderClose/>
+                        <BreadcrumbItem text="Janet".to_string()
+                            icon=IconName::FolderClose/>
+                        <BreadcrumbItem text="Photos".to_string()
+                            icon=IconName::FolderClose href="#".to_string()/>
+                        <BreadcrumbItem text="Wednesday".to_string()
+                            icon=IconName::FolderClose href="#".to_string()
+                            target="_blank".to_string()/>
+                        <BreadcrumbItem text="image.jpg".to_string()
+                            icon=IconName::Document current=true/>
                     </Breadcrumbs>
             </Card>
         }

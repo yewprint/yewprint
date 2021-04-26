@@ -3,7 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::{Slider, H1, H5};
+use yewprint::{Slider, Switch, H1, H5};
 
 pub struct BreadcrumbsDoc {
     callback: Callback<ExampleProps>,
@@ -17,7 +17,10 @@ impl Component for BreadcrumbsDoc {
     fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
         BreadcrumbsDoc {
             callback: link.callback(|x| x),
-            state: ExampleProps { width: 100 },
+            state: ExampleProps {
+                width: 100,
+                collapse_from_start: true,
+            },
         }
     }
 
@@ -64,6 +67,14 @@ crate::build_example_prop_component! {
         html! {
             <div>
                 <H5>{"Props"}</H5>
+                <Switch
+                    onclick=self.update_props(|props, _| ExampleProps {
+                        collapse_from_start: !props.collapse_from_start,
+                        ..props
+                    })
+                    checked=self.props.collapse_from_start
+                    label=html!("Collapse from start")
+                />
                 <Slider<u64>
                         selected=self.props.width
                         values={(0..=100)
