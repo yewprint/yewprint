@@ -144,7 +144,7 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
                                     aria-expanded=selected.to_string()
                                     aria-selected=selected.to_string()
                                     role="tab"
-                                    tabIndex={!(props.disabled).then(|| "0")}
+                                    tabIndex={(!props.disabled).then(|| "0")}
                                     id=title_id.to_string()
                                     aria-controls=panel_id.to_string()
                                     data-tab-id=id.to_string()
