@@ -140,31 +140,21 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
                                         "bp3-tab",
                                         props.title_class.clone(),
                                     )
-                                    aria-disabled=props.disabled
-                                    aria-expanded=selected
-                                    aria-selected=selected
+                                    aria-disabled=props.disabled.then(|| "true")
+                                    aria-expanded=selected.to_string()
+                                    aria-selected=selected.to_string()
                                     role="tab"
-                                    tabIndex?={
-                                        if props.disabled {
-                                            Some("0")
-                                        } else {
-                                            None
-                                        }
-                                    }
-                                    id=title_id
-                                    aria-controls=panel_id
-                                    data-tab-id=id
-                                    onclick?={
-                                        if props.disabled {
-                                            None
-                                        } else {
-                                            let tab_id = props.id.clone();
-                                            Some(self
-                                                .props
-                                                .onchange
-                                                .reform(move |_| tab_id.clone()))
-                                        }
-                                    }
+                                    tabIndex={(!props.disabled).then(|| "0")}
+                                    id=title_id.to_string()
+                                    aria-controls=panel_id.to_string()
+                                    data-tab-id=id.to_string()
+                                    onclick={props.disabled.then(|| {
+                                        let tab_id = props.id.clone();
+                                        self
+                                            .props
+                                            .onchange
+                                            .reform(move |_| tab_id.clone())
+                                    })}
                                     key=*id
                                     ref=self.tab_refs[&id].clone()
                                 >
@@ -186,10 +176,10 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
                                     "bp3-tab-panel",
                                     props.panel_class.clone(),
                                 )
-                                aria-labelledby=title_id
-                                aria-hidden=!selected
+                                aria-labelledby=title_id.to_string()
+                                aria-hidden=(!selected).then(|| "true")
                                 role="tabpanel"
-                                id=panel_id
+                                id=panel_id.to_string()
                                 key=*id
                             >
                                 { props.panel.clone() }

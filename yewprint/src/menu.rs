@@ -1,4 +1,5 @@
 use crate::{Icon, IconName, Intent, H6};
+use std::borrow::Cow;
 use yew::prelude::*;
 
 pub struct Menu {
@@ -70,7 +71,7 @@ pub struct MenuItemProps {
     #[prop_or_default]
     pub disabled: bool,
     #[prop_or_default]
-    pub href: Option<String>,
+    pub href: Option<Cow<'static, str>>,
     #[prop_or_default]
     pub label: Option<yew::virtual_dom::VNode>,
     #[prop_or_default]
@@ -119,8 +120,8 @@ impl Component for MenuItem {
                             .or_else(|| self.props.active.then(|| Intent::Primary)),
                         self.props.class.clone(),
                     )
-                    href?={(!self.props.disabled).then(|| self.props.href.clone())}.flatten()
-                    tabIndex?={(!self.props.disabled).then(|| 0)}
+                    href={(!self.props.disabled).then(|| self.props.href.clone())}.flatten()
+                    tabIndex={(!self.props.disabled).then(|| "0")}
                     onclick={self.props.onclick.clone()}
                 >
                     <Icon icon={self.props.icon} />

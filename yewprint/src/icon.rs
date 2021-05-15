@@ -73,17 +73,17 @@ impl Component for Icon {
                 onclick=self.props.onclick.clone()
             >
                 <svg
-                    fill?={self.props.color.clone()}
+                    fill={self.props.color.clone()}
                     data-icon={icon_string.clone()}
-                    width={self.props.icon_size}
-                    height={self.props.icon_size}
+                    width={self.props.icon_size.to_string()}
+                    height={self.props.icon_size.to_string()}
                     viewBox={format!("0 0 {x} {x}", x=pixel_grid_size)}
                 >
                     <desc>{self.props.title.clone().unwrap_or(icon_string)}</desc>
                     {
                         paths.iter()
                             .map(|x| html! {
-                                <path d=x fillRule="evenodd" />
+                                <path d=*x fillRule="evenodd" />
                             })
                             .collect::<Html>()
                     }
