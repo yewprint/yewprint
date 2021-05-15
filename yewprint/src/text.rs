@@ -1,5 +1,5 @@
-use yew::prelude::*;
 use std::borrow::Cow;
+use yew::prelude::*;
 
 pub struct Text {
     props: TextProps,
