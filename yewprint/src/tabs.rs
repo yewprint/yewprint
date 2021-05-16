@@ -4,7 +4,6 @@ use web_sys::HtmlElement;
 use yew::prelude::*;
 
 pub struct Tabs<T: Clone + PartialEq + Hash + 'static> {
-    link: ComponentLink<Self>,
     props: TabsProps<T>,
     tab_refs: HashMap<u64, NodeRef>,
     indicator_ref: NodeRef,
@@ -35,7 +34,7 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
     type Message = ();
     type Properties = TabsProps<T>;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
         let tab_refs = props
             .tabs
             .iter()
@@ -51,7 +50,6 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
             props,
             tab_refs,
             indicator_ref: Default::default(),
-            link,
         }
     }
 
