@@ -1,4 +1,4 @@
-#![allow(clippy::redundant_closure, clippy::needless_update)]
+#![allow(clippy::redundant_closure, clippy::needless_update, dead_code)]
 
 mod app;
 mod button_group;

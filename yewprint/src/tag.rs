@@ -1,4 +1,5 @@
 use crate::{if_html, Icon, IconName, Intent, Text};
+use std::borrow::Cow;
 use yew::prelude::*;
 
 pub struct Tag {
@@ -35,11 +36,11 @@ pub struct TagProps {
     #[prop_or_default]
     pub round: bool,
     #[prop_or_default]
-    pub title: Option<String>,
+    pub title: Option<Cow<'static, str>>,
     #[prop_or_default]
     pub class: Classes,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Option<Cow<'static, str>>,
 }
 
 impl Component for Tag {
@@ -75,7 +76,7 @@ impl Component for Tag {
                 <button
                     class=classes!("bp3-tag-remove")
                     onclick={callback}
-                    tabindex?={self.props.interactive.then(|| 0)}
+                    tabindex={self.props.interactive.then(|| "0")}
                 >
                     <Icon icon=IconName::SmallCross />
                 </button>
@@ -95,7 +96,7 @@ impl Component for Tag {
                     self.props.round.then(|| "bp3-round"),
                     self.props.class.clone(),
                 )
-                style?=self.props.style.clone()
+                style=self.props.style.clone()
                 onclick={self.props.onclick.clone()}
             >
                 {icon}

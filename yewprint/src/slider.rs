@@ -1,4 +1,5 @@
 use crate::Intent;
+use std::borrow::Cow;
 use wasm_bindgen::closure::Closure;
 use wasm_bindgen::JsCast;
 use web_sys::Element;
@@ -24,9 +25,9 @@ pub struct SliderProps<T: Clone + PartialEq + 'static> {
     #[prop_or_default]
     pub intent: Option<Intent>,
     #[prop_or_default]
-    pub value_label: Option<String>,
+    pub value_label: Option<Cow<'static, str>>,
     pub onchange: Callback<T>,
-    pub values: Vec<(T, Option<String>)>,
+    pub values: Vec<(T, Option<Cow<'static, str>>)>,
     pub selected: T,
 }
 
@@ -235,7 +236,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     "bp3-slider",
                     self.props.vertical.then(|| "bp3-vertical"),
                 )
-                onmousedown?=(self.props.values.len() > 1).then(
+                onmousedown=(self.props.values.len() > 1).then(
                     || self.link.batch_callback(
                         |event: MouseEvent| vec![Msg::StartChange, Msg::Mouse(event)]
                     )

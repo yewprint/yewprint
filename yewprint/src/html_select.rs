@@ -81,7 +81,7 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for HtmlSelect<T> {
                 };
 
                 html! {
-                    <option selected=selected value=value>
+                    <option selected=selected value=value.to_string()>
                         {label}
                     </option>
                 }
@@ -102,16 +102,16 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for HtmlSelect<T> {
                 <select
                     disabled=self.props.disabled
                     onchange={self.link.callback(|x| x)}
-                    value?={
+                    value={
                         self.props.value
                             .as_ref()
                             .map(|value| {
                                 let mut hasher = DefaultHasher::new();
                                 value.hash(&mut hasher);
-                                hasher.finish()
+                                hasher.finish().to_string()
                             })
                     }
-                    title?={self.props.title.clone()}
+                    title={self.props.title.clone()}
                 >
                     {option_children}
                 </select>

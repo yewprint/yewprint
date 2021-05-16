@@ -1,3 +1,4 @@
+use std::borrow::Cow;
 use yew::prelude::*;
 
 pub struct ButtonGroup {
@@ -15,7 +16,7 @@ pub struct ButtonGroupProps {
     #[prop_or_default]
     pub large: bool,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Option<Cow<'static, str>>,
     #[prop_or_default]
     pub children: html::Children,
     #[prop_or_default]
@@ -54,7 +55,7 @@ impl Component for ButtonGroup {
                     self.props.vertical.then(|| "bp3-vertical"),
                     self.props.class.clone(),
                 )
-                style?=self.props.style.clone()
+                style=self.props.style.clone()
             >
                 {self.props.children.clone()}
             </div>
