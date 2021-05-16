@@ -139,12 +139,12 @@ impl Component for InputGroup {
                     ref=self.props.input_ref.clone()
                     class="bp3-input"
                     type=self.props.input_type.as_str()
-                    placeholder=&self.props.placeholder
+                    placeholder=self.props.placeholder.clone()
                     disabled=self.props.disabled
                     oninput={self.props.oninput.clone()}
                     onkeyup={self.props.onkeyup.clone()}
                     onkeydown={self.props.onkeydown.clone()}
-                    value=&self.props.value
+                    value=self.props.value.clone()
                 />
                 {
                     if let Some(right_element) = self.props.right_element.clone() {

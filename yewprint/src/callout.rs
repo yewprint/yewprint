@@ -1,5 +1,6 @@
 use crate::icon::ICON_SIZE_LARGE;
 use crate::{Icon, IconName, Intent};
+use std::borrow::Cow;
 use yew::prelude::*;
 
 pub struct Callout {
@@ -17,7 +18,7 @@ pub struct CalloutProps {
     #[prop_or_default]
     pub intent: Option<Intent>,
     #[prop_or_default]
-    pub title: Option<String>,
+    pub title: Option<Cow<'static, str>>,
     pub children: html::Children,
 }
 
@@ -64,7 +65,7 @@ impl Component for Callout {
             <div class=classes>
                 {
                     icon.iter()
-                        .map(|name| html!{<Icon icon=name icon_size=ICON_SIZE_LARGE/>})
+                        .map(|name| html!{<Icon icon=*name icon_size=ICON_SIZE_LARGE/>})
                         .collect::<Html>()
                 }
                 {

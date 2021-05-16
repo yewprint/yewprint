@@ -3100,8 +3100,9 @@ dependencies = [
 
 [[package]]
 name = "yew"
-version = "0.17.4"
-source = "git+https://github.com/yewstack/yew.git?rev=db3170f629f#db3170f629fc91b15c68b12d4204d6f1394520f4"
+version = "0.18.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e4d5154faef86dddd2eb333d4755ea5643787d20aca683e58759b0e53351409f"
 dependencies = [
  "anyhow",
  "anymap",
@@ -3127,8 +3128,9 @@ dependencies = [
 
 [[package]]
 name = "yew-macro"
-version = "0.17.0"
-source = "git+https://github.com/yewstack/yew.git?rev=db3170f629f#db3170f629fc91b15c68b12d4204d6f1394520f4"
+version = "0.18.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d6e23bfe3dc3933fbe9592d149c9985f3047d08c637a884b9344c21e56e092ef"
 dependencies = [
  "boolinator",
  "lazy_static",
@@ -3139,8 +3141,9 @@ dependencies = [
 
 [[package]]
 name = "yew-router"
-version = "0.14.0"
-source = "git+https://github.com/yewstack/yew.git?rev=db3170f629f#db3170f629fc91b15c68b12d4204d6f1394520f4"
+version = "0.15.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "27666236d9597eac9be560e841e415e20ba67020bc8cd081076be178e159c8bc"
 dependencies = [
  "cfg-if 1.0.0",
  "cfg-match",
@@ -3159,8 +3162,9 @@ dependencies = [
 
 [[package]]
 name = "yew-router-macro"
-version = "0.14.0"
-source = "git+https://github.com/yewstack/yew.git?rev=db3170f629f#db3170f629fc91b15c68b12d4204d6f1394520f4"
+version = "0.15.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4c0ace2924b7a175e2d1c0e62ee7022a5ad840040dcd52414ce5f410ab322dba"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3170,8 +3174,9 @@ dependencies = [
 
 [[package]]
 name = "yew-router-route-parser"
-version = "0.14.0"
-source = "git+https://github.com/yewstack/yew.git?rev=db3170f629f#db3170f629fc91b15c68b12d4204d6f1394520f4"
+version = "0.15.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "de4a67208fb46b900af18a7397938b01f379dfc18da34799cfa8347eec715697"
 dependencies = [
  "nom",
 ]
@@ -3205,8 +3210,9 @@ dependencies = [
 
 [[package]]
 name = "yewtil"
-version = "0.3.2"
-source = "git+https://github.com/yewstack/yew.git?rev=db3170f629f#db3170f629fc91b15c68b12d4204d6f1394520f4"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8543663ac49cd613df079282a1d8bdbdebdad6e02bac229f870fd4237b5d9aaa"
 dependencies = [
  "log",
  "wasm-bindgen",
@@ -3218,8 +3224,9 @@ dependencies = [
 
 [[package]]
 name = "yewtil-macro"
-version = "0.2.0"
-source = "git+https://github.com/yewstack/yew.git?rev=db3170f629f#db3170f629fc91b15c68b12d4204d6f1394520f4"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1433d8554db0f0a87a38aeea190780c1d5f9570384d99a34ab4de1c51d8eb8f3"
 dependencies = [
  "proc-macro2",
  "quote",
