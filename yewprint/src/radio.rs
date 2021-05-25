@@ -1,12 +1,13 @@
 use std::fmt::Display;
+use std::hash::Hash;
 use yew::prelude::*;
 
-pub struct Radio<T: Clone + PartialEq + Display + Default + 'static> {
+pub struct Radio<T: Clone + PartialEq + Display + Default + Hash + 'static> {
     props: RadioProps<T>,
 }
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct RadioProps<T: Clone + PartialEq + Display + Default + 'static> {
+pub struct RadioProps<T: Clone + PartialEq + Display + Default + Hash + 'static> {
     #[prop_or_default]
     pub disabled: bool,
     #[prop_or_default]
@@ -19,11 +20,10 @@ pub struct RadioProps<T: Clone + PartialEq + Display + Default + 'static> {
     pub onchange: Callback<T>,
     #[prop_or_default]
     pub label: yew::virtual_dom::VNode,
-    #[prop_or_default]
     pub value: T,
 }
 
-impl<T: Clone + PartialEq + Display + Default + 'static> Component for Radio<T> {
+impl<T: Clone + PartialEq + Display + Default + Hash + 'static> Component for Radio<T> {
     type Message = ();
     type Properties = RadioProps<T>;
     fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
@@ -47,7 +47,8 @@ impl<T: Clone + PartialEq + Display + Default + 'static> Component for Radio<T> 
         html! {
             <label
                 class=classes!(
-                    "bp3-control", "bp3-radio",
+                    "bp3-control",
+                    "bp3-radio",
                     self.props.disabled.then(|| "bp3-disabled"),
                     self.props.inline.then(|| "bp3-inline"),
                     self.props.large.then(|| "bp3-large"),
@@ -56,7 +57,7 @@ impl<T: Clone + PartialEq + Display + Default + 'static> Component for Radio<T> 
                 <input
                     type="radio"
                     checked={self.props.checked}
-                    onchange={self.props.onchange.reform(|_| self.props.value.clone())}
+                    onchange={self.props.onchange.reform(move |_| self.props.value)}
                     disabled=self.props.disabled
                     value={self.props.value.clone()}
                 />

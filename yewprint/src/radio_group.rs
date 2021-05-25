@@ -1,26 +1,29 @@
 use yew::prelude::*;
 
-pub struct RadioGroup {
-    props: Props,
+pub struct RadioGroup<T: Clone + PartialEq + 'static> {
+    props: RadioGroupProps<T>,
 }
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct Props {
+pub struct RadioGroupProps<T: Clone + PartialEq + 'static> {
     #[prop_or_default]
     pub label: Option<yew::virtual_dom::VNode>,
     #[prop_or_default]
     pub label_class: Option<String>,
     #[prop_or_default]
-    pub children: html::Children,
+    pub children: Vec<T>,
     #[prop_or_default]
     pub name: String,
     #[prop_or_default]
-    pub selected_value: Option<String>,
+    pub selected_value: Option<T>,
 }
 
-impl Component for RadioGroup {
+impl<T: Clone + PartialEq + 'static> Component for RadioGroup<T>
+where
+    yew::Classes: From<T>,
+{
     type Message = ();
-    type Properties = Props;
+    type Properties = RadioGroupProps<T>;
 
     fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
         Self { props }
@@ -44,9 +47,10 @@ impl Component for RadioGroup {
             <div
                 class=classes!(
                     "bp3-radio-group",
+                    self.props.name.clone(),
+                    self.props.children.clone(),
+                    self.props.selected_value.clone()
                 )
-                name={self.props.name.clone()}
-                selected_value={self.props.selected_value.clone().unwrap_or_default()}
             >
             {
                 if let Some(label) = self.props.label.clone() {
@@ -63,7 +67,6 @@ impl Component for RadioGroup {
                     html!()
                 }
             }
-                {self.props.children.clone()}
             </div>
         }
     }
