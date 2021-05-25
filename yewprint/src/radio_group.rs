@@ -4,17 +4,17 @@ use std::fmt::Display;
 use std::hash::{Hash, Hasher};
 use yew::prelude::*;
 
-pub struct RadioGroup<T: Clone + PartialEq + Hash + 'static> {
+pub struct RadioGroup<T: Clone + PartialEq + Default + Hash + Display + 'static> {
     props: RadioGroupProps<T>,
+    link: ComponentLink<Self>,
 }
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct RadioGroupProps<T: Clone + PartialEq + Hash + 'static> {
+pub struct RadioGroupProps<T: Clone + PartialEq + Default + Hash + Display + 'static> {
     #[prop_or_default]
     pub label: Option<yew::virtual_dom::VNode>,
     #[prop_or_default]
     pub label_class: Option<String>,
-    #[prop_or_default]
     pub option_children: Vec<(T, String)>,
     #[prop_or_default]
     pub name: String,
@@ -28,8 +28,8 @@ impl<T: Clone + PartialEq + Display + Default + Hash + 'static> Component for Ra
     type Message = ();
     type Properties = RadioGroupProps<T>;
 
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        Self { props }
+    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+        Self { props, link }
     }
 
     fn update(&mut self, _: Self::Message) -> ShouldRender {
@@ -78,6 +78,13 @@ impl<T: Clone + PartialEq + Display + Default + Hash + 'static> Component for Ra
                     "bp3-radio-group",
                     self.props.class.clone(),
                 )
+                value?={
+                    self.props.value.as_ref().map(|value| {
+                        let mut hasher = DefaultHasher::new();
+                        value.hash(&mut hasher);
+                        hasher.finish()
+                    })
+                }
             >
             {
                 if let Some(label) = self.props.label.clone() {
@@ -95,7 +102,7 @@ impl<T: Clone + PartialEq + Display + Default + Hash + 'static> Component for Ra
                     html!()
                 }
             }
-            {option_children}
+                {option_children}
             </div>
         }
     }
