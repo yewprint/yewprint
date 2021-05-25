@@ -1,4 +1,6 @@
+use crate::Radio;
 use std::collections::hash_map::DefaultHasher;
+use std::fmt::Display;
 use std::hash::{Hash, Hasher};
 use yew::prelude::*;
 
@@ -22,10 +24,7 @@ pub struct RadioGroupProps<T: Clone + PartialEq + Hash + 'static> {
     pub class: Classes,
 }
 
-impl<T: Clone + PartialEq + Hash + 'static> Component for RadioGroup<T>
-where
-    yew::Classes: From<T>,
-{
+impl<T: Clone + PartialEq + Display + Default + Hash + 'static> Component for RadioGroup<T> {
     type Message = ();
     type Properties = RadioGroupProps<T>;
 
@@ -65,7 +64,10 @@ where
                 };
 
                 html! {
-                    <input name="group" type="radio" value=value />
+                    <Radio<T>
+                        value=value
+                        label=html!(name)
+                    />
                 }
             })
             .collect::<Html>();
@@ -74,6 +76,7 @@ where
             <div
                 class=classes!(
                     "bp3-radio-group",
+                    self.props.class.clone(),
                 )
             >
             {
@@ -82,7 +85,8 @@ where
                         <label
                             class=classes!(
                                 "bp3-label",
-                                self.props.label_class.clone())
+                                self.props.label_class.clone(),
+                            )
                         >
                             {label}
                         </label>
@@ -91,6 +95,7 @@ where
                     html!()
                 }
             }
+            {option_children}
             </div>
         }
     }

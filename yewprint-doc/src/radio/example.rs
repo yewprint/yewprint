@@ -34,7 +34,7 @@ impl Component for Example {
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
             Msg::ValueUpdate(value) => {
-                if let Some(selected) = self.props.selected_value {
+                if let Some(mut selected) = self.props.selected_value.clone() {
                     selected = value;
                     true
                 } else {
@@ -56,35 +56,14 @@ impl Component for Example {
     fn view(&self) -> Html {
         html! {
             <div>
-                <RadioGroup
-                    label=html!("Determine lunch")
-                    name="group"
-                    selected_value=self.selected_value
-                >
-                    <Radio
-                        disabled=self.props.disabled
-                        inline=self.props.inline
-                        large=self.props.large
-                        label=html!("Soup")
-                        onchange=self.link.callback(|value| Msg::ValueUpdate(value))
-                        value="one"
-                    />
-                    <Radio
-                        disabled=self.props.disabled
-                        inline=self.props.inline
-                        large=self.props.large
-                        onchange=self.link.callback(|value| Msg::ValueUpdate(value))
-                        value="two"
-                    />
-                    <Radio
-                        disabled=self.props.disabled
-                        inline=self.props.inline
-                        large=self.props.large
-                        label=html!("Sandwich")
-                        onchange=self.link.callback(|value| Msg::ValueUpdate(value))
-                        value="three"
-                    />
-                </RadioGroup>
+                <RadioGroup<String>
+                    option_children= vec![
+                        ("one".to_string(), "Soup".to_string()),
+                        ("two".to_string(), "Salad".to_string()),
+                        ("three".to_string(), "Sandwich".to_string()),
+                    ]
+                    value=self.selected_value.clone()
+                />
             </div>
         }
     }

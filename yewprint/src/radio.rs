@@ -4,6 +4,7 @@ use yew::prelude::*;
 
 pub struct Radio<T: Clone + PartialEq + Display + Default + Hash + 'static> {
     props: RadioProps<T>,
+    link: ComponentLink<Self>,
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -24,10 +25,10 @@ pub struct RadioProps<T: Clone + PartialEq + Display + Default + Hash + 'static>
 }
 
 impl<T: Clone + PartialEq + Display + Default + Hash + 'static> Component for Radio<T> {
-    type Message = ();
+    type Message = ChangeData;
     type Properties = RadioProps<T>;
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        Self { props }
+    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+        Self { props, link }
     }
 
     fn update(&mut self, _msg: Self::Message) -> ShouldRender {
@@ -57,7 +58,7 @@ impl<T: Clone + PartialEq + Display + Default + Hash + 'static> Component for Ra
                 <input
                     type="radio"
                     checked={self.props.checked}
-                    onchange={self.props.onchange.reform(move |_| self.props.value)}
+                    onchange={self.link.callback(|x| x)}
                     disabled=self.props.disabled
                     value={self.props.value.clone()}
                 />
