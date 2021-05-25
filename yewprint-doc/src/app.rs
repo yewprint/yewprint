@@ -190,6 +190,8 @@ impl Component for App {
                                     href="#radio"
                                     onclick=self.link
                                         .callback(|_| Msg::GoToMenu(DocMenu::Radio))
+                                />
+                                <MenuItem
                                     text={html!("Slider")}
                                     href="#slider"
                                     onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Slider))

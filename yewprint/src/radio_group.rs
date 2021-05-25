@@ -7,8 +7,6 @@ pub struct RadioGroup {
 #[derive(Clone, PartialEq, Properties)]
 pub struct Props {
     #[prop_or_default]
-    pub onchange: Callback<ChangeData>,
-    #[prop_or_default]
     pub label: Option<yew::virtual_dom::VNode>,
     #[prop_or_default]
     pub label_class: Option<String>,
@@ -16,7 +14,8 @@ pub struct Props {
     pub children: html::Children,
     #[prop_or_default]
     pub name: String,
-    // selected_value
+    #[prop_or_default]
+    pub selected_value: Option<String>,
 }
 
 impl Component for RadioGroup {
@@ -46,8 +45,8 @@ impl Component for RadioGroup {
                 class=classes!(
                     "bp3-radio-group",
                 )
-                onchange={self.props.onchange.clone()}
                 name={self.props.name.clone()}
+                selected_value={self.props.selected_value.clone().unwrap_or_default()}
             >
             {
                 if let Some(label) = self.props.label.clone() {

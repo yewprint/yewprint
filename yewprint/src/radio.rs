@@ -15,7 +15,7 @@ pub struct Props {
     #[prop_or_default]
     pub checked: bool,
     #[prop_or_default]
-    pub onchange: Callback<ChangeData>,
+    pub onchange: Callback<String>,
     #[prop_or_default]
     pub label: yew::virtual_dom::VNode,
     #[prop_or_default]
