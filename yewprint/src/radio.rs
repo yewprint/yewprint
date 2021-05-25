@@ -56,7 +56,7 @@ impl<T: Clone + PartialEq + Display + Default + 'static> Component for Radio<T> 
                 <input
                     type="radio"
                     checked={self.props.checked}
-                    onchange={self.props.onchange.clone()}
+                    onchange={self.props.onchange.reform(|_| self.props.value.clone())}
                     disabled=self.props.disabled
                     value={self.props.value.clone()}
                 />
