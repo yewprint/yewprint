@@ -34,14 +34,12 @@ impl Component for Example {
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
             Msg::ValueUpdate(value) => {
-                if let Some(mut selected) = self.props.selected_value.clone() {
-                    selected = value;
+                    self.selected_value = Some(value);
                     true
-                } else {
-                    false
                 }
             }
         }
+        false
     }
 
     fn change(&mut self, props: Self::Properties) -> ShouldRender {
@@ -58,13 +56,20 @@ impl Component for Example {
             <div>
                 <RadioGroup<String>
                     option_children= vec![
-                        ("one".to_string(), "Soup".to_string()),
-                        ("two".to_string(), "Salad".to_string()),
-                        ("three".to_string(), "Sandwich".to_string()),
+                        (Lunch::Soup, "Soup".to_string()),
+                        (Lunch::Salad, "Salad".to_string()),
+                        (Lunch::Sandwich, "Sandwich".to_string()),
                     ]
                     value=self.selected_value.clone()
                 />
             </div>
         }
     }
+}
+
+#[derive(Debug, Copy, Hash, PartialEq)]
+pub enum Lunch {
+    Soup,
+    Salad,
+    Sandwich,
 }
