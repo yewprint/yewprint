@@ -1,11 +1,12 @@
+use std::fmt::Display;
 use yew::prelude::*;
 
-pub struct Radio {
-    props: Props,
+pub struct Radio<T: Clone + PartialEq + Display + Default + 'static> {
+    props: RadioProps<T>,
 }
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct Props {
+pub struct RadioProps<T: Clone + PartialEq + Display + Default + 'static> {
     #[prop_or_default]
     pub disabled: bool,
     #[prop_or_default]
@@ -15,16 +16,16 @@ pub struct Props {
     #[prop_or_default]
     pub checked: bool,
     #[prop_or_default]
-    pub onchange: Callback<String>,
+    pub onchange: Callback<T>,
     #[prop_or_default]
     pub label: yew::virtual_dom::VNode,
     #[prop_or_default]
-    pub value: String,
+    pub value: T,
 }
 
-impl Component for Radio {
+impl<T: Clone + PartialEq + Display + Default + 'static> Component for Radio<T> {
     type Message = ();
-    type Properties = Props;
+    type Properties = RadioProps<T>;
     fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
         Self { props }
     }

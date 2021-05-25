@@ -66,14 +66,14 @@ impl Component for Example {
                         inline=self.props.inline
                         large=self.props.large
                         label=html!("Soup")
-                        onchange=self.link.callback(|v| Msg::ValueUpdate(v))
+                        onchange=self.link.callback(|value| Msg::ValueUpdate(value))
                         value="one"
                     />
                     <Radio
                         disabled=self.props.disabled
                         inline=self.props.inline
                         large=self.props.large
-                        onchange=self.link.callback(|v| Msg::ValueUpdate(v))
+                        onchange=self.link.callback(|value| Msg::ValueUpdate(value))
                         value="two"
                     />
                     <Radio
@@ -81,7 +81,7 @@ impl Component for Example {
                         inline=self.props.inline
                         large=self.props.large
                         label=html!("Sandwich")
-                        onchange=self.link.callback(|v| Msg::ValueUpdate(v))
+                        onchange=self.link.callback(|value| Msg::ValueUpdate(value))
                         value="three"
                     />
                 </RadioGroup>
