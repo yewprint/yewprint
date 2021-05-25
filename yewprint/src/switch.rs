@@ -18,6 +18,8 @@ pub struct SwitchProps {
     pub onclick: Callback<MouseEvent>,
     #[prop_or_default]
     pub label: yew::virtual_dom::VNode,
+    #[prop_or_default]
+    pub class: Classes,
 }
 
 impl Component for Switch {
@@ -50,6 +52,7 @@ impl Component for Switch {
                     self.props.disabled.then(|| "bp3-disabled"),
                     self.props.inline.then(|| "bp3-inline"),
                     self.props.large.then(|| "bp3-large"),
+                    self.props.class.clone(),
                 )
             >
             <input

@@ -83,7 +83,11 @@ crate::build_example_prop_component! {
                                 (Elevation::Level3, "Level 3".to_string()),
                                 (Elevation::Level4, "Level 4".to_string()),
                             ]}
-                            value=Some(self.props.elevation)
+                            value=self.props.elevation
+                            onchange=self.update_props(|props, elevation| ExampleProps {
+                                elevation,
+                                ..props
+                            })
                         />
                     </div>
                 </div>

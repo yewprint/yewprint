@@ -12,6 +12,8 @@ pub struct ControlGroupProps {
     pub vertical: bool,
     #[prop_or_default]
     pub children: html::Children,
+    #[prop_or_default]
+    pub class: Classes,
 }
 
 impl Component for ControlGroup {
@@ -42,6 +44,7 @@ impl Component for ControlGroup {
                     "bp3-control-group",
                     self.props.fill.then(|| "bp3-fill"),
                     self.props.vertical.then(|| "bp3-vertical"),
+                    self.props.class.clone(),
                 )
             >
                 {self.props.children.clone()}

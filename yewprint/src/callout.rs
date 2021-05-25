@@ -1,4 +1,4 @@
-use crate::icon::SIZE_LARGE;
+use crate::icon::ICON_SIZE_LARGE;
 use crate::{Icon, IconName, Intent};
 use yew::prelude::*;
 
@@ -64,7 +64,7 @@ impl Component for Callout {
             <div class=classes>
                 {
                     icon.iter()
-                        .map(|name| html!{<Icon icon=name icon_size=SIZE_LARGE/>})
+                        .map(|name| html!{<Icon icon=name icon_size=ICON_SIZE_LARGE/>})
                         .collect::<Html>()
                 }
                 {

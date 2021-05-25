@@ -11,12 +11,13 @@ use crate::input_group::*;
 use crate::menu::*;
 use crate::progressbar::*;
 use crate::radio::*;
+use crate::slider::*;
+use crate::spinner::*;
 use crate::switch::*;
 use crate::tabs::*;
 use crate::tag::*;
 use crate::text::*;
 use crate::tree::*;
-use boolinator::Boolinator;
 use yew::prelude::*;
 use yew_router::{
     agent::{RouteAgentDispatcher, RouteRequest},
@@ -84,7 +85,7 @@ impl Component for App {
         };
 
         html! {
-            <div class=classes!("docs-root", self.dark_theme.as_some("bp3-dark"))>
+            <div class=classes!("docs-root", self.dark_theme.then(|| "bp3-dark"))>
                 <div class=classes!("docs-app")>
                     <div class=classes!("docs-nav-wrapper")>
                         <div class=classes!("docs-nav")>
@@ -189,6 +190,15 @@ impl Component for App {
                                     href="#radio"
                                     onclick=self.link
                                         .callback(|_| Msg::GoToMenu(DocMenu::Radio))
+                                    text={html!("Slider")}
+                                    href="#slider"
+                                    onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Slider))
+                                />
+                                <MenuItem
+                                    text={html!("Spinner")}
+                                    href="#spinner"
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Spinner))
                                 />
                                 <MenuItem
                                     text={html!("Switch")}
@@ -251,6 +261,8 @@ impl Component for App {
                                         DocMenu::Menu => html!(<MenuDoc />),
                                         DocMenu::ProgressBar => html!(<ProgressBarDoc />),
                                         DocMenu::Radio => html!(<RadioDoc />),
+                                        DocMenu::Slider => html!(<SliderDoc />),
+                                        DocMenu::Spinner => html!(<SpinnerDoc />),
                                         DocMenu::Switch => html!(<SwitchDoc />),
                                         DocMenu::Tabs => html!(<TabsDoc />),
                                         DocMenu::Tag => html!(<TagDoc />),
@@ -295,6 +307,10 @@ pub enum DocMenu {
     ProgressBar,
     #[to = "/#radio"]
     Radio,
+    #[to = "/#slider"]
+    Slider,
+    #[to = "/#spinner"]
+    Spinner,
     #[to = "/#switch"]
     Switch,
     #[to = "/#tabs"]

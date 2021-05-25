@@ -17,6 +17,8 @@ pub struct TextProps {
     pub inline: bool,
     #[prop_or_default]
     pub title: Option<String>,
+    #[prop_or_default]
+    pub style: Option<String>,
 }
 
 impl Component for Text {
@@ -47,6 +49,7 @@ impl Component for Text {
                     self.props.class.clone(),
                     self.props.ellipsize.then (|| "bp3-text-overflow-ellipsis"),
                 )
+                style?=self.props.style.clone()
                 title?=self.props.title.clone()
             >
                 {self.props.children.clone()}

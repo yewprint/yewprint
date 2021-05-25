@@ -15,37 +15,21 @@ jobs:
       size: ${{ steps.build.outputs.size }}
     steps:
     - uses: actions/checkout@v2
-    - name: Install wasm-pack
-      run: |
-        curl -sSL https://github.com/rustwasm/wasm-pack/releases/download/v0.9.1/wasm-pack-v0.9.1-x86_64-unknown-linux-musl.tar.gz \
-          | tar xzO wasm-pack-v0.9.1-x86_64-unknown-linux-musl/wasm-pack \
-          > $HOME/.cargo/bin/wasm-pack
-        chmod +x $HOME/.cargo/bin/wasm-pack
+    - uses: Swatinem/rust-cache@v1
     - run: cargo test --all-features --verbose
     - name: Build (Release)
       id: build
-      run: "./build.sh --release && echo ::set-output name=size::`cat public/wasm_bg.wasm | wc -c`"
+      run: "cargo run -- build && echo ::set-output name=size::`cat build/wasm_bg.wasm | wc -c`"
     - name: Deploy to Netlify
       uses: nwtgck/actions-netlify@v1.1
       with:
-        publish-dir: './public'
+        publish-dir: './build'
         github-token: ${{ secrets.GITHUB_TOKEN }}
         deploy-message: ${{ github.event.pull_request.title }}
       env:
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
       timeout-minutes: 1
-
-  build-windows:
-    runs-on: windows-latest
-    steps:
-      - name: Checkout source
-        uses: actions/checkout@v2
-      - name: cargo build (windows)
-        uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: --target wasm32-unknown-unknown
 
   checks:
     runs-on: ubuntu-latest

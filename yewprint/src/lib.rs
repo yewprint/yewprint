@@ -1,3 +1,5 @@
+#![allow(clippy::redundant_closure, clippy::needless_update)]
+
 mod button_group;
 mod buttons;
 mod callout;
@@ -13,6 +15,8 @@ mod menu;
 mod progressbar;
 mod radio;
 mod radio_group;
+mod slider;
+mod spinner;
 mod switch;
 mod tabs;
 mod tag;
@@ -37,6 +41,8 @@ pub use menu::*;
 pub use progressbar::*;
 pub use radio::*;
 pub use radio_group::*;
+pub use slider::*;
+pub use spinner::*;
 pub use switch::*;
 pub use tabs::*;
 pub use tag::*;

@@ -27,6 +27,8 @@ pub struct CollapseProps {
     pub keep_children_mounted: bool,
     #[prop_or(Duration::from_millis(200))]
     pub transition_duration: Duration,
+    #[prop_or_default]
+    pub class: Classes,
 }
 
 #[derive(Copy, Clone, Debug)]
@@ -179,7 +181,10 @@ impl Component for Collapse {
         html! {
             <div class=classes!("bp3-collapse") style={container_style}>
                 <div
-                    class=classes!("bp3-collapse-body")
+                    class=classes!(
+                        "bp3-collapse-body",
+                        self.props.class.clone(),
+                    )
                     style={content_style}
                     aria-hidden={!self.render_children}
                     ref={self.contents_ref.clone()}
