@@ -21,7 +21,6 @@ impl Component for RadioDoc {
                 disabled: false,
                 inline: false,
                 large: false,
-                selected_value: None,
             },
         }
     }

@@ -1,10 +1,10 @@
 use yew::prelude::*;
-use yewprint::{Radio, RadioGroup};
+use yewprint::{Label, Radio, RadioGroup};
 
 pub struct Example {
     props: ExampleProps,
     link: ComponentLink<Self>,
-    selected_value: Option<String>,
+    selected_value: Lunch,
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -12,11 +12,10 @@ pub struct ExampleProps {
     pub disabled: bool,
     pub inline: bool,
     pub large: bool,
-    pub selected_value: Option<String>,
 }
 
 pub enum Msg {
-    ValueUpdate(String),
+    ValueUpdate(Lunch),
 }
 
 impl Component for Example {
@@ -26,7 +25,7 @@ impl Component for Example {
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
         Example {
             props,
-            selected_value: None,
+            selected_value: Lunch::Salad,
             link,
         }
     }
@@ -34,12 +33,10 @@ impl Component for Example {
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
             Msg::ValueUpdate(value) => {
-                    self.selected_value = Some(value);
-                    true
-                }
+                self.selected_value = value;
+                true
             }
         }
-        false
     }
 
     fn change(&mut self, props: Self::Properties) -> ShouldRender {
@@ -53,21 +50,48 @@ impl Component for Example {
 
     fn view(&self) -> Html {
         html! {
-            <div>
-                <RadioGroup<String>
-                    option_children= vec![
-                        (Lunch::Soup, "Soup".to_string()),
-                        (Lunch::Salad, "Salad".to_string()),
-                        (Lunch::Sandwich, "Sandwich".to_string()),
-                    ]
-                    value=self.selected_value.clone()
-                />
-            </div>
+            <>
+                <div>
+                    <Radio
+                        label=html!("Blue pill")
+                        inline=self.props.inline
+                        disabled=self.props.disabled
+                        large=self.props.large
+                        name="group"
+                    />
+                    <Radio
+                        label=html!("Red pill")
+                        inline=self.props.inline
+                        disabled=self.props.disabled
+                        large=self.props.large
+                        name="group"
+                    />
+                </div>
+                <div>
+                    <RadioGroup<Lunch>
+                        label=Some(html!(
+                            <Label>
+                                {"Determine Lunch"}
+                            </Label>
+                        ))
+                        options=vec![
+                            (Lunch::Soup, "Soup".to_string()),
+                            (Lunch::Salad, "Salad".to_string()),
+                            (Lunch::Sandwich, "Sandwich".to_string()),
+                        ]
+                        value=self.selected_value.clone()
+                        onchange=self.link.callback(|v| Msg::ValueUpdate(v))
+                        inline=self.props.inline
+                        disabled=self.props.disabled
+                        large=self.props.large
+                    />
+                </div>
+            </>
         }
     }
 }
 
-#[derive(Debug, Copy, Hash, PartialEq)]
+#[derive(Debug, Clone, Copy, Hash, PartialEq)]
 pub enum Lunch {
     Soup,
     Salad,

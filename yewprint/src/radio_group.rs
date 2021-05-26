@@ -1,35 +1,35 @@
 use crate::Radio;
-use std::collections::hash_map::DefaultHasher;
-use std::fmt::Display;
-use std::hash::{Hash, Hasher};
 use yew::prelude::*;
 
-pub struct RadioGroup<T: Clone + PartialEq + Default + Hash + Display + 'static> {
+pub struct RadioGroup<T: Clone + PartialEq + 'static> {
     props: RadioGroupProps<T>,
-    link: ComponentLink<Self>,
 }
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct RadioGroupProps<T: Clone + PartialEq + Default + Hash + Display + 'static> {
+pub struct RadioGroupProps<T: Clone + PartialEq + 'static> {
     #[prop_or_default]
     pub label: Option<yew::virtual_dom::VNode>,
     #[prop_or_default]
-    pub label_class: Option<String>,
-    pub option_children: Vec<(T, String)>,
+    pub disabled: bool,
     #[prop_or_default]
-    pub name: String,
+    pub inline: bool,
+    #[prop_or_default]
+    pub large: bool,
+    pub options: Vec<(T, String)>,
     #[prop_or_default]
     pub value: Option<T>,
+    #[prop_or_default]
+    pub onchange: Callback<T>,
     #[prop_or_default]
     pub class: Classes,
 }
 
-impl<T: Clone + PartialEq + Display + Default + Hash + 'static> Component for RadioGroup<T> {
+impl<T: Clone + PartialEq + 'static> Component for RadioGroup<T> {
     type Message = ();
     type Properties = RadioGroupProps<T>;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
-        Self { props, link }
+    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
+        Self { props }
     }
 
     fn update(&mut self, _: Self::Message) -> ShouldRender {
@@ -48,25 +48,26 @@ impl<T: Clone + PartialEq + Display + Default + Hash + 'static> Component for Ra
     fn view(&self) -> Html {
         let option_children = self
             .props
-            .option_children
+            .options
             .iter()
-            .map(|(value, name)| {
-                let selected = self
+            .map(|(value, label)| {
+                let checked = self
                     .props
                     .value
                     .as_ref()
                     .map(|x| value == x)
                     .unwrap_or_default();
-                let value = {
-                    let mut hasher = DefaultHasher::new();
-                    value.hash(&mut hasher);
-                    hasher.finish()
-                };
+                let value = value.clone();
 
                 html! {
-                    <Radio<T>
-                        value=value
-                        label=html!(name)
+                    <Radio
+                        value="".to_string()
+                        label=html!(label)
+                        checked=checked
+                        onchange=self.props.onchange.reform(move |_| value.clone())
+                        inline=self.props.inline
+                        disabled=self.props.disabled
+                        large=self.props.large
                     />
                 }
             })
@@ -78,30 +79,14 @@ impl<T: Clone + PartialEq + Display + Default + Hash + 'static> Component for Ra
                     "bp3-radio-group",
                     self.props.class.clone(),
                 )
-                value?={
-                    self.props.value.as_ref().map(|value| {
-                        let mut hasher = DefaultHasher::new();
-                        value.hash(&mut hasher);
-                        hasher.finish()
-                    })
-                }
             >
-            {
-                if let Some(label) = self.props.label.clone() {
-                    html! {
-                        <label
-                            class=classes!(
-                                "bp3-label",
-                                self.props.label_class.clone(),
-                            )
-                        >
-                            {label}
-                        </label>
+                {
+                    if let Some(label) = self.props.label.clone() {
+                        label
+                    } else {
+                        html!()
                     }
-                } else {
-                    html!()
                 }
-            }
                 {option_children}
             </div>
         }
