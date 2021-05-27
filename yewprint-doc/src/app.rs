@@ -188,7 +188,7 @@ impl Component for App {
                                 />
                                 <MenuItem
                                     text={html!("Radio")}
-                                    href="#radio"
+                                    href=Cow::Borrowed("#radio")
                                     onclick=self.link
                                         .callback(|_| Msg::GoToMenu(DocMenu::Radio))
                                 />
