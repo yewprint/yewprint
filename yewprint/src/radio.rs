@@ -62,7 +62,7 @@ impl Component for Radio {
                     disabled=self.props.disabled
                     value={self.props.value.clone().unwrap_or_default()}
                     checked=self.props.checked.unwrap_or(false)
-                    name?={self.props.name.clone()}
+                    name={self.props.name.clone().unwrap_or_default()}
                 />
                 <span
                     class=classes!("bp3-control-indicator")
