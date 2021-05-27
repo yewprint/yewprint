@@ -57,14 +57,14 @@ impl Component for Example {
                         inline=self.props.inline
                         disabled=self.props.disabled
                         large=self.props.large
-                        name="group"
+                        name="group".to_string()
                     />
                     <Radio
                         label=html!("Red pill")
                         inline=self.props.inline
                         disabled=self.props.disabled
                         large=self.props.large
-                        name="group"
+                        name="group".to_string()
                     />
                 </div>
                 <div>
