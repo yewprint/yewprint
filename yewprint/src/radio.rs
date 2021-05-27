@@ -58,7 +58,7 @@ impl Component for Radio {
             >
                 <input
                     type="radio"
-                    onchange?={self.props.onchange.clone()}
+                    onchange={self.props.onchange.clone().unwrap_or_default()}
                     disabled=self.props.disabled
                     value?={self.props.value.clone()}
                     checked=self.props.checked.unwrap_or(false)
