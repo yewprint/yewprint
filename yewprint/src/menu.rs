@@ -70,7 +70,7 @@ pub struct MenuItemProps {
     #[prop_or_default]
     pub disabled: bool,
     #[prop_or_default]
-    pub href: Option<String>,
+    pub href: Option<&'static str>,
     #[prop_or_default]
     pub label: Option<yew::virtual_dom::VNode>,
     #[prop_or_default]
