@@ -79,7 +79,7 @@ impl Component for Example {
                             (Lunch::Salad, "Salad".to_string()),
                             (Lunch::Sandwich, "Sandwich".to_string()),
                         ]
-                        value=self.selected_value.clone()
+                        value=self.selected_value
                         onchange=self.link.callback(|v| Msg::ValueUpdate(v))
                         inline=self.props.inline
                         disabled=self.props.disabled
