@@ -93,7 +93,7 @@ crate::build_example_prop_component! {
                                 }
                         })
                         type="text"
-                        value={&self.props.text}
+                        value={self.props.text.clone()}
                     />
                 </div>
             }

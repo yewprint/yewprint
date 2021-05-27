@@ -78,21 +78,21 @@ impl Component for Spinner {
                     class=classes!("bp3-spinner-animation")
                 >
                     <svg
-                        width=size
-                        height=size
-                        stroke-width=stroke_width
+                        width=size.to_string()
+                        height=size.to_string()
+                        stroke-width=stroke_width.to_string()
                         viewBox=view_box
                     >
                         <path
                             class=classes!("bp3-spinner-track")
-                            d=spinner_track
+                            d=spinner_track.clone()
                         />
                         <path
                             class=classes!("bp3-spinner-head")
                             d=spinner_track
-                            pathLength=PATH_LENGTH
+                            pathLength=PATH_LENGTH.to_string()
                             stroke-dasharray=format!("{} {}", PATH_LENGTH, PATH_LENGTH)
-                            stroke-dashoffset=stroke_offset
+                            stroke-dashoffset=stroke_offset.to_string()
                         />
                     </svg>
                 </div>

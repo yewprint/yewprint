@@ -10,16 +10,11 @@ edition = "2018"
 default = ["tree"]
 tree = ["id_tree"]
 
-[badges]
-travis-ci = { repository = "cecton/yewprint", branch = "main" }
-is-it-maintained-issue-resolution = { repository = "cecton/yewprint" }
-is-it-maintained-open-issues = { repository = "cecton/yewprint" }
-
 [dependencies]
 web-sys = { version = "0.3", features = ["DomRect", "Element"] }
-yew = { git = "https://github.com/yewstack/yew.git", rev = "db3170f629f" }
+yew = "0.18"
 id_tree = { version = "1.7", optional = true }
-yewtil = { git = "https://github.com/yewstack/yew.git", rev = "db3170f629f", features = ["pure"] }
+yewtil = { version = "0.4", features = ["pure"] }
 wasm-bindgen = "0.2"
 
 [build-dependencies]

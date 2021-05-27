@@ -90,16 +90,16 @@ crate::build_example_prop_component! {
                     <Slider<u32>
                         selected=self.props.size
                         values={vec![
-                            (10, Some("10".to_string())),
+                            (10, Some("10".into())),
                             (20, None),
                             (30, None),
                             (40, None),
-                            (50, Some("50".to_string())),
+                            (50, Some("50".into())),
                             (60, None),
                             (70, None),
                             (80, None),
                             (90, None),
-                            (100, Some("100".to_string())),
+                            (100, Some("100".into())),
                         ]}
                         onchange=self.update_props(|props, size| ExampleProps {
                             size,

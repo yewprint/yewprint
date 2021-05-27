@@ -103,7 +103,7 @@ impl Component for Example {
                     disabled=self.props.disabled
                     left_icon=IconName::Filter
                     placeholder={"Filter histogram..."}
-                    value=&self.histogram_value
+                    value=self.histogram_value.clone()
                     oninput=self.link.callback(|e: InputData| Msg::UpdateHistogram(e.value))
                     onkeydown=self.link.callback(|e: KeyboardEvent| {
                         if e.key() == "Enter" { Msg::AddHistogramEntry } else { Msg::Nope }
@@ -116,7 +116,7 @@ impl Component for Example {
                     round=self.props.round
                     disabled=self.props.disabled
                     placeholder={"Enter your password..."}
-                    value=&self.password_value
+                    value=self.password_value.clone()
                     oninput=self.link.callback(|e: InputData| Msg::UpdatePassword(e.value))
                     onkeydown=self.link.callback(|e: KeyboardEvent| {
                         if e.key() == "Enter" { Msg::AddPasswordEntry } else { Msg::Nope }
@@ -137,7 +137,7 @@ impl Component for Example {
                     disabled=self.props.disabled
                     left_icon=IconName::Tag
                     placeholder={"Find tags"}
-                    value=&self.tags_value
+                    value=self.tags_value.clone()
                     oninput=self.link.callback(|e: InputData| Msg::UpdateTags(e.value))
                     onkeydown=self.link.callback(|e: KeyboardEvent| {
                         if e.key() == "Enter" { Msg::AddTagsEntry } else { Msg::Nope }

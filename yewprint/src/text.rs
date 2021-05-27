@@ -1,3 +1,4 @@
+use std::borrow::Cow;
 use yew::prelude::*;
 
 pub struct Text {
@@ -16,9 +17,9 @@ pub struct TextProps {
     #[prop_or_default]
     pub inline: bool,
     #[prop_or_default]
-    pub title: Option<String>,
+    pub title: Option<Cow<'static, str>>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Option<Cow<'static, str>>,
 }
 
 impl Component for Text {
@@ -49,8 +50,8 @@ impl Component for Text {
                     self.props.class.clone(),
                     self.props.ellipsize.then (|| "bp3-text-overflow-ellipsis"),
                 )
-                style?=self.props.style.clone()
-                title?=self.props.title.clone()
+                style=self.props.style.clone()
+                title=self.props.title.clone()
             >
                 {self.props.children.clone()}
             </@>

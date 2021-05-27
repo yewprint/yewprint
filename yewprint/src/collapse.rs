@@ -186,7 +186,7 @@ impl Component for Collapse {
                         self.props.class.clone(),
                     )
                     style={content_style}
-                    aria-hidden={!self.render_children}
+                    aria-hidden={(!self.render_children).then(|| "true")}
                     ref={self.contents_ref.clone()}
                 >
                     {
