@@ -11,6 +11,7 @@ use crate::icon::*;
 use crate::input_group::*;
 use crate::menu::*;
 use crate::progressbar::*;
+use crate::radio::*;
 use crate::slider::*;
 use crate::spinner::*;
 use crate::switch::*;
@@ -193,6 +194,12 @@ impl Component for App {
                                         .callback(|_| Msg::GoToMenu(DocMenu::ProgressBar))
                                 />
                                 <MenuItem
+                                    text={html!("Radio")}
+                                    href=Cow::Borrowed("#radio")
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Radio))
+                                />
+                                <MenuItem
                                     text={html!("Slider")}
                                     href=Cow::Borrowed("#slider")
                                     onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Slider))
@@ -264,6 +271,7 @@ impl Component for App {
                                         DocMenu::InputGroup => html!(<InputGroupDoc />),
                                         DocMenu::Menu => html!(<MenuDoc />),
                                         DocMenu::ProgressBar => html!(<ProgressBarDoc />),
+                                        DocMenu::Radio => html!(<RadioDoc />),
                                         DocMenu::Slider => html!(<SliderDoc />),
                                         DocMenu::Spinner => html!(<SpinnerDoc />),
                                         DocMenu::Switch => html!(<SwitchDoc />),
@@ -310,6 +318,8 @@ pub enum DocMenu {
     Menu,
     #[to = "/#progress-bar"]
     ProgressBar,
+    #[to = "/#radio"]
+    Radio,
     #[to = "/#slider"]
     Slider,
     #[to = "/#spinner"]

@@ -15,6 +15,7 @@ mod icon;
 mod input_group;
 mod menu;
 mod progressbar;
+mod radio;
 mod slider;
 mod spinner;
 mod switch;
