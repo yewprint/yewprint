@@ -57,7 +57,7 @@ impl Component for Example {
                     fill=self.props.fill
                     disabled=self.props.disabled
                     large=self.props.large
-                    value=self.log_level
+                    value=Some(self.log_level)
                     onchange=self.link.callback(|x| x)
                     title=format!("Selected: {:?}", self.log_level)
                 />
