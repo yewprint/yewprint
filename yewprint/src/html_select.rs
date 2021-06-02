@@ -74,7 +74,7 @@ impl<T: Clone + PartialEq + 'static> Component for HtmlSelect<T> {
                     .unwrap_or_default();
 
                 html! {
-                    <option selected=selected value=value>
+                    <option selected=selected>
                         {label}
                     </option>
                 }
@@ -95,7 +95,6 @@ impl<T: Clone + PartialEq + 'static> Component for HtmlSelect<T> {
                 <select
                     disabled=self.props.disabled
                     onchange={self.link.callback(|x| x)}
-                    value={self.props.value.clone()}
                     title={self.props.title.clone()}
                 >
                     {option_children}
