@@ -22,6 +22,7 @@ pub struct HtmlSelectProps<T: Clone + PartialEq + 'static> {
     pub title: Option<String>,
     #[prop_or_default]
     pub onchange: Callback<T>,
+    #[prop_or_default]
     pub value: Option<T>,
     pub options: Vec<(T, String)>,
     #[prop_or_default]
@@ -95,6 +96,7 @@ impl<T: Clone + PartialEq + 'static> Component for HtmlSelect<T> {
                     disabled=self.props.disabled
                     onchange={self.link.callback(|x| x)}
                     title={self.props.title.clone()}
+                    value={"".to_string()}
                 >
                     {option_children}
                 </select>
