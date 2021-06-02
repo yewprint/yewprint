@@ -1,5 +1,5 @@
 use yew::prelude::*;
-use yewprint::HtmlSelect;
+use yewprint::{HtmlSelect, Button};
 
 pub struct Example {
     props: ExampleProps,
@@ -42,26 +42,35 @@ impl Component for Example {
     }
 
     fn view(&self) -> Html {
-        html! {
-            <div style="width: 400px; text-align: center;">
-                <HtmlSelect<LogLevel>
-                    options={vec![
-                        (LogLevel::Trace, "TRACE".to_string()),
-                        (LogLevel::Debug, "DEBUG".to_string()),
-                        (LogLevel::Info, "INFO".to_string()),
-                        (LogLevel::Warn, "WARN".to_string()),
-                        (LogLevel::Error, "ERROR".to_string()),
-                        (LogLevel::Off, "OFF".to_string()),
-                    ]}
-                    minimal=self.props.minimal
-                    fill=self.props.fill
-                    disabled=self.props.disabled
-                    large=self.props.large
-                    value=Some(self.log_level)
-                    onchange=self.link.callback(|x| x)
-                    title=format!("Selected: {:?}", self.log_level)
-                />
-            </div>
+        if self.log_level == LogLevel::Error {
+            html!{
+                html! {
+                    <div>
+                        <Button />
+                    </div>
+                }
+            }
+        } else {
+            html! {
+                <div style="width: 400px; text-align: center;">
+                    <HtmlSelect<LogLevel>
+                        options={vec![
+                            (LogLevel::Trace, "TRACE".to_string()),
+                            (LogLevel::Debug, "DEBUG".to_string()),
+                            (LogLevel::Info, "INFO".to_string()),
+                            (LogLevel::Warn, "WARN".to_string()),
+                            (LogLevel::Error, "ERROR".to_string()),
+                            (LogLevel::Off, "OFF".to_string()),
+                        ]}
+                        minimal=self.props.minimal
+                        fill=self.props.fill
+                        disabled=self.props.disabled
+                        large=self.props.large
+                        onchange=self.link.callback(|x| x)
+                        title=format!("Selected: {:?}", self.log_level)
+                    />
+                </div>
+            }
         }
     }
 }

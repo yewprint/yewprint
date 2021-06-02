@@ -24,8 +24,6 @@ pub struct HtmlSelectProps<T: Clone + PartialEq + 'static> {
     pub onchange: Callback<T>,
     pub options: Vec<(T, String)>,
     #[prop_or_default]
-    pub value: Option<T>,
-    #[prop_or_default]
     pub class: Classes,
 }
 
