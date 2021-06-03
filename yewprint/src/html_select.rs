@@ -1,9 +1,7 @@
 use crate::{Icon, IconName};
-use std::collections::hash_map::DefaultHasher;
-use std::hash::{Hash, Hasher};
 use yew::prelude::*;
 
-pub struct HtmlSelect<T: Clone + PartialEq + Hash + 'static> {
+pub struct HtmlSelect<T: Clone + PartialEq + 'static> {
     props: HtmlSelectProps<T>,
     link: ComponentLink<Self>,
 }
@@ -24,14 +22,14 @@ pub struct HtmlSelectProps<T: Clone + PartialEq + 'static> {
     pub title: Option<String>,
     #[prop_or_default]
     pub onchange: Callback<T>,
-    pub options: Vec<(T, String)>,
     #[prop_or_default]
     pub value: Option<T>,
+    pub options: Vec<(T, String)>,
     #[prop_or_default]
     pub class: Classes,
 }
 
-impl<T: Clone + PartialEq + Hash + 'static> Component for HtmlSelect<T> {
+impl<T: Clone + PartialEq + 'static> Component for HtmlSelect<T> {
     type Message = ChangeData;
     type Properties = HtmlSelectProps<T>;
 
@@ -74,14 +72,9 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for HtmlSelect<T> {
                     .as_ref()
                     .map(|x| value == x)
                     .unwrap_or_default();
-                let value = {
-                    let mut hasher = DefaultHasher::new();
-                    value.hash(&mut hasher);
-                    hasher.finish()
-                };
 
                 html! {
-                    <option selected=selected value=value.to_string()>
+                    <option selected=selected>
                         {label}
                     </option>
                 }
@@ -102,16 +95,8 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for HtmlSelect<T> {
                 <select
                     disabled=self.props.disabled
                     onchange={self.link.callback(|x| x)}
-                    value={
-                        self.props.value
-                            .as_ref()
-                            .map(|value| {
-                                let mut hasher = DefaultHasher::new();
-                                value.hash(&mut hasher);
-                                hasher.finish().to_string()
-                            })
-                    }
                     title={self.props.title.clone()}
+                    value={"".to_string()}
                 >
                     {option_children}
                 </select>
