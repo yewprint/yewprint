@@ -15,34 +15,34 @@ Installation
 
 ```toml
 yewprint = { git = "https://github.com/cecton/yewprint.git", branch = "main" }
-
-# right now you need a specific version of Yew to use Yewprint
-yew = { git = "https://github.com/yewstack/yew.git", rev = "db3170f629f" }
-
-# other yew dependencies need to use this version
-# yew-router = { git = "https://github.com/yewstack/yew.git", rev = "db3170f629f" }
-# yewtil = { git = "https://github.com/yewstack/yew.git", rev = "db3170f629f", features = ["pure"] }
 ```
 
-You will also need the CSS from blueprint, for that you can include the
-CSS file directly
+You will also need the CSS from Blueprint. There is a helper crate that can be
+used to automatize this:
 
-## Development
+```toml
+yewprint-css = { git = "https://github.com/cecton/yewprint.git", branch = "main" }
+```
 
-This section will walk you through setting up the environment required to modify
-the source of `yewprint`.
+Then you can add this to your build process:
 
-### Prerequisites
+```
+yewprint_css::download_css("static/blueprint.css)?;
+```
 
- *  [Rust (stable)](https://rustup.rs/)
-
-### Run the development server
+## Development Environment
 
 ```
 cargo run -- serve
 ```
 
 You can now go to http://localhost:3000
+
+### Blueprint CSS update
+
+```
+cargo run -- update-css
+```
 
 Roadmap
 -------
