@@ -26,6 +26,7 @@ mod switch;
 mod tabs;
 mod tag;
 mod text;
+mod textarea;
 #[cfg(feature = "tree")]
 mod tree;
 
@@ -53,6 +54,7 @@ pub use switch::*;
 pub use tabs::*;
 pub use tag::*;
 pub use text::*;
+pub use textarea::*;
 #[cfg(feature = "tree")]
 pub use tree::*;
 

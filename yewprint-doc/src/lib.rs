@@ -22,6 +22,7 @@ mod switch;
 mod tabs;
 mod tag;
 mod text;
+mod textarea;
 mod tree;
 
 pub use app::*;
