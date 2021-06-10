@@ -4,8 +4,9 @@ version = "0.1.0"
 edition = "2018"
 
 [dependencies]
-wasm-run = "0.8.1"
 structopt = "0.3"
+wasm-run = "0.8"
+yewprint-css = { path = "./yewprint-css" }
 
 [workspace]
-members = ["yewprint", "yewprint-doc"]
+members = ["yewprint", "yewprint-css", "yewprint-doc"]
