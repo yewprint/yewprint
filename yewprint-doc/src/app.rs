@@ -17,6 +17,7 @@ use crate::switch::*;
 use crate::tabs::*;
 use crate::tag::*;
 use crate::text::*;
+use crate::textarea::*;
 use crate::tree::*;
 use std::borrow::Cow;
 use yew::prelude::*;
@@ -228,6 +229,12 @@ impl Component for App {
                                         .callback(|_| Msg::GoToMenu(DocMenu::Text))
                                 />
                                 <MenuItem
+                                    text={html!("TextArea")}
+                                    href=Cow::Borrowed("#textarea")
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::TextArea))
+                                />
+                                <MenuItem
                                     text={html!("Tree")}
                                     href=Cow::Borrowed("#tree")
                                     onclick=self.link
@@ -270,6 +277,7 @@ impl Component for App {
                                         DocMenu::Tabs => html!(<TabsDoc />),
                                         DocMenu::Tag => html!(<TagDoc />),
                                         DocMenu::Text => html!(<TextDoc />),
+                                        DocMenu::TextArea => html!(<TextAreaDoc />),
                                         DocMenu::Tree => html!(<TreeDoc />),
                                     }
                                 })
@@ -320,6 +328,8 @@ pub enum DocMenu {
     Tabs,
     #[to = "/#tag"]
     Tag,
+    #[to = "/#textarea"]
+    TextArea,
     #[to = "/#text"]
     Text,
     #[to = "/#tree"]
