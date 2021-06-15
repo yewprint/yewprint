@@ -1,45 +1,95 @@
-use crate::Text;
+use std::cell::RefCell;
+use std::fmt;
+use std::rc::Rc;
 use yew::prelude::*;
 
+#[derive(Debug, PartialEq)]
+pub struct PanelStackOpen {
+    pub title: Option<Html>,
+    pub content: Html,
+}
+
+#[derive(Clone)]
+pub struct PanelStackState {
+    opened_panels: Rc<RefCell<Vec<(Option<Html>, Html)>>>,
+    onopen: Callback<PanelStackOpen>,
+    onclose: Callback<()>,
+    version: usize,
+}
+
+impl PanelStackState {
+    pub fn new(
+        builder: impl Fn(Callback<PanelStackOpen>, Callback<()>) -> PanelStackOpen,
+        onopen: Callback<PanelStackOpen>,
+        onclose: Callback<()>,
+    ) -> Self {
+        let instance = Self {
+            opened_panels: Default::default(),
+            onopen: onopen.clone(),
+            onclose: onclose.clone(),
+            version: 0,
+        };
+
+        let root_panel = builder(onopen.clone(), onclose.clone());
+        instance
+            .opened_panels
+            .borrow_mut()
+            .push((root_panel.title, root_panel.content));
+
+        instance
+    }
+
+    pub fn close_panel(&mut self) -> bool {
+        let mut opened_panels = self.opened_panels.borrow_mut();
+        if opened_panels.len() > 1 {
+            opened_panels.pop();
+            self.version = self.version.wrapping_add(1);
+            true
+        } else {
+            false
+        }
+    }
+
+    pub fn open_panel(&mut self, panel: PanelStackOpen) -> bool {
+        self.opened_panels
+            .borrow_mut()
+            .push((panel.title, panel.content));
+        self.version = self.version.wrapping_add(1);
+        true
+    }
+}
+
+impl PartialEq for PanelStackState {
+    fn eq(&self, other: &Self) -> bool {
+        self.version == other.version
+    }
+}
+
+impl fmt::Debug for PanelStackState {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "PanelStackState({})", self.version)
+    }
+}
+
 pub struct PanelStack {
-    link: ComponentLink<Self>,
     props: PanelStackProps,
-    opened_panels: Vec<(Option<Html>, Html)>,
 }
 
 #[derive(Debug, Clone, PartialEq, Properties)]
 pub struct PanelStackProps {
-    #[prop_or_default]
-    pub title: Option<Html>,
-    pub children: Children,
-}
-
-#[derive(Debug, Clone, PartialEq)]
-pub enum PanelMessage {
-    OpenPanel(Option<Html>, Html),
-    ClosePanel,
+    pub state: PanelStackState,
 }
 
 impl Component for PanelStack {
-    type Message = PanelMessage;
+    type Message = ();
     type Properties = PanelStackProps;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
-        Self {
-            props,
-            opened_panels: Default::default(),
-            link,
-        }
+    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
+        Self { props }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
-        match msg {
-            PanelMessage::OpenPanel(_, _) => todo!(),
-            PanelMessage::ClosePanel => {
-                self.opened_panels.pop();
-                true
-            }
-        }
+    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
+        todo!()
     }
 
     fn change(&mut self, props: Self::Properties) -> ShouldRender {
@@ -52,25 +102,36 @@ impl Component for PanelStack {
     }
 
     fn view(&self) -> Html {
-        let mut it = self.opened_panels.iter().rev();
-        let last = it.next();
-        let previous = it.next();
+        let count = self.props.state.opened_panels.borrow().len();
 
         html! {
             <div
                 class=classes!(
                     "bp3-panel-stack2",
                     "bp3-panel-stack2-push",
-                    "docs-panel-stack-example")
+                    "docs-panel-stack-example",
+                )
             >
-                <Panel
-                    title=self.props.title.clone()
-                    animation=Animation::None
-                    onopen=self.link.callback(|(title, content)| PanelMessage::OpenPanel(title, content))
-                    onclose=self.link.callback(|_| PanelMessage::ClosePanel)
-                >
-                {self.props.children.clone()}
-                </Panel>
+            {
+                self
+                    .props
+                    .state
+                    .opened_panels
+                    .borrow()
+                    .iter()
+                    .enumerate()
+                    .rev()
+                    .map(|(i, (title, content))| html! {
+                        <Panel
+                            title=title.clone()
+                            animation=Animation::None
+                            selected={i == count - 1}
+                        >
+                            {content.clone()}
+                        </Panel>
+                    })
+                    .collect::<Html>()
+            }
             </div>
         }
     }
@@ -84,9 +145,8 @@ struct Panel {
 struct PanelProps {
     title: Option<Html>,
     animation: Animation,
-    onopen: Callback<(Option<Html>, Html)>,
-    onclose: Callback<()>,
     children: Children,
+    selected: bool,
 }
 
 impl Component for Panel {
@@ -111,15 +171,16 @@ impl Component for Panel {
     }
 
     fn view(&self) -> Html {
+        let style = (!self.props.selected).then(|| "display:none");
+
         html! {
-            <div class="bp3-panel-stack-view">
+            <div class="bp3-panel-stack-view" style=style>
                 <div class="bp3-panel-stack-header">
                     <span/>
                     {self.props.title.clone().unwrap_or_default()}
                     <span/>
                 </div>
                 <div>
-                // TODO how to pass onopen and onclose
                 {self.props.children.clone()}
                 </div>
             </div>
