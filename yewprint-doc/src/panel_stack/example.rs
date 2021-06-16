@@ -15,7 +15,7 @@ pub struct ExampleProps {
 
 #[derive(Debug, PartialEq)]
 pub enum ExampleMessage {
-    OpenPanel(PanelStackOpen),
+    OpenPanel2,
     ClosePanel,
 }
 
@@ -24,48 +24,45 @@ impl Component for Example {
     type Properties = ExampleProps;
 
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
-        let state = PanelStackState::new(
-            |onopen, onclose| PanelStackOpen {
-                title: Some(html! {
-                    <Text class=classes!("bp3-heading") ellipsize=true>
-                        {"Hello World"}
-                    </Text>
-                }),
-                content: html! {
-                    <>
-                    <div>{"Root panel"}</div>
-                    <Button
-                        onclick=onopen.reform(move |_| PanelStackOpen {
-                            title: Some(html! {
-                                <Text class=classes!("bp3-heading") ellipsize=true>
-                                    {"Panel 2"}
-                                </Text>
-                            }),
-                            content: html! {
-                                <>
-                                <div>{"Panel 2 content"}</div>
-                                <Button onclick=onclose.reform(|_| ())>
-                                    {"Close panel"}
-                                </Button>
-                                </>
-                            },
-                        })
-                    >
-                        {"Open panel 2"}
-                    </Button>
-                    </>
-                },
+        let state = PanelStackState::new(PanelStackOpen {
+            title: Some(html! {
+                <Text class=classes!("bp3-heading") ellipsize=true>
+                    {"Hello World"}
+                </Text>
+            }),
+            content: html! {
+                <>
+                <div>{"Root panel"}</div>
+                <Button
+                    onclick=link.callback(|_| ExampleMessage::OpenPanel2)
+                >
+                    {"Open panel 2"}
+                </Button>
+                </>
             },
-            link.callback(|open| ExampleMessage::OpenPanel(open)),
-            link.callback(|_| ExampleMessage::ClosePanel),
-        );
+        });
 
         Example { link, props, state }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
-            ExampleMessage::OpenPanel(open) => self.state.open_panel(open),
+            ExampleMessage::OpenPanel2 => self.state.open_panel(PanelStackOpen {
+                title: Some(html! {
+                    <Text class=classes!("bp3-heading") ellipsize=true>
+                        {"Panel 2"}
+                    </Text>
+                }),
+                content: html! {
+                    <>
+                    <div>{"Panel 2 content"}</div>
+                    <Button onclick=self.link.callback(|_| ExampleMessage::ClosePanel)>
+                        {"Close panel"}
+                    </Button>
+                    </>
+                },
+            }),
+            // Always close the last panel.
             ExampleMessage::ClosePanel => self.state.close_panel(),
         }
     }

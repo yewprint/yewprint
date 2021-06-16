@@ -12,25 +12,16 @@ pub struct PanelStackOpen {
 #[derive(Clone)]
 pub struct PanelStackState {
     opened_panels: Rc<RefCell<Vec<(Option<Html>, Html)>>>,
-    onopen: Callback<PanelStackOpen>,
-    onclose: Callback<()>,
     version: usize,
 }
 
 impl PanelStackState {
-    pub fn new(
-        builder: impl Fn(Callback<PanelStackOpen>, Callback<()>) -> PanelStackOpen,
-        onopen: Callback<PanelStackOpen>,
-        onclose: Callback<()>,
-    ) -> Self {
+    pub fn new(root_panel: PanelStackOpen) -> Self {
         let instance = Self {
             opened_panels: Default::default(),
-            onopen: onopen.clone(),
-            onclose: onclose.clone(),
             version: 0,
         };
 
-        let root_panel = builder(onopen.clone(), onclose.clone());
         instance
             .opened_panels
             .borrow_mut()
