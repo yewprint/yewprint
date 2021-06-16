@@ -119,6 +119,7 @@ impl From<StateAction> for Classes {
 pub struct PanelStack {
     timeout_task: Option<TimeoutTask>,
     props: PanelStackProps,
+    link: ComponentLink<Self>,
 }
 
 #[derive(Debug, Clone, PartialEq, Properties)]
@@ -128,19 +129,29 @@ pub struct PanelStackProps {
     pub class: Classes,
 }
 
+pub enum PanelStackMessage {
+    PopPanel,
+}
+
 impl Component for PanelStack {
-    type Message = ();
+    type Message = PanelStackMessage;
     type Properties = PanelStackProps;
 
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
+    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
         Self {
             timeout_task: None,
             props,
+            link,
         }
     }
 
-    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
-        todo!()
+    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+        match msg {
+            PanelStackMessage::PopPanel => {
+                self.props.state.opened_panels.borrow_mut().pop();
+                true
+            }
+        }
     }
 
     fn change(&mut self, props: Self::Properties) -> ShouldRender {
@@ -154,7 +165,8 @@ impl Component for PanelStack {
 
     fn view(&self) -> Html {
         let opened_panels = self.props.state.opened_panels.borrow();
-        let last = match self.props.state.action {
+        let action = self.props.state.action;
+        let last = match action {
             Some(StateAction::Pop) => opened_panels.len() - 2,
             _ => opened_panels.len() - 1,
         };
@@ -163,7 +175,7 @@ impl Component for PanelStack {
             <div
                 class=classes!(
                     "bp3-panel-stack2",
-                    self.props.state.action,
+                    action,
                     self.props.class.clone(),
                 )
             >
@@ -177,9 +189,9 @@ impl Component for PanelStack {
                             title=title.clone()
                             animation={if i == last {
                                 Animation::EnterStart
-                            } else if last > 0 && i == last - 1 {
+                            } else if action == Some(StateAction::Push) && last > 0 && i == last - 1 {
                                 Animation::ExitStart
-                            } else if i == last + 1 {
+                            } else if action == Some(StateAction::Pop) && i == last + 1 {
                                 Animation::ExitStart
                             } else {
                                 Animation::Exited
@@ -197,13 +209,9 @@ impl Component for PanelStack {
 
     fn rendered(&mut self, _first_render: bool) {
         if self.props.state.action.take() == Some(StateAction::Pop) {
-            let opened_panels = self.props.state.opened_panels.clone();
-
             self.timeout_task.replace(TimeoutService::spawn(
                 Duration::from_millis(400),
-                Callback::<()>::from(move |_| {
-                    opened_panels.borrow_mut().pop();
-                }),
+                self.link.callback(|_| PanelStackMessage::PopPanel),
             ));
         }
     }
@@ -261,7 +269,11 @@ impl Component for Panel {
     }
 
     fn view(&self) -> Html {
-        let style = (self.animation == Animation::Exited).then(|| "display:none");
+        let style = if self.animation == Animation::Exited {
+            "display:none"
+        } else {
+            "display:block"
+        };
         let classes = classes!(
             "bp3-panel-stack-view",
             match self.animation {

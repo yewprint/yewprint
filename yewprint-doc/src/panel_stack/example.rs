@@ -27,9 +27,7 @@ impl Component for Example {
         let state = PanelStackState::new(html! {
             <>
             <div>{"Hello World!"}</div>
-            <Button
-                onclick=link.callback(|_| ExampleMessage::OpenPanel2)
-            >
+            <Button onclick=link.callback(|_| ExampleMessage::OpenPanel2)>
                 {"Open panel 2"}
             </Button>
             </>
@@ -52,6 +50,9 @@ impl Component for Example {
                     <>
                     <Button onclick=self.link.callback(|_| ExampleMessage::ClosePanel)>
                         {"Close panel"}
+                    </Button>
+                    <Button onclick=self.link.callback(|_| ExampleMessage::OpenPanel2)>
+                        {"Open panel 2"}
                     </Button>
                     <Panel2 />
                     </>
