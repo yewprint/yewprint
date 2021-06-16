@@ -1,5 +1,5 @@
 use yew::prelude::*;
-use yewprint::{Button, PanelStack, PanelStackOpen, PanelStackState, Text};
+use yewprint::{Button, PanelStack, PanelStackState, Text};
 
 pub struct Example {
     link: ComponentLink<Self>,
@@ -24,44 +24,44 @@ impl Component for Example {
     type Properties = ExampleProps;
 
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
-        let state = PanelStackState::new(PanelStackOpen {
-            title: Some(html! {
-                <Text class=classes!("bp3-heading") ellipsize=true>
-                    {"Hello World"}
-                </Text>
-            }),
-            content: html! {
-                <>
-                <div>{"Root panel"}</div>
-                <Button
-                    onclick=link.callback(|_| ExampleMessage::OpenPanel2)
-                >
-                    {"Open panel 2"}
-                </Button>
-                </>
-            },
-        });
+        let state = PanelStackState::new(html! {
+            <>
+            <div>{"Root panel"}</div>
+            <Button
+                onclick=link.callback(|_| ExampleMessage::OpenPanel2)
+            >
+                {"Open panel 2"}
+            </Button>
+            </>
+        })
+        .with_title(html! {
+            <Text class=classes!("bp3-heading") ellipsize=true>
+                {"Hello World"}
+            </Text>
+        })
+        .finish();
 
         Example { link, props, state }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
-            ExampleMessage::OpenPanel2 => self.state.open_panel(PanelStackOpen {
-                title: Some(html! {
-                    <Text class=classes!("bp3-heading") ellipsize=true>
-                        {"Panel 2"}
-                    </Text>
-                }),
-                content: html! {
+            ExampleMessage::OpenPanel2 => self
+                .state
+                .open_panel(html! {
                     <>
                     <div>{"Panel 2 content"}</div>
                     <Button onclick=self.link.callback(|_| ExampleMessage::ClosePanel)>
                         {"Close panel"}
                     </Button>
                     </>
-                },
-            }),
+                })
+                .with_title(html! {
+                    <Text class=classes!("bp3-heading") ellipsize=true>
+                        {"Panel 2"}
+                    </Text>
+                })
+                .finish(),
             // Always close the last panel.
             ExampleMessage::ClosePanel => self.state.close_panel(),
         }

@@ -3,10 +3,34 @@ use std::fmt;
 use std::rc::Rc;
 use yew::prelude::*;
 
-#[derive(Debug, PartialEq)]
-pub struct PanelStackOpen {
-    pub title: Option<Html>,
-    pub content: Html,
+pub struct PanelBuilder<F: Fn(Option<Html>, I) -> O, I, O> {
+    title: Option<Html>,
+    input: I,
+    finish: F,
+}
+
+impl<F, I, O> PanelBuilder<F, I, O>
+where
+    F: Fn(Option<Html>, I) -> O,
+{
+    fn new(input: I, finish: F) -> PanelBuilder<F, I, O> {
+        Self {
+            title: None,
+            input,
+            finish,
+        }
+    }
+
+    pub fn with_title(self, title: Html) -> PanelBuilder<F, I, O> {
+        Self {
+            title: Some(title),
+            ..self
+        }
+    }
+
+    pub fn finish(self) -> O {
+        (self.finish)(self.title, self.input)
+    }
 }
 
 #[derive(Clone)]
@@ -16,18 +40,17 @@ pub struct PanelStackState {
 }
 
 impl PanelStackState {
-    pub fn new(root_panel: PanelStackOpen) -> Self {
-        let instance = Self {
-            opened_panels: Default::default(),
-            version: 0,
-        };
+    pub fn new(content: Html) -> PanelBuilder<fn(Option<Html>, Html) -> Self, Html, Self> {
+        PanelBuilder::new(content, |title, content| {
+            let instance = PanelStackState {
+                opened_panels: Default::default(),
+                version: 0,
+            };
 
-        instance
-            .opened_panels
-            .borrow_mut()
-            .push((root_panel.title, root_panel.content));
+            instance.opened_panels.borrow_mut().push((title, content));
 
-        instance
+            instance
+        })
     }
 
     pub fn close_panel(&mut self) -> bool {
@@ -41,12 +64,23 @@ impl PanelStackState {
         }
     }
 
-    pub fn open_panel(&mut self, panel: PanelStackOpen) -> bool {
-        self.opened_panels
-            .borrow_mut()
-            .push((panel.title, panel.content));
+    pub fn open_panel(
+        &mut self,
+        content: Html,
+    ) -> PanelBuilder<
+        fn(Option<Html>, (Html, Rc<RefCell<Vec<(Option<Html>, Html)>>>)) -> bool,
+        (Html, Rc<RefCell<Vec<(Option<Html>, Html)>>>),
+        bool,
+    > {
+        let opened_panels = self.opened_panels.clone();
         self.version = self.version.wrapping_add(1);
-        true
+        PanelBuilder::new(
+            (content, opened_panels),
+            |title, (content, opened_panels)| {
+                opened_panels.borrow_mut().push((title, content));
+                true
+            },
+        )
     }
 }
 
