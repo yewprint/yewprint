@@ -26,7 +26,7 @@ impl Component for Example {
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
         let state = PanelStackState::new(html! {
             <>
-            <div>{"Root panel"}</div>
+            <div>{"Hello World!"}</div>
             <Button
                 onclick=link.callback(|_| ExampleMessage::OpenPanel2)
             >
@@ -36,7 +36,7 @@ impl Component for Example {
         })
         .with_title(html! {
             <Text class=classes!("bp3-heading") ellipsize=true>
-                {"Hello World"}
+                {"Root Panel"}
             </Text>
         })
         .finish();
@@ -50,10 +50,10 @@ impl Component for Example {
                 .state
                 .open_panel(html! {
                     <>
-                    <div>{"Panel 2 content"}</div>
                     <Button onclick=self.link.callback(|_| ExampleMessage::ClosePanel)>
                         {"Close panel"}
                     </Button>
+                    <Panel2 />
                     </>
                 })
                 .with_title(html! {
@@ -79,7 +79,56 @@ impl Component for Example {
     fn view(&self) -> Html {
         html! {
             <div>
-                <PanelStack state=self.state.clone() />
+                <PanelStack
+                    state=self.state.clone()
+                    class=classes!("docs-panel-stack-example")
+                />
+            </div>
+        }
+    }
+}
+
+// Second panel: a simple counter
+
+pub struct Panel2 {
+    link: ComponentLink<Self>,
+    counter: i64,
+}
+
+pub enum Panel2Message {
+    AddOne,
+}
+
+impl Component for Panel2 {
+    type Message = Panel2Message;
+    type Properties = ();
+
+    fn create(_props: Self::Properties, link: ComponentLink<Self>) -> Self {
+        Panel2 { counter: 0, link }
+    }
+
+    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+        match msg {
+            Panel2Message::AddOne => {
+                self.counter += 1;
+                true
+            }
+        }
+    }
+
+    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
+        false
+    }
+
+    fn view(&self) -> Html {
+        html! {
+            <div>
+                <p>{"Counter: "}{self.counter}</p>
+                <div>
+                    <Button onclick=self.link.callback(|_| Panel2Message::AddOne)>
+                        {"Add 1"}
+                    </Button>
+                </div>
             </div>
         }
     }

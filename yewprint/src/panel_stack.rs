@@ -1,7 +1,9 @@
 use std::cell::RefCell;
 use std::fmt;
 use std::rc::Rc;
+use std::time::Duration;
 use yew::prelude::*;
+use yew::services::timeout::{TimeoutService, TimeoutTask};
 
 pub struct PanelBuilder<F: Fn(Option<Html>, I) -> O, I, O> {
     title: Option<Html>,
@@ -37,6 +39,7 @@ where
 pub struct PanelStackState {
     opened_panels: Rc<RefCell<Vec<(Option<Html>, Html)>>>,
     version: usize,
+    action: Option<StateAction>,
 }
 
 impl PanelStackState {
@@ -44,7 +47,8 @@ impl PanelStackState {
         PanelBuilder::new(content, |title, content| {
             let instance = PanelStackState {
                 opened_panels: Default::default(),
-                version: 0,
+                version: Default::default(),
+                action: Default::default(),
             };
 
             instance.opened_panels.borrow_mut().push((title, content));
@@ -54,10 +58,10 @@ impl PanelStackState {
     }
 
     pub fn close_panel(&mut self) -> bool {
-        let mut opened_panels = self.opened_panels.borrow_mut();
+        let opened_panels = self.opened_panels.borrow();
         if opened_panels.len() > 1 {
-            opened_panels.pop();
             self.version = self.version.wrapping_add(1);
+            self.action.replace(StateAction::Pop);
             true
         } else {
             false
@@ -74,6 +78,7 @@ impl PanelStackState {
     > {
         let opened_panels = self.opened_panels.clone();
         self.version = self.version.wrapping_add(1);
+        self.action.replace(StateAction::Push);
         PanelBuilder::new(
             (content, opened_panels),
             |title, (content, opened_panels)| {
@@ -96,13 +101,31 @@ impl fmt::Debug for PanelStackState {
     }
 }
 
+#[derive(Debug, Copy, Clone, PartialEq)]
+enum StateAction {
+    Push,
+    Pop,
+}
+
+impl From<StateAction> for Classes {
+    fn from(action: StateAction) -> Self {
+        Classes::from(match action {
+            StateAction::Push => "bp3-panel-stack2-push",
+            StateAction::Pop => "bp3-panel-stack2-pop",
+        })
+    }
+}
+
 pub struct PanelStack {
+    timeout_task: Option<TimeoutTask>,
     props: PanelStackProps,
 }
 
 #[derive(Debug, Clone, PartialEq, Properties)]
 pub struct PanelStackProps {
     pub state: PanelStackState,
+    #[prop_or_default]
+    pub class: Classes,
 }
 
 impl Component for PanelStack {
@@ -110,7 +133,10 @@ impl Component for PanelStack {
     type Properties = PanelStackProps;
 
     fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        Self { props }
+        Self {
+            timeout_task: None,
+            props,
+        }
     }
 
     fn update(&mut self, _msg: Self::Message) -> ShouldRender {
@@ -127,30 +153,38 @@ impl Component for PanelStack {
     }
 
     fn view(&self) -> Html {
-        let count = self.props.state.opened_panels.borrow().len();
+        let opened_panels = self.props.state.opened_panels.borrow();
+        let last = match self.props.state.action {
+            Some(StateAction::Pop) => opened_panels.len() - 2,
+            _ => opened_panels.len() - 1,
+        };
 
         html! {
             <div
                 class=classes!(
                     "bp3-panel-stack2",
-                    "bp3-panel-stack2-push",
-                    "docs-panel-stack-example",
+                    self.props.state.action,
+                    self.props.class.clone(),
                 )
             >
             {
-                self
-                    .props
-                    .state
-                    .opened_panels
-                    .borrow()
+                opened_panels
                     .iter()
                     .enumerate()
                     .rev()
                     .map(|(i, (title, content))| html! {
                         <Panel
                             title=title.clone()
-                            animation=Animation::None
-                            selected={i == count - 1}
+                            animation={if i == last {
+                                Animation::EnterStart
+                            } else if last > 0 && i == last - 1 {
+                                Animation::ExitStart
+                            } else if i == last + 1 {
+                                Animation::ExitStart
+                            } else {
+                                Animation::Exited
+                            }}
+                            key=i
                         >
                             {content.clone()}
                         </Panel>
@@ -160,10 +194,26 @@ impl Component for PanelStack {
             </div>
         }
     }
+
+    fn rendered(&mut self, _first_render: bool) {
+        if self.props.state.action.take() == Some(StateAction::Pop) {
+            let opened_panels = self.props.state.opened_panels.clone();
+
+            self.timeout_task.replace(TimeoutService::spawn(
+                Duration::from_millis(400),
+                Callback::<()>::from(move |_| {
+                    opened_panels.borrow_mut().pop();
+                }),
+            ));
+        }
+    }
 }
 
 struct Panel {
+    animation: Animation,
+    timeout_task: Option<TimeoutTask>,
     props: PanelProps,
+    link: ComponentLink<Self>,
 }
 
 #[derive(Debug, Clone, PartialEq, Properties)]
@@ -171,23 +221,38 @@ struct PanelProps {
     title: Option<Html>,
     animation: Animation,
     children: Children,
-    selected: bool,
+}
+
+#[derive(Debug, Copy, Clone, PartialEq)]
+enum PanelMessage {
+    UpdateAnimation(Animation),
 }
 
 impl Component for Panel {
-    type Message = ();
+    type Message = PanelMessage;
     type Properties = PanelProps;
 
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        Self { props }
+    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+        Self {
+            animation: props.animation,
+            timeout_task: None,
+            props,
+            link,
+        }
     }
 
-    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
-        todo!()
+    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+        match msg {
+            PanelMessage::UpdateAnimation(animation) => {
+                self.animation = animation;
+                true
+            }
+        }
     }
 
     fn change(&mut self, props: Self::Properties) -> ShouldRender {
         if self.props != props {
+            self.animation = props.animation;
             self.props = props;
             true
         } else {
@@ -196,10 +261,21 @@ impl Component for Panel {
     }
 
     fn view(&self) -> Html {
-        let style = (!self.props.selected).then(|| "display:none");
+        let style = (self.animation == Animation::Exited).then(|| "display:none");
+        let classes = classes!(
+            "bp3-panel-stack-view",
+            match self.animation {
+                Animation::EnterStart => Some("bp3-panel-stack2-enter"),
+                Animation::Entering => Some("bp3-panel-stack2-enter bp3-panel-stack2-enter-active"),
+                Animation::Entered => None,
+                Animation::ExitStart => Some("bp3-panel-stack2-exit"),
+                Animation::Exiting => Some("bp3-panel-stack2-exit bp3-panel-stack2-exit-active"),
+                Animation::Exited => None,
+            }
+        );
 
         html! {
-            <div class="bp3-panel-stack-view" style=style>
+            <div class=classes style=style>
                 <div class="bp3-panel-stack-header">
                     <span/>
                     {self.props.title.clone().unwrap_or_default()}
@@ -211,9 +287,49 @@ impl Component for Panel {
             </div>
         }
     }
+
+    fn rendered(&mut self, _first_render: bool) {
+        match self.animation {
+            Animation::EnterStart => {
+                self.timeout_task.replace(TimeoutService::spawn(
+                    Duration::from_millis(0),
+                    self.link
+                        .callback(|_| PanelMessage::UpdateAnimation(Animation::Entering)),
+                ));
+            }
+            Animation::Entering => {
+                self.timeout_task.replace(TimeoutService::spawn(
+                    Duration::from_millis(400),
+                    self.link
+                        .callback(|_| PanelMessage::UpdateAnimation(Animation::Entered)),
+                ));
+            }
+            Animation::Entered => {}
+            Animation::ExitStart => {
+                self.timeout_task.replace(TimeoutService::spawn(
+                    Duration::from_millis(0),
+                    self.link
+                        .callback(|_| PanelMessage::UpdateAnimation(Animation::Exiting)),
+                ));
+            }
+            Animation::Exiting => {
+                self.timeout_task.replace(TimeoutService::spawn(
+                    Duration::from_millis(400),
+                    self.link
+                        .callback(|_| PanelMessage::UpdateAnimation(Animation::Exited)),
+                ));
+            }
+            Animation::Exited => {}
+        }
+    }
 }
 
 #[derive(Debug, Copy, Clone, PartialEq)]
 enum Animation {
-    None,
+    EnterStart,
+    Entering,
+    Entered,
+    ExitStart,
+    Exiting,
+    Exited,
 }
