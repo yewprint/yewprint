@@ -1,4 +1,5 @@
-use crate::{Icon, IconName, Intent};
+use crate::{Icon, IconName, Intent, Spinner, ICON_SIZE_LARGE};
+use std::borrow::Cow;
 use yew::prelude::*;
 
 pub struct Button {
@@ -12,6 +13,16 @@ pub struct ButtonProps {
     #[prop_or_default]
     pub minimal: bool,
     #[prop_or_default]
+    pub small: bool,
+    #[prop_or_default]
+    pub outlined: bool,
+    #[prop_or_default]
+    pub loading: bool,
+    #[prop_or_default]
+    pub large: bool,
+    #[prop_or_default]
+    pub active: bool,
+    #[prop_or_default]
     pub disabled: bool,
     #[prop_or_default]
     pub icon: Option<IconName>,
@@ -23,6 +34,8 @@ pub struct ButtonProps {
     pub onclick: Callback<MouseEvent>,
     #[prop_or_default]
     pub class: Classes,
+    #[prop_or_default]
+    pub style: Option<Cow<'static, str>>,
     #[prop_or_default]
     pub children: html::Children,
 }
@@ -55,12 +68,30 @@ impl Component for Button {
                     "bp3-button",
                     self.props.fill.then(|| "bp3-fill"),
                     self.props.minimal.then(|| "bp3-minimal"),
+                    self.props.small.then(|| "bp3-small"),
+                    self.props.outlined.then(|| "bp3-outlined"),
+                    self.props.loading.then(|| "bp3-loading"),
+                    self.props.large.then(|| "bp3-large"),
+                    (self.props.active && !self.props.disabled).then(|| "bp3-active"),
                     self.props.disabled.then(|| "bp3-disabled"),
                     self.props.intent,
                     self.props.class.clone(),
                 )
+                style=self.props.style.clone()
                 onclick={self.props.onclick.clone()}
             >
+                {
+                    self
+                        .props
+                        .loading
+                        .then(|| html! {
+                            <Spinner
+                                class=classes!("bp3-button-spinner")
+                                size=ICON_SIZE_LARGE as f32
+                            />
+                        })
+                        .unwrap_or_default()
+                }
                 {
                     if let Some(icon) = self.props.icon {
                         html! {
@@ -76,7 +107,7 @@ impl Component for Button {
                     } else {
                         html! {
                             <span class="bp3-button-text">
-                                {self.props.children.clone()}
+                                {for self.props.children.iter()}
                             </span>
                         }
                     }
