@@ -281,7 +281,7 @@ impl Component for Panel {
         let style = if self.animation == Animation::Exited {
             "display:none"
         } else {
-            "display:block"
+            "display:flex"
         };
         let classes = classes!(
             "bp3-panel-stack-view",
@@ -317,9 +317,7 @@ impl Component for Panel {
                     {self.props.title.clone().unwrap_or_default()}
                     <span/>
                 </div>
-                <div>
                 {for self.props.children.iter()}
-                </div>
             </div>
         }
     }
