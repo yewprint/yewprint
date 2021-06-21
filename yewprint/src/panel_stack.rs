@@ -198,6 +198,8 @@ impl Component for PanelStack {
                             }}
                             key=i
                         >
+                            // TODO the state of content doesn't seem to be kept when re-opening
+                            //      a panel using the same components
                             {content.clone()}
                         </Panel>
                     })
@@ -294,7 +296,7 @@ impl Component for Panel {
                     <span/>
                 </div>
                 <div>
-                {self.props.children.clone()}
+                {for self.props.children.iter()}
                 </div>
             </div>
         }
