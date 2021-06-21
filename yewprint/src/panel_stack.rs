@@ -187,15 +187,16 @@ impl Component for PanelStack {
                     .map(|(i, (title, content))| html! {
                         <Panel
                             title=title.clone()
-                            animation={if i == last {
-                                Animation::EnterStart
-                            } else if action == Some(StateAction::Push) && last > 0 && i == last - 1 {
-                                Animation::ExitStart
-                            } else if action == Some(StateAction::Pop) && i == last + 1 {
-                                Animation::ExitStart
-                            } else {
-                                Animation::Exited
-                            }}
+                            animation={
+                                match action {
+                                    _ if i == last => Animation::EnterStart,
+                                    Some(StateAction::Push) if i == last - 1 =>
+                                        Animation::ExitStart,
+                                    Some(StateAction::Pop) if i == last + 1 =>
+                                        Animation::ExitStart,
+                                    _ => Animation::Exited,
+                                }
+                            }
                             key=i
                         >
                             // TODO the state of content doesn't seem to be kept when re-opening

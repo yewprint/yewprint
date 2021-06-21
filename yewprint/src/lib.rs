@@ -1,7 +1,8 @@
 #![allow(
     clippy::redundant_closure,
     clippy::needless_update,
-    clippy::inconsistent_struct_constructor
+    clippy::inconsistent_struct_constructor,
+    clippy::type_complexity
 )]
 
 mod button_group;
