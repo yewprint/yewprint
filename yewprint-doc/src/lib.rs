@@ -13,6 +13,7 @@ mod html_select;
 mod icon;
 mod input_group;
 mod menu;
+mod panel_stack;
 mod progressbar;
 mod radio;
 mod slider;

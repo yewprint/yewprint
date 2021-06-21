@@ -1,7 +1,8 @@
 #![allow(
     clippy::redundant_closure,
     clippy::needless_update,
-    clippy::inconsistent_struct_constructor
+    clippy::inconsistent_struct_constructor,
+    clippy::type_complexity
 )]
 
 mod button_group;
@@ -16,6 +17,7 @@ mod html_select;
 mod icon;
 mod input_group;
 mod menu;
+mod panel_stack;
 mod progressbar;
 mod radio;
 mod radio_group;
@@ -43,6 +45,7 @@ pub use icon::*;
 pub use id_tree;
 pub use input_group::*;
 pub use menu::*;
+pub use panel_stack::*;
 pub use progressbar::*;
 pub use radio::*;
 pub use radio_group::*;
