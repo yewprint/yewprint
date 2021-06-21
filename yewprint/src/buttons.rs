@@ -1,4 +1,5 @@
 use crate::{Icon, IconName, Intent, Spinner, ICON_SIZE_LARGE};
+use std::borrow::Cow;
 use yew::prelude::*;
 
 pub struct Button {
@@ -33,6 +34,8 @@ pub struct ButtonProps {
     pub onclick: Callback<MouseEvent>,
     #[prop_or_default]
     pub class: Classes,
+    #[prop_or_default]
+    pub style: Option<Cow<'static, str>>,
     #[prop_or_default]
     pub children: html::Children,
 }
@@ -74,6 +77,7 @@ impl Component for Button {
                     self.props.intent,
                     self.props.class.clone(),
                 )
+                style=self.props.style.clone()
                 onclick={self.props.onclick.clone()}
             >
                 {
@@ -103,7 +107,7 @@ impl Component for Button {
                     } else {
                         html! {
                             <span class="bp3-button-text">
-                                {self.props.children.clone()}
+                                {for self.props.children.iter()}
                             </span>
                         }
                     }

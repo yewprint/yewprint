@@ -1,3 +1,5 @@
+use crate::{Button, IconName};
+use std::borrow::Cow;
 use std::cell::RefCell;
 use std::fmt;
 use std::rc::Rc;
@@ -126,6 +128,8 @@ pub struct PanelStack {
 pub struct PanelStackProps {
     pub state: PanelStackState,
     #[prop_or_default]
+    pub onclose: Option<Callback<()>>,
+    #[prop_or_default]
     pub class: Classes,
 }
 
@@ -197,6 +201,7 @@ impl Component for PanelStack {
                                     _ => Animation::Exited,
                                 }
                             }
+                            onclose=(i > 0).then(|| self.props.onclose.clone()).flatten()
                             key=i
                         >
                             // TODO the state of content doesn't seem to be kept when re-opening
@@ -231,6 +236,7 @@ struct Panel {
 struct PanelProps {
     title: Option<Html>,
     animation: Animation,
+    onclose: Option<Callback<()>>,
     children: Children,
 }
 
@@ -288,11 +294,26 @@ impl Component for Panel {
                 Animation::Exited => None,
             }
         );
+        let back_button = self.props.onclose.clone().map(|onclose| {
+            html! {
+                <Button
+                    class=classes!("bp3-panel-stack-header-back")
+                    style=Cow::Borrowed("padding-right:0")
+                    icon=IconName::ChevronLeft
+                    minimal=true
+                    small=true
+                    onclick=onclose.reform(|_| ())
+                >
+                    // TODO: I get a lot of "VComp is not mounted" if I try to use the title
+                    //       of the previous panel
+                </Button>
+            }
+        });
 
         html! {
             <div class=classes style=style>
                 <div class="bp3-panel-stack-header">
-                    <span/>
+                    <span>{back_button.unwrap_or_default()}</span>
                     {self.props.title.clone().unwrap_or_default()}
                     <span/>
                 </div>

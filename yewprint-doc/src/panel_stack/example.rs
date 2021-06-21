@@ -82,6 +82,7 @@ impl Component for Example {
             <div>
                 <PanelStack
                     state=self.state.clone()
+                    onclose=self.link.callback(|_| ExampleMessage::ClosePanel)
                     class=classes!("docs-panel-stack-example")
                 />
             </div>
