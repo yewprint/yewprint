@@ -1,5 +1,5 @@
 use yew::prelude::*;
-use yewprint::{Button, PanelStack, PanelStackState, Text};
+use yewprint::{Button, Intent, PanelStack, PanelStackState, Text};
 
 pub struct Example {
     link: ComponentLink<Self>,
@@ -25,12 +25,15 @@ impl Component for Example {
 
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
         let state = PanelStackState::new(html! {
-            <>
-            <div>{"Hello World!"}</div>
-            <Button onclick=link.callback(|_| ExampleMessage::OpenPanel2)>
-                {"Open panel 2"}
-            </Button>
-            </>
+            <div class=classes!("docs-panel-stack-contents-example")>
+                <div>{"Hello World!"}</div>
+                <Button
+                    intent=Intent::Primary
+                    onclick=link.callback(|_| ExampleMessage::OpenPanel2)
+                >
+                    {"Open panel 2"}
+                </Button>
+            </div>
         })
         .with_title(html! {
             <Text class=classes!("bp3-heading") ellipsize=true>
@@ -47,15 +50,15 @@ impl Component for Example {
             ExampleMessage::OpenPanel2 => self
                 .state
                 .open_panel(html! {
-                    <>
-                    <Button onclick=self.link.callback(|_| ExampleMessage::ClosePanel)>
-                        {"Close panel"}
-                    </Button>
-                    <Button onclick=self.link.callback(|_| ExampleMessage::OpenPanel2)>
-                        {"Open panel 2"}
-                    </Button>
-                    <Panel2 />
-                    </>
+                    <div class=classes!("docs-panel-stack-contents-example")>
+                        <Button
+                            intent=Intent::Success
+                            onclick=self.link.callback(|_| ExampleMessage::OpenPanel2)
+                        >
+                            {"Open another panel 2"}
+                        </Button>
+                        <Panel2 />
+                    </div>
                 })
                 .with_title(html! {
                     <Text class=classes!("bp3-heading") ellipsize=true>
