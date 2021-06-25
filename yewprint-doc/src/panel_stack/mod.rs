@@ -3,7 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::{Switch, H1, H5};
+use yewprint::H1;
 
 pub struct PanelStackDoc {
     callback: Callback<ExampleProps>,
@@ -46,12 +46,7 @@ impl Component for PanelStackDoc {
                 <div>
                     <ExampleContainer
                         source=source
-                        props=Some(html! {
-                            <PanelStackProps
-                                callback={self.callback.clone()}
-                                props=example_props.clone()
-                            />
-                        })
+                        props=None
                     >
                         <Example with example_props />
                     </ExampleContainer>
@@ -59,31 +54,4 @@ impl Component for PanelStackDoc {
             </div>
         }
     }
-}
-
-crate::build_example_prop_component! {
-    PanelStackProps for ExampleProps =>
-        fn view(&self) -> Html {
-            html! {
-                <div>
-                    <H5>{"Props"}</H5>
-                    <Switch
-                        onclick=self.update_props(|props, _| ExampleProps {
-                            animate: !props.animate,
-                            ..props
-                        })
-                        checked=self.props.animate
-                        label=html!("Animate indicator")
-                    />
-                    <Switch
-                        onclick=self.update_props(|props, _| ExampleProps {
-                            vertical: !props.vertical,
-                            ..props
-                        })
-                        checked=self.props.vertical
-                        label=html!("Use vertical tabs")
-                    />
-                </div>
-            }
-        }
 }

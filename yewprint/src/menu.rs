@@ -81,7 +81,9 @@ pub struct MenuItemProps {
     #[prop_or_default]
     pub intent: Option<Intent>,
     #[prop_or_default]
-    pub icon: IconName,
+    pub icon: Option<IconName>,
+    #[prop_or_default]
+    pub icon_html: Option<Html>,
     #[prop_or_default]
     pub onclick: Callback<MouseEvent>,
     // TODO: pub children: html::Children,
@@ -124,7 +126,19 @@ impl Component for MenuItem {
                     tabIndex={(!self.props.disabled).then(|| "0")}
                     onclick={self.props.onclick.clone()}
                 >
-                    <Icon icon={self.props.icon} />
+                    {
+                        if let Some(icon_name) = self.props.icon {
+                            html! {
+                                <Icon icon={icon_name} />
+                            }
+                        } else if let Some(html) = self.props.icon_html.clone() {
+                            html
+                        } else {
+                            html! {
+                                <Icon icon=IconName::Blank />
+                            }
+                        }
+                    }
                     <div class=classes!("bp3-text", "bp3-fill", self.props.text_class.clone())>
                         {self.props.text.clone()}
                     </div>
