@@ -1,4 +1,4 @@
-use crate::app::DocMenu;
+use crate::{DocMenu, Logo};
 use std::borrow::Cow;
 use yew::prelude::*;
 use yewprint::{Icon, IconName, Menu, MenuDivider, MenuItem};
@@ -33,7 +33,9 @@ impl Component for Example {
                 <Menu>
                     <MenuItem
                         text={html!("Custom SVG icon")}
-                        // add the yewprint icon
+                        icon_html=html! {
+                            <Logo class=classes!("custom-icon") />
+                        }
                     />
                     <MenuDivider />
                     <MenuItem

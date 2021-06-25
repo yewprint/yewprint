@@ -12,6 +12,7 @@ mod example;
 mod html_select;
 mod icon;
 mod input_group;
+mod logo;
 mod menu;
 mod panel_stack;
 mod progressbar;
@@ -27,6 +28,7 @@ mod tree;
 
 pub use app::*;
 pub use example::*;
+pub use logo::*;
 
 #[macro_export]
 macro_rules! log {
