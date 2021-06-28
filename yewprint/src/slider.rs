@@ -28,7 +28,7 @@ pub struct SliderProps<T: Clone + PartialEq + 'static> {
     pub value_label: Option<Cow<'static, str>>,
     pub onchange: Callback<T>,
     pub values: Vec<(T, Option<Cow<'static, str>>)>,
-    pub selected: T,
+    pub selected: Option<T>,
 }
 
 pub enum Msg {
@@ -104,7 +104,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     .get(position)
                     .unwrap_or_else(|| self.props.values.last().expect("No value in the vec"));
 
-                if *value != self.props.selected {
+                if Some(value) != self.props.selected.as_ref() {
                     self.props.onchange.emit(value.clone());
                 }
 
@@ -137,7 +137,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                         .props
                         .values
                         .iter()
-                        .position(|(value, _)| *value == self.props.selected)
+                        .position(|(value, _)| Some(value) == self.props.selected.as_ref())
                         .map(|i| i.saturating_sub(1))
                         .unwrap_or(0);
                     let (value, _) = self.props.values[index].clone();
@@ -151,7 +151,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                         .props
                         .values
                         .iter()
-                        .position(|(value, _)| *value == self.props.selected)
+                        .position(|(value, _)| Some(value) == self.props.selected.as_ref())
                         .map(|i| i.saturating_add(1))
                         .unwrap_or(0);
                     let (value, _) = self
@@ -188,7 +188,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
             .props
             .values
             .iter()
-            .position(|(value, _)| *value == self.props.selected);
+            .position(|(value, _)| Some(value) == self.props.selected.as_ref());
         let labels = if self.props.values.len() > 1 {
             self.props
                 .values

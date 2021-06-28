@@ -6,7 +6,7 @@ pub struct Example {
     props: ExampleProps,
     float: f64,
     integer: i32,
-    log_level: LogLevel,
+    log_level: Option<LogLevel>,
     link: ComponentLink<Self>,
 }
 
@@ -32,7 +32,7 @@ impl Component for Example {
             props,
             float: 1.2,
             integer: 30,
-            log_level: LogLevel::Info,
+            log_level: None,
             link,
         }
     }
@@ -46,7 +46,7 @@ impl Component for Example {
                 self.integer = value;
             }
             Msg::LogLevelUpdate(value) => {
-                self.log_level = value;
+                self.log_level = Some(value);
             }
             Msg::Noop => {}
         }
