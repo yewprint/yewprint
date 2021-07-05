@@ -3,7 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::H1;
+use yewprint::{Text, H1};
 
 pub struct CollapseDoc;
 
@@ -32,6 +32,13 @@ impl Component for CollapseDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"Collapse"}</H1>
+                <a
+                class=classes!("bp3-text-muted")
+                href="https://github.com/yewprint/yewprint/blob/main/yewprint/src/collapse.rs"
+                target="_blank"
+            >
+                <Text>{"Go to the source code"}</Text>
+            </a>
                 <ExampleContainer source=source>
                     <Example />
                 </ExampleContainer>
