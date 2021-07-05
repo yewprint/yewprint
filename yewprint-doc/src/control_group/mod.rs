@@ -3,7 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::{Switch, H1, H5};
+use yewprint::{Switch, Text, H1, H5};
 
 pub struct ControlGroupDoc {
     callback: Callback<ExampleProps>,
@@ -43,6 +43,13 @@ impl Component for ControlGroupDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"ControlGroup"}</H1>
+                <a
+                class=classes!("bp3-text-muted")
+                href="https://github.com/yewprint/yewprint/blob/main/yewprint/src/control_group.rs"
+                target="_blank"
+            >
+                <Text>{"Go to the source code"}</Text>
+            </a>
                 <ExampleContainer
                     source=source
                     props=Some(html! {
