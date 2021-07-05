@@ -3,7 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::{Switch, H1, H5};
+use yewprint::{Switch, H1, H5, Text};
 
 pub struct ButtonDoc {
     callback: Callback<ExampleProps>,
@@ -49,6 +49,13 @@ impl Component for ButtonDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"Button"}</H1>
+                <a
+                    class=classes!("bp3-text-muted")
+                    href="https://github.com/yewprint/yewprint/blob/main/yewprint/src/buttons.rs"
+                    target="_blank"
+                >
+                    <Text>{"Go to the source code"}</Text>
+                </a>
                 <div>
                     <ExampleContainer
                         source=source
