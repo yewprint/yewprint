@@ -45,7 +45,8 @@ impl Component for PanelStackDoc {
                 <H1 class=classes!("docs-title")>{"PanelStack"}</H1>
                 <a
                     class=classes!("bp3-text-muted")
-                    href="https://github.com/yewprint/yewprint/blob/main/yewprint/src/panel_stack.rs"
+                    href="https://github.com/yewprint/yewprint/blob/main\
+                    /yewprint/src/panel_stack.rs"
                     target="_blank"
                 >
                     <Text>{"Go to the source code"}</Text>
