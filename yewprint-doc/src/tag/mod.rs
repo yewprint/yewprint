@@ -3,7 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::{Button, ButtonGroup, HtmlSelect, IconName, Intent, Switch, H1, H5};
+use yewprint::{Button, ButtonGroup, HtmlSelect, IconName, Intent, Switch, Text, H1, H5};
 
 pub struct TagDoc {
     callback: Callback<ExampleProps>,
@@ -68,6 +68,13 @@ impl Component for TagDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"Tag"}</H1>
+                <a
+                    class=classes!("bp3-text-muted")
+                    href="https://github.com/yewprint/yewprint/blob/main/yewprint/src/tag.rs"
+                    target="_blank"
+                >
+                    <Text>{"Go to the source code"}</Text>
+                </a>
                 <ExampleContainer
                     source=source
                     props=Some(html!{
