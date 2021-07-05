@@ -10,7 +10,7 @@ use crate::icon::*;
 use crate::input_group::*;
 use crate::menu::*;
 use crate::panel_stack::*;
-use crate::progressbar::*;
+use crate::progress_bar::*;
 use crate::radio::*;
 use crate::slider::*;
 use crate::spinner::*;
