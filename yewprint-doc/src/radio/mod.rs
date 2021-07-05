@@ -3,7 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::{Switch, H1, H5};
+use yewprint::{Switch, Text, H1, H5};
 
 pub struct RadioDoc {
     callback: Callback<ExampleProps>,
@@ -44,6 +44,13 @@ impl Component for RadioDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"Radio"}</H1>
+                <a
+                    class=classes!("bp3-text-muted")
+                    href="https://github.com/yewprint/yewprint/blob/main/yewprint/src/radio.rs"
+                    target="_blank"
+                >
+                    <Text>{"Go to the source code"}</Text>
+                </a>
                 <ExampleContainer
                     source=source
                     props=Some(html! {
