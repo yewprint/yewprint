@@ -3,7 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::{HtmlSelect, Intent, Slider, H1, H5};
+use yewprint::{HtmlSelect, Intent, Slider, Text, H1, H5};
 
 pub struct SpinnerDoc {
     callback: Callback<ExampleProps>,
@@ -43,6 +43,13 @@ impl Component for SpinnerDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"Spinner"}</H1>
+                <a
+                    class=classes!("bp3-text-muted")
+                    href="https://github.com/yewprint/yewprint/blob/main/yewprint/src/spinner.rs"
+                    target="_blank"
+                >
+                    <Text>{"Go to the source code"}</Text>
+                </a>
                 <div>
                     <ExampleContainer
                         source=source
