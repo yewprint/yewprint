@@ -3,7 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::H1;
+use yewprint::{Text, H1};
 
 pub struct PanelStackDoc {
     callback: Callback<ExampleProps>,
@@ -43,6 +43,13 @@ impl Component for PanelStackDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"PanelStack"}</H1>
+                <a
+                    class=classes!("bp3-text-muted")
+                    href="https://github.com/yewprint/yewprint/blob/main/yewprint/src/panel_stack.rs"
+                    target="_blank"
+                >
+                    <Text>{"Go to the source code"}</Text>
+                </a>
                 <div>
                     <ExampleContainer
                         source=source
