@@ -46,14 +46,9 @@ impl Component for InputGroupDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"InputGroup"}</H1>
-                <a
-                    class=classes!("bp3-text-muted")
-                    href="https://github.com/yewprint/yewprint/blob/main\
-                        /yewprint/src/input_group.rs"
-                    target="_blank"
-                >
-                    <Text>{"Go to the source code"}</Text>
-                </a>
+                <SourceCodeUrl
+                    url=INPUT_GROUP_URL
+                />
                 <ExampleContainer
                     source=source
                     props=Some(html! {
@@ -123,7 +118,7 @@ crate::build_example_prop_component! {
 }
 
 crate::build_source_code_component!(
-    _URL,
-    ,
-    check__url
+    INPUT_GROUP_URL,
+    "https://github.com/yewprint/yewprint/blob/main/yewprint/src/input_group.rs",
+    check_input_group_url
 );
