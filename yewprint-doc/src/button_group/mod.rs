@@ -2,8 +2,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::{Switch, H1, H5};
-use crate::source_code_url::{SourceCodeUrl, BUTTON_GROUP_URL};
+use yewprint::{Switch, Text, H1, H5};
 
 pub struct ButtonGroupDoc {
     callback: Callback<ExampleProps>,
@@ -105,5 +104,59 @@ crate::build_example_prop_component! {
                 />
             </div>
         }
+    }
+}
+
+const BUTTON_GROUP_URL: &'static str =
+    "https://github.com/yewprint/yewprint/blob/main/yewprint/src/button_group.rs";
+
+pub struct SourceCodeUrl {
+    props: SourceCodeUrlProps,
+}
+
+#[derive(Clone, PartialEq, Properties)]
+pub struct SourceCodeUrlProps {
+    #[prop_or_default]
+    pub url: &'static str,
+}
+
+impl Component for SourceCodeUrl {
+    type Message = ();
+    type Properties = SourceCodeUrlProps;
+
+    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
+        Self { props }
+    }
+
+    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
+        true
+    }
+
+    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
+        true
+    }
+
+    fn view(&self) -> Html {
+        html! {
+            <a
+                class=classes!("bp3-text-muted")
+                href=self.props.url
+                target="_blank"
+            >
+                <Text>{"Go to the source code"}</Text>
+            </a>
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn button_group_url() {
+        let get_url = reqwest::blocking::get(BUTTON_GROUP_URL).unwrap();
+
+        assert!(get_url.status().is_success())
     }
 }

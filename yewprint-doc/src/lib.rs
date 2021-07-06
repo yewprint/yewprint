@@ -18,7 +18,6 @@ mod panel_stack;
 mod progress_bar;
 mod radio;
 mod slider;
-mod source_code_url;
 mod spinner;
 mod switch;
 mod tabs;
