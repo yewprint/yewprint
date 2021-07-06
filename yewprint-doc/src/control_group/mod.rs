@@ -43,13 +43,9 @@ impl Component for ControlGroupDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"ControlGroup"}</H1>
-                <a
-                class=classes!("bp3-text-muted")
-                href="https://github.com/yewprint/yewprint/blob/main/yewprint/src/control_group.rs"
-                target="_blank"
-            >
-                <Text>{"Go to the source code"}</Text>
-            </a>
+                <SourceCodeUrl
+                    url=CONTROL_GROUP_URL
+                />
                 <ExampleContainer
                     source=source
                     props=Some(html! {
@@ -95,7 +91,7 @@ crate::build_example_prop_component! {
 }
 
 crate::build_source_code_component!(
-    _URL,
-    ,
-    check__url
+    CONTROL_GROUP_URL,
+    "https://github.com/yewprint/yewprint/blob/main/yewprint/src/control_group.rs",
+    check_control_group_url
 );
