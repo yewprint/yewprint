@@ -6,7 +6,9 @@ use yew::prelude::*;
 use yewprint::{Switch, Text, H1, H5};
 
 macro_rules! build_source_code_component {
-    ($component_name:literal) => {
+    ($constant_name:ident, $url:expr, $test_name:ident) => {
+        const $constant_name: &'static str = $url
+
         pub type SourceCodeUrl {
             props: SourceCodeUrlProps,
         }
@@ -56,8 +58,8 @@ macro_rules! build_source_code_component {
             use super::*;
 
             #[test]
-            fn button_url() {
-                let get_url = reqwest::blocking::get(BUTTON_URL).unwrap();
+            fn $testname() {
+                let get_url = reqwest::blocking::get($constant_name).unwrap();
 
                 assert!(get_url.status().is_success())
             }
@@ -106,7 +108,16 @@ impl Component for ButtonDoc {
             concat!(env!("OUT_DIR"), "/", file!(), ".html"),
             "bp3-code-block"
         );
-        let source_code_url = build_source_code_component!("buttons");
+        let constant_name = "BUTTONS_URL";
+        let source_code_url = build_source_code_component!(
+            BUTTONS_URL,
+            url: format!(
+                "{}{}",
+                "https://github.com/yewprint/yewprint/blob/main/yewprint/src/",
+                "buttons.rs",
+            ),
+            check_buttons_url,
+        );
 
         html! {
             <div>
