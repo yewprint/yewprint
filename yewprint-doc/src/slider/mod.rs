@@ -43,13 +43,9 @@ impl Component for SliderDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"Slider"}</H1>
-                <a
-                    class=classes!("bp3-text-muted")
-                    href="https://github.com/yewprint/yewprint/blob/main/yewprint/src/slider.rs"
-                    target="_blank"
-                >
-                    <Text>{"Go to the source code"}</Text>
-                </a>
+                <SourceCodeUrl
+                    url=SLIDER_URL
+                />
                 <ExampleContainer
                     source=source
                     props=Some(html! {
@@ -147,7 +143,7 @@ crate::build_example_prop_component! {
 }
 
 crate::build_source_code_component!(
-    _URL,
-    ,
-    check__url
+    SLIDER_URL,
+    "https://github.com/yewprint/yewprint/blob/main/yewprint/src/slider.rs",
+    check_slider_url
 );
