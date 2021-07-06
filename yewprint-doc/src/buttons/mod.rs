@@ -49,13 +49,9 @@ impl Component for ButtonDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"Button"}</H1>
-                <a
-                    class=classes!("bp3-text-muted")
-                    href="https://github.com/yewprint/yewprint/blob/main/yewprint/src/buttons.rs"
-                    target="_blank"
-                >
-                    <Text>{"Go to the source code"}</Text>
-                </a>
+                <SourceCodeUrl
+                    url=BUTTON_URL
+                />
                 <div>
                     <ExampleContainer
                         source=source
@@ -146,5 +142,59 @@ crate::build_example_prop_component! {
                 />
             </div>
         }
+    }
+}
+
+const BUTTON_URL: &'static str =
+    "https://github.com/yewprint/yewprint/blob/main/yewprint/src/buttons.rs";
+
+pub struct SourceCodeUrl {
+    props: SourceCodeUrlProps,
+}
+
+#[derive(Clone, PartialEq, Properties)]
+pub struct SourceCodeUrlProps {
+    #[prop_or_default]
+    pub url: &'static str,
+}
+
+impl Component for SourceCodeUrl {
+    type Message = ();
+    type Properties = SourceCodeUrlProps;
+
+    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
+        Self { props }
+    }
+
+    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
+        true
+    }
+
+    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
+        true
+    }
+
+    fn view(&self) -> Html {
+        html! {
+            <a
+                class=classes!("bp3-text-muted")
+                href=self.props.url
+                target="_blank"
+            >
+                <Text>{"Go to the source code"}</Text>
+            </a>
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn button_url() {
+        let get_url = reqwest::blocking::get(BUTTON_URL).unwrap();
+
+        assert!(get_url.status().is_success())
     }
 }
