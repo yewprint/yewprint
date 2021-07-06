@@ -45,14 +45,9 @@ impl Component for HtmlSelectDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"HtmlSelect"}</H1>
-                <a
-                    class=classes!("bp3-text-muted")
-                    href="https://github.com/yewprint/yewprint/blob/main\
-                        /yewprint/src/html_select.rs"
-                    target="_blank"
-                >
-                <Text>{"Go to the source code"}</Text>
-            </a>
+                <SourceCodeUrl
+                    url=HTML_SELECT_URL
+                />
                 <div>
                     <ExampleContainer
                         source=source
@@ -115,7 +110,7 @@ crate::build_example_prop_component! {
 }
 
 crate::build_source_code_component!(
-    _URL,
-    ,
-    check__url
+    HTML_SELECT_URL,
+    "https://github.com/yewprint/yewprint/blob/main/yewprint/src/html_select.rs",
+    check_html_select_url
 );
