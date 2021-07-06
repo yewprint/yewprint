@@ -111,6 +111,9 @@ impl Component for ButtonDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"Button"}</H1>
+                <SourceCodeUrl
+                    url=BUTTONS_URL
+                />
                 <div>
                     <ExampleContainer
                         source=source
