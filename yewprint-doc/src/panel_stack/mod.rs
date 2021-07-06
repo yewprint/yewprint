@@ -43,14 +43,9 @@ impl Component for PanelStackDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"PanelStack"}</H1>
-                <a
-                    class=classes!("bp3-text-muted")
-                    href="https://github.com/yewprint/yewprint/blob/main\
-                        /yewprint/src/panel_stack.rs"
-                    target="_blank"
-                >
-                    <Text>{"Go to the source code"}</Text>
-                </a>
+                <SourceCodeUrl
+                    url=PANEL_STACK_URL
+                />
                 <div>
                     <ExampleContainer
                         source=source
@@ -65,7 +60,7 @@ impl Component for PanelStackDoc {
 }
 
 crate::build_source_code_component!(
-    _URL,
-    ,
-    check__url
+    PANEL_STACK_URL,
+    "https://github.com/yewprint/yewprint/blob/main/yewprint/src/panel_stack.rs",
+    check_panel_stack_url
 );
