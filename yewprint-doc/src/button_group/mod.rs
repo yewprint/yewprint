@@ -5,6 +5,9 @@ use example::*;
 use yew::prelude::*;
 use yewprint::{Switch, Text, H1, H5};
 
+const BUTTON_GROUP_URL: &'static str =
+    "https://github.com/yewprint/yewprint/blob/main/yewprint/src/button_group.rs";
+
 pub struct ButtonGroupDoc {
     callback: Callback<ExampleProps>,
     state: ExampleProps,
@@ -47,7 +50,7 @@ impl Component for ButtonGroupDoc {
                 <H1 class=classes!("docs-title")>{"Button Group"}</H1>
                 <a
                 class=classes!("bp3-text-muted")
-                href="https://github.com/yewprint/yewprint/blob/main/yewprint/src/button_group.rs"
+                href=BUTTON_GROUP_URL
                 target="_blank"
             >
                 <Text>{"Go to the source code"}</Text>
@@ -114,12 +117,11 @@ crate::build_example_prop_component! {
 
 #[cfg(test)]
 mod tests {
+    use super::*;
+
     #[test]
     fn button_group_url() {
-        let get_url = reqwest::blocking::get(
-            "htps://github.com/yewprint/yewprint/blob/main/yewprint/src/button_group.rs",
-        )
-        .unwrap();
+        let get_url = reqwest::blocking::get(BUTTON_GROUP_URL).unwrap();
 
         assert!(get_url.status().is_success())
     }
