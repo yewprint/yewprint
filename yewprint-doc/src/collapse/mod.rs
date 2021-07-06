@@ -32,13 +32,9 @@ impl Component for CollapseDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"Collapse"}</H1>
-                <a
-                class=classes!("bp3-text-muted")
-                href="https://github.com/yewprint/yewprint/blob/main/yewprint/src/collapse.rs"
-                target="_blank"
-            >
-                <Text>{"Go to the source code"}</Text>
-            </a>
+                <SourceCodeUrl
+                    url=COLLAPSE_URL
+                />
                 <ExampleContainer source=source>
                     <Example />
                 </ExampleContainer>
@@ -48,7 +44,7 @@ impl Component for CollapseDoc {
 }
 
 crate::build_source_code_component!(
-    _URL,
-    ,
-    check__url
+    COLLAPSE_URL,
+    "https://github.com/yewprint/yewprint/blob/main/yewprint/src/collapse.rs",
+    check_collapse_url
 );
