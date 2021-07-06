@@ -111,3 +111,15 @@ crate::build_example_prop_component! {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn button_group_url() {
+        let request = reqwest::blocking::get(
+            "https://github.com/yewprint/yewprint/blob/main/yewprint/src/button_group.rs"
+        ).expect("Cannot get this url");
+
+        assert!(request.status().as_u16() < 400)
+    }
+}

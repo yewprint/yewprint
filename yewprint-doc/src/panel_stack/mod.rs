@@ -46,7 +46,7 @@ impl Component for PanelStackDoc {
                 <a
                     class=classes!("bp3-text-muted")
                     href="https://github.com/yewprint/yewprint/blob/main\
-                    /yewprint/src/panel_stack.rs"
+                        /yewprint/src/panel_stack.rs"
                     target="_blank"
                 >
                     <Text>{"Go to the source code"}</Text>

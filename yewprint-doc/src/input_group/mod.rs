@@ -49,7 +49,7 @@ impl Component for InputGroupDoc {
                 <a
                     class=classes!("bp3-text-muted")
                     href="https://github.com/yewprint/yewprint/blob/main\
-                    /yewprint/src/input_group.rs"
+                        /yewprint/src/input_group.rs"
                     target="_blank"
                 >
                     <Text>{"Go to the source code"}</Text>

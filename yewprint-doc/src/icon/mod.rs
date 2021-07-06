@@ -33,12 +33,12 @@ impl Component for IconDoc {
             <div>
                 <H1 class=classes!("docs-title")>{"Icon"}</H1>
                 <a
-                class=classes!("bp3-text-muted")
-                href="https://github.com/yewprint/yewprint/blob/main/yewprint/src/icon.rs"
-                target="_blank"
-            >
-                <Text>{"Go to the source code"}</Text>
-            </a>
+                    class=classes!("bp3-text-muted")
+                    href="https://github.com/yewprint/yewprint/blob/main/yewprint/src/icon.rs"
+                    target="_blank"
+                >
+                    <Text>{"Go to the source code"}</Text>
+                </a>
                 <ExampleContainer source=source>
                     <Example />
                 </ExampleContainer>
