@@ -54,6 +54,69 @@ macro_rules! include_raw_html {
     }};
 }
 
+#[macro_export]
+macro_rules! build_source_code_component {
+    ($constant_name:ident, $url:expr, $test_name:ident) => {
+        const $constant_name: &'static str = $url;
+
+        pub struct SourceCodeUrl {
+            props: SourceCodeUrlProps,
+        }
+
+        #[derive(Clone, PartialEq, Properties)]
+        pub struct SourceCodeUrlProps {
+            #[prop_or_default]
+            pub url: &'static str,
+        }
+
+        impl Component for SourceCodeUrl {
+            type Message = ();
+            type Properties = SourceCodeUrlProps;
+
+            fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
+                Self { props }
+            }
+
+            fn update(&mut self, _msg: Self::Message) -> ShouldRender {
+                true
+            }
+
+            fn change(&mut self, props: Self::Properties) -> ShouldRender {
+                if self.props != props {
+                    self.props = props;
+                    true
+                } else {
+                    false
+                }
+            }
+
+            fn view(&self) -> Html {
+                html! {
+                    <a
+                        class=classes!("bp3-text-muted")
+                        href=self.props.url
+                        target="_blank"
+                    >
+                        <Text>{"Go to the source code"}</Text>
+                    </a>
+                }
+            }
+        }
+
+        #[cfg(test)]
+        mod tests {
+            use super::*;
+
+            #[test]
+            fn $test_name() {
+                let get_url = reqwest::blocking::get($constant_name).unwrap();
+
+                assert!(get_url.status().is_success())
+            }
+        }
+    };
+}
+
 // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
 // allocator.
 #[cfg(feature = "wee_alloc")]
