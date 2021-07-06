@@ -32,13 +32,9 @@ impl Component for MenuDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"Menu"}</H1>
-                <a
-                    class=classes!("bp3-text-muted")
-                    href="https://github.com/yewprint/yewprint/blob/main/yewprint/src/menu.rs"
-                    target="_blank"
-                >
-                    <Text>{"Go to the source code"}</Text>
-                </a>
+                <SourceCodeUrl
+                    url=MENU_URL
+                />
                 <ExampleContainer source=source>
                     <Example />
                 </ExampleContainer>
@@ -48,7 +44,7 @@ impl Component for MenuDoc {
 }
 
 crate::build_source_code_component!(
-    _URL,
-    ,
-    check__url
+    MENU_URL,
+    "https://github.com/yewprint/yewprint/blob/main/yewprint/src/menu.rs",
+    check_menu_url
 );
