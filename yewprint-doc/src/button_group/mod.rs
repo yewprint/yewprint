@@ -107,7 +107,7 @@ crate::build_example_prop_component! {
     }
 }
 
-const BUTTON_GROUP_URL: &'static str =
+const BUTTON_GROUP_URL: &str =
     "https://github.com/yewprint/yewprint/blob/main/yewprint/src/button_group.rs";
 
 pub struct SourceCodeUrl {
