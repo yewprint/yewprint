@@ -116,11 +116,11 @@ crate::build_example_prop_component! {
 mod tests {
     #[test]
     fn button_group_url() {
-        let request = reqwest::blocking::get(
-            "https://github.com/yewprint/yewprint/blob/main/yewprint/src/button_group.rs",
+        let get_url = reqwest::blocking::get(
+            "htps://github.com/yewprint/yewprint/blob/main/yewprint/src/button_group.rs",
         )
-        .expect("Cannot get this url");
+        .unwrap();
 
-        assert!(request.status().as_u16() < 400)
+        assert!(get_url.status().is_success())
     }
 }
