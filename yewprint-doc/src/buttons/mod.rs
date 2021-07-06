@@ -206,11 +206,7 @@ crate::build_example_prop_component! {
 }
 
 build_source_code_component!(
-    buttons_url,
-    url: format!(
-        "{}{}",
-        "https://github.com/yewprint/yewprint/blob/main/yewprint/src/",
-        "buttons.rs",
-    ),
+    buttons_url
+    "https://github.com/yewprint/yewprint/blob/main/yewprint/src/buttons.rs"
     check_buttons_url
 );
