@@ -108,21 +108,10 @@ impl Component for ButtonDoc {
             concat!(env!("OUT_DIR"), "/", file!(), ".html"),
             "bp3-code-block"
         );
-        let constant_name = "BUTTONS_URL";
-        let source_code_url = build_source_code_component!(
-            BUTTONS_URL,
-            url: format!(
-                "{}{}",
-                "https://github.com/yewprint/yewprint/blob/main/yewprint/src/",
-                "buttons.rs",
-            ),
-            check_buttons_url,
-        );
 
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"Button"}</H1>
-                {source_code_url}
                 <div>
                     <ExampleContainer
                         source=source
@@ -215,3 +204,13 @@ crate::build_example_prop_component! {
         }
     }
 }
+
+build_source_code_component!(
+    buttons_url,
+    url: format!(
+        "{}{}",
+        "https://github.com/yewprint/yewprint/blob/main/yewprint/src/",
+        "buttons.rs",
+    ),
+    check_buttons_url
+);
