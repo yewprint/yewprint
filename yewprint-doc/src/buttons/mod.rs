@@ -145,7 +145,7 @@ crate::build_example_prop_component! {
     }
 }
 
-build_source_code_component!(
+crate::build_source_code_component!(
     BUTTONS_URL,
     "https://github.com/yewprint/yewprint/blob/main/yewprint/src/buttons.rs",
     check_buttons_url
