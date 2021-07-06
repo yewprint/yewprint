@@ -115,19 +115,18 @@ const BUTTON_GROUP_URL: &'static str =
     "https://github.com/yewprint/yewprint/blob/main/yewprint/src/button_group.rs";
 
 pub struct SourceCodeUrl {
-    state: &'static str,
+    url: &'static str,
 }
 
 impl Component for SourceCodeUrl {
-    type Message = &'static str;
+    type Message = ();
     type Properties = ();
 
     fn create(_: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        SourceCodeUrl{ state: BUTTON_GROUP_URL }
+        SourceCodeUrl{ url: BUTTON_GROUP_URL }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
-        self.state = msg;
+    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
         true
     }
 
@@ -139,7 +138,7 @@ impl Component for SourceCodeUrl {
         html! {
             <a
                 class=classes!("bp3-text-muted")
-                href=self.state
+                href=self.url
                 target="_blank"
             >
                 <Text>{"Go to the source code"}</Text>
