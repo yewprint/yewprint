@@ -45,13 +45,9 @@ impl Component for TextAreaDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"Text"}</H1>
-                <a
-                    class=classes!("bp3-text-muted")
-                    href="https://github.com/yewprint/yewprint/blob/main/yewprint/src/textarea.rs"
-                    target="_blank"
-                >
-                    <Text>{"Go to the source code"}</Text>
-                </a>
+                <SourceCodeUrl
+                    url=TEXT_AREA_URL
+                />
                 <div>
                     <ExampleContainer
                         source=source
@@ -119,7 +115,7 @@ crate::build_example_prop_component! {
 }
 
 crate::build_source_code_component!(
-    _URL,
-    ,
-    check__url
+    TEXT_AREA_URL,
+    "https://github.com/yewprint/yewprint/blob/main/yewprint/src/text_area.rs",
+    check_text_area_url
 );

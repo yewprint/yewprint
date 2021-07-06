@@ -23,7 +23,7 @@ mod switch;
 mod tabs;
 mod tag;
 mod text;
-mod textarea;
+mod text_area;
 mod tree;
 
 pub use app::*;

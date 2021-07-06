@@ -18,7 +18,7 @@ use crate::switch::*;
 use crate::tabs::*;
 use crate::tag::*;
 use crate::text::*;
-use crate::textarea::*;
+use crate::text_area::*;
 use crate::tree::*;
 use std::borrow::Cow;
 use yew::prelude::*;
