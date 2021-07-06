@@ -44,13 +44,9 @@ impl Component for ButtonGroupDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"Button Group"}</H1>
-                <a
-                    class=classes!("bp3-text-muted")
-                    href=BUTTON_GROUP_URL
-                    target="_blank"
-                >
-                    <Text>{"Go to the source code"}</Text>
-                </a>
+                <SourceCodeUrl
+                    url=BUTTON_GROUP_URL
+                />
                 <ExampleContainer
                     source=source
                     props=Some(html! {
@@ -124,7 +120,6 @@ pub struct SourceCodeUrlProps {
     pub url: &'static str,
 }
 
-
 impl Component for SourceCodeUrl {
     type Message = ();
     type Properties = SourceCodeUrlProps;
@@ -142,17 +137,10 @@ impl Component for SourceCodeUrl {
     }
 
     fn view(&self) -> Html {
-        let get_url = reqwest::blocking::get(BUTTON_GROUP_URL).expect("Cannot get url");
-        let url = if get_url.status().is_success() {
-            BUTTON_GROUP_URL;
-        } else {
-            "https://github.com/yewprint/yewprint"
-        };
-
         html! {
             <a
                 class=classes!("bp3-text-muted")
-                href=url
+                href=self.props.url
                 target="_blank"
             >
                 <Text>{"Go to the source code"}</Text>
@@ -161,7 +149,6 @@ impl Component for SourceCodeUrl {
     }
 }
 
-/*
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -173,4 +160,3 @@ mod tests {
         assert!(get_url.status().is_success())
     }
 }
-*/
