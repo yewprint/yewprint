@@ -43,13 +43,9 @@ impl Component for TabsDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"Tabs"}</H1>
-                <a
-                    class=classes!("bp3-text-muted")
-                    href="https://github.com/yewprint/yewprint/blob/main/yewprint/src/tabs.rs"
-                    target="_blank"
-                >
-                    <Text>{"Go to the source code"}</Text>
-                </a>
+                <SourceCodeUrl
+                    url=TABS_URL
+                />
                 <div>
                     <ExampleContainer
                         source=source
@@ -96,7 +92,7 @@ crate::build_example_prop_component! {
 }
 
 crate::build_source_code_component!(
-    _URL,
-    ,
-    check__url
+    TABS_URL,
+    "https://github.com/yewprint/yewprint/blob/main/yewprint/src/tabs.rs",
+    check_tabs_url
 );
