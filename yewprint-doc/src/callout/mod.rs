@@ -44,13 +44,6 @@ impl Component for CalloutDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"Callout"}</H1>
-                <a
-                    class=classes!("bp3-text-muted")
-                    href="https://github.com/yewprint/yewprint/blob/main/yewprint/src/callout.rs"
-                    target="_blank"
-                >
-                    <Text>{"Go to the source code"}</Text>
-                </a>
                 <ExampleContainer
                     source=source
                     props=Some(html! {
@@ -111,7 +104,7 @@ crate::build_example_prop_component! {
 }
 
 crate::build_source_code_component!(
-    _URL,
-    ,
-    check__url
+    CALLOUT_URL,
+    "https://github.com/yewprint/yewprint/blob/main/yewprint/src/callout.rs",
+    check_callout_url
 );
