@@ -44,6 +44,9 @@ impl Component for CalloutDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"Callout"}</H1>
+                <SourceCodeUrl
+                    url=CALLOUT_URL
+                />
                 <ExampleContainer
                     source=source
                     props=Some(html! {
