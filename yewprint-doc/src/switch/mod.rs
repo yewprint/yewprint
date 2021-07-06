@@ -44,13 +44,9 @@ impl Component for SwitchDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"Switch"}</H1>
-                <a
-                    class=classes!("bp3-text-muted")
-                    href="https://github.com/yewprint/yewprint/blob/main/yewprint/src/switch.rs"
-                    target="_blank"
-                >
-                    <Text>{"Go to the source code"}</Text>
-                </a>
+                <SourceCodeUrl
+                    url=SWITCH_URL
+                />
                 <ExampleContainer
                     source=source
                     props=Some(html! {
@@ -104,7 +100,7 @@ crate::build_example_prop_component! {
 }
 
 crate::build_source_code_component!(
-    _URL,
-    ,
-    check__url
+    SWITCH_URL,
+    "https://github.com/yewprint/yewprint/blob/main/yewprint/src/switch.rs",
+    check_switch_url
 );
