@@ -46,3 +46,9 @@ impl Component for CollapseDoc {
         }
     }
 }
+
+crate::build_source_code_component!(
+    _URL,
+    ,
+    check__url
+);

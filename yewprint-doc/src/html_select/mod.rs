@@ -113,3 +113,9 @@ crate::build_example_prop_component! {
             }
         }
 }
+
+crate::build_source_code_component!(
+    _URL,
+    ,
+    check__url
+);

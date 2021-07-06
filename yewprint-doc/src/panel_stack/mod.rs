@@ -63,3 +63,9 @@ impl Component for PanelStackDoc {
         }
     }
 }
+
+crate::build_source_code_component!(
+    _URL,
+    ,
+    check__url
+);

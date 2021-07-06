@@ -46,3 +46,9 @@ impl Component for TreeDoc {
         }
     }
 }
+
+crate::build_source_code_component!(
+    _URL,
+    ,
+    check__url
+);
