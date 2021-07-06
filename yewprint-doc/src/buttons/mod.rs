@@ -7,9 +7,9 @@ use yewprint::{Switch, Text, H1, H5};
 
 macro_rules! build_source_code_component {
     ($constant_name:ident, $url:expr, $test_name:ident) => {
-        const $constant_name: &'static str = $url
+        const $constant_name: &'static str = $url;
 
-        pub type SourceCodeUrl {
+        pub struct SourceCodeUrl {
             props: SourceCodeUrlProps,
         }
 
@@ -21,7 +21,7 @@ macro_rules! build_source_code_component {
 
         impl Component for SourceCodeUrl {
             type Message = ();
-            type Properties = ();
+            type Properties = SourceCodeUrlProps;
 
             fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
                 Self { props }
@@ -58,7 +58,7 @@ macro_rules! build_source_code_component {
             use super::*;
 
             #[test]
-            fn $testname() {
+            fn $test_name() {
                 let get_url = reqwest::blocking::get($constant_name).unwrap();
 
                 assert!(get_url.status().is_success())
@@ -206,7 +206,7 @@ crate::build_example_prop_component! {
 }
 
 build_source_code_component!(
-    buttons_url
-    "https://github.com/yewprint/yewprint/blob/main/yewprint/src/buttons.rs"
+   BUTTONS_URL,
+    "https://github.com/yewprint/yewprint/blob/main/yewprint/src/buttons.rs",
     check_buttons_url
 );
