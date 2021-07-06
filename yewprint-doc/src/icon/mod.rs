@@ -32,13 +32,9 @@ impl Component for IconDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"Icon"}</H1>
-                <a
-                    class=classes!("bp3-text-muted")
-                    href="https://github.com/yewprint/yewprint/blob/main/yewprint/src/icon.rs"
-                    target="_blank"
-                >
-                    <Text>{"Go to the source code"}</Text>
-                </a>
+                <SourceCodeUrl
+                    url=ICON_URL
+                />
                 <ExampleContainer source=source>
                     <Example />
                 </ExampleContainer>
@@ -48,7 +44,7 @@ impl Component for IconDoc {
 }
 
 crate::build_source_code_component!(
-    _URL,
-    ,
-    check__url
+    ICON_URL,
+    "https://github.com/yewprint/yewprint/blob/main/yewprint/src/icon.rs",
+    check_icon_url
 );
