@@ -1,12 +1,8 @@
 mod example;
-
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
 use yewprint::{Switch, Text, H1, H5};
-
-const BUTTON_GROUP_URL: &'static str =
-    "https://github.com/yewprint/yewprint/blob/main/yewprint/src/button_group.rs";
 
 pub struct ButtonGroupDoc {
     callback: Callback<ExampleProps>,
@@ -49,12 +45,12 @@ impl Component for ButtonGroupDoc {
             <div>
                 <H1 class=classes!("docs-title")>{"Button Group"}</H1>
                 <a
-                class=classes!("bp3-text-muted")
-                href=BUTTON_GROUP_URL
-                target="_blank"
-            >
-                <Text>{"Go to the source code"}</Text>
-            </a>
+                    class=classes!("bp3-text-muted")
+                    href=BUTTON_GROUP_URL
+                    target="_blank"
+                >
+                    <Text>{"Go to the source code"}</Text>
+                </a>
                 <ExampleContainer
                     source=source
                     props=Some(html! {
@@ -111,6 +107,42 @@ crate::build_example_prop_component! {
                     label=html!("Vertical")
                 />
             </div>
+        }
+    }
+}
+
+const BUTTON_GROUP_URL: &'static str =
+    "https://github.com/yewprint/yewprint/blob/main/yewprint/src/button_group.rs";
+
+pub struct SourceCodeUrl {
+    url: &'static str,
+}
+
+impl Component for SourceCodeUrl {
+    type Message = ();
+    type Properties = ();
+
+    fn create(_: Self::Properties, _link: ComponentLink<Self>) -> Self {
+        SourceCodeUrl{ url: BUTTON_GROUP_URL }
+    }
+
+    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
+        true
+    }
+
+    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
+        true
+    }
+
+    fn view(&self) -> Html {
+        html! {
+            <a
+                class=classes!("bp3-text-muted")
+                href=self.url
+                target="_blank"
+            >
+                <Text>{"Go to the source code"}</Text>
+            </a>
         }
     }
 }
