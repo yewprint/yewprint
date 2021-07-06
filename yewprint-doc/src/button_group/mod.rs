@@ -142,10 +142,17 @@ impl Component for SourceCodeUrl {
     }
 
     fn view(&self) -> Html {
+        let get_url = reqwest::blocking::get(BUTTON_GROUP_URL).expect("Cannot get url");
+        let url = if get_url.status().is_success() {
+            BUTTON_GROUP_URL;
+        } else {
+            "https://github.com/yewprint/yewprint"
+        };
+
         html! {
             <a
                 class=classes!("bp3-text-muted")
-                href=self.props.url
+                href=url
                 target="_blank"
             >
                 <Text>{"Go to the source code"}</Text>
@@ -154,6 +161,7 @@ impl Component for SourceCodeUrl {
     }
 }
 
+/*
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -165,3 +173,4 @@ mod tests {
         assert!(get_url.status().is_success())
     }
 }
+*/
