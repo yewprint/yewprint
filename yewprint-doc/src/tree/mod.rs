@@ -32,13 +32,9 @@ impl Component for TreeDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"Tree"}</H1>
-                <a
-                    class=classes!("bp3-text-muted")
-                    href="https://github.com/yewprint/yewprint/blob/main/yewprint/src/tree.rs"
-                    target="_blank"
-                >
-                    <Text>{"Go to the source code"}</Text>
-                </a>
+                <SourceCodeUrl
+                    url=TREE_URL
+                />
                 <ExampleContainer source=source>
                     <Example />
                 </ExampleContainer>
@@ -48,7 +44,7 @@ impl Component for TreeDoc {
 }
 
 crate::build_source_code_component!(
-    _URL,
-    ,
-    check__url
+    TREE_URL,
+    "https://github.com/yewprint/yewprint/blob/main/yewprint/src/tree.rs",
+    check_tree_url
 );
