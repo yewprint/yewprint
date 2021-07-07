@@ -32,6 +32,7 @@ impl Component for CollapseDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"Collapse"}</H1>
+                <SourceCodeUrl />
                 <ExampleContainer source=source>
                     <Example />
                 </ExampleContainer>
@@ -39,3 +40,5 @@ impl Component for CollapseDoc {
         }
     }
 }
+
+crate::build_source_code_component!();

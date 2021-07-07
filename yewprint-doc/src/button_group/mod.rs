@@ -45,6 +45,7 @@ impl Component for ButtonGroupDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"Button Group"}</H1>
+                <SourceCodeUrl />
                 <ExampleContainer
                     source=source
                     props=Some(html! {
@@ -104,3 +105,5 @@ crate::build_example_prop_component! {
         }
     }
 }
+
+crate::build_source_code_component!();

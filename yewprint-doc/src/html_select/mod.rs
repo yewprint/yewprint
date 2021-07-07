@@ -45,6 +45,7 @@ impl Component for HtmlSelectDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"HtmlSelect"}</H1>
+                <SourceCodeUrl />
                 <div>
                     <ExampleContainer
                         source=source
@@ -105,3 +106,5 @@ crate::build_example_prop_component! {
             }
         }
 }
+
+crate::build_source_code_component!();

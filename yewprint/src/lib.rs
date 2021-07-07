@@ -19,7 +19,7 @@ mod icon;
 mod input_group;
 mod menu;
 mod panel_stack;
-mod progressbar;
+mod progress_bar;
 mod radio;
 mod radio_group;
 mod slider;
@@ -28,7 +28,7 @@ mod switch;
 mod tabs;
 mod tag;
 mod text;
-mod textarea;
+mod text_area;
 #[cfg(feature = "tree")]
 mod tree;
 
@@ -48,7 +48,7 @@ pub use id_tree;
 pub use input_group::*;
 pub use menu::*;
 pub use panel_stack::*;
-pub use progressbar::*;
+pub use progress_bar::*;
 pub use radio::*;
 pub use radio_group::*;
 pub use slider::*;
@@ -57,7 +57,7 @@ pub use switch::*;
 pub use tabs::*;
 pub use tag::*;
 pub use text::*;
-pub use textarea::*;
+pub use text_area::*;
 #[cfg(feature = "tree")]
 pub use tree::*;
 
