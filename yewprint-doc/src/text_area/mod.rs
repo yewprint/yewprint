@@ -45,9 +45,7 @@ impl Component for TextAreaDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"Text"}</H1>
-                <SourceCodeUrl
-                    url=TEXT_AREA_URL
-                />
+                <SourceCodeUrl />
                 <div>
                     <ExampleContainer
                         source=source

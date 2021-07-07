@@ -44,9 +44,7 @@ impl Component for RadioDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"Radio"}</H1>
-                <SourceCodeUrl
-                    url=RADIO_URL
-                />
+                <SourceCodeUrl />
                 <ExampleContainer
                     source=source
                     props=Some(html! {

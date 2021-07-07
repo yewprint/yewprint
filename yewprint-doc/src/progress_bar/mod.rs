@@ -44,9 +44,7 @@ impl Component for ProgressBarDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"ProgressBar"}</H1>
-                <SourceCodeUrl
-                    url=PROGRESS_BAR_URL
-                />
+                <SourceCodeUrl />
                 <ExampleContainer
                     source=source
                     props=Some(html! {

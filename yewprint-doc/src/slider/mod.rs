@@ -43,9 +43,7 @@ impl Component for SliderDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"Slider"}</H1>
-                <SourceCodeUrl
-                    url=SLIDER_URL
-                />
+                <SourceCodeUrl />
                 <ExampleContainer
                     source=source
                     props=Some(html! {

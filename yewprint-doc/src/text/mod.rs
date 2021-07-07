@@ -43,9 +43,7 @@ impl Component for TextDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"Text"}</H1>
-                <SourceCodeUrl
-                    url=TEXT_URL
-                />
+                <SourceCodeUrl />
                 <div>
                     <ExampleContainer
                         source=source

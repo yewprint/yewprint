@@ -32,9 +32,7 @@ impl Component for MenuDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"Menu"}</H1>
-                <SourceCodeUrl
-                    url=MENU_URL
-                />
+                <SourceCodeUrl />
                 <ExampleContainer source=source>
                     <Example />
                 </ExampleContainer>

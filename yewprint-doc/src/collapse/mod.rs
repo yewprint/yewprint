@@ -32,9 +32,7 @@ impl Component for CollapseDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"Collapse"}</H1>
-                <SourceCodeUrl
-                    url=COLLAPSE_URL
-                />
+                <SourceCodeUrl />
                 <ExampleContainer source=source>
                     <Example />
                 </ExampleContainer>

@@ -32,9 +32,7 @@ impl Component for IconDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"Icon"}</H1>
-                <SourceCodeUrl
-                    url=ICON_URL
-                />
+                <SourceCodeUrl />
                 <ExampleContainer source=source>
                     <Example />
                 </ExampleContainer>

@@ -44,9 +44,7 @@ impl Component for SwitchDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"Switch"}</H1>
-                <SourceCodeUrl
-                    url=SWITCH_URL
-                />
+                <SourceCodeUrl />
                 <ExampleContainer
                     source=source
                     props=Some(html! {

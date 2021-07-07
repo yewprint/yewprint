@@ -32,9 +32,7 @@ impl Component for TreeDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"Tree"}</H1>
-                <SourceCodeUrl
-                    url=TREE_URL
-                />
+                <SourceCodeUrl />
                 <ExampleContainer source=source>
                     <Example />
                 </ExampleContainer>

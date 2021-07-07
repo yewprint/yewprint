@@ -61,42 +61,29 @@ macro_rules! build_source_code_component {
 
         const $constant_name: &'static str = $url;
 
-        pub struct SourceCodeUrl {
-            props: SourceCodeUrlProps,
-        }
-
-        #[derive(Clone, PartialEq, Properties)]
-        pub struct SourceCodeUrlProps {
-            #[prop_or_default]
-            pub url: &'static str,
-        }
+        pub struct SourceCodeUrl;
 
         impl Component for SourceCodeUrl {
             type Message = ();
-            type Properties = SourceCodeUrlProps;
+            type Properties = ();
 
-            fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-                Self { props }
+            fn create(_: Self::Properties, _link: ComponentLink<Self>) -> Self {
+                Self
             }
 
             fn update(&mut self, _msg: Self::Message) -> ShouldRender {
                 true
             }
 
-            fn change(&mut self, props: Self::Properties) -> ShouldRender {
-                if self.props != props {
-                    self.props = props;
-                    true
-                } else {
-                    false
-                }
+            fn change(&mut self, _props: Self::Properties) -> ShouldRender {
+                true
             }
 
             fn view(&self) -> Html {
                 html! {
                     <a
                         class=classes!("bp3-text-muted")
-                        href=self.props.url
+                        href=$constant_name
                         target="_blank"
                     >
                         <Text>{"Go to the source code"}</Text>

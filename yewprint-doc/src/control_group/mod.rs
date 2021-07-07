@@ -43,9 +43,7 @@ impl Component for ControlGroupDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"ControlGroup"}</H1>
-                <SourceCodeUrl
-                    url=CONTROL_GROUP_URL
-                />
+                <SourceCodeUrl />
                 <ExampleContainer
                     source=source
                     props=Some(html! {

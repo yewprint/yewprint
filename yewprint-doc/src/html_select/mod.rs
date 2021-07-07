@@ -45,9 +45,7 @@ impl Component for HtmlSelectDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"HtmlSelect"}</H1>
-                <SourceCodeUrl
-                    url=HTML_SELECT_URL
-                />
+                <SourceCodeUrl />
                 <div>
                     <ExampleContainer
                         source=source

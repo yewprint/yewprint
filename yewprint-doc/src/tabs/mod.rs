@@ -43,9 +43,7 @@ impl Component for TabsDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"Tabs"}</H1>
-                <SourceCodeUrl
-                    url=TABS_URL
-                />
+                <SourceCodeUrl />
                 <div>
                     <ExampleContainer
                         source=source

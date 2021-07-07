@@ -43,9 +43,7 @@ impl Component for PanelStackDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"PanelStack"}</H1>
-                <SourceCodeUrl
-                    url=PANEL_STACK_URL
-                />
+                <SourceCodeUrl />
                 <div>
                     <ExampleContainer
                         source=source

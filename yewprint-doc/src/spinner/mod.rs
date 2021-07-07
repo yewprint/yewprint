@@ -43,9 +43,7 @@ impl Component for SpinnerDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"Spinner"}</H1>
-                <SourceCodeUrl
-                    url=SPINNER_URL
-                />
+                <SourceCodeUrl />
                 <div>
                     <ExampleContainer
                         source=source

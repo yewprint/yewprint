@@ -46,9 +46,7 @@ impl Component for InputGroupDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"InputGroup"}</H1>
-                <SourceCodeUrl
-                    url=INPUT_GROUP_URL
-                />
+                <SourceCodeUrl />
                 <ExampleContainer
                     source=source
                     props=Some(html! {

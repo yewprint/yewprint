@@ -43,9 +43,7 @@ impl Component for CardDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"Card"}</H1>
-                <SourceCodeUrl
-                    url=CARD_URL
-                />
+                <SourceCodeUrl />
                 <ExampleContainer
                     source=source
                     props=Some(html! {
