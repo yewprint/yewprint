@@ -1,4 +1,5 @@
 mod example;
+
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
@@ -106,7 +107,6 @@ crate::build_example_prop_component! {
 }
 
 crate::build_source_code_component!(
-    BUTTON_GROUP_URL,
     "https://github.com/yewprint/yewprint/blob/main/yewprint/src/button_group.rs",
     check_button_group_url
 );

@@ -113,7 +113,6 @@ crate::build_example_prop_component! {
 }
 
 crate::build_source_code_component!(
-    TEXT_AREA_URL,
     "https://github.com/yewprint/yewprint/blob/main/yewprint/src/text_area.rs",
     check_text_area_url
 );

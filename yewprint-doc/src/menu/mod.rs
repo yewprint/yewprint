@@ -42,7 +42,6 @@ impl Component for MenuDoc {
 }
 
 crate::build_source_code_component!(
-    MENU_URL,
     "https://github.com/yewprint/yewprint/blob/main/yewprint/src/menu.rs",
     check_menu_url
 );

@@ -56,10 +56,7 @@ macro_rules! include_raw_html {
 
 #[macro_export]
 macro_rules! build_source_code_component {
-    ($constant_name:ident, $url:expr, $test_name:ident) => {
-        use yewprint::Text;
-
-        const $constant_name: &'static str = $url;
+    ($url:expr, $test_name:ident) => {
 
         pub struct SourceCodeUrl;
 
@@ -80,10 +77,12 @@ macro_rules! build_source_code_component {
             }
 
             fn view(&self) -> Html {
+                use yewprint::Text;
+
                 html! {
                     <a
                         class=classes!("bp3-text-muted")
-                        href=$constant_name
+                        href=$url
                         target="_blank"
                     >
                         <Text>{"Go to the source code"}</Text>
@@ -93,12 +92,10 @@ macro_rules! build_source_code_component {
         }
 
         #[cfg(test)]
-        mod tests {
-            use super::*;
-
+        mod tests_url {
             #[test]
             fn $test_name() {
-                let get_url = reqwest::blocking::get($constant_name).unwrap();
+                let get_url = reqwest::blocking::get($url).unwrap();
 
                 assert!(get_url.status().is_success())
             }

@@ -97,7 +97,6 @@ crate::build_example_prop_component! {
 }
 
 crate::build_source_code_component!(
-    RADIO_URL,
     "https://github.com/yewprint/yewprint/blob/main/yewprint/src/radio.rs",
     check_radio_url
 );

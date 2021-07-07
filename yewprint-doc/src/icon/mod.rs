@@ -42,7 +42,6 @@ impl Component for IconDoc {
 }
 
 crate::build_source_code_component!(
-    ICON_URL,
     "https://github.com/yewprint/yewprint/blob/main/yewprint/src/icon.rs",
     check_icon_url
 );

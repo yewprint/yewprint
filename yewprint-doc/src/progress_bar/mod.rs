@@ -105,7 +105,6 @@ crate::build_example_prop_component! {
 }
 
 crate::build_source_code_component!(
-    PROGRESS_BAR_URL,
     "https://github.com/yewprint/yewprint/blob/main/yewprint/src/progress_bar.rs",
     check_progress_bar_url
 );

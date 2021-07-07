@@ -90,7 +90,6 @@ crate::build_example_prop_component! {
 }
 
 crate::build_source_code_component!(
-    TABS_URL,
     "https://github.com/yewprint/yewprint/blob/main/yewprint/src/tabs.rs",
     check_tabs_url
 );

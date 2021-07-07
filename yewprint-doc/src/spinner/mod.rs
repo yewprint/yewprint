@@ -114,7 +114,6 @@ crate::build_example_prop_component! {
 }
 
 crate::build_source_code_component!(
-    SPINNER_URL,
     "https://github.com/yewprint/yewprint/blob/main/yewprint/src/spinner.rs",
     check_spinner_url
 );
