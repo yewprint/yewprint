@@ -42,6 +42,7 @@ impl Component for TreeDoc {
 }
 
 crate::build_source_code_component!(
-    "https://github.com/yewprint/yewprint/blob/main/yewprint/src/tree.rs",
+    "main",
+    "tree",
     check_tree_url
 );

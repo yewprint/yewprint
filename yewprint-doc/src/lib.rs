@@ -56,15 +56,22 @@ macro_rules! include_raw_html {
 
 #[macro_export]
 macro_rules! build_source_code_component {
-    ($url:expr, $test_name:ident) => {
-        pub struct SourceCodeUrl;
+    ($branch:expr, $name:expr, $test_name:ident) => {
+        pub struct SourceCodeUrl {
+            url: String,
+        }
 
         impl Component for SourceCodeUrl {
             type Message = ();
             type Properties = ();
 
             fn create(_: Self::Properties, _link: ComponentLink<Self>) -> Self {
-                Self
+                let url = format!(
+                    "https://github.com/yewprint/yewprint/blob/{}/yewprint/src/{}.rs",
+                    $branch,
+                    $name
+                );
+                Self { url }
             }
 
             fn update(&mut self, _msg: Self::Message) -> ShouldRender {
@@ -81,7 +88,7 @@ macro_rules! build_source_code_component {
                 html! {
                     <a
                         class=classes!("bp3-text-muted")
-                        href=$url
+                        href=self.url.clone()
                         target="_blank"
                     >
                         <Text>{"Go to the source code"}</Text>
@@ -92,9 +99,15 @@ macro_rules! build_source_code_component {
 
         #[cfg(test)]
         mod tests_url {
+
             #[test]
             fn $test_name() {
-                let get_url = reqwest::blocking::get($url).unwrap();
+                let url = format!(
+                    "https://github.com/yewprint/yewprint/blob/{}/yewprint/src/{}.rs",
+                    $branch,
+                    $name
+                );
+                let get_url = reqwest::blocking::get(url).unwrap();
 
                 assert!(get_url.status().is_success())
             }

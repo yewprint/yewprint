@@ -42,6 +42,7 @@ impl Component for CollapseDoc {
 }
 
 crate::build_source_code_component!(
-    "https://github.com/yewprint/yewprint/blob/main/yewprint/src/collapse.rs",
+    "main",
+    "collapse",
     check_collapse_url
 );

@@ -97,6 +97,7 @@ crate::build_example_prop_component! {
 }
 
 crate::build_source_code_component!(
-    "https://github.com/yewprint/yewprint/blob/main/yewprint/src/card/mod.rs",
+    "main",
+    "card/mod",
     check_card_url
 );

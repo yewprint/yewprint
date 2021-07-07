@@ -108,6 +108,7 @@ crate::build_example_prop_component! {
 }
 
 crate::build_source_code_component!(
-    "https://github.com/yewprint/yewprint/blob/main/yewprint/src/html_select.rs",
+    "main",
+    "html_select",
     check_html_select_url
 );

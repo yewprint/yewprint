@@ -58,6 +58,7 @@ impl Component for PanelStackDoc {
 }
 
 crate::build_source_code_component!(
-    "https://github.com/yewprint/yewprint/blob/main/yewprint/src/panel_stack.rs",
+    "main",
+    "panel_stack",
     check_panel_stack_url
 );

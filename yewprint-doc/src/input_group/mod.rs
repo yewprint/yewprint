@@ -116,6 +116,7 @@ crate::build_example_prop_component! {
 }
 
 crate::build_source_code_component!(
-    "https://github.com/yewprint/yewprint/blob/main/yewprint/src/input_group.rs",
+    "main",
+    "input_group",
     check_input_group_url
 );

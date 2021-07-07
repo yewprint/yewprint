@@ -76,6 +76,7 @@ crate::build_example_prop_component! {
 }
 
 crate::build_source_code_component!(
-    "https://github.com/yewprint/yewprint/blob/main/yewprint/src/divider.rs",
+    "main",
+    "divider",
     check_divider_url
 );
