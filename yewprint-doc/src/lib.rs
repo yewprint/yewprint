@@ -75,7 +75,7 @@ macro_rules! build_source_code_component {
                     .parent()
                     .expect("Cannot get parent directory")
                     .to_str()
-                    .unwrap("Cannot convert into an str")
+                    .expect("Cannot convert into an str")
                 );
 
                 Self { url }
