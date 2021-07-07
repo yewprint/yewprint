@@ -205,8 +205,4 @@ crate::build_example_prop_component! {
         }
 }
 
-crate::build_source_code_component!(
-    "main",
-    "tag",
-    check_tag_url
-);
+crate::build_source_code_component!("main", "tag", check_tag_url);

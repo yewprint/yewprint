@@ -107,8 +107,4 @@ crate::build_example_prop_component! {
         }
 }
 
-crate::build_source_code_component!(
-    "main",
-    "html_select",
-    check_html_select_url
-);
+crate::build_source_code_component!("main", "html_select", check_html_select_url);

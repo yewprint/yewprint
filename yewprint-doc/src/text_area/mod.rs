@@ -112,8 +112,4 @@ crate::build_example_prop_component! {
         }
 }
 
-crate::build_source_code_component!(
-    "main",
-    "text_area",
-    check_text_area_url
-);
+crate::build_source_code_component!("main", "text_area", check_text_area_url);

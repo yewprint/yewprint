@@ -68,8 +68,7 @@ macro_rules! build_source_code_component {
             fn create(_: Self::Properties, _link: ComponentLink<Self>) -> Self {
                 let url = format!(
                     "https://github.com/yewprint/yewprint/blob/{}/yewprint/src/{}.rs",
-                    $branch,
-                    $name
+                    $branch, $name
                 );
                 Self { url }
             }
@@ -104,8 +103,7 @@ macro_rules! build_source_code_component {
             fn $test_name() {
                 let url = format!(
                     "https://github.com/yewprint/yewprint/blob/{}/yewprint/src/{}.rs",
-                    $branch,
-                    $name
+                    $branch, $name
                 );
                 let get_url = reqwest::blocking::get(url).unwrap();
 

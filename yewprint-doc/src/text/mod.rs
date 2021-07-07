@@ -101,8 +101,4 @@ crate::build_example_prop_component! {
         }
 }
 
-crate::build_source_code_component!(
-    "main",
-    "text",
-    check_text_url
-);
+crate::build_source_code_component!("main", "text", check_text_url);

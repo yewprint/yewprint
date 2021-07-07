@@ -96,8 +96,4 @@ crate::build_example_prop_component! {
     }
 }
 
-crate::build_source_code_component!(
-    "main",
-    "radio",
-    check_radio_url
-);
+crate::build_source_code_component!("main", "radio", check_radio_url);

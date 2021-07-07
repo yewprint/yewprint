@@ -41,8 +41,4 @@ impl Component for MenuDoc {
     }
 }
 
-crate::build_source_code_component!(
-    "main",
-    "menu",
-    check_menu_url
-);
+crate::build_source_code_component!("main", "menu", check_menu_url);

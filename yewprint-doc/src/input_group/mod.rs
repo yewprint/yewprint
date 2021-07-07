@@ -115,8 +115,4 @@ crate::build_example_prop_component! {
     }
 }
 
-crate::build_source_code_component!(
-    "main",
-    "input_group",
-    check_input_group_url
-);
+crate::build_source_code_component!("main", "input_group", check_input_group_url);

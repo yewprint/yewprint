@@ -104,8 +104,4 @@ crate::build_example_prop_component! {
         }
 }
 
-crate::build_source_code_component!(
-    "main",
-    "progress_bar",
-    check_progress_bar_url
-);
+crate::build_source_code_component!("main", "progress_bar", check_progress_bar_url);
