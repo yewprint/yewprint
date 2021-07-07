@@ -3,7 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::{Elevation, HtmlSelect, Switch, Text, H1, H5};
+use yewprint::{Elevation, HtmlSelect, Switch, H1, H5};
 
 pub struct CardDoc {
     callback: Callback<ExampleProps>,

@@ -3,7 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::{Text, H1};
+use yewprint::H1;
 
 pub struct CollapseDoc;
 

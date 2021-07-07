@@ -57,6 +57,8 @@ macro_rules! include_raw_html {
 #[macro_export]
 macro_rules! build_source_code_component {
     ($constant_name:ident, $url:expr, $test_name:ident) => {
+        use yewprint::Text;
+
         const $constant_name: &'static str = $url;
 
         pub struct SourceCodeUrl {

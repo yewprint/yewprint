@@ -3,7 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::{Switch, Text, H1, H5};
+use yewprint::{Switch, H1, H5};
 
 pub struct ButtonDoc {
     callback: Callback<ExampleProps>,
