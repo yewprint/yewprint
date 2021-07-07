@@ -66,7 +66,7 @@ macro_rules! build_source_code_component {
                 use std::path::Path;
 
                 let branch = env!("GIT_BRANCH");
-                let path = Path::new(file!())
+                let component_name = Path::new(file!())
                     .parent()
                     .expect("Cannot get the parent directory")
                     .file_name()
@@ -77,7 +77,7 @@ macro_rules! build_source_code_component {
                 format!(
                     "https://github.com/yewprint/yewprint/blob/{}\
                         /yewprint/src/{}.rs",
-                    branch, path,
+                    branch, component_name,
                 )
             }
         }
@@ -122,9 +122,9 @@ macro_rules! build_source_code_component {
             #[test]
             fn check_url() {
                 let url = SourceCodeUrl::generate_url();
-                let get_url = reqwest::blocking::get(url).unwrap();
+                let response = reqwest::blocking::get(url).unwrap();
 
-                assert!(get_url.status().is_success())
+                assert!(response.status().is_success())
             }
         }
     };
