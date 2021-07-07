@@ -61,24 +61,33 @@ macro_rules! build_source_code_component {
             url: String,
         }
 
+        impl SourceCodeUrl {
+            pub fn generate_url() -> String {
+                use std::path::Path;
+
+                let branch = env!("GIT_BRANCH");
+                let path = Path::new(file!())
+                    .parent()
+                    .expect("Cannot get the parent directory")
+                    .file_name()
+                    .expect("Cannot get the directory name")
+                    .to_str()
+                    .expect("Cannot convert to str");
+
+                format!(
+                    "https://github.com/yewprint/yewprint/blob/{}\
+                        /yewprint/src/{}.rs",
+                    branch, path,
+                )
+            }
+        }
+
         impl Component for SourceCodeUrl {
             type Message = ();
             type Properties = ();
 
             fn create(_: Self::Properties, _link: ComponentLink<Self>) -> Self {
-                use std::path::Path;
-
-                let url = format!(
-                    "https://github.com/yewprint/yewprint/blob/{}/yewprint/src/{}.rs",
-                    env!("GIT_BRANCH"),
-                    Path::new(file!())
-                        .parent()
-                        .expect("Cannot get parent directory")
-                        .file_name()
-                        .expect("Cannot get the directory name")
-                        .to_str()
-                        .expect("Cannot convert into an str")
-                );
+                let url = SourceCodeUrl::generate_url();
 
                 Self { url }
             }
@@ -108,21 +117,11 @@ macro_rules! build_source_code_component {
 
         #[cfg(test)]
         mod source_tests {
-            use std::path::Path;
+            use super::*;
 
             #[test]
             fn check_url() {
-                let url = format!(
-                    "https://github.com/yewprint/yewprint/blob/{}/yewprint/src/{}.rs",
-                    env!("GIT_BRANCH"),
-                    Path::new(file!())
-                        .parent()
-                        .unwrap()
-                        .file_name()
-                        .unwrap()
-                        .to_str()
-                        .unwrap()
-                );
+                let url = SourceCodeUrl::generate_url();
                 let get_url = reqwest::blocking::get(url).unwrap();
 
                 assert!(get_url.status().is_success())
