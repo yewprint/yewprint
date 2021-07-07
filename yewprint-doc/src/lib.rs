@@ -72,10 +72,12 @@ macro_rules! build_source_code_component {
                     "https://github.com/yewprint/yewprint/blob/{}/yewprint/src/{}.rs",
                     env!("GIT_BRANCH"),
                     Path::new(file!())
-                    .parent()
-                    .expect("Cannot get parent directory")
-                    .to_str()
-                    .expect("Cannot convert into an str")
+                        .parent()
+                        .expect("Cannot get parent directory")
+                        .file_name()
+                        .expect("Cannot get the directory name")
+                        .to_str()
+                        .expect("Cannot convert into an str")
                 );
 
                 Self { url }
@@ -98,7 +100,7 @@ macro_rules! build_source_code_component {
                         href=self.url.clone()
                         target="_blank"
                     >
-                        <Text>{"Go to source code"}</Text>
+                        <Text>{"Go to {} source code"}</Text>
                     </a>
                 }
             }
@@ -113,11 +115,7 @@ macro_rules! build_source_code_component {
                 let url = format!(
                     "https://github.com/yewprint/yewprint/blob/{}/yewprint/src/{}.rs",
                     env!("GIT_BRANCH"),
-                    Path::new(file!())
-                        .parent()
-                        .unwrap()
-                        .to_str()
-                        .unwrap()
+                    Path::new(file!()).parent().unwrap().file_name().unwrap().to_str().unwrap()
                 );
                 let get_url = reqwest::blocking::get(url).unwrap();
 
