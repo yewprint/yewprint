@@ -96,4 +96,4 @@ crate::build_example_prop_component! {
         }
 }
 
-crate::build_source_code_component!("card/mod");
+crate::build_source_code_component!();

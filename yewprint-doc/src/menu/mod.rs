@@ -41,4 +41,4 @@ impl Component for MenuDoc {
     }
 }
 
-crate::build_source_code_component!("menu");
+crate::build_source_code_component!();

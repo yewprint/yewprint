@@ -88,4 +88,4 @@ crate::build_example_prop_component! {
     }
 }
 
-crate::build_source_code_component!("control_group");
+crate::build_source_code_component!();

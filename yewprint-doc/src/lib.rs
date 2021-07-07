@@ -56,7 +56,7 @@ macro_rules! include_raw_html {
 
 #[macro_export]
 macro_rules! build_source_code_component {
-    ($name:expr) => {
+    () => {
         pub struct SourceCodeUrl {
             url: String,
         }
