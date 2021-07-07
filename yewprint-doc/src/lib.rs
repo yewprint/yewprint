@@ -57,7 +57,6 @@ macro_rules! include_raw_html {
 #[macro_export]
 macro_rules! build_source_code_component {
     ($url:expr, $test_name:ident) => {
-
         pub struct SourceCodeUrl;
 
         impl Component for SourceCodeUrl {
