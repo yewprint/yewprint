@@ -75,4 +75,4 @@ crate::build_example_prop_component! {
     }
 }
 
-crate::build_source_code_component!("main", "divider", check_divider_url);
+crate::build_source_code_component!("main", "divider");

@@ -41,4 +41,4 @@ impl Component for IconDoc {
     }
 }
 
-crate::build_source_code_component!("main", "icon", check_icon_url);
+crate::build_source_code_component!("main", "icon");

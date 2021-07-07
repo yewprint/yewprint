@@ -106,4 +106,4 @@ crate::build_example_prop_component! {
     }
 }
 
-crate::build_source_code_component!("main", "button_group", check_button_group_url);
+crate::build_source_code_component!("main", "button_group");

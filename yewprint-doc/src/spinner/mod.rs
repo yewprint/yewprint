@@ -113,4 +113,4 @@ crate::build_example_prop_component! {
     }
 }
 
-crate::build_source_code_component!("main", "spinner", check_spinner_url);
+crate::build_source_code_component!("main", "spinner");

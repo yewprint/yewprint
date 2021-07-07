@@ -57,4 +57,4 @@ impl Component for PanelStackDoc {
     }
 }
 
-crate::build_source_code_component!("main", "panel_stack", check_panel_stack_url);
+crate::build_source_code_component!("main", "panel_stack");

@@ -56,7 +56,7 @@ macro_rules! include_raw_html {
 
 #[macro_export]
 macro_rules! build_source_code_component {
-    ($branch:expr, $name:expr, $test_name:ident) => {
+    ($branch:expr, $name:expr) => {
         pub struct SourceCodeUrl {
             url: String,
         }
@@ -97,10 +97,10 @@ macro_rules! build_source_code_component {
         }
 
         #[cfg(test)]
-        mod tests_url {
+        mod component_test {
 
             #[test]
-            fn $test_name() {
+            fn check_source_url() {
                 let url = format!(
                     "https://github.com/yewprint/yewprint/blob/{}/yewprint/src/{}.rs",
                     $branch, $name

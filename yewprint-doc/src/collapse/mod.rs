@@ -41,4 +41,4 @@ impl Component for CollapseDoc {
     }
 }
 
-crate::build_source_code_component!("main", "collapse", check_collapse_url);
+crate::build_source_code_component!("main", "collapse");
