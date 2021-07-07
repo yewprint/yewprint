@@ -89,4 +89,4 @@ crate::build_example_prop_component! {
         }
 }
 
-crate::build_source_code_component!("main", "tabs");
+crate::build_source_code_component!("tabs");

@@ -205,4 +205,4 @@ crate::build_example_prop_component! {
         }
 }
 
-crate::build_source_code_component!("main", "tag");
+crate::build_source_code_component!("tag");

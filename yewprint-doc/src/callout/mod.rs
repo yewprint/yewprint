@@ -104,4 +104,4 @@ crate::build_example_prop_component! {
         }
 }
 
-crate::build_source_code_component!("main", "callout");
+crate::build_source_code_component!("callout");

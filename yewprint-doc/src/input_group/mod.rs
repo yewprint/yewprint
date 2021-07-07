@@ -115,4 +115,4 @@ crate::build_example_prop_component! {
     }
 }
 
-crate::build_source_code_component!("main", "input_group");
+crate::build_source_code_component!("input_group");

@@ -107,4 +107,4 @@ crate::build_example_prop_component! {
         }
 }
 
-crate::build_source_code_component!("main", "html_select");
+crate::build_source_code_component!("html_select");

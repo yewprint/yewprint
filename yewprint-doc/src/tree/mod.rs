@@ -41,4 +41,4 @@ impl Component for TreeDoc {
     }
 }
 
-crate::build_source_code_component!("main", "tree");
+crate::build_source_code_component!("tree");
