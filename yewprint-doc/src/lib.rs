@@ -68,11 +68,11 @@ macro_rules! build_source_code_component {
                 let branch = env!("GIT_BRANCH");
                 let component_name = Path::new(file!())
                     .parent()
-                    .expect("Cannot get the parent directory")
+                    .unwrap()
                     .file_name()
-                    .expect("Cannot get the directory name")
+                    .unwrap()
                     .to_str()
-                    .expect("Cannot convert to str");
+                    .unwrap();
 
                 format!(
                     "https://github.com/yewprint/yewprint/blob/{}\
