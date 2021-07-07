@@ -66,10 +66,18 @@ macro_rules! build_source_code_component {
             type Properties = ();
 
             fn create(_: Self::Properties, _link: ComponentLink<Self>) -> Self {
+                use std::path::Path;
+
                 let url = format!(
                     "https://github.com/yewprint/yewprint/blob/{}/yewprint/src/{}.rs",
-                    env!("GIT_BRANCH"), $name
+                    env!("GIT_BRANCH"),
+                    Path::new(file!())
+                    .parent()
+                    .expect("Cannot get parent directory")
+                    .to_str()
+                    .unwrap("Cannot convert into an str")
                 );
+
                 Self { url }
             }
 
@@ -90,7 +98,7 @@ macro_rules! build_source_code_component {
                         href=self.url.clone()
                         target="_blank"
                     >
-                        <Text>{"Go to the source code"}</Text>
+                        <Text>{"Go to source code"}</Text>
                     </a>
                 }
             }
@@ -98,12 +106,18 @@ macro_rules! build_source_code_component {
 
         #[cfg(test)]
         mod component_test {
+            use std::path::Path;
 
             #[test]
             fn check_source_url() {
                 let url = format!(
                     "https://github.com/yewprint/yewprint/blob/{}/yewprint/src/{}.rs",
-                    env!("GIT_BRANCH"), $name
+                    env!("GIT_BRANCH"),
+                    Path::new(file!())
+                        .parent()
+                        .unwrap()
+                        .to_str()
+                        .unwrap()
                 );
                 let get_url = reqwest::blocking::get(url).unwrap();
 
