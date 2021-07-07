@@ -40,6 +40,7 @@ impl Component for DividerDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"Divider"}</H1>
+                <SourceCodeUrl />
                 <ExampleContainer
                     source=source
                     props=Some(html! {
@@ -73,3 +74,5 @@ crate::build_example_prop_component! {
         }
     }
 }
+
+crate::build_source_code_component!();

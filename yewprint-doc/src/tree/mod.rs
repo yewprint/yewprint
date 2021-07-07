@@ -32,6 +32,7 @@ impl Component for TreeDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"Tree"}</H1>
+                <SourceCodeUrl />
                 <ExampleContainer source=source>
                     <Example />
                 </ExampleContainer>
@@ -39,3 +40,5 @@ impl Component for TreeDoc {
         }
     }
 }
+
+crate::build_source_code_component!();

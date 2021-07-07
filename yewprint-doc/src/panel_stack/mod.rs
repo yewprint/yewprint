@@ -43,6 +43,7 @@ impl Component for PanelStackDoc {
         html! {
             <div>
                 <H1 class=classes!("docs-title")>{"PanelStack"}</H1>
+                <SourceCodeUrl />
                 <div>
                     <ExampleContainer
                         source=source
@@ -55,3 +56,5 @@ impl Component for PanelStackDoc {
         }
     }
 }
+
+crate::build_source_code_component!();
