@@ -107,11 +107,11 @@ macro_rules! build_source_code_component {
         }
 
         #[cfg(test)]
-        mod component_test {
+        mod source_tests {
             use std::path::Path;
 
             #[test]
-            fn check_source_url() {
+            fn check_url() {
                 let url = format!(
                     "https://github.com/yewprint/yewprint/blob/{}/yewprint/src/{}.rs",
                     env!("GIT_BRANCH"),
