@@ -14,6 +14,7 @@ pub struct Slider<T: Clone + PartialEq + 'static> {
     track_ref: NodeRef,
     is_moving: bool,
     focus_handle: bool,
+    selected: Option<T>,
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -28,7 +29,10 @@ pub struct SliderProps<T: Clone + PartialEq + 'static> {
     pub value_label: Option<Cow<'static, str>>,
     pub onchange: Callback<T>,
     pub values: Vec<(T, Option<Cow<'static, str>>)>,
+    #[prop_or_default]
     pub selected: Option<T>,
+    #[prop_or_default]
+    pub uncontrolled: bool,
 }
 
 pub enum Msg {
@@ -64,6 +68,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
             track_ref: NodeRef::default(),
             is_moving: false,
             focus_handle: false,
+            selected: None,
         }
     }
 
@@ -102,10 +107,18 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     .props
                     .values
                     .get(position)
-                    .unwrap_or_else(|| self.props.values.last().expect("No value in the vec"));
+                    .unwrap_or_else(|| self.props.values.last().expect("No value in the vec"))
+                    .clone();
 
-                if Some(value) != self.props.selected.as_ref() {
-                    self.props.onchange.emit(value.clone());
+                if self.props.uncontrolled {
+                    if self.selected.as_ref() != Some(&value) {
+                        self.selected.replace(value.clone());
+                        self.props.onchange.emit(value);
+                    }
+                } else {
+                    if self.props.selected.as_ref() != Some(&value) {
+                        self.props.onchange.emit(value);
+                    }
                 }
 
                 true
@@ -133,25 +146,42 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                 "ArrowDown" | "ArrowLeft" => {
                     self.focus_handle = true;
                     event.prevent_default();
+                    let selected = if self.props.uncontrolled {
+                        self.selected.as_ref()
+                    } else {
+                        self.props.selected.as_ref()
+                    };
                     let index = self
                         .props
                         .values
                         .iter()
-                        .position(|(value, _)| Some(value) == self.props.selected.as_ref())
+                        .position(|(value, _)| selected == Some(value))
                         .map(|i| i.saturating_sub(1))
                         .unwrap_or(0);
-                    let (value, _) = self.props.values[index].clone();
-                    self.props.onchange.emit(value);
+                    let (value, _) = &self.props.values[index];
+
+                    if self.props.uncontrolled {
+                        self.selected.replace(value.clone());
+                        self.props.onchange.emit(value.clone());
+                    } else {
+                        self.props.onchange.emit(value.clone());
+                    }
+
                     true
                 }
                 "ArrowUp" | "ArrowRight" => {
                     self.focus_handle = true;
                     event.prevent_default();
+                    let selected = if self.props.uncontrolled {
+                        self.selected.as_ref()
+                    } else {
+                        self.props.selected.as_ref()
+                    };
                     let index = self
                         .props
                         .values
                         .iter()
-                        .position(|(value, _)| Some(value) == self.props.selected.as_ref())
+                        .position(|(value, _)| selected == Some(value))
                         .map(|i| i.saturating_add(1))
                         .unwrap_or(0);
                     let (value, _) = self
@@ -165,7 +195,14 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                             )
                         })
                         .clone();
-                    self.props.onchange.emit(value);
+
+                    if self.props.uncontrolled {
+                        self.selected.replace(value.clone());
+                        self.props.onchange.emit(value);
+                    } else {
+                        self.props.onchange.emit(value);
+                    }
+
                     true
                 }
                 _ => false,
@@ -184,11 +221,16 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
     }
 
     fn view(&self) -> Html {
+        let selected = if self.props.uncontrolled {
+            self.selected.as_ref()
+        } else {
+            self.props.selected.as_ref()
+        };
         let value_index = self
             .props
             .values
             .iter()
-            .position(|(value, _)| Some(value) == self.props.selected.as_ref());
+            .position(|(value, _)| Some(value) == selected);
         let labels = if self.props.values.len() > 1 {
             self.props
                 .values

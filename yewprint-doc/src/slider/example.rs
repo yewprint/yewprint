@@ -74,7 +74,8 @@ impl Component for Example {
                     style="display: flex; align-items: flex-start; width: 100%"
                 >
                     <Slider<f64>
-                        selected=self.float
+                        // NOTE: this component is uncontrolled: it retains its state
+                        uncontrolled=true
                         values=vec![
                             (0.0, Some("0".into())),
                             (0.1, None),
