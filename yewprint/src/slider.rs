@@ -242,7 +242,9 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                 onmousedown=(self.props.values.len() > 1).then(
                     || self.link.batch_callback(
                         |event: MouseEvent| {
-                            if event.buttons() ==   crate::MOUSE_EVENT_BUTTONS_PRIMARY {
+                            if event.buttons() ==
+                                crate::MOUSE_EVENT_BUTTONS_PRIMARY
+                            {
                                 vec![Msg::StartChange, Msg::Mouse(event)]
                             } else {
                                 vec![]
