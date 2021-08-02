@@ -90,7 +90,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
             }
             Msg::StartChange => false,
             Msg::Mouse(event) if self.props.values.len() > 1 => {
-                if MouseEvent::buttons(&event) == 0 {
+                if MouseEvent::buttons(&event) == 1 {
                     let track_rect = self.track_ref.cast::<Element>().expect("no track ref");
                     let tick_size = (track_rect.client_width() as f64)
                         / self.props.values.len().saturating_sub(1) as f64;
