@@ -62,11 +62,16 @@ pub use tree::*;
 use yew::Classes;
 
 // See https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/buttons
+#[allow(dead_code)]
 const MOUSE_EVENT_BUTTONS_NONE: u16 = 0;
 const MOUSE_EVENT_BUTTONS_PRIMARY: u16 = 1;
+#[allow(dead_code)]
 const MOUSE_EVENT_BUTTONS_SECONDARY: u16 = 2;
+#[allow(dead_code)]
 const MOUSE_EVENT_BUTTONS_AUXILIARY: u16 = 4;
+#[allow(dead_code)]
 const MOUSE_EVENT_BUTTONS_FOURTH: u16 = 8;
+#[allow(dead_code)]
 const MOUSE_EVENT_BUTTONS_FIFTH: u16 = 16;
 
 #[macro_export]
