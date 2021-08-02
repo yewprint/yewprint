@@ -90,10 +90,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
             }
             Msg::StartChange => false,
             Msg::Mouse(event) if self.props.values.len() > 1 => {
-                // The return value of buttons() represent a specific button pressed by the user.
-                //  We use the value `1` for the main button.
-                // See https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/buttons
-                if event.buttons() == 1 {
+                if event.buttons() == crate::MOUSE_EVENT_BUTTONS_PRIMARY {
                     let track_rect = self.track_ref.cast::<Element>().expect("no track ref");
                     let tick_size = (track_rect.client_width() as f64)
                         / self.props.values.len().saturating_sub(1) as f64;

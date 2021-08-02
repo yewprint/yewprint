@@ -61,6 +61,14 @@ pub use tree::*;
 
 use yew::Classes;
 
+// See https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/buttons
+const MOUSE_EVENT_BUTTONS_NONE: u16 = 0;
+const MOUSE_EVENT_BUTTONS_PRIMARY: u16 = 1;
+const MOUSE_EVENT_BUTTONS_SECONDARY: u16 = 2;
+const MOUSE_EVENT_BUTTONS_AUXILIARY: u16 = 4;
+const MOUSE_EVENT_BUTTONS_FOURTH: u16 = 8;
+const MOUSE_EVENT_BUTTONS_FIFTH: u16 = 16;
+
 #[macro_export]
 macro_rules! if_html {
     (let $pat:pat = $cond:expr => $($body:tt)+) => {
