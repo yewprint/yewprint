@@ -36,7 +36,6 @@ pub enum Msg {
     Mouse(MouseEvent),
     StopChange,
     Keyboard(KeyboardEvent),
-    Noop,
 }
 
 impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
@@ -175,7 +174,6 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                 _ => false,
             },
             Msg::Keyboard(_) => false,
-            Msg::Noop => false,
         }
     }
 
@@ -317,11 +315,12 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                                         100.0 * (index as f64)
                                             / (self.props.values.len() as f64 - 1.0),
                                     )
-                                    onmousedown=self.link.callback(|event: MouseEvent| {
+                                    onmousedown=self.link.batch_callback(
+                                    |event: MouseEvent| {
                                         if event.buttons() == crate::MOUSE_EVENT_BUTTONS_PRIMARY {
-                                            Msg::StartChange
+                                            vec![Msg::StartChange]
                                         } else {
-                                            Msg::Noop
+                                            vec![]
                                         }
                                     })
                                     onkeydown=self.link.callback(|event| Msg::Keyboard(event))
