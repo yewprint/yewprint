@@ -90,25 +90,28 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
             }
             Msg::StartChange => false,
             Msg::Mouse(event) if self.props.values.len() > 1 => {
-                let track_rect = self.track_ref.cast::<Element>().expect("no track ref");
-                let tick_size = (track_rect.client_width() as f64)
-                    / self.props.values.len().saturating_sub(1) as f64;
-                let pixel_delta =
-                    (event.client_x() as f64) - track_rect.get_bounding_client_rect().left();
+                if event.buttons() == crate::MOUSE_EVENT_BUTTONS_PRIMARY {
+                    let track_rect = self.track_ref.cast::<Element>().expect("no track ref");
+                    let tick_size = (track_rect.client_width() as f64)
+                        / self.props.values.len().saturating_sub(1) as f64;
+                    let pixel_delta =
+                        (event.client_x() as f64) - track_rect.get_bounding_client_rect().left();
 
-                let position = (pixel_delta / tick_size).round() as usize;
+                    let position = (pixel_delta / tick_size).round() as usize;
 
-                let (value, _) = self
-                    .props
-                    .values
-                    .get(position)
-                    .unwrap_or_else(|| self.props.values.last().expect("No value in the vec"));
+                    let (value, _) =
+                        self.props.values.get(position).unwrap_or_else(|| {
+                            self.props.values.last().expect("No value in the vec")
+                        });
 
-                if Some(value) != self.props.selected.as_ref() {
-                    self.props.onchange.emit(value.clone());
+                    if Some(value) != self.props.selected.as_ref() {
+                        self.props.onchange.emit(value.clone());
+                    }
+
+                    true
+                } else {
+                    false
                 }
-
-                true
             }
             Msg::Mouse(_) => false,
             Msg::StopChange => {
@@ -238,7 +241,15 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                 )
                 onmousedown=(self.props.values.len() > 1).then(
                     || self.link.batch_callback(
-                        |event: MouseEvent| vec![Msg::StartChange, Msg::Mouse(event)]
+                        |event: MouseEvent| {
+                            if event.buttons() ==
+                                crate::MOUSE_EVENT_BUTTONS_PRIMARY
+                            {
+                                vec![Msg::StartChange, Msg::Mouse(event)]
+                            } else {
+                                vec![]
+                            }
+                        }
                     )
                 )
             >
@@ -308,7 +319,14 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                                         100.0 * (index as f64)
                                             / (self.props.values.len() as f64 - 1.0),
                                     )
-                                    onmousedown=self.link.callback(|_| Msg::StartChange)
+                                    onmousedown=self.link.batch_callback(
+                                    |event: MouseEvent| {
+                                        if event.buttons() == crate::MOUSE_EVENT_BUTTONS_PRIMARY {
+                                            vec![Msg::StartChange]
+                                        } else {
+                                            vec![]
+                                        }
+                                    })
                                     onkeydown=self.link.callback(|event| Msg::Keyboard(event))
                                     tabindex=0
                                 >

@@ -135,7 +135,7 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
                                             .reform(move |_| tab_id.clone())
                                     })}
                                     key=*id
-                                    ref=self.tab_refs[&id].clone()
+                                    ref=self.tab_refs[id].clone()
                                 >
                                     { props.title.clone() }
                                 </div>
