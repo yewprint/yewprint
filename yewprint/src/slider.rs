@@ -72,6 +72,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
             Msg::StartChange if self.props.values.len() > 1 => {
                 let document = yew::utils::document();
                 let event_target: &web_sys::EventTarget = document.as_ref();
+                self.is_moving = true;
                 event_target
                     .add_event_listener_with_callback(
                         "mousemove",
@@ -90,7 +91,6 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
             Msg::StartChange => false,
             Msg::Mouse(event) if self.props.values.len() > 1 => {
                 if event.buttons() == crate::MOUSE_EVENT_BUTTONS_PRIMARY {
-                    self.is_moving = true;
                     let track_rect = self.track_ref.cast::<Element>().expect("no track ref");
                     let tick_size = (track_rect.client_width() as f64)
                         / self.props.values.len().saturating_sub(1) as f64;
@@ -241,7 +241,11 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                 )
                 onmousedown=(self.props.values.len() > 1).then(
                     || self.link.batch_callback(
-                        |event: MouseEvent| vec![Msg::StartChange, Msg::Mouse(event)]
+                        |event: MouseEvent| if event.buttons() == crate::MOUSE_EVENT_BUTTONS_PRIMARY {
+                            vec![Msg::StartChange, Msg::Mouse(event)]
+                        } else {
+                            vec![]
+                        }
                     )
                 )
             >
