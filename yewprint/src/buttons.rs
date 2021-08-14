@@ -78,7 +78,7 @@ impl Component for Button {
                     self.props.class.clone(),
                 )
                 style=self.props.style.clone()
-                onclick= (!self.props.disabled).then(|| self.props.onclick.clone())
+                onclick=(!self.props.disabled).then(|| self.props.onclick.clone())
             >
                 {
                     self
