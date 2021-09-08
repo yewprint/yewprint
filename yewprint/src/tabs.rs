@@ -153,7 +153,7 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
                             <div
                                 class=classes!(
                                     "bp3-tab-panel",
-                                    selected.then(|| props.panel_class.clone()).flatten(),
+                                    selected.then(|| props.panel_class.clone()),
                                 )
                                 aria-labelledby=title_id.to_string()
                                 aria-hidden=(!selected).then(|| "true")
