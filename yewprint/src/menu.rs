@@ -124,7 +124,7 @@ impl Component for MenuItem {
                     )
                     href={(!self.props.disabled).then(|| self.props.href.clone())}.flatten()
                     tabIndex={(!self.props.disabled).then(|| "0")}
-                    onclick={self.props.onclick.clone()}
+                    onclick={(!self.props.disabled).then(|| self.props.onclick.clone())}
                 >
                     {
                         if let Some(icon_name) = self.props.icon {
