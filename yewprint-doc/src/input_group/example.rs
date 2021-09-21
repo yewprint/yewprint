@@ -158,7 +158,7 @@ impl Component for Example {
                             minimal=true
                             round=self.props.round
                         >
-                            {(10000 / 1.max(self.tags_value.len().pow(2)))}
+                            {{10000 / 1.max(self.tags_value.len().pow(2))}}
                         </Tag>
                     }
                 />
