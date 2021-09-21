@@ -6,6 +6,7 @@ pub struct Example {
     props: ExampleProps,
     histogram_value: String,
     password_value: String,
+    password_strength: Html,
     tags_value: String,
 }
 
@@ -25,7 +26,7 @@ pub enum Msg {
     UpdatePassword(String),
     AddTagsEntry,
     UpdateTags(String),
-    Nope,
+    Noop,
 }
 
 macro_rules! alert {
@@ -44,9 +45,10 @@ impl Component for Example {
         Example {
             props,
             link,
-            histogram_value: String::new(),
-            password_value: String::new(),
-            tags_value: String::new(),
+            histogram_value: Default::default(),
+            password_value: Default::default(),
+            password_strength: Default::default(),
+            tags_value: Default::default(),
         }
     }
 
@@ -54,32 +56,40 @@ impl Component for Example {
         match msg {
             Msg::AddHistogramEntry => {
                 alert!("You sent: {}", self.histogram_value);
-                self.histogram_value = String::new();
+                self.histogram_value = Default::default();
                 true
             }
-            Msg::UpdateHistogram(val) => {
-                self.histogram_value = val;
+            Msg::UpdateHistogram(value) => {
+                self.histogram_value = value;
                 true
             }
             Msg::AddPasswordEntry => {
-                alert!("you sent: {}", self.password_value);
-                self.password_value = String::new();
+                alert!("You sent: {}", self.password_value);
+                self.password_value = Default::default();
                 true
             }
-            Msg::UpdatePassword(val) => {
-                self.password_value = val;
+            Msg::UpdatePassword(value) => {
+                self.password_strength = match value.len() {
+                    n if n == 0 => html!(),
+                    n if n < 4 => html!(<Tag>{"weak"}</Tag>),
+                    n if n < 8 => html!(<Tag>{"medium"}</Tag>),
+                    _ => html!(<Tag>{"strong"}</Tag>),
+                };
+
+                self.password_value = value;
+
                 true
             }
             Msg::AddTagsEntry => {
                 alert!("You sent: {}", self.tags_value);
-                self.tags_value = String::new();
+                self.tags_value = Default::default();
                 true
             }
             Msg::UpdateTags(val) => {
                 self.tags_value = val;
                 true
             }
-            Msg::Nope => false,
+            Msg::Noop => false,
         }
     }
 
@@ -106,7 +116,7 @@ impl Component for Example {
                     value=self.histogram_value.clone()
                     oninput=self.link.callback(|e: InputData| Msg::UpdateHistogram(e.value))
                     onkeydown=self.link.callback(|e: KeyboardEvent| {
-                        if e.key() == "Enter" { Msg::AddHistogramEntry } else { Msg::Nope }
+                        if e.key() == "Enter" { Msg::AddHistogramEntry } else { Msg::Noop }
                     })
                 />
                 <InputGroup
@@ -115,11 +125,12 @@ impl Component for Example {
                     small=self.props.small
                     round=self.props.round
                     disabled=self.props.disabled
+                    left_element=self.password_strength.clone()
                     placeholder={"Enter your password..."}
                     value=self.password_value.clone()
                     oninput=self.link.callback(|e: InputData| Msg::UpdatePassword(e.value))
                     onkeydown=self.link.callback(|e: KeyboardEvent| {
-                        if e.key() == "Enter" { Msg::AddPasswordEntry } else { Msg::Nope }
+                        if e.key() == "Enter" { Msg::AddPasswordEntry } else { Msg::Noop }
                     })
                     right_element=html! {
                         <Button
@@ -140,14 +151,14 @@ impl Component for Example {
                     value=self.tags_value.clone()
                     oninput=self.link.callback(|e: InputData| Msg::UpdateTags(e.value))
                     onkeydown=self.link.callback(|e: KeyboardEvent| {
-                        if e.key() == "Enter" { Msg::AddTagsEntry } else { Msg::Nope }
+                        if e.key() == "Enter" { Msg::AddTagsEntry } else { Msg::Noop }
                     })
                     right_element=html! {
                         <Tag
                             minimal=true
                             round=self.props.round
                         >
-                            {"10000"}
+                            {(10000 / 1.max(self.tags_value.len().pow(2)))}
                         </Tag>
                     }
                 />
