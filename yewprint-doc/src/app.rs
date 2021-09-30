@@ -143,7 +143,7 @@ impl Component for App {
                                 />
                                 <MenuItem
                                     text={html!("Checkbox")}
-                                    href="#checkbox"
+                                    href=Cow::Borrowed("#checkbox")
                                     onclick=self.link
                                         .callback(|_| Msg::GoToMenu(DocMenu::Checkbox))
                                 />
