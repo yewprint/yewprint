@@ -15,9 +15,11 @@ pub struct Props {
     #[prop_or_default]
     pub checked: bool,
     #[prop_or_default]
-    pub onchange: Callback<MouseEvent>,
+    pub onchange: Callback<ChangeData>,
     #[prop_or_default]
     pub label: yew::virtual_dom::VNode,
+    #[prop_or_default]
+    pub indeterminate_state: bool,
 }
 
 impl Component for Checkbox {
@@ -54,7 +56,7 @@ impl Component for Checkbox {
                 <input
                     type="checkbox"
                     checked={self.props.checked}
-                    onclick={self.props.onchange.clone()}
+                    onchange={self.props.onchange.clone()}
                     disabled=self.props.disabled
                 />
                 <span
