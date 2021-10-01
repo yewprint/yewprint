@@ -5,6 +5,7 @@ mod button_group;
 mod buttons;
 mod callout;
 mod card;
+mod checkbox;
 mod collapse;
 mod control_group;
 mod divider;

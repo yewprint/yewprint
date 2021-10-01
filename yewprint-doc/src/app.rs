@@ -2,6 +2,7 @@ use crate::button_group::*;
 use crate::buttons::*;
 use crate::callout::*;
 use crate::card::*;
+use crate::checkbox::*;
 use crate::collapse::*;
 use crate::control_group::*;
 use crate::divider::*;
@@ -142,6 +143,12 @@ impl Component for App {
                                         .callback(|_| Msg::GoToMenu(DocMenu::Card))
                                 />
                                 <MenuItem
+                                    text={html!("Checkbox")}
+                                    href=Cow::Borrowed("#checkbox")
+                                    onclick=self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Checkbox))
+                                />
+                                <MenuItem
                                     text={html!("Collapse")}
                                     href=Cow::Borrowed("#collapse")
                                     onclick=self.link
@@ -276,6 +283,7 @@ impl Component for App {
                                         DocMenu::ButtonGroup => html! (<ButtonGroupDoc />),
                                         DocMenu::Callout => html!(<CalloutDoc />),
                                         DocMenu::Card => html!(<CardDoc />),
+                                        DocMenu::Checkbox => html!(<CheckboxDoc />),
                                         DocMenu::Collapse => html!(<CollapseDoc />),
                                         DocMenu::Divider => html!(<DividerDoc />),
                                         DocMenu::HtmlSelect => html!(<HtmlSelectDoc />),
@@ -316,6 +324,8 @@ pub enum DocMenu {
     Callout,
     #[to = "/#card"]
     Card,
+    #[to = "/#checkbox"]
+    Checkbox,
     #[to = "/#collapse"]
     Collapse,
     #[to = "/#control-group"]
