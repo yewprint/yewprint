@@ -91,23 +91,22 @@ where
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
-        let max_value = self.props.max_value.clone();
-        let min_value = self.props.min_value.clone();
-        let increment = self.props.increment.clone();
-
         match msg {
             Msg::AddEntry => {
                 if let Ok(num) = self.input.trim().parse::<T>() {
-                    self.props.value = Some(num);
+                    self.props.value = Some(num.clone());
+                    self.input = num.to_string();
                     true
                 } else {
                     self.props.value = None;
+                    self.input = Default::default();
                     false
                 }
             }
             Msg::UpdateValue(value) => {
                 if let Ok(num) = value.trim().parse::<T>() {
-                    self.props.value = Some(num);
+                    self.props.value = Some(num.clone());
+                    self.input = num.to_string();
                     true
                 } else {
                     false
@@ -116,28 +115,34 @@ where
             Msg::Up => {
                 if let Some(num) = self.props.value.clone() {
                     if num >= self.props.max_value {
-                        self.props.value = Some(max_value);
+                        self.props.value = Some(self.props.max_value.clone());
+                        self.input = self.props.max_value.to_string();
                         true
                     } else {
-                        self.props.value = Some(num + increment);
+                        self.props.value = Some(num.clone() + self.props.increment.clone());
+                        self.input = (num + self.props.increment.clone()).to_string();
                         true
                     }
                 } else {
-                    self.props.value = Some(max_value);
+                    self.props.value = Some(self.props.max_value.clone());
+                    self.input = self.props.max_value.to_string();
                     true
                 }
             }
             Msg::Down => {
                 if let Some(num) = self.props.value.clone() {
                     if num <= self.props.min_value {
-                        self.props.value = Some(min_value);
+                        self.props.value = Some(self.props.min_value.clone());
+                        self.input = self.props.min_value.to_string();
                         true
                     } else {
-                        self.props.value = Some(num - increment);
+                        self.props.value = Some(num.clone() - self.props.increment.clone());
+                        self.input = (num - self.props.increment.clone()).to_string();
                         true
                     }
                 } else {
-                    self.props.value = Some(min_value);
+                    self.props.value = Some(self.props.min_value.clone());
+                    self.input = self.props.min_value.to_string();
                     true
                 }
             }
