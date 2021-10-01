@@ -73,8 +73,8 @@ impl Component for Example {
                                 Nasr, and date to between c. 3500 and c. 3000 BCE."}
                             </> },
                             title: html!(<strong>{"Sumer"}</strong>),
-                            panel_class: None,
-                            title_class: None,
+                            panel_class: Classes::default(),
+                            title_class: Classes::default(),
                         },
                         Tab {
                             disabled: false,
@@ -98,16 +98,16 @@ impl Component for Example {
                                 Minoans \"the first link in the European chain\"."}
                             </> },
                             title: html!(<em>{"Minoan"}</em>),
-                            panel_class: None,
-                            title_class: None,
+                            panel_class: Classes::default(),
+                            title_class: Classes::default(),
                         },
                         Tab {
                             disabled: true,
                             id: Civilization::AncientEgypt,
                             panel: html!(),
                             title: html!(<u>{"Ancient Egypt"}</u>),
-                            panel_class: None,
-                            title_class: None,
+                            panel_class: Classes::default(),
+                            title_class: Classes::default(),
                         },
                         Tab {
                             disabled: false,
@@ -130,8 +130,8 @@ impl Component for Example {
                                 Pakistan."}
                             </> },
                             title: html!("Indus Valley"),
-                            panel_class: None,
-                            title_class: None,
+                            panel_class: Classes::default(),
+                            title_class: Classes::default(),
                         },
                     ]
                 />

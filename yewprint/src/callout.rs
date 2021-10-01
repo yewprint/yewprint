@@ -1,15 +1,16 @@
-use crate::icon::SIZE_LARGE;
+use crate::icon::ICON_SIZE_LARGE;
 use crate::{Icon, IconName, Intent};
+use std::borrow::Cow;
 use yew::prelude::*;
 
 pub struct Callout {
-    props: Props,
+    props: CalloutProps,
 }
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct Props {
+pub struct CalloutProps {
     #[prop_or_default]
-    pub class: String,
+    pub class: Classes,
     #[prop_or(false)]
     pub without_icon: bool,
     #[prop_or_default]
@@ -17,13 +18,13 @@ pub struct Props {
     #[prop_or_default]
     pub intent: Option<Intent>,
     #[prop_or_default]
-    pub title: Option<String>,
+    pub title: Option<Cow<'static, str>>,
     pub children: html::Children,
 }
 
 impl Component for Callout {
     type Message = ();
-    type Properties = Props;
+    type Properties = CalloutProps;
 
     fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
         Self { props }
@@ -54,18 +55,17 @@ impl Component for Callout {
                 })
             })
         };
-        let mut classes = Classes::from(self.props.class.clone()).extend("bp3-callout");
-        if icon.is_some() {
-            classes.push("bp3-callout-icon");
-        }
-        if let Some(ref intent) = self.props.intent {
-            classes.push(intent.as_ref());
-        }
+        let classes = classes!(
+            self.props.class.clone(),
+            "bp3-callout",
+            icon.map(|_| "bp3-callout-icon"),
+            self.props.intent,
+        );
         html! {
             <div class=classes>
                 {
                     icon.iter()
-                        .map(|name| html!{<Icon icon=name icon_size=SIZE_LARGE/>})
+                        .map(|name| html!{<Icon icon=*name icon_size=ICON_SIZE_LARGE/>})
                         .collect::<Html>()
                 }
                 {

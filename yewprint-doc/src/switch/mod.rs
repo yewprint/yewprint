@@ -43,7 +43,8 @@ impl Component for SwitchDoc {
 
         html! {
             <div>
-                <H1 class="docs-title">{"Switch"}</H1>
+                <H1 class=classes!("docs-title")>{"Switch"}</H1>
+                <SourceCodeUrl />
                 <ExampleContainer
                     source=source
                     props=Some(html! {
@@ -95,3 +96,5 @@ crate::build_example_prop_component! {
         }
     }
 }
+
+crate::build_source_code_component!();

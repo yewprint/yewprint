@@ -20,6 +20,11 @@ impl Component for ButtonDoc {
             state: ExampleProps {
                 minimal: false,
                 fill: false,
+                small: false,
+                outlined: false,
+                loading: false,
+                large: false,
+                active: false,
                 disabled: false,
             },
         }
@@ -43,7 +48,8 @@ impl Component for ButtonDoc {
 
         html! {
             <div>
-                <H1 class="docs-title">{"Button"}</H1>
+                <H1 class=classes!("docs-title")>{"Button"}</H1>
+                <SourceCodeUrl />
                 <div>
                     <ExampleContainer
                         source=source
@@ -86,6 +92,46 @@ crate::build_example_prop_component! {
                 />
                 <Switch
                     onclick=self.update_props(|props, _| ExampleProps {
+                        small: !props.small,
+                        ..props
+                    })
+                    checked=self.props.small
+                    label=html!("Small")
+                />
+                <Switch
+                    onclick=self.update_props(|props, _| ExampleProps {
+                        outlined: !props.outlined,
+                        ..props
+                    })
+                    checked=self.props.outlined
+                    label=html!("Outlined")
+                />
+                <Switch
+                    onclick=self.update_props(|props, _| ExampleProps {
+                        loading: !props.loading,
+                        ..props
+                    })
+                    checked=self.props.loading
+                    label=html!("Loading")
+                />
+                <Switch
+                    onclick=self.update_props(|props, _| ExampleProps {
+                        large: !props.large,
+                        ..props
+                    })
+                    checked=self.props.large
+                    label=html!("Large")
+                />
+                <Switch
+                    onclick=self.update_props(|props, _| ExampleProps {
+                        active: !props.active,
+                        ..props
+                    })
+                    checked=self.props.active
+                    label=html!("Active")
+                />
+                <Switch
+                    onclick=self.update_props(|props, _| ExampleProps {
                         disabled: !props.disabled,
                         ..props
                     })
@@ -96,3 +142,5 @@ crate::build_example_prop_component! {
         }
     }
 }
+
+crate::build_source_code_component!();

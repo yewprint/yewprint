@@ -42,7 +42,8 @@ impl Component for ControlGroupDoc {
 
         html! {
             <div>
-                <H1 class="docs-title">{"ControlGroup"}</H1>
+                <H1 class=classes!("docs-title")>{"ControlGroup"}</H1>
+                <SourceCodeUrl />
                 <ExampleContainer
                     source=source
                     props=Some(html! {
@@ -86,3 +87,5 @@ crate::build_example_prop_component! {
         }
     }
 }
+
+crate::build_source_code_component!();

@@ -51,7 +51,7 @@ impl Component for NumericInput {
     fn view(&self) -> Html {
         html! {
             <ControlGroup
-                class="bp3-numeric-input"
+                class=classes!("bp3-numeric-input")
                 fill=self.props.fill
                 large=self.props.large
             >
@@ -60,7 +60,7 @@ impl Component for NumericInput {
                     large=self.props.large
                     disabled=self.props.disabled
                 />
-                <ButtonGroup vertical=true class="bp3-fixed">
+                <ButtonGroup vertical=true class=classes!("bp3-fixed")>
                     <Button
                         icon=IconName::ChevronUp
                         disabled=self.props.disabled

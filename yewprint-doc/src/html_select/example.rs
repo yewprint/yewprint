@@ -1,5 +1,5 @@
 use yew::prelude::*;
-use yewprint::HtmlSelect;
+use yewprint::{HtmlSelect, Text};
 
 pub struct Example {
     props: ExampleProps,
@@ -61,12 +61,13 @@ impl Component for Example {
                     onchange=self.link.callback(|x| x)
                     title=format!("Selected: {:?}", self.log_level)
                 />
+                <Text>{format!("Selected: {:?}", self.log_level)}</Text>
             </div>
         }
     }
 }
 
-#[derive(Debug, Clone, Copy, Hash, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub enum LogLevel {
     Trace,
     Debug,

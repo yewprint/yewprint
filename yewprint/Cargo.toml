@@ -10,20 +10,13 @@ edition = "2018"
 default = ["tree"]
 tree = ["id_tree"]
 
-[badges]
-travis-ci = { repository = "cecton/yewprint", branch = "main" }
-is-it-maintained-issue-resolution = { repository = "cecton/yewprint" }
-is-it-maintained-open-issues = { repository = "cecton/yewprint" }
-
 [dependencies]
-yew = { git = "https://github.com/yewstack/yew.git", rev = "1507c21b" }
-web-sys = "0.3"
+web-sys = { version = "0.3", features = ["DomRect", "Element"] }
+yew = "0.18"
 id_tree = { version = "1.7", optional = true }
-yewtil = { git = "https://github.com/yewstack/yew.git", rev = "1507c21b", features = ["pure"] }
-# NOTE: this dependency needs to be removed when the feature bool_to_option lands in stable
-#       https://github.com/rust-lang/rust/issues/64260
-boolinator = "2.4.0"
+yewtil = { version = "0.4", features = ["pure"] }
+wasm-bindgen = "0.2"
 
 [build-dependencies]
-regex = { version = "1", default-features = false, features = ["std"] }
+regex = { version = "1", default-features = false, features = ["std", "unicode-perl"] }
 heck = "0.3"

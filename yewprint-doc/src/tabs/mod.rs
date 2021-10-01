@@ -42,7 +42,8 @@ impl Component for TabsDoc {
 
         html! {
             <div>
-                <H1 class="docs-title">{"Tabs"}</H1>
+                <H1 class=classes!("docs-title")>{"Tabs"}</H1>
+                <SourceCodeUrl />
                 <div>
                     <ExampleContainer
                         source=source
@@ -87,3 +88,5 @@ crate::build_example_prop_component! {
             }
         }
 }
+
+crate::build_source_code_component!();

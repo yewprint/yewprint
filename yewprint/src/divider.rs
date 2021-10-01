@@ -1,4 +1,3 @@
-use boolinator::Boolinator;
 use yew::prelude::*;
 
 pub struct Divider {
@@ -11,6 +10,8 @@ pub struct DividerProps {
     pub vertical: bool,
     #[prop_or_default]
     pub children: html::Children,
+    #[prop_or_default]
+    pub class: Classes,
 }
 
 impl Component for Divider {
@@ -37,9 +38,10 @@ impl Component for Divider {
     fn view(&self) -> Html {
         html! {
             <span
-                class=(
+                class=classes!(
                     "bp3-divider",
-                    self.props.vertical.as_some("bp3-vertical"),
+                    self.props.vertical.then(|| "bp3-vertical"),
+                    self.props.class.clone(),
                 )
             />
         }

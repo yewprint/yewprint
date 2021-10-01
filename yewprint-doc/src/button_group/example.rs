@@ -1,3 +1,4 @@
+use std::borrow::Cow;
 use yew::prelude::*;
 use yewprint::{Button, ButtonGroup, IconName};
 
@@ -41,7 +42,7 @@ impl Component for Example {
                 fill=self.props.fill
                 large=self.props.large
                 vertical=self.props.vertical
-                style="margin:0;"
+                style=Cow::Borrowed("margin:0;")
             >
                 <Button icon=IconName::Database>{"Queries"}</Button>
                 <Button icon=IconName::Function>{"Functions"}</Button>

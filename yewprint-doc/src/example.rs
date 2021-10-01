@@ -3,7 +3,7 @@ use yewprint::{Button, Collapse, IconName, Intent};
 
 pub struct ExampleContainer {
     collapsed: bool,
-    props: Props,
+    props: ExampleContainerProps,
     link: ComponentLink<Self>,
 }
 
@@ -12,7 +12,7 @@ pub enum Msg {
 }
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct Props {
+pub struct ExampleContainerProps {
     pub source: yew::virtual_dom::VNode,
     pub children: html::Children,
     #[prop_or_default]
@@ -21,7 +21,7 @@ pub struct Props {
 
 impl Component for ExampleContainer {
     type Message = Msg;
-    type Properties = Props;
+    type Properties = ExampleContainerProps;
 
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
         ExampleContainer {
@@ -49,15 +49,15 @@ impl Component for ExampleContainer {
 
     fn view(&self) -> Html {
         html! {
-            <div class="docs-example-wrapper">
-                <div class="docs-example-frame docs-example-frame-row">
-                    <div class="docs-example">
+            <div class=classes!("docs-example-wrapper")>
+                <div class=classes!("docs-example-frame", "docs-example-frame-row")>
+                    <div class=classes!("docs-example")>
                         {self.props.children.clone()}
                     </div>
                     {
                         if let Some(props) = self.props.props.clone() {
                             html! {
-                                <div class="docs-example-options">
+                                <div class=classes!("docs-example-options")>
                                     {props}
                                 </div>
                             }
@@ -66,7 +66,7 @@ impl Component for ExampleContainer {
                         }
                     }
                 </div>
-                <div class="docs-source">
+                <div class=classes!("docs-source")>
                     <Button
                         icon=IconName::Code
                         fill={true}

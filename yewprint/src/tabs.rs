@@ -1,13 +1,12 @@
-use boolinator::Boolinator;
 use std::collections::{hash_map::DefaultHasher, HashMap};
 use std::hash::{Hash, Hasher};
 use web_sys::HtmlElement;
 use yew::prelude::*;
 
 pub struct Tabs<T: Clone + PartialEq + Hash + 'static> {
-    link: ComponentLink<Self>,
     props: TabsProps<T>,
     tab_refs: HashMap<u64, NodeRef>,
+    indicator_ref: NodeRef,
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -27,7 +26,7 @@ pub struct TabsProps<T: Clone + PartialEq> {
     #[prop_or_default]
     pub onchange: Callback<T>,
     #[prop_or_default]
-    pub class: String,
+    pub class: Classes,
     pub tabs: Vec<Tab<T>>,
 }
 
@@ -35,7 +34,7 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
     type Message = ();
     type Properties = TabsProps<T>;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
         let tab_refs = props
             .tabs
             .iter()
@@ -50,7 +49,7 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
         Tabs {
             props,
             tab_refs,
-            link,
+            indicator_ref: Default::default(),
         }
     }
 
@@ -64,12 +63,6 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
             true
         } else {
             false
-        }
-    }
-
-    fn rendered(&mut self, first_render: bool) {
-        if first_render && self.props.animate {
-            self.link.send_message(());
         }
     }
 
@@ -91,42 +84,27 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
 
         html! {
             <div
-                class=(
+                class=classes!(
                     "bp3-tabs",
-                    self.props.vertical.as_some("bp3-vertical"),
+                    self.props.vertical.then(|| "bp3-vertical"),
                     self.props.class.clone(),
                 )
             >
                 <div
-                    class=(
+                    class=classes!(
                         "bp3-tab-list",
-                        self.props.large.as_some("bp3-large"),
+                        self.props.large.then(|| "bp3-large"),
                     )
                 >
                     {
                         if self.props.animate {
-                            let mut hasher = DefaultHasher::new();
-                            self.props.selected_tab_id.hash(&mut hasher);
-                            let id = hasher.finish();
-
-                            if let Some(element) = self.tab_refs[&id].cast::<HtmlElement>()
-                            {
-                                let indicator_style = format!(
-                                    "height: {}px; width: {}px; \
-                                    transform: translateX({}px) translateY({}px);",
-                                    element.client_height(),
-                                    element.client_width(),
-                                    element.offset_left(),
-                                    element.offset_top(),
-                                );
-
-                                html! {
-                                    <div class="bp3-tab-indicator-wrapper" style=indicator_style>
-                                        <div class="bp3-tab-indicator" />
-                                    </div>
-                                }
-                            } else {
-                                html!()
+                            html! {
+                                <div
+                                    class="bp3-tab-indicator-wrapper"
+                                    ref=self.indicator_ref.clone()
+                                >
+                                    <div class="bp3-tab-indicator" />
+                                </div>
                             }
                         } else {
                             html!()
@@ -137,37 +115,27 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
                             .iter()
                             .map(|(props, id, title_id, panel_id, selected)| html! {
                                 <div
-                                    class=(
+                                    class=classes!(
                                         "bp3-tab",
                                         props.title_class.clone(),
                                     )
-                                    aria-disabled=props.disabled
-                                    aria-expanded=selected
-                                    aria-selected=selected
+                                    aria-disabled=props.disabled.then(|| "true")
+                                    aria-expanded=selected.to_string()
+                                    aria-selected=selected.to_string()
                                     role="tab"
-                                    tabIndex?={
-                                        if props.disabled {
-                                            Some("0")
-                                        } else {
-                                            None
-                                        }
-                                    }
-                                    id=title_id
-                                    aria-controls=panel_id
-                                    data-tab-id=id
-                                    onclick?={
-                                        if props.disabled {
-                                            None
-                                        } else {
-                                            let tab_id = props.id.clone();
-                                            Some(self
-                                                .props
-                                                .onchange
-                                                .reform(move |_| tab_id.clone()))
-                                        }
-                                    }
+                                    tabIndex={(!props.disabled).then(|| "0")}
+                                    id=title_id.to_string()
+                                    aria-controls=panel_id.to_string()
+                                    data-tab-id=id.to_string()
+                                    onclick={(!props.disabled).then(|| {
+                                        let tab_id = props.id.clone();
+                                        self
+                                            .props
+                                            .onchange
+                                            .reform(move |_| tab_id.clone())
+                                    })}
                                     key=*id
-                                    ref=self.tab_refs[&id].clone()
+                                    ref=self.tab_refs[id].clone()
                                 >
                                     { props.title.clone() }
                                 </div>
@@ -183,14 +151,14 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
                         })
                         .map(|(props, id, title_id, panel_id, selected)| html! {
                             <div
-                                class=(
+                                class=classes!(
                                     "bp3-tab-panel",
-                                    props.panel_class.clone(),
+                                    selected.then(|| props.panel_class.clone()),
                                 )
-                                aria-labelledby=title_id
-                                aria-hidden=!selected
+                                aria-labelledby=title_id.to_string()
+                                aria-hidden=(!selected).then(|| "true")
                                 role="tabpanel"
-                                id=panel_id
+                                id=panel_id.to_string()
                                 key=*id
                             >
                                 { props.panel.clone() }
@@ -201,6 +169,27 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
             </div>
         }
     }
+
+    fn rendered(&mut self, _first_render: bool) {
+        if self.props.animate {
+            let mut hasher = DefaultHasher::new();
+            self.props.selected_tab_id.hash(&mut hasher);
+            let id = hasher.finish();
+            let indicator = self.indicator_ref.cast::<HtmlElement>().unwrap();
+
+            if let Some(element) = self.tab_refs[&id].cast::<HtmlElement>() {
+                let indicator_style = format!(
+                    "height: {}px; width: {}px; \
+                                    transform: translateX({}px) translateY({}px);",
+                    element.client_height(),
+                    element.client_width(),
+                    element.offset_left(),
+                    element.offset_top(),
+                );
+                let _ = indicator.set_attribute("style", &indicator_style);
+            }
+        }
+    }
 }
 
 #[derive(Clone, PartialEq)]
@@ -209,6 +198,6 @@ pub struct Tab<T> {
     pub id: T,
     pub title: Html,
     pub panel: Html,
-    pub title_class: Option<String>,
-    pub panel_class: Option<String>,
+    pub title_class: Classes,
+    pub panel_class: Classes,
 }

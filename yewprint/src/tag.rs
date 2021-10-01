@@ -1,13 +1,13 @@
 use crate::{if_html, Icon, IconName, Intent, Text};
-use boolinator::Boolinator;
+use std::borrow::Cow;
 use yew::prelude::*;
 
 pub struct Tag {
-    props: Props,
+    props: TagProps,
 }
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct Props {
+pub struct TagProps {
     #[prop_or_default]
     pub children: html::Children,
     #[prop_or_default]
@@ -36,12 +36,16 @@ pub struct Props {
     #[prop_or_default]
     pub round: bool,
     #[prop_or_default]
-    pub title: Option<String>,
+    pub title: Option<Cow<'static, str>>,
+    #[prop_or_default]
+    pub class: Classes,
+    #[prop_or_default]
+    pub style: Option<Cow<'static, str>>,
 }
 
 impl Component for Tag {
     type Message = ();
-    type Properties = Props;
+    type Properties = TagProps;
 
     fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
         Tag { props }
@@ -70,9 +74,9 @@ impl Component for Tag {
             let Some(callback) = self.props.onremove.clone() =>
             html!(
                 <button
-                    class="bp3-tag-remove"
+                    class=classes!("bp3-tag-remove")
                     onclick={callback}
-                    tabindex?={self.props.interactive.as_some(0)}
+                    tabindex={self.props.interactive.then(|| "0")}
                 >
                     <Icon icon=IconName::SmallCross />
                 </button>
@@ -81,21 +85,23 @@ impl Component for Tag {
 
         html! {
             <span
-                class=(
+                class=classes!(
                     "bp3-tag",
                     self.props.intent,
-                    self.props.active.as_some("bp3-active"),
-                    self.props.fill.as_some("bp3-fill"),
-                    self.props.interactive.as_some("bp3-interactive"),
-                    self.props.large.as_some("bp3-large"),
-                    self.props.minimal.as_some("bp3-minimal"),
-                    self.props.round.as_some("bp3-round"),
+                    self.props.active.then(|| "bp3-active"),
+                    self.props.fill.then(|| "bp3-fill"),
+                    self.props.interactive.then(|| "bp3-interactive"),
+                    self.props.large.then(|| "bp3-large"),
+                    self.props.minimal.then(|| "bp3-minimal"),
+                    self.props.round.then(|| "bp3-round"),
+                    self.props.class.clone(),
                 )
+                style=self.props.style.clone()
                 onclick={self.props.onclick.clone()}
             >
                 {icon}
                 <Text
-                    class="bp3-fill"
+                    class=classes!("bp3-fill")
                     ellipsize={!self.props.multiline}
                     title=self.props.title.clone()
                     inline=true

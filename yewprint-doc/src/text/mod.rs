@@ -42,7 +42,8 @@ impl Component for TextDoc {
 
         html! {
             <div>
-                <H1 class="docs-title">{"Text"}</H1>
+                <H1 class=classes!("docs-title")>{"Text"}</H1>
+                <SourceCodeUrl />
                 <div>
                     <ExampleContainer
                         source=source
@@ -93,9 +94,11 @@ crate::build_example_prop_component! {
                                 }
                         })
                         type="text"
-                        value={&self.props.text}
+                        value={self.props.text.clone()}
                     />
                 </div>
             }
         }
 }
+
+crate::build_source_code_component!();

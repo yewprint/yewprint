@@ -1,16 +1,13 @@
 use crate::{Icon, IconName};
-use boolinator::Boolinator;
-use std::collections::hash_map::DefaultHasher;
-use std::hash::{Hash, Hasher};
 use yew::prelude::*;
 
-pub struct HtmlSelect<T: Clone + PartialEq + Hash + 'static> {
-    props: Props<T>,
+pub struct HtmlSelect<T: Clone + PartialEq + 'static> {
+    props: HtmlSelectProps<T>,
     link: ComponentLink<Self>,
 }
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct Props<T: Clone + PartialEq + 'static> {
+pub struct HtmlSelectProps<T: Clone + PartialEq + 'static> {
     #[prop_or_default]
     pub fill: bool,
     #[prop_or_default]
@@ -25,14 +22,16 @@ pub struct Props<T: Clone + PartialEq + 'static> {
     pub title: Option<String>,
     #[prop_or_default]
     pub onchange: Callback<T>,
-    pub options: Vec<(T, String)>,
     #[prop_or_default]
     pub value: Option<T>,
+    pub options: Vec<(T, String)>,
+    #[prop_or_default]
+    pub class: Classes,
 }
 
-impl<T: Clone + PartialEq + Hash + 'static> Component for HtmlSelect<T> {
+impl<T: Clone + PartialEq + 'static> Component for HtmlSelect<T> {
     type Message = ChangeData;
-    type Properties = Props<T>;
+    type Properties = HtmlSelectProps<T>;
 
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
         Self { props, link }
@@ -73,14 +72,9 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for HtmlSelect<T> {
                     .as_ref()
                     .map(|x| value == x)
                     .unwrap_or_default();
-                let value = {
-                    let mut hasher = DefaultHasher::new();
-                    value.hash(&mut hasher);
-                    hasher.finish()
-                };
 
                 html! {
-                    <option selected=selected value=value>
+                    <option selected=selected>
                         {label}
                     </option>
                 }
@@ -89,27 +83,20 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for HtmlSelect<T> {
 
         html! {
             <div
-                class=(
+                class=classes!(
                     "bp3-html-select",
-                    self.props.minimal.as_some("bp3-minimal"),
-                    self.props.large.as_some("bp3-large"),
-                    self.props.fill.as_some("bp3-fill"),
-                    self.props.disabled.as_some("bp3-disabled"),
+                    self.props.minimal.then(|| "bp3-minimal"),
+                    self.props.large.then(|| "bp3-large"),
+                    self.props.fill.then(|| "bp3-fill"),
+                    self.props.disabled.then(|| "bp3-disabled"),
+                    self.props.class.clone(),
                 )
             >
                 <select
                     disabled=self.props.disabled
                     onchange={self.link.callback(|x| x)}
-                    value?={
-                        self.props.value
-                            .as_ref()
-                            .map(|value| {
-                                let mut hasher = DefaultHasher::new();
-                                value.hash(&mut hasher);
-                                hasher.finish()
-                            })
-                    }
-                    title?={self.props.title.clone()}
+                    title={self.props.title.clone()}
+                    value={"".to_string()}
                 >
                     {option_children}
                 </select>

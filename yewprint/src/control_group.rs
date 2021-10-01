@@ -1,4 +1,3 @@
-use boolinator::Boolinator;
 use yew::prelude::*;
 
 pub struct ControlGroup {
@@ -14,9 +13,9 @@ pub struct ControlGroupProps {
     #[prop_or_default]
     pub large: bool,
     #[prop_or_default]
-    pub class: String,
-    #[prop_or_default]
     pub children: html::Children,
+    #[prop_or_default]
+    pub class: Classes,
 }
 
 impl Component for ControlGroup {
@@ -43,11 +42,10 @@ impl Component for ControlGroup {
     fn view(&self) -> Html {
         html! {
             <div
-                class=(
+                class=classes!(
                     "bp3-control-group",
-                    self.props.fill.as_some("bp3-fill"),
-                    self.props.vertical.as_some("bp3-vertical"),
-                    self.props.large.as_some("bp3-large"),
+                    self.props.fill.then(|| "bp3-fill"),
+                    self.props.vertical.then(|| "bp3-vertical"),
                     self.props.class.clone(),
                 )
             >

@@ -15,43 +15,33 @@ Installation
 
 ```toml
 yewprint = { git = "https://github.com/cecton/yewprint.git", branch = "main" }
-
-# right now you need a specific version of Yew to use Yewprint
-yew = { git = "https://github.com/yewstack/yew.git", rev = "1507c21b" }
-
-# other yew dependencies need to use this version
-# yew-router = { git = "https://github.com/yewstack/yew.git", rev = "1507c21b" }
-# yewtil = { git = "https://github.com/yewstack/yew.git", rev = "1507c21b", features = ["pure"] }
 ```
 
-You will also need the CSS from blueprint. For that you can either include the
-CSS file directly or you can look at the script [build.sh](./build.sh) and see
-how it is downloaded automatically.
+You will also need the CSS from Blueprint. There is a helper crate that can be
+used to automatize this:
 
-## Development
+```toml
+yewprint-css = { git = "https://github.com/cecton/yewprint.git", branch = "main" }
+```
 
-This section will walk you through setting up the environment required to modify
-the source of `yewprint`.
-
-### Prerequisites
-
- *  [Rust (stable)](https://rustup.rs/)
- *  [wasm-pack](https://github.com/rustwasm/wasm-pack)
- *  [simple-http-server](https://github.com/TheWaWaR/simple-http-server)
- *  [cargo-watch](https://github.com/passcod/cargo-watch)
-
-### Troubleshooting
-
- -  I can't install `cargo-watch` on OSX.
-
-    This happens on some machines. Try installing the
-    [pre-compiled binary](https://github.com/passcod/cargo-watch/releases)
-    instead.
-
-### Run the development server
+Then you can add this to your build process:
 
 ```
-./dev.sh
+yewprint_css::download_css("static/blueprint.css)?;
+```
+
+## Development Environment
+
+```
+cargo run -- serve
+```
+
+You can now go to http://localhost:3000
+
+### Blueprint CSS update
+
+```
+cargo run -- update-css
 ```
 
 Roadmap
@@ -92,7 +82,7 @@ Roadmap
  -  [x] [ProgressBar](https://blueprintjs.com/docs/#core/components/progress-bar)
  -  [ ] [ResizeSensor](https://blueprintjs.com/docs/#core/components/resize-sensor)
  -  [ ] [Skeleton](https://blueprintjs.com/docs/#core/components/skeleton)
- -  [ ] [Spinner](https://blueprintjs.com/docs/#core/components/spinner)
+ -  [x] [Spinner](https://blueprintjs.com/docs/#core/components/spinner)
  -  [x] [Tabs](https://blueprintjs.com/docs/#core/components/tabs)
  -  [x] [Tag](https://blueprintjs.com/docs/#core/components/tag)
      -  depends on: Text

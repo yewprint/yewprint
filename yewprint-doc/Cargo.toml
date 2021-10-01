@@ -10,14 +10,28 @@ edition = "2018"
 crate-type = ["cdylib"]
 
 [dependencies]
-wasm-bindgen = "^0.2"
-yew = { git = "https://github.com/yewstack/yew.git", rev = "1507c21b" }
+wasm-bindgen = "=0.2"
+yew = "0.18"
 web-sys = { version = "0.3", features = ["Window", "MediaQueryList"] }
 yewprint = { path = "../yewprint" }
-yew-router = { git = "https://github.com/yewstack/yew.git", rev = "1507c21b" }
-# NOTE: this dependency needs to be removed when the feature bool_to_option lands in stable
-#       https://github.com/rust-lang/rust/issues/64260
-boolinator = "2.4.0"
+yew-router = "0.15"
+
+# `wee_alloc` is a tiny allocator for wasm that is only ~1K in code size
+# compared to the default allocator's ~10K. It is slower than the default
+# allocator, however.
+#
+# Unfortunately, `wee_alloc` requires nightly Rust when targeting wasm for now.
+wee_alloc = { version = "0.4.5", optional = true }
+
+# The `console_error_panic_hook` crate provides better debugging of panics by
+# logging them with `console.error`. This is great for development, but requires
+# all the `std::fmt` and `std::panicking` infrastructure, so isn't great for
+# code size when deploying.
+console_error_panic_hook = { version = "0.1.6", optional = true }
 
 [build-dependencies]
 syntect = "4.4.0"
+build-data = "0.1.3"
+
+[dev-dependencies]
+reqwest = { version = "0.11", features = ["blocking"] }

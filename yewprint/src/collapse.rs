@@ -13,12 +13,12 @@ pub struct Collapse {
     contents_ref: NodeRef,
     callback_delayed_state_change: Callback<()>,
     handle_delayed_state_change: Option<Box<dyn Task>>,
-    props: Props,
+    props: CollapseProps,
     link: ComponentLink<Self>,
 }
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct Props {
+pub struct CollapseProps {
     #[prop_or_default]
     pub is_open: bool,
     #[prop_or_default]
@@ -27,6 +27,8 @@ pub struct Props {
     pub keep_children_mounted: bool,
     #[prop_or(Duration::from_millis(200))]
     pub transition_duration: Duration,
+    #[prop_or_default]
+    pub class: Classes,
 }
 
 #[derive(Copy, Clone, Debug)]
@@ -48,7 +50,7 @@ enum Height {
 
 impl Component for Collapse {
     type Message = ();
-    type Properties = Props;
+    type Properties = CollapseProps;
 
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
         Collapse {
@@ -177,11 +179,14 @@ impl Component for Collapse {
         }
 
         html! {
-            <div class="bp3-collapse" style={container_style}>
+            <div class=classes!("bp3-collapse") style={container_style}>
                 <div
-                    class="bp3-collapse-body"
+                    class=classes!(
+                        "bp3-collapse-body",
+                        self.props.class.clone(),
+                    )
                     style={content_style}
-                    aria-hidden={!self.render_children}
+                    aria-hidden={(!self.render_children).then(|| "true")}
                     ref={self.contents_ref.clone()}
                 >
                     {

@@ -1,3 +1,10 @@
+#![allow(
+    clippy::redundant_closure,
+    clippy::needless_update,
+    clippy::inconsistent_struct_constructor,
+    clippy::type_complexity
+)]
+
 mod button_group;
 mod buttons;
 mod callout;
@@ -11,11 +18,17 @@ mod icon;
 mod input_group;
 mod menu;
 mod numeric_input;
-mod progressbar;
+mod panel_stack;
+mod progress_bar;
+mod radio;
+mod radio_group;
+mod slider;
+mod spinner;
 mod switch;
 mod tabs;
 mod tag;
 mod text;
+mod text_area;
 #[cfg(feature = "tree")]
 mod tree;
 
@@ -34,15 +47,34 @@ pub use id_tree;
 pub use input_group::*;
 pub use menu::*;
 pub use numeric_input::*;
-pub use progressbar::*;
+pub use panel_stack::*;
+pub use progress_bar::*;
+pub use radio::*;
+pub use radio_group::*;
+pub use slider::*;
+pub use spinner::*;
 pub use switch::*;
 pub use tabs::*;
 pub use tag::*;
 pub use text::*;
+pub use text_area::*;
 #[cfg(feature = "tree")]
 pub use tree::*;
 
-use yew::virtual_dom::Classes;
+use yew::Classes;
+
+// See https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/buttons
+#[allow(dead_code)]
+const MOUSE_EVENT_BUTTONS_NONE: u16 = 0;
+const MOUSE_EVENT_BUTTONS_PRIMARY: u16 = 1;
+#[allow(dead_code)]
+const MOUSE_EVENT_BUTTONS_SECONDARY: u16 = 2;
+#[allow(dead_code)]
+const MOUSE_EVENT_BUTTONS_AUXILIARY: u16 = 4;
+#[allow(dead_code)]
+const MOUSE_EVENT_BUTTONS_FOURTH: u16 = 8;
+#[allow(dead_code)]
+const MOUSE_EVENT_BUTTONS_FIFTH: u16 = 16;
 
 #[macro_export]
 macro_rules! if_html {
@@ -72,18 +104,13 @@ pub enum Intent {
 
 impl From<Intent> for Classes {
     fn from(intent: Intent) -> Self {
-        Classes::from(intent.as_ref())
-    }
-}
-
-impl AsRef<str> for Intent {
-    fn as_ref(&self) -> &'static str {
-        match self {
-            Intent::Primary => "bp3-intent-primary",
-            Intent::Success => "bp3-intent-success",
-            Intent::Warning => "bp3-intent-warning",
-            Intent::Danger => "bp3-intent-danger",
-        }
+        use Intent::*;
+        Classes::from(match intent {
+            Primary => "bp3-intent-primary",
+            Success => "bp3-intent-success",
+            Warning => "bp3-intent-warning",
+            Danger => "bp3-intent-danger",
+        })
     }
 }
 
@@ -138,21 +165,15 @@ impl Default for Elevation {
     }
 }
 
-impl AsRef<str> for Elevation {
-    fn as_ref(&self) -> &str {
+impl From<Elevation> for Classes {
+    fn from(elevation: Elevation) -> Self {
         use Elevation::*;
-        match self {
+        Classes::from(match elevation {
             Level0 => "bp3-elevation-0",
             Level1 => "bp3-elevation-1",
             Level2 => "bp3-elevation-2",
             Level3 => "bp3-elevation-3",
             Level4 => "bp3-elevation-4",
-        }
-    }
-}
-
-impl From<Elevation> for Classes {
-    fn from(elevation: Elevation) -> Self {
-        Classes::from(elevation.as_ref())
+        })
     }
 }

@@ -1,5 +1,5 @@
 use crate::{Icon, IconName, Intent, H6};
-use boolinator::Boolinator;
+use std::borrow::Cow;
 use yew::prelude::*;
 
 pub struct Menu {
@@ -11,7 +11,7 @@ pub struct MenuProps {
     #[prop_or_default]
     pub large: bool,
     #[prop_or_default]
-    pub class: Option<String>,
+    pub class: Classes,
     #[prop_or_default]
     pub r#ref: NodeRef,
     pub children: html::Children,
@@ -41,9 +41,9 @@ impl Component for Menu {
     fn view(&self) -> Html {
         html! {
             <ul
-                class=(
+                class=classes!(
                     "bp3-menu",
-                    self.props.large.as_some("bp3-large"),
+                    self.props.large.then(|| "bp3-large"),
                     self.props.class.clone(),
                 )
                 ref={self.props.r#ref.clone()}
@@ -63,25 +63,27 @@ pub struct MenuItemProps {
     #[prop_or_default]
     pub text: yew::virtual_dom::VNode,
     #[prop_or_default]
-    pub text_class: Option<String>,
+    pub text_class: Classes,
     #[prop_or_default]
     pub active: bool,
     #[prop_or_default]
-    pub class: Option<String>,
+    pub class: Classes,
     #[prop_or_default]
     pub disabled: bool,
     #[prop_or_default]
-    pub href: Option<String>,
+    pub href: Option<Cow<'static, str>>,
     #[prop_or_default]
     pub label: Option<yew::virtual_dom::VNode>,
     #[prop_or_default]
-    pub label_class: Option<String>,
+    pub label_class: Classes,
     // TODO: pub multiline: bool, (requires <Text>)
     // TODO: popover_props, should_dismiss_popover
     #[prop_or_default]
     pub intent: Option<Intent>,
     #[prop_or_default]
-    pub icon: IconName,
+    pub icon: Option<IconName>,
+    #[prop_or_default]
+    pub icon_html: Option<Html>,
     #[prop_or_default]
     pub onclick: Callback<MouseEvent>,
     // TODO: pub children: html::Children,
@@ -112,27 +114,39 @@ impl Component for MenuItem {
         html! {
             <li>
                 <a
-                    class=(
+                    class=classes!(
                         "bp3-menu-item",
-                        self.props.active.as_some("bp3-active"),
-                        self.props.disabled.as_some("bp3-disabled"),
+                        self.props.active.then(|| "bp3-active"),
+                        self.props.disabled.then(|| "bp3-disabled"),
                         self.props.intent
-                            .or_else(|| self.props.active.as_some(Intent::Primary)),
+                            .or_else(|| self.props.active.then(|| Intent::Primary)),
                         self.props.class.clone(),
                     )
-                    href?={(!self.props.disabled).and_option(self.props.href.clone())}
-                    tabIndex?={(!self.props.disabled).as_some(0)}
-                    onclick={self.props.onclick.clone()}
+                    href={(!self.props.disabled).then(|| self.props.href.clone())}.flatten()
+                    tabIndex={(!self.props.disabled).then(|| "0")}
+                    onclick={(!self.props.disabled).then(|| self.props.onclick.clone())}
                 >
-                    <Icon icon={self.props.icon} />
-                    <div class=("bp3-text", "bp3-fill", self.props.text_class.clone())>
+                    {
+                        if let Some(icon_name) = self.props.icon {
+                            html! {
+                                <Icon icon={icon_name} />
+                            }
+                        } else if let Some(html) = self.props.icon_html.clone() {
+                            html
+                        } else {
+                            html! {
+                                <Icon icon=IconName::Blank />
+                            }
+                        }
+                    }
+                    <div class=classes!("bp3-text", "bp3-fill", self.props.text_class.clone())>
                         {self.props.text.clone()}
                     </div>
                     {
                         if let Some(label) = self.props.label.clone() {
                             html! {
                                 <span
-                                    class=(
+                                    class=classes!(
                                         "bp3-menu-item-label",
                                         self.props.label_class.clone())
                                 >
@@ -143,6 +157,7 @@ impl Component for MenuItem {
                             html!()
                         }
                     }
+
                 </a>
             </li>
         }
@@ -185,14 +200,14 @@ impl Component for MenuDivider {
             if let Some(title) = self.props.title.clone() {
                 html! {
                     <li
-                        class="bp3-menu-header"
+                        class=classes!("bp3-menu-header")
                     >
                         <H6>{title}</H6>
                     </li>
                 }
             } else {
                 html! {
-                    <li class="bp3-menu-divider" />
+                    <li class=classes!("bp3-menu-divider") />
                 }
             }
         }

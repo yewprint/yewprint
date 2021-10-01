@@ -11,6 +11,11 @@ pub struct Example {
 pub struct ExampleProps {
     pub minimal: bool,
     pub fill: bool,
+    pub small: bool,
+    pub outlined: bool,
+    pub loading: bool,
+    pub large: bool,
+    pub active: bool,
     pub disabled: bool,
 }
 
@@ -55,6 +60,11 @@ impl Component for Example {
                         onclick=self.link.callback(|_| Msg::AddOne)
                         minimal=self.props.minimal
                         fill=self.props.fill
+                        small=self.props.small
+                        outlined=self.props.outlined
+                        loading=self.props.loading
+                        large=self.props.large
+                        active=self.props.active
                         disabled=self.props.disabled
                     >
                         {"Add 1"}

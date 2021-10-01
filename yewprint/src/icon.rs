@@ -9,8 +9,8 @@ impl Default for IconName {
     }
 }
 
-pub const SIZE_STANDARD: i32 = 16;
-pub const SIZE_LARGE: i32 = 20;
+pub const ICON_SIZE_STANDARD: i32 = 16;
+pub const ICON_SIZE_LARGE: i32 = 20;
 
 pub struct Icon {
     props: IconProps,
@@ -20,7 +20,7 @@ pub struct Icon {
 pub struct IconProps {
     pub icon: IconName,
     #[prop_or_default]
-    pub class: String,
+    pub class: Classes,
     #[prop_or_default]
     pub title: Option<String>,
     #[prop_or_default]
@@ -55,35 +55,35 @@ impl Component for Icon {
     }
 
     fn view(&self) -> Html {
-        let paths = if self.props.icon_size == SIZE_STANDARD {
+        let paths = if self.props.icon_size == ICON_SIZE_STANDARD {
             icon_svg_paths_16(self.props.icon)
         } else {
             icon_svg_paths_20(self.props.icon)
         };
-        let pixel_grid_size = if self.props.icon_size >= SIZE_LARGE {
-            SIZE_LARGE
+        let pixel_grid_size = if self.props.icon_size >= ICON_SIZE_LARGE {
+            ICON_SIZE_LARGE
         } else {
-            SIZE_STANDARD
+            ICON_SIZE_STANDARD
         };
         let icon_string = format!("{:?}", self.props.icon);
 
         html! {
             <span
-                class=("bp3-icon", self.props.class.clone(), self.props.intent)
+                class=classes!("bp3-icon", self.props.class.clone(), self.props.intent)
                 onclick=self.props.onclick.clone()
             >
                 <svg
-                    fill?={self.props.color.clone()}
+                    fill={self.props.color.clone()}
                     data-icon={icon_string.clone()}
-                    width={self.props.icon_size}
-                    height={self.props.icon_size}
+                    width={self.props.icon_size.to_string()}
+                    height={self.props.icon_size.to_string()}
                     viewBox={format!("0 0 {x} {x}", x=pixel_grid_size)}
                 >
                     <desc>{self.props.title.clone().unwrap_or(icon_string)}</desc>
                     {
                         paths.iter()
                             .map(|x| html! {
-                                <path d=x fillRule="evenodd" />
+                                <path d=*x fillRule="evenodd" />
                             })
                             .collect::<Html>()
                     }
