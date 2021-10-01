@@ -1,7 +1,6 @@
 use crate::{Button, ButtonGroup, ControlGroup, IconName, InputGroup, Intent};
 use std::fmt::Display;
 use std::ops::{Add, Sub};
-use std::process::Output;
 use std::str::FromStr;
 use yew::prelude::*;
 

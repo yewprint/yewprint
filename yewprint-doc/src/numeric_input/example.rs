@@ -43,7 +43,7 @@ impl Component for Example {
                 large=self.props.large
                 min_value=0
                 max_value=10
-                range=1
+                increment=1
             />
         }
     }
