@@ -81,7 +81,7 @@ impl Component for NumericInput {
                         true
                     }
                 } else {
-                    self.props.value = self.props.max_value.to_string();
+                    self.props.value = self.props.min_value.to_string();
                     true
                 }
             }
