@@ -1,13 +1,19 @@
 use crate::{Button, ButtonGroup, ControlGroup, IconName, InputGroup, Intent};
+use std::fmt::Display;
+use std::ops::{Add, Sub};
+use std::str::FromStr;
 use yew::prelude::*;
 
-pub struct NumericInput {
-    props: NumericInputProps,
+pub struct NumericInput<T: Add + Clone + Display + FromStr + PartialEq + PartialOrd + Sub + 'static>
+{
+    props: NumericInputProps<T>,
     link: ComponentLink<Self>,
 }
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct NumericInputProps {
+pub struct NumericInputProps<
+    T: Add + Clone + Display + FromStr + PartialEq + PartialOrd + Sub + 'static,
+> {
     #[prop_or_default]
     pub disabled: bool,
     #[prop_or_default]
@@ -20,11 +26,11 @@ pub struct NumericInputProps {
     pub left_icon: Option<IconName>,
     #[prop_or_default]
     pub intent: Option<Intent>,
-    pub min_value: i32,
-    pub max_value: i32,
+    pub min_value: T,
+    pub max_value: T,
     #[prop_or_default]
     pub value: String,
-    pub range: i32,
+    pub range: T,
 }
 
 pub enum Msg {
@@ -35,9 +41,11 @@ pub enum Msg {
     Noop,
 }
 
-impl Component for NumericInput {
+impl<T: Add + Clone + Display + FromStr + PartialEq + PartialOrd + Sub + 'static> Component
+    for NumericInput<T>
+{
     type Message = Msg;
-    type Properties = NumericInputProps;
+    type Properties = NumericInputProps<T>;
 
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
         Self { props, link }
@@ -50,7 +58,7 @@ impl Component for NumericInput {
                 true
             }
             Msg::UpdateValue(value) => {
-                if let Ok(_num) = value.trim().parse::<i32>() {
+                if let Ok(_num) = value.trim().parse::<T>() {
                     self.props.value = value;
                     true
                 } else {
@@ -58,7 +66,7 @@ impl Component for NumericInput {
                 }
             }
             Msg::Up => {
-                if let Ok(num) = self.props.value.trim().parse::<i32>() {
+                if let Ok(num) = self.props.value.trim().parse::<T>() {
                     if num >= self.props.max_value {
                         self.props.value = self.props.max_value.to_string();
                         true
@@ -72,7 +80,7 @@ impl Component for NumericInput {
                 }
             }
             Msg::Down => {
-                if let Ok(num) = self.props.value.trim().parse::<i32>() {
+                if let Ok(num) = self.props.value.trim().parse::<T>() {
                     if num <= self.props.min_value {
                         self.props.value = self.props.min_value.to_string();
                         true
