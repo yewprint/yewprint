@@ -37,7 +37,7 @@ impl Component for Example {
 
     fn view(&self) -> Html {
         html! {
-            <NumericInput
+            <NumericInput<i32>
                 disabled=self.props.disabled
                 fill=self.props.fill
                 large=self.props.large

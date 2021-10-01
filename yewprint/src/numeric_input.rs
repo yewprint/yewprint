@@ -5,6 +5,9 @@ use std::str::FromStr;
 use yew::prelude::*;
 
 pub struct NumericInput<T: Add + Clone + Display + FromStr + PartialEq + PartialOrd + Sub + 'static>
+where
+    <T as Sub>::Output: ToString,
+    <T as Add>::Output: ToString,
 {
     props: NumericInputProps<T>,
     link: ComponentLink<Self>,
@@ -13,7 +16,10 @@ pub struct NumericInput<T: Add + Clone + Display + FromStr + PartialEq + Partial
 #[derive(Clone, PartialEq, Properties)]
 pub struct NumericInputProps<
     T: Add + Clone + Display + FromStr + PartialEq + PartialOrd + Sub + 'static,
-> {
+> where
+    <T as Sub>::Output: ToString,
+    <T as Add>::Output: ToString,
+{
     #[prop_or_default]
     pub disabled: bool,
     #[prop_or_default]
@@ -43,6 +49,9 @@ pub enum Msg {
 
 impl<T: Add + Clone + Display + FromStr + PartialEq + PartialOrd + Sub + 'static> Component
     for NumericInput<T>
+where
+    <T as Sub>::Output: ToString,
+    <T as Add>::Output: ToString,
 {
     type Message = Msg;
     type Properties = NumericInputProps<T>;
@@ -71,7 +80,7 @@ impl<T: Add + Clone + Display + FromStr + PartialEq + PartialOrd + Sub + 'static
                         self.props.value = self.props.max_value.to_string();
                         true
                     } else {
-                        self.props.value = (num + self.props.range).to_string();
+                        self.props.value = (num + self.props.range.clone()).to_string();
                         true
                     }
                 } else {
@@ -85,7 +94,7 @@ impl<T: Add + Clone + Display + FromStr + PartialEq + PartialOrd + Sub + 'static
                         self.props.value = self.props.min_value.to_string();
                         true
                     } else {
-                        self.props.value = (num - self.props.range).to_string();
+                        self.props.value = (num - self.props.range.clone()).to_string();
                         true
                     }
                 } else {
