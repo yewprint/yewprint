@@ -45,16 +45,20 @@ pub struct NumericInputProps<
     #[prop_or_default]
     pub class: String,
     #[prop_or_default]
+    pub placeholder: String,
+    #[prop_or_default]
     pub left_icon: Option<IconName>,
     #[prop_or_default]
     pub intent: Option<Intent>,
-    pub min_value: T,
-    pub max_value: T,
     #[prop_or_default]
     pub value: Option<T>,
-    pub increment: T,
+    #[prop_or_default]
+    pub start_value: Option<T>,
     #[prop_or_default]
     pub onchange: Callback<ChangeData>,
+    pub min_value: T,
+    pub max_value: T,
+    pub increment: T,
 }
 
 pub enum Msg {
@@ -137,21 +141,23 @@ where
     fn change(&mut self, props: Self::Properties) -> ShouldRender {
         if self.props != props {
             if self.props.value != props.value {
-                if let Some(value) = props.value.clone() {
+                if let Some(value) = props.value.as_ref() {
                     self.input = value.to_string();
                 }
-                self.props = props;
-                true
-            } else {
-                self.props = props;
-                true
             }
+            self.props = props;
+            true
         } else {
             false
         }
     }
 
     fn view(&self) -> Html {
+        let value = if let Some(value) = self.props.start_value.as_ref() {
+            value.to_string()
+        } else {
+            self.input.clone()
+        };
         html! {
             <ControlGroup
                 class=classes!("bp3-numeric-input")
@@ -159,10 +165,10 @@ where
                 large=self.props.large
             >
                 <InputGroup
-                    placeholder="Enter a number..."
+                    placeholder=self.props.placeholder.clone()
                     large=self.props.large
                     disabled=self.props.disabled
-                    value=self.input.clone()
+                    value=value
                     oninput=self.link.callback(|e: InputData| Msg::UpdateValue(e.value))
                     onkeydown=self.link.callback(|e: KeyboardEvent| {
                         if e.key() == "ArrowUp" {

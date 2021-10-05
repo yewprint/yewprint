@@ -4,7 +4,8 @@ use yewprint::{Button, NumericInput};
 pub struct Example {
     props: ExampleProps,
     link: ComponentLink<Self>,
-    value: i32,
+    first_value: i32,
+    second_value: f32,
 }
 
 pub enum Msg {
@@ -16,6 +17,12 @@ pub struct ExampleProps {
     pub fill: bool,
     pub disabled: bool,
     pub large: bool,
+    pub first_min_value: i32,
+    pub first_max_value: i32,
+    pub first_increment: i32,
+    pub second_min_value: f32,
+    pub second_max_value: f32,
+    pub second_increment: f32,
 }
 
 impl Component for Example {
@@ -26,14 +33,16 @@ impl Component for Example {
         Example {
             props,
             link,
-            value: 0,
+            first_value: 0,
+            second_value: 0.0,
         }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
             Msg::Reset => {
-                self.value = 3;
+                self.first_value = 0;
+                self.second_value = 0.0;
                 true
             }
         }
@@ -55,15 +64,26 @@ impl Component for Example {
                     disabled=self.props.disabled
                     fill=self.props.fill
                     large=self.props.large
-                    min_value=-10
-                    max_value=10
-                    increment=1
-                    value=self.value
+                    min_value=self.props.first_min_value
+                    max_value=self.props.first_max_value
+                    increment=self.props.first_increment
+                    value=self.first_value
+                    placeholder=String::from("Enter an integer...")
+                />
+                <NumericInput<f32>
+                    disabled=self.props.disabled
+                    fill=self.props.fill
+                    large=self.props.large
+                    min_value=self.props.second_min_value
+                    max_value=self.props.second_max_value
+                    increment=self.props.second_increment
+                    value=self.second_value
+                    placeholder=String::from("Enter a floating point number...")
                 />
                 <Button
                     onclick=self.link.callback(|_| Msg::Reset)
                 >
-                    {"Reset at 3"}
+                    {"Reset"}
                 </Button>
             </>
         }

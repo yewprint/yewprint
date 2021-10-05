@@ -3,7 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::{Switch, H1, H5};
+use yewprint::{NumericInput, Switch, H1, H5};
 
 pub struct NumericInputDoc {
     callback: Callback<ExampleProps>,
@@ -21,6 +21,12 @@ impl Component for NumericInputDoc {
                 fill: false,
                 disabled: false,
                 large: false,
+                first_min_value: Default::default(),
+                first_max_value: Default::default(),
+                first_increment: Default::default(),
+                second_min_value: Default::default(),
+                second_max_value: Default::default(),
+                second_increment: Default::default(),
             },
         }
     }
@@ -91,6 +97,54 @@ crate::build_example_prop_component! {
                     })
                     checked=self.props.large
                     label=html!("Large")
+                />
+                <NumericInput<i32>
+                    min_value=i32::MIN
+                    max_value=i32::MAX
+                    increment=1
+                    value=self.props.first_min_value
+                    start_value=-10
+                    placeholder=String::from("Minimum value for the first example")
+                />
+                <NumericInput<i32>
+                    min_value=i32::MIN
+                    max_value=i32::MAX
+                    increment=1
+                    value=self.props.first_max_value
+                    start_value=10
+                    placeholder=String::from("Maximum value for the first example")
+                 />
+                <NumericInput<i32>
+                    min_value=i32::MIN
+                    max_value=i32::MAX
+                    increment=1
+                    value=self.props.first_increment
+                    start_value=1
+                    placeholder=String::from("Increment value for the first example")
+                />
+                <NumericInput<f32>
+                    min_value=f32::MIN
+                    max_value=f32::MAX
+                    increment=0.5
+                    value=self.props.second_min_value
+                    start_value=-1.0
+                    placeholder=String::from("Minimum value for the second example")
+                />
+                <NumericInput<f32>
+                    min_value=f32::MIN
+                    max_value=f32::MAX
+                    increment=0.5
+                    value=self.props.second_max_value
+                    start_value=1.0
+                    placeholder=String::from("Maximum value for the second example")
+                 />
+                <NumericInput<f32>
+                    min_value=f32::MIN
+                    max_value=f32::MAX
+                    increment=0.5
+                    value=self.props.second_increment
+                    start_value=0.1
+                    placeholder=String::from("Increment value for the second example")
                 />
             </div>
         }
