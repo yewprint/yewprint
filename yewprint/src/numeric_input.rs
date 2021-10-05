@@ -58,7 +58,6 @@ pub struct NumericInputProps<
 }
 
 pub enum Msg {
-    AddEntry,
     UpdateValue(String),
     Up,
     Down,
@@ -92,17 +91,6 @@ where
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
-            Msg::AddEntry => {
-                if let Ok(num) = self.input.trim().parse::<T>() {
-                    self.props.value = Some(num.clone());
-                    self.input = num.to_string();
-                    true
-                } else {
-                    self.props.value = None;
-                    self.input = Default::default();
-                    false
-                }
-            }
             Msg::UpdateValue(value) => {
                 if let Ok(num) = value.trim().parse::<T>() {
                     self.props.value = Some(num.clone());
@@ -124,9 +112,7 @@ where
                         true
                     }
                 } else {
-                    self.props.value = Some(self.props.max_value.clone());
-                    self.input = self.props.max_value.to_string();
-                    true
+                    false
                 }
             }
             Msg::Down => {
@@ -141,9 +127,7 @@ where
                         true
                     }
                 } else {
-                    self.props.value = Some(self.props.min_value.clone());
-                    self.input = self.props.min_value.to_string();
-                    true
+                    false
                 }
             }
             Msg::Noop => false,
@@ -152,8 +136,16 @@ where
 
     fn change(&mut self, props: Self::Properties) -> ShouldRender {
         if self.props != props {
-            self.props = props;
-            true
+            if self.props.value != props.value {
+                if let Some(value) = props.value.clone() {
+                    self.input = value.to_string();
+                }
+                self.props = props;
+                true
+            } else {
+                self.props = props;
+                true
+            }
         } else {
             false
         }

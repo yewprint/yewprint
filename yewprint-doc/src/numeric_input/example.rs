@@ -1,11 +1,15 @@
 use yew::prelude::*;
-use yewprint::NumericInput;
+use yewprint::{Button, NumericInput};
 
 pub struct Example {
     props: ExampleProps,
+    link: ComponentLink<Self>,
+    value: i32,
 }
 
-pub enum Msg {}
+pub enum Msg {
+    Reset,
+}
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct ExampleProps {
@@ -18,12 +22,21 @@ impl Component for Example {
     type Message = Msg;
     type Properties = ExampleProps;
 
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        Example { props }
+    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+        Example {
+            props,
+            link,
+            value: 0,
+        }
     }
 
-    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
-        true
+    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+        match msg {
+            Msg::Reset => {
+                self.value = 3;
+                true
+            }
+        }
     }
 
     fn change(&mut self, props: Self::Properties) -> ShouldRender {
@@ -37,14 +50,22 @@ impl Component for Example {
 
     fn view(&self) -> Html {
         html! {
-            <NumericInput<i32>
-                disabled=self.props.disabled
-                fill=self.props.fill
-                large=self.props.large
-                min_value=0
-                max_value=10
-                increment=1
-            />
+            <>
+                <NumericInput<i32>
+                    disabled=self.props.disabled
+                    fill=self.props.fill
+                    large=self.props.large
+                    min_value=-10
+                    max_value=10
+                    increment=1
+                    value=self.value
+                />
+                <Button
+                    onclick=self.link.callback(|_| Msg::Reset)
+                >
+                    {"Reset at 3"}
+                </Button>
+            </>
         }
     }
 }
