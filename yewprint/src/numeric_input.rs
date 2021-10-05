@@ -172,9 +172,6 @@ where
                     disabled=self.props.disabled
                     value=self.input.clone()
                     oninput=self.link.callback(|e: InputData| Msg::UpdateValue(e.value))
-                    onkeydown=self.link.callback(|e: KeyboardEvent| {
-                        if e.key() == "Enter" { Msg::AddEntry } else { Msg::Noop }
-                    })
                 />
                 <ButtonGroup vertical=true class=classes!("bp3-fixed")>
                     <Button
