@@ -96,7 +96,7 @@ where
             Msg::UpdateValue(value) => {
                 if let Ok(num) = value.trim().parse::<T>() {
                     self.props.value = Some(num.clone());
-                    self.input = num.to_string();
+                    self.input = value;
                     true
                 } else {
                     false
