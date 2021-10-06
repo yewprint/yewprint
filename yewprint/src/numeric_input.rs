@@ -95,8 +95,16 @@ where
         match msg {
             Msg::UpdateValue(value) => {
                 if let Ok(num) = value.trim().parse::<T>() {
-                    self.props.value = Some(num);
-                    self.input = value;
+                    if num >= self.props.max_value {
+                        self.props.value = Some(self.props.max_value.clone());
+                        self.input = self.props.max_value.to_string();
+                    } else if num <= self.props.min_value {
+                        self.props.value = Some(self.props.min_value.clone());
+                        self.input = self.props.min_value.to_string();
+                    } else {
+                        self.props.value = Some(num);
+                        self.input = value;
+                    }
                     true
                 } else {
                     false
