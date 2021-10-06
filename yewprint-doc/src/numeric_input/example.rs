@@ -56,20 +56,20 @@ impl Component for Example {
             <>
             <NumericInput<i32>
                 disabled=self.props.disabled
-                fill=self.props.fill
-                large=self.props.large
-                value=self.value
-                bounds=-10..=10
-                increment=1
-                placeholder=String::from("Enter an integer between -10 and 10")
-            />
-            <NumericInput<i32>
-                disabled=self.props.disabled
                 fill=self.props.large
                 value=self.value_two
                 bounds=i32::MIN..=i32::MAX
                 increment=10
                 placeholder=String::from("Enter an integer...")
+            />
+            <NumericInput<i32>
+                disabled=self.props.disabled
+                fill=self.props.fill
+                large=self.props.large
+                value=self.value
+                bounds=-10..=10
+                increment=1
+                placeholder=String::from("Integer between -10 and 10")
             />
             <Button
                 icon=IconName::Refresh
