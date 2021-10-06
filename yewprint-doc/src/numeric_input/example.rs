@@ -59,8 +59,7 @@ impl Component for Example {
                 fill=self.props.fill
                 large=self.props.large
                 value=self.value
-                min_value=-10
-                max_value=10
+                bounds=-10..=10
                 increment=1
                 placeholder=String::from("Enter an integer between -10 and 10")
             />
@@ -68,8 +67,7 @@ impl Component for Example {
                 disabled=self.props.disabled
                 fill=self.props.large
                 value=self.value_two
-                min_value=i32::MIN
-                max_value=i32::MAX
+                bounds=i32::MIN..=i32::MAX
                 increment=10
                 placeholder=String::from("Enter an integer...")
             />

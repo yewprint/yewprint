@@ -1,6 +1,6 @@
 use crate::{Button, ButtonGroup, ControlGroup, IconName, InputGroup, Intent};
 use std::fmt::Display;
-use std::ops::{Add, Sub};
+use std::ops::{Add, RangeInclusive, Sub};
 use std::str::FromStr;
 use yew::prelude::*;
 
@@ -54,8 +54,7 @@ pub struct NumericInputProps<
     pub onchange: Callback<T>,
     #[prop_or_default]
     pub value: Option<T>,
-    pub min_value: T,
-    pub max_value: T,
+    pub bounds: RangeInclusive<T>,
     pub increment: T,
 }
 
@@ -95,12 +94,12 @@ where
         match msg {
             Msg::UpdateValue(value) => {
                 if let Ok(num) = value.trim().parse::<T>() {
-                    if num >= self.props.max_value {
-                        self.props.value = Some(self.props.max_value.clone());
-                        self.input = self.props.max_value.to_string();
-                    } else if num <= self.props.min_value {
-                        self.props.value = Some(self.props.min_value.clone());
-                        self.input = self.props.min_value.to_string();
+                    if num >= *self.props.bounds.end() {
+                        self.props.value = Some(self.props.bounds.end().clone());
+                        self.input = self.props.bounds.end().to_string();
+                    } else if num <= *self.props.bounds.start() {
+                        self.props.value = Some(self.props.bounds.start().clone());
+                        self.input = self.props.bounds.start().to_string();
                     } else {
                         self.props.value = Some(num);
                         self.input = value;
@@ -112,9 +111,9 @@ where
             }
             Msg::Up => {
                 if let Some(num) = self.props.value.clone() {
-                    if num >= self.props.max_value {
-                        self.props.value = Some(self.props.max_value.clone());
-                        self.input = self.props.max_value.to_string();
+                    if num >= *self.props.bounds.end() {
+                        self.props.value = Some(self.props.bounds.end().clone());
+                        self.input = self.props.bounds.end().to_string();
                         true
                     } else {
                         self.props.value = Some(num.clone() + self.props.increment.clone());
@@ -127,9 +126,9 @@ where
             }
             Msg::Down => {
                 if let Some(num) = self.props.value.clone() {
-                    if num <= self.props.min_value {
-                        self.props.value = Some(self.props.min_value.clone());
-                        self.input = self.props.min_value.to_string();
+                    if num <= *self.props.bounds.start() {
+                        self.props.value = Some(self.props.bounds.start().clone());
+                        self.input = self.props.bounds.start().to_string();
                         true
                     } else {
                         self.props.value = Some(num.clone() - self.props.increment.clone());
