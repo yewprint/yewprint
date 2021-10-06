@@ -1,9 +1,10 @@
 use yew::prelude::*;
-use yewprint::NumericInput;
+use yewprint::{Button, IconName, NumericInput};
 
 pub struct Example {
     props: ExampleProps,
     link: ComponentLink<Self>,
+    value: i32,
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -11,25 +12,28 @@ pub struct ExampleProps {
     pub fill: bool,
     pub disabled: bool,
     pub large: bool,
-    pub integer_value: i32,
-    pub integer_min_value: i32,
-    pub integer_max_value: i32,
-    pub integer_increment: i32,
-    pub float_value: f32,
-    pub float_min_value: f32,
-    pub float_max_value: f32,
-    pub float_increment: f32,
+}
+
+pub enum Msg {
+    Reset,
 }
 
 impl Component for Example {
-    type Message = ();
+    type Message = Msg;
     type Properties = ExampleProps;
 
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
-        Example { props, link }
+        Example {
+            props,
+            link,
+            value: 0,
+        }
     }
 
-    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+        match msg {
+            Msg::Reset => self.value = 4,
+        }
         true
     }
 
@@ -45,26 +49,22 @@ impl Component for Example {
     fn view(&self) -> Html {
         html! {
             <>
-                <NumericInput<i32>
-                    disabled=self.props.disabled
-                    fill=self.props.fill
-                    large=self.props.large
-                    value=self.props.integer_value
-                    min_value=self.props.integer_min_value
-                    max_value=self.props.integer_max_value
-                    increment=self.props.integer_increment
-                    placeholder=String::from("Enter an integer...")
-                />
-                <NumericInput<f32>
-                    disabled=self.props.disabled
-                    fill=self.props.fill
-                    large=self.props.large
-                    value=self.props.float_value
-                    min_value=self.props.float_min_value
-                    max_value=self.props.float_max_value
-                    increment=self.props.float_increment
-                    placeholder=String::from("Enter a floating point number...")
-                />
+            <NumericInput<i32>
+                disabled=self.props.disabled
+                fill=self.props.fill
+                large=self.props.large
+                value=self.value
+                min_value=-10
+                max_value=10
+                increment=1
+                placeholder=String::from("Enter an integer...")
+            />
+            <Button
+                icon=IconName::Refresh
+                onclick=self.link.callback(|_| Msg::Reset)
+            >
+                {"Reset at 4"}
+            </Button>
             </>
         }
     }

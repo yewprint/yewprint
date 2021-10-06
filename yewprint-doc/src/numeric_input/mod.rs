@@ -3,7 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::{Button, IconName, NumericInput, Switch, H1, H5};
+use yewprint::{Switch, H1, H5};
 
 pub struct NumericInputDoc {
     callback: Callback<ExampleProps>,
@@ -21,14 +21,6 @@ impl Component for NumericInputDoc {
                 fill: false,
                 disabled: false,
                 large: false,
-                integer_value: 0,
-                integer_min_value: -10,
-                integer_max_value: 10,
-                integer_increment: 1,
-                float_value: 0.0,
-                float_min_value: -1.0,
-                float_max_value: 1.0,
-                float_increment: 0.1,
             },
         }
     }
@@ -100,90 +92,6 @@ crate::build_example_prop_component! {
                     checked=self.props.large
                     label=html!("Large")
                 />
-                <NumericInput<i32>
-                    min_value=i32::MIN
-                    max_value=i32::MAX
-                    increment=1
-                    value=self.props.integer_min_value
-                    placeholder=String::from("Minimum value for (integer)")
-                    onchange=self.update_props(|props, integer_min_value| ExampleProps {
-                        integer_min_value,
-                        ..props
-                    })
-                />
-                <NumericInput<i32>
-                    min_value=i32::MIN
-                    max_value=i32::MAX
-                    increment=1
-                    value=self.props.integer_max_value
-                    placeholder=String::from("Maximum value (integer)")
-                    onchange=self.update_props(|props, integer_max_value| ExampleProps {
-                        integer_max_value,
-                        ..props
-                    })
-                 />
-                <NumericInput<i32>
-                    min_value=i32::MIN
-                    max_value=i32::MAX
-                    increment=1
-                    value=self.props.integer_increment
-                    placeholder=String::from("Increment value (integer)")
-                    onchange=self.update_props(|props, integer_increment| ExampleProps {
-                        integer_increment,
-                        ..props
-                    })
-                />
-                <NumericInput<f32>
-                    min_value=f32::MIN
-                    max_value=f32::MAX
-                    increment=0.5
-                    value=self.props.float_min_value
-                    placeholder=String::from("Minimum value (float)")
-                    onchange=self.update_props(|props, float_min_value| ExampleProps {
-                        float_min_value,
-                        ..props
-                    })
-                />
-                <NumericInput<f32>
-                    min_value=f32::MIN
-                    max_value=f32::MAX
-                    increment=0.5
-                    value=self.props.float_max_value
-                    placeholder=String::from("Maximum value (float)")
-                    onchange=self.update_props(|props, float_max_value| ExampleProps {
-                        float_max_value,
-                        ..props
-                    })
-                 />
-                <NumericInput<f32>
-                    min_value=f32::MIN
-                    max_value=f32::MAX
-                    increment=0.5
-                    value=self.props.float_increment
-                    placeholder=String::from("Increment (float)")
-                    onchange=self.update_props(|props, float_increment| ExampleProps {
-                        float_increment,
-                        ..props
-                    })
-                />
-                <Button
-                    icon=IconName::Refresh
-                    onclick=self.update_props(|_, _| ExampleProps {
-                        fill: false,
-                        disabled: false,
-                        large: false,
-                        integer_value: 0,
-                        integer_min_value: -10,
-                        integer_max_value: 10,
-                        integer_increment: 1,
-                        float_value: 0.0,
-                        float_min_value: -1.0,
-                        float_max_value: 1.0,
-                        float_increment: 0.1,
-                    })
-                >
-                    {"Reset"}
-                </Button>
             </div>
         }
     }

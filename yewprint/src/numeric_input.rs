@@ -95,7 +95,7 @@ where
         match msg {
             Msg::UpdateValue(value) => {
                 if let Ok(num) = value.trim().parse::<T>() {
-                    self.props.value = Some(num.clone());
+                    self.props.value = Some(num);
                     self.input = value;
                     true
                 } else {
