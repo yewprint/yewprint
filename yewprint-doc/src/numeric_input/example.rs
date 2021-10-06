@@ -5,6 +5,7 @@ pub struct Example {
     props: ExampleProps,
     link: ComponentLink<Self>,
     value: i32,
+    value_two: i32,
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -27,12 +28,16 @@ impl Component for Example {
             props,
             link,
             value: 0,
+            value_two: 0,
         }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
-            Msg::Reset => self.value = 4,
+            Msg::Reset => {
+                self.value = 4;
+                self.value_two = 4;
+            }
         }
         true
     }
@@ -57,6 +62,15 @@ impl Component for Example {
                 min_value=-10
                 max_value=10
                 increment=1
+                placeholder=String::from("Enter an integer between -10 and 10")
+            />
+            <NumericInput<i32>
+                disabled=self.props.disabled
+                fill=self.props.large
+                value=self.value_two
+                min_value=i32::MIN
+                max_value=i32::MAX
+                increment=10
                 placeholder=String::from("Enter an integer...")
             />
             <Button
