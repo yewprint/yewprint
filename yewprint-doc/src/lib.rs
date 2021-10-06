@@ -15,6 +15,7 @@ mod icon;
 mod input_group;
 mod logo;
 mod menu;
+mod numeric_input;
 mod panel_stack;
 mod progress_bar;
 mod radio;

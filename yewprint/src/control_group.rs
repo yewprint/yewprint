@@ -11,6 +11,8 @@ pub struct ControlGroupProps {
     #[prop_or_default]
     pub vertical: bool,
     #[prop_or_default]
+    pub large: bool,
+    #[prop_or_default]
     pub children: html::Children,
     #[prop_or_default]
     pub class: Classes,
