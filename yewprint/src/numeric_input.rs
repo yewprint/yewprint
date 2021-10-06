@@ -51,11 +51,9 @@ pub struct NumericInputProps<
     #[prop_or_default]
     pub intent: Option<Intent>,
     #[prop_or_default]
+    pub onchange: Callback<T>,
+    #[prop_or_default]
     pub value: Option<T>,
-    #[prop_or_default]
-    pub start_value: Option<T>,
-    #[prop_or_default]
-    pub onchange: Callback<ChangeData>,
     pub min_value: T,
     pub max_value: T,
     pub increment: T,
@@ -153,11 +151,6 @@ where
     }
 
     fn view(&self) -> Html {
-        let value = if let Some(value) = self.props.start_value.as_ref() {
-            value.to_string()
-        } else {
-            self.input.clone()
-        };
         html! {
             <ControlGroup
                 class=classes!("bp3-numeric-input")
@@ -168,7 +161,8 @@ where
                     placeholder=self.props.placeholder.clone()
                     large=self.props.large
                     disabled=self.props.disabled
-                    value=value
+                    left_icon=self.props.left_icon
+                    value=self.input.clone()
                     oninput=self.link.callback(|e: InputData| Msg::UpdateValue(e.value))
                     onkeydown=self.link.callback(|e: KeyboardEvent| {
                         if e.key() == "ArrowUp" {
