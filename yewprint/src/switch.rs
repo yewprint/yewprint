@@ -20,6 +20,10 @@ pub struct SwitchProps {
     pub label: yew::virtual_dom::VNode,
     #[prop_or_default]
     pub class: Classes,
+    #[prop_or_default]
+    pub innerLabelChecked: Option<String>,
+    #[prop_or_default]
+    pub innerLabel: Option<String>,
 }
 
 impl Component for Switch {
@@ -44,6 +48,32 @@ impl Component for Switch {
     }
 
     fn view(&self) -> Html {
+        let maybe_display_label = move || -> Html {
+            if self.props.innerLabel.is_some() || self.props.innerLabelChecked.is_some() {
+                html! {
+                    <>
+                        <div class=classes!("bp3-control-indicator-child")>
+                            <div class=classes!("bp3-switch-inner-text")>
+                                {
+                                    if let Some(label_checked) = self.props.innerLabelChecked.as_ref() {
+                                        label_checked.clone()
+                                    } else {
+                                        self.props.innerLabel.clone().unwrap_or_default()
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <div class=classes!("bp3-control-indicator-child")>
+                            <div class=classes!("bp3-switch-inner-text")>{self.props.innerLabel.clone().unwrap_or_default()}</div>
+                        </div>
+                    </>
+                }
+            } else {
+                html! {}
+            }
+        };
+
+
         html! {
             <label
                 class=classes!(
@@ -64,6 +94,7 @@ impl Component for Switch {
             <span
                 class=classes!("bp3-control-indicator")
             >
+                {maybe_display_label()}
             </span>
             {self.props.label.clone()}
             </label>
