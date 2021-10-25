@@ -61,8 +61,8 @@ impl Component for Example {
                     inline=self.props.inline
                     large=self.props.large
                     label=html!{"Containing Text"}
-                    innerLabelChecked={"on".to_string()}
-                    innerLabel={"off".to_string()}
+                    inner_label_checked={"on".to_string()}
+                    inner_label={"off".to_string()}
                 />
             </div>
         }
