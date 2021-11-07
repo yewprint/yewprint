@@ -104,7 +104,7 @@ impl Component for App {
                                     </div>
                                     <a
                                         class=classes!("bp3-text-muted")
-                                        href="https://github.com/cecton/yewprint"
+                                        href="https://github.com/yewprint/yewprint"
                                         target="_blank"
                                     >
                                         <small>{"View on GitHub"}</small>
