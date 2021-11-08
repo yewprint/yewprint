@@ -3,7 +3,7 @@ use serde::Deserialize;
 use std::path::Path;
 
 /// Download the CSS of Blueprint to a provided destination path.
-pub fn download_css(dest: &Path) -> Result<()> {
+pub fn download_css(dest: impl AsRef<Path>) -> Result<()> {
     let version = download_from_npm_package(
         "@blueprintjs/core",
         Path::new("package/lib/css/blueprint.css"),
@@ -15,8 +15,15 @@ pub fn download_css(dest: &Path) -> Result<()> {
 }
 
 /// Download any file from NPM package's latest version.
-pub fn download_from_npm_package(package_name: &str, src: &Path, dest: &Path) -> Result<String> {
+pub fn download_from_npm_package(
+    package_name: &str,
+    src: impl AsRef<Path>,
+    dest: impl AsRef<Path>,
+) -> Result<String> {
     use std::ops::Deref;
+
+    let src = src.as_ref();
+    let dest = dest.as_ref();
 
     let info = reqwest::blocking::get(format!("https://registry.npmjs.org/{}", package_name))?
         .json::<PackageInfo>()?;
