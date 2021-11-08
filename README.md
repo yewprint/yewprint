@@ -27,7 +27,7 @@ yewprint-css = { git = "https://github.com/yewprint/yewprint.git", branch = "mai
 Then you can add this to your build process:
 
 ```
-yewprint_css::download_css("static/blueprint.css)?;
+yewprint_css::download_css("static/blueprint.css")?;
 ```
 
 ## Development Environment
