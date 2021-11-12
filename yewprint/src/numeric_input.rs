@@ -104,6 +104,7 @@ where
                         self.props.value = Some(num);
                         self.input = value;
                     }
+                    self.props.onchange.emit(self.props.value.clone().unwrap());
                     true
                 } else {
                     false
@@ -114,12 +115,12 @@ where
                     if num >= *self.props.bounds.end() {
                         self.props.value = Some(self.props.bounds.end().clone());
                         self.input = self.props.bounds.end().to_string();
-                        true
                     } else {
                         self.props.value = Some(num.clone() + self.props.increment.clone());
                         self.input = (num + self.props.increment.clone()).to_string();
-                        true
                     }
+                    self.props.onchange.emit(self.props.value.clone().unwrap());
+                    true
                 } else {
                     false
                 }
@@ -129,12 +130,12 @@ where
                     if num <= *self.props.bounds.start() {
                         self.props.value = Some(self.props.bounds.start().clone());
                         self.input = self.props.bounds.start().to_string();
-                        true
                     } else {
                         self.props.value = Some(num.clone() - self.props.increment.clone());
                         self.input = (num - self.props.increment.clone()).to_string();
-                        true
                     }
+                    self.props.onchange.emit(self.props.value.clone().unwrap());
+                    true
                 } else {
                     false
                 }
