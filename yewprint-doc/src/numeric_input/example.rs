@@ -13,6 +13,9 @@ pub struct ExampleProps {
     pub fill: bool,
     pub disabled: bool,
     pub large: bool,
+    pub disable_buttons: bool,
+    pub buttons_on_the_left: bool,
+    pub left_icon: bool,
 }
 
 pub enum Msg {
@@ -58,18 +61,24 @@ impl Component for Example {
                 disabled=self.props.disabled
                 fill=self.props.large
                 value=self.value_two
-                bounds=i32::MIN..=i32::MAX
+                bounds={-105..}
                 increment=10
-                placeholder=String::from("Enter an integer...")
+                placeholder=String::from("Greater or equal to -105...")
+                disable_buttons=self.props.disable_buttons
+                buttons_on_the_left=self.props.buttons_on_the_left
+                left_icon=self.props.left_icon.then(|| IconName::Dollar)
             />
             <NumericInput<i32>
                 disabled=self.props.disabled
                 fill=self.props.fill
                 large=self.props.large
                 value=self.value
-                bounds=-10..=10
+                bounds={-10..=10}
                 increment=1
                 placeholder=String::from("Integer between -10 and 10")
+                disable_buttons=self.props.disable_buttons
+                buttons_on_the_left=self.props.buttons_on_the_left
+                left_icon=self.props.left_icon.then(|| IconName::Dollar)
             />
             <Button
                 icon=IconName::Refresh

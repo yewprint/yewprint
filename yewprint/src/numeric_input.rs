@@ -1,21 +1,20 @@
 use crate::{Button, ButtonGroup, ControlGroup, IconName, InputGroup, Intent};
 use std::fmt::Display;
-use std::ops::{Add, RangeInclusive, Sub};
+use std::ops::{Add, Bound, RangeBounds, Sub};
 use std::str::FromStr;
+use yew::html::IntoPropValue;
 use yew::prelude::*;
 
-pub struct NumericInput<
+pub struct NumericInput<T>
+where
     T: Add<Output = T>
-        + Clone
+        + Sub<Output = T>
+        + Copy
         + Display
         + FromStr
         + PartialEq
         + PartialOrd
-        + Sub<Output = T>
         + 'static,
-> where
-    <T as Sub>::Output: ToString,
-    <T as Add>::Output: ToString,
 {
     props: NumericInputProps<T>,
     link: ComponentLink<Self>,
@@ -23,18 +22,16 @@ pub struct NumericInput<
 }
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct NumericInputProps<
+pub struct NumericInputProps<T>
+where
     T: Add<Output = T>
-        + Clone
+        + Sub<Output = T>
+        + Copy
         + Display
         + FromStr
         + PartialEq
         + PartialOrd
-        + Sub<Output = T>
         + 'static,
-> where
-    <T as Sub>::Output: ToString,
-    <T as Add>::Output: ToString,
 {
     #[prop_or_default]
     pub disabled: bool,
@@ -49,35 +46,41 @@ pub struct NumericInputProps<
     #[prop_or_default]
     pub left_icon: Option<IconName>,
     #[prop_or_default]
+    pub left_element: Option<Html>,
+    #[prop_or_default]
+    pub right_element: Option<Html>,
+    #[prop_or_default]
     pub intent: Option<Intent>,
     #[prop_or_default]
     pub onchange: Callback<T>,
     #[prop_or_default]
     pub value: Option<T>,
-    pub bounds: RangeInclusive<T>,
+    #[prop_or_default]
+    pub bounds: NumericInputRangeBounds<T>,
     pub increment: T,
+    #[prop_or_default]
+    pub disable_buttons: bool,
+    #[prop_or_default]
+    pub buttons_on_the_left: bool,
 }
 
 pub enum Msg {
-    UpdateValue(String),
+    InputUpdate(String),
     Up,
     Down,
     Noop,
 }
 
-impl<
-        T: Add<Output = T>
-            + Clone
-            + Display
-            + FromStr
-            + PartialEq
-            + PartialOrd
-            + Sub<Output = T>
-            + 'static,
-    > Component for NumericInput<T>
+impl<T> Component for NumericInput<T>
 where
-    <T as Sub>::Output: ToString,
-    <T as Add>::Output: ToString,
+    T: Add<Output = T>
+        + Sub<Output = T>
+        + Copy
+        + Display
+        + FromStr
+        + PartialEq
+        + PartialOrd
+        + 'static,
 {
     type Message = Msg;
     type Properties = NumericInputProps<T>;
@@ -92,49 +95,23 @@ where
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
-            Msg::UpdateValue(value) => {
-                if let Ok(num) = value.trim().parse::<T>() {
-                    if num >= *self.props.bounds.end() {
-                        self.props.value = Some(self.props.bounds.end().clone());
-                        self.input = self.props.bounds.end().to_string();
-                    } else if num <= *self.props.bounds.start() {
-                        self.props.value = Some(self.props.bounds.start().clone());
-                        self.input = self.props.bounds.start().to_string();
-                    } else {
-                        self.props.value = Some(num);
-                        self.input = value;
-                    }
-                    true
+            Msg::InputUpdate(new_value) => {
+                if let Ok(new_value) = new_value.trim().parse::<T>() {
+                    self.update_value(new_value)
                 } else {
                     false
                 }
             }
             Msg::Up => {
-                if let Some(num) = self.props.value.clone() {
-                    if num >= *self.props.bounds.end() {
-                        self.props.value = Some(self.props.bounds.end().clone());
-                        self.input = self.props.bounds.end().to_string();
-                        true
-                    } else {
-                        self.props.value = Some(num.clone() + self.props.increment.clone());
-                        self.input = (num + self.props.increment.clone()).to_string();
-                        true
-                    }
+                if let Some(value) = self.props.value {
+                    self.update_value(value + self.props.increment)
                 } else {
                     false
                 }
             }
             Msg::Down => {
-                if let Some(num) = self.props.value.clone() {
-                    if num <= *self.props.bounds.start() {
-                        self.props.value = Some(self.props.bounds.start().clone());
-                        self.input = self.props.bounds.start().to_string();
-                        true
-                    } else {
-                        self.props.value = Some(num.clone() - self.props.increment.clone());
-                        self.input = (num - self.props.increment.clone()).to_string();
-                        true
-                    }
+                if let Some(value) = self.props.value {
+                    self.update_value(value - self.props.increment)
                 } else {
                     false
                 }
@@ -158,42 +135,165 @@ where
     }
 
     fn view(&self) -> Html {
-        html! {
-            <ControlGroup
-                class=classes!("bp3-numeric-input")
-                fill=self.props.fill
-                large=self.props.large
-            >
-                <InputGroup
-                    placeholder=self.props.placeholder.clone()
-                    large=self.props.large
-                    disabled=self.props.disabled
-                    left_icon=self.props.left_icon
-                    value=self.input.clone()
-                    oninput=self.link.callback(|e: InputData| Msg::UpdateValue(e.value))
-                    onkeydown=self.link.callback(|e: KeyboardEvent| {
-                        if e.key() == "ArrowUp" {
-                            Msg::Up
-                        } else if e.key() == "ArrowDown" {
-                            Msg::Down
-                        } else {
-                            Msg::Noop
-                        }
-                    })
-                />
+        let NumericInputProps {
+            value,
+            increment,
+            disabled,
+            disable_buttons,
+            buttons_on_the_left,
+            ..
+        } = self.props;
+        let bounds = &self.props.bounds;
+        let button_up_disabled = disabled
+            || value
+                .map(|x| bounds.clamp(x + increment, increment) == x)
+                .unwrap_or(false);
+        let button_down_disabled = disabled
+            || value
+                .map(|x| bounds.clamp(x - increment, increment) == x)
+                .unwrap_or(false);
+
+        let buttons = if disable_buttons {
+            html!()
+        } else {
+            html! {
                 <ButtonGroup vertical=true class=classes!("bp3-fixed")>
                     <Button
                         icon=IconName::ChevronUp
-                        disabled=self.props.disabled
+                        disabled=button_up_disabled
                         onclick=self.link.callback(|_| Msg::Up)
                     />
                     <Button
                         icon=IconName::ChevronDown
-                        disabled=self.props.disabled
+                        disabled=button_down_disabled
                         onclick=self.link.callback(|_| Msg::Down)
                     />
                 </ButtonGroup>
-            </ControlGroup>
+            }
+        };
+
+        let input_group = html! {
+            <InputGroup
+                placeholder=self.props.placeholder.clone()
+                large=self.props.large
+                disabled=self.props.disabled
+                left_icon=self.props.left_icon
+                left_element=self.props.left_element.clone()
+                right_element=self.props.right_element.clone()
+                value=self.input.clone()
+                oninput=self.link.callback(|e: InputData| Msg::InputUpdate(e.value))
+                onkeydown=self.link.callback(|e: KeyboardEvent| {
+                    if e.key() == "ArrowUp" {
+                        Msg::Up
+                    } else if e.key() == "ArrowDown" {
+                        Msg::Down
+                    } else {
+                        Msg::Noop
+                    }
+                })
+            />
+        };
+
+        if buttons_on_the_left {
+            html! {
+                <ControlGroup
+                    class=classes!("bp3-numeric-input")
+                    fill=self.props.fill
+                    large=self.props.large
+                >
+                    {buttons}
+                    {input_group}
+                </ControlGroup>
+            }
+        } else {
+            html! {
+                <ControlGroup
+                    class=classes!("bp3-numeric-input")
+                    fill=self.props.fill
+                    large=self.props.large
+                >
+                    {input_group}
+                    {buttons}
+                </ControlGroup>
+            }
         }
     }
 }
+
+impl<T> NumericInput<T>
+where
+    T: Add<Output = T>
+        + Sub<Output = T>
+        + Copy
+        + Display
+        + FromStr
+        + PartialEq
+        + PartialOrd
+        + 'static,
+{
+    fn update_value(&mut self, new_value: T) -> ShouldRender {
+        if let Some(value) = self.props.value {
+            let new_value = self.props.bounds.clamp(new_value, self.props.increment);
+
+            if new_value != value {
+                self.input = new_value.to_string();
+                self.props.value = Some(new_value);
+                true
+            } else {
+                false
+            }
+        } else {
+            false
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub struct NumericInputRangeBounds<T> {
+    pub start: Bound<T>,
+    pub end: Bound<T>,
+}
+
+impl<T> Default for NumericInputRangeBounds<T> {
+    fn default() -> Self {
+        Self {
+            start: Bound::Unbounded,
+            end: Bound::Unbounded,
+        }
+    }
+}
+
+impl<T> NumericInputRangeBounds<T>
+where
+    T: PartialOrd + Copy + Add<Output = T> + Sub<Output = T>,
+{
+    pub fn clamp(&self, value: T, increment: T) -> T {
+        match (self.start, self.end) {
+            (Bound::Included(min), _) if value < min => min,
+            (Bound::Excluded(min), _) if value <= min => min + increment,
+            (_, Bound::Included(max)) if value > max => max,
+            (_, Bound::Excluded(max)) if value >= max => max - increment,
+            _ => value,
+        }
+    }
+}
+
+macro_rules! impl_into_prop_value {
+    ($path:path) => {
+        impl<T: Copy> IntoPropValue<NumericInputRangeBounds<T>> for $path {
+            fn into_prop_value(self) -> NumericInputRangeBounds<T> {
+                NumericInputRangeBounds {
+                    start: self.start_bound().cloned(),
+                    end: self.end_bound().cloned(),
+                }
+            }
+        }
+    };
+}
+
+impl_into_prop_value!(std::ops::Range<T>);
+impl_into_prop_value!(std::ops::RangeFrom<T>);
+impl_into_prop_value!(std::ops::RangeFull);
+impl_into_prop_value!(std::ops::RangeInclusive<T>);
+impl_into_prop_value!(std::ops::RangeTo<T>);
+impl_into_prop_value!(std::ops::RangeToInclusive<T>);
