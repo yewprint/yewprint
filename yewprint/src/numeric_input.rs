@@ -53,8 +53,7 @@ where
     pub intent: Option<Intent>,
     #[prop_or_default]
     pub onchange: Callback<T>,
-    #[prop_or_default]
-    pub value: Option<T>,
+    pub value: T,
     #[prop_or_default]
     pub bounds: NumericInputRangeBounds<T>,
     pub increment: T,
@@ -102,20 +101,8 @@ where
                     false
                 }
             }
-            Msg::Up => {
-                if let Some(value) = self.props.value {
-                    self.update_value(value + self.props.increment)
-                } else {
-                    false
-                }
-            }
-            Msg::Down => {
-                if let Some(value) = self.props.value {
-                    self.update_value(value - self.props.increment)
-                } else {
-                    false
-                }
-            }
+            Msg::Up => self.update_value(self.props.value + self.props.increment),
+            Msg::Down => self.update_value(self.props.value - self.props.increment),
             Msg::Noop => false,
         }
     }
@@ -123,9 +110,7 @@ where
     fn change(&mut self, props: Self::Properties) -> ShouldRender {
         if self.props != props {
             if self.props.value != props.value {
-                if let Some(value) = props.value.as_ref() {
-                    self.input = value.to_string();
-                }
+                self.input = props.value.to_string();
             }
             self.props = props;
             true
@@ -144,14 +129,8 @@ where
             ..
         } = self.props;
         let bounds = &self.props.bounds;
-        let button_up_disabled = disabled
-            || value
-                .map(|x| bounds.clamp(x + increment, increment) == x)
-                .unwrap_or(false);
-        let button_down_disabled = disabled
-            || value
-                .map(|x| bounds.clamp(x - increment, increment) == x)
-                .unwrap_or(false);
+        let button_up_disabled = disabled || bounds.clamp(value + increment, increment) == value;
+        let button_down_disabled = disabled || bounds.clamp(value - increment, increment) == value;
 
         let buttons = if disable_buttons {
             html!()
@@ -232,17 +211,12 @@ where
         + 'static,
 {
     fn update_value(&mut self, new_value: T) -> ShouldRender {
-        if let Some(value) = self.props.value {
-            let new_value = self.props.bounds.clamp(new_value, self.props.increment);
+        let new_value = self.props.bounds.clamp(new_value, self.props.increment);
 
-            if new_value != value {
-                self.input = new_value.to_string();
-                self.props.value = Some(new_value);
-                self.props.onchange.emit(new_value);
-                true
-            } else {
-                false
-            }
+        if new_value != self.props.value {
+            self.input = new_value.to_string();
+            self.props.onchange.emit(new_value);
+            true
         } else {
             false
         }
