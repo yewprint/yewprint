@@ -238,6 +238,7 @@ where
             if new_value != value {
                 self.input = new_value.to_string();
                 self.props.value = Some(new_value);
+                self.props.onchange.emit(new_value);
                 true
             } else {
                 false

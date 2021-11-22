@@ -1,5 +1,5 @@
 use yew::prelude::*;
-use yewprint::{Button, IconName, NumericInput};
+use yewprint::{Button, IconName, NumericInput, Text};
 
 pub struct Example {
     props: ExampleProps,
@@ -20,6 +20,8 @@ pub struct ExampleProps {
 
 pub enum Msg {
     Reset,
+    UpdateValue(i32),
+    UpdateValueTwo(i32),
 }
 
 impl Component for Example {
@@ -40,6 +42,12 @@ impl Component for Example {
             Msg::Reset => {
                 self.value = 4;
                 self.value_two = 4;
+            }
+            Msg::UpdateValue(value) => {
+                self.value = value;
+            }
+            Msg::UpdateValueTwo(value) => {
+                self.value_two = value;
             }
         }
         true
@@ -64,6 +72,7 @@ impl Component for Example {
                 bounds={-105..}
                 increment=10
                 placeholder=String::from("Greater or equal to -105...")
+                onchange=self.link.callback(|x| Msg::UpdateValueTwo(x))
                 disable_buttons=self.props.disable_buttons
                 buttons_on_the_left=self.props.buttons_on_the_left
                 left_icon=self.props.left_icon.then(|| IconName::Dollar)
@@ -76,6 +85,7 @@ impl Component for Example {
                 bounds={-10..=10}
                 increment=1
                 placeholder=String::from("Integer between -10 and 10")
+                onchange=self.link.callback(|x| Msg::UpdateValue(x))
                 disable_buttons=self.props.disable_buttons
                 buttons_on_the_left=self.props.buttons_on_the_left
                 left_icon=self.props.left_icon.then(|| IconName::Dollar)
@@ -86,6 +96,7 @@ impl Component for Example {
             >
                 {"Reset at 4"}
             </Button>
+            <Text>{format!("actual values are {} and {}", self.value, self.value_two)}</Text>
             </>
         }
     }
