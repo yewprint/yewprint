@@ -23,7 +23,7 @@ To easily get started, you can use
 to get started very quickly:
 
 ```
-cargo generate --git https://github.com/cecton/wasm-run-template.git
+cargo generate --git https://github.com/yewprint/yewprint-template.git
 ```
 
 ## Development Environment
