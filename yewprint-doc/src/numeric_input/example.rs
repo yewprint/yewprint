@@ -1,5 +1,6 @@
+use std::borrow::Cow;
 use yew::prelude::*;
-use yewprint::{Button, IconName, NumericInput, Text};
+use yewprint::{Button, Callout, IconName, Intent, NumericInput};
 
 pub struct Example {
     props: ExampleProps,
@@ -13,6 +14,9 @@ pub struct ExampleProps {
     pub fill: bool,
     pub disabled: bool,
     pub large: bool,
+    pub disable_buttons: bool,
+    pub buttons_on_the_left: bool,
+    pub left_icon: bool,
 }
 
 pub enum Msg {
@@ -65,21 +69,27 @@ impl Component for Example {
             <NumericInput<i32>
                 disabled=self.props.disabled
                 fill=self.props.large
-                value=self.value_two
-                bounds=i32::MIN..=i32::MAX
+                value=self.value
+                bounds={-105..}
                 increment=10
-                placeholder=String::from("Enter an integer...")
-                onchange=self.link.callback(|x| Msg::UpdateValueTwo(x))
+                placeholder=String::from("Greater or equal to -105...")
+                onchange=self.link.callback(|x| Msg::UpdateValue(x))
+                disable_buttons=self.props.disable_buttons
+                buttons_on_the_left=self.props.buttons_on_the_left
+                left_icon=self.props.left_icon.then(|| IconName::Dollar)
             />
             <NumericInput<i32>
                 disabled=self.props.disabled
                 fill=self.props.fill
                 large=self.props.large
-                value=self.value
-                bounds=-10..=10
+                value=self.value_two
+                bounds={-10..=10}
                 increment=1
                 placeholder=String::from("Integer between -10 and 10")
-                onchange=self.link.callback(|x| Msg::UpdateValue(x))
+                onchange=self.link.callback(|x| Msg::UpdateValueTwo(x))
+                disable_buttons=self.props.disable_buttons
+                buttons_on_the_left=self.props.buttons_on_the_left
+                left_icon=self.props.left_icon.then(|| IconName::Dollar)
             />
             <Button
                 icon=IconName::Refresh
@@ -87,7 +97,15 @@ impl Component for Example {
             >
                 {"Reset at 4"}
             </Button>
-            <Text>{format!("actual values are {} and {}", self.value, self.value_two)}</Text>
+            <Callout
+                title=Cow::Borrowed("Selected values")
+                intent=Intent::Primary
+            >
+                <ul>
+                    <li>{self.value}</li>
+                    <li>{self.value_two}</li>
+                </ul>
+            </Callout>
             </>
         }
     }
