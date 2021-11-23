@@ -13,7 +13,7 @@
 	<title>Yewprint</title>
 	<script type="module">
 		import init from "/app.js";
-		init();
+		init(new URL('app_bg.wasm', import.meta.url));
 	</script>
 	<link rel="icon" href="/favicon.svg">
 	<link rel="stylesheet" href="/blueprint.css">

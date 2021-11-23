@@ -11,23 +11,19 @@ leave a star to let me know you are interested in this project.
 Installation
 ------------
 
-## Use as a library (in your project)
+## Usage
 
-```toml
-yewprint = { git = "https://github.com/yewprint/yewprint.git", branch = "main" }
-```
+Check the
+[template repository](https://github.com/yewprint/yewprint-template)
+to see how things work. **The Blueprint CSS needs to be downloaded from your
+build script.**
 
-You will also need the CSS from Blueprint. There is a helper crate that can be
-used to automatize this:
-
-```toml
-yewprint-css = { git = "https://github.com/yewprint/yewprint.git", branch = "main" }
-```
-
-Then you can add this to your build process:
+To easily get started, you can use
+[cargo-generate](https://crates.io/crates/cargo-generate)
+to get started very quickly:
 
 ```
-yewprint_css::download_css("static/blueprint.css")?;
+cargo generate --git https://github.com/cecton/wasm-run-template.git
 ```
 
 ## Development Environment
@@ -78,7 +74,7 @@ Roadmap
      -  depends on: Overlay
  -  [ ] [Navbar](https://blueprintjs.com/docs/#core/components/navbar)
  -  [ ] [OverflowList](https://blueprintjs.com/docs/#core/components/overflow-list)
- -  [ ] [PanelStack](https://blueprintjs.com/docs/#core/components/panel-stack)
+ -  [x] [PanelStack](https://blueprintjs.com/docs/#core/components/panel-stack)
  -  [x] [ProgressBar](https://blueprintjs.com/docs/#core/components/progress-bar)
  -  [ ] [ResizeSensor](https://blueprintjs.com/docs/#core/components/resize-sensor)
  -  [ ] [Skeleton](https://blueprintjs.com/docs/#core/components/skeleton)
@@ -90,19 +86,19 @@ Roadmap
  -  [x] [Tree](https://blueprintjs.com/docs/#core/components/tree)
      -  depends on: Collapse, Icon
  -  [ ] [FormGroup](https://blueprintjs.com/docs/#core/components/form-group)
- -  [ ] [ControlGroup](https://blueprintjs.com/docs/#core/components/control-group)
+ -  [x] [ControlGroup](https://blueprintjs.com/docs/#core/components/control-group)
  -  [ ] [Label](https://blueprintjs.com/docs/#core/components/label)
- -  [ ] [Checkbox](https://blueprintjs.com/docs/#core/components/checkbox)
- -  [ ] [RadioGroup](https://blueprintjs.com/docs/#core/components/radio)
- -  [ ] [Sliders](https://blueprintjs.com/docs/#core/components/sliders)
+ -  [x] [Checkbox](https://blueprintjs.com/docs/#core/components/checkbox)
+ -  [x] [RadioGroup](https://blueprintjs.com/docs/#core/components/radio)
+ -  [x] [Sliders](https://blueprintjs.com/docs/#core/components/sliders)
  -  [ ] [RangeSlider](https://blueprintjs.com/docs/#core/components/sliders.range-slider)
  -  [ ] [MultiSlider](https://blueprintjs.com/docs/#core/components/sliders.multi-slider)
  -  [x] [Switch](https://blueprintjs.com/docs/#core/components/switch)
      -  [ ] Complete Switch API
  -  [ ] [FileInput](https://blueprintjs.com/docs/#core/components/file-input)
- -  [ ] [NumericInput](https://blueprintjs.com/docs/#core/components/numeric-input)
- -  [ ] [InputGroup](https://blueprintjs.com/docs/#core/components/text-inputs.input-group)
- -  [ ] [TextArea](https://blueprintjs.com/docs/#core/components/text-inputs.text-area)
+ -  [x] [NumericInput](https://blueprintjs.com/docs/#core/components/numeric-input)
+ -  [x] [InputGroup](https://blueprintjs.com/docs/#core/components/text-inputs.input-group)
+ -  [x] [TextArea](https://blueprintjs.com/docs/#core/components/text-inputs.text-area)
  -  [ ] [TagInput](https://blueprintjs.com/docs/#core/components/tag-input)
  -  [ ] [Overlay](https://blueprintjs.com/docs/#core/components/overlay)
      -  depends on: Portal

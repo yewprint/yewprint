@@ -14,7 +14,11 @@ enum Cli {
     UpdateCss,
 }
 
-fn pre_build(_args: &DefaultBuildArgs, profile: BuildProfile, cargo: &mut Command) -> Result<()> {
+fn pre_build(args: &DefaultBuildArgs, profile: BuildProfile, cargo: &mut Command) -> Result<()> {
+    let package = args.frontend_package();
+
+    download_css(package, false)?;
+
     match profile {
         BuildProfile::Profiling | BuildProfile::Release => {
             cargo.args(&["--features", "wee_alloc"]);
@@ -31,28 +35,27 @@ fn pre_build(_args: &DefaultBuildArgs, profile: BuildProfile, cargo: &mut Comman
 fn other_cli_commands(cli: Cli, _metadata: &Metadata, package: &Package) -> Result<()> {
     match cli {
         Cli::UpdateCss => {
-            yewprint_css::download_css(
-                &package
-                    .manifest_path
-                    .parent()
-                    .unwrap()
-                    .join("static")
-                    .join("blueprint.css"),
-            )?;
-
-            let version = yewprint_css::download_from_npm_package(
-                "@blueprintjs/docs-theme",
-                Path::new("package/lib/css/docs-theme.css"),
-                &package
-                    .manifest_path
-                    .parent()
-                    .unwrap()
-                    .join("static")
-                    .join("docs-theme.css"),
-            )
-            .context("while downloading CSS of @blueprintjs/docs-theme")?;
-            println!("Docs Theme CSS updated to: {}", version);
+            download_css(package, true)?;
         }
+    }
+
+    Ok(())
+}
+
+fn download_css(package: &Package, force: bool) -> Result<()> {
+    let static_path = package.manifest_path.parent().unwrap().join("static");
+    let css_path = static_path.join("blueprint.css");
+
+    if force || !css_path.exists() {
+        yewprint_css::download_css(&css_path)?;
+
+        let version = yewprint_css::download_from_npm_package(
+            "@blueprintjs/docs-theme",
+            Path::new("package/lib/css/docs-theme.css"),
+            &static_path.join("docs-theme.css"),
+        )
+        .context("while downloading CSS of @blueprintjs/docs-theme")?;
+        log::info!("Docs Theme CSS updated to: {}", version);
     }
 
     Ok(())

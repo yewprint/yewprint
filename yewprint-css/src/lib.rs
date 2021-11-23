@@ -10,7 +10,7 @@ pub fn download_css(dest: impl AsRef<Path>) -> Result<()> {
         dest,
     )
     .context("while downloading CSS of @blueprintjs/core")?;
-    println!("Blueprint CSS updated to: {}", version);
+    log::info!("Blueprint CSS updated to: {}", version);
     Ok(())
 }
 

@@ -1,11 +1,12 @@
 [package]
 name = "run"
-version = "0.1.0"
+version = "0.0.0"
 edition = "2018"
 
 [dependencies]
+log = "0.4"
 structopt = "0.3"
-wasm-run = "0.8"
+wasm-run = "0.9"
 yewprint-css = { path = "./yewprint-css" }
 
 [workspace]

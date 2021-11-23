@@ -1,3 +1,5 @@
 target
 /build
 /*.tgz
+/yewprint-doc/static/blueprint.css
+/yewprint-doc/static/docs-theme.css
