@@ -22,14 +22,7 @@ impl Component for Example {
     fn update(&mut self, _msg: Self::Message) -> bool {
         true
     }
-    fn change(&mut self, props: Self::Properties) -> bool {
-        if self.props != props {
-            self.props = props;
-            true
-        } else {
-            false
-        }
-    }
+
     fn view(&self) -> Html {
         html! {
             <ProgressBar

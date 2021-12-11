@@ -38,15 +38,6 @@ impl Component for ExampleContainer {
         true
     }
 
-    fn change(&mut self, props: Self::Properties) -> bool {
-        if self.props != props {
-            self.props = props;
-            true
-        } else {
-            false
-        }
-    }
-
     fn view(&self) -> Html {
         html! {
             <div class={classes!("docs-example-wrapper")}>

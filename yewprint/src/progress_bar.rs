@@ -31,15 +31,6 @@ impl Component for ProgressBar {
         true
     }
 
-    fn change(&mut self, props: Self::Properties) -> bool {
-        if self.props != props {
-            self.props = props;
-            true
-        } else {
-            false
-        }
-    }
-
     fn view(&self) -> Html {
         let width = if let Some(value) = self.props.value {
             // NOTE: nightly, issue #44095 for f32::clamp

@@ -51,15 +51,6 @@ impl<T: Clone + PartialEq + 'static> Component for HtmlSelect<T> {
         false
     }
 
-    fn change(&mut self, props: Self::Properties) -> bool {
-        if self.props != props {
-            self.props = props;
-            true
-        } else {
-            false
-        }
-    }
-
     fn view(&self) -> Html {
         let option_children = self
             .props

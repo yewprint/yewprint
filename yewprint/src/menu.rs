@@ -29,15 +29,6 @@ impl Component for Menu {
         true
     }
 
-    fn change(&mut self, props: Self::Properties) -> bool {
-        if self.props != props {
-            self.props = props;
-            true
-        } else {
-            false
-        }
-    }
-
     fn view(&self) -> Html {
         html! {
             <ul
@@ -99,15 +90,6 @@ impl Component for MenuItem {
 
     fn update(&mut self, _msg: Self::Message) -> bool {
         true
-    }
-
-    fn change(&mut self, props: Self::Properties) -> bool {
-        if self.props != props {
-            self.props = props;
-            true
-        } else {
-            false
-        }
     }
 
     fn view(&self) -> Html {
@@ -184,15 +166,6 @@ impl Component for MenuDivider {
 
     fn update(&mut self, _msg: Self::Message) -> bool {
         true
-    }
-
-    fn change(&mut self, props: Self::Properties) -> bool {
-        if self.props != props {
-            self.props = props;
-            true
-        } else {
-            false
-        }
     }
 
     fn view(&self) -> Html {

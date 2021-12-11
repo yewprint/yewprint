@@ -45,15 +45,6 @@ impl Component for Icon {
         true
     }
 
-    fn change(&mut self, props: Self::Properties) -> bool {
-        if self.props != props {
-            self.props = props;
-            true
-        } else {
-            false
-        }
-    }
-
     fn view(&self) -> Html {
         let paths = if self.props.icon_size == ICON_SIZE_STANDARD {
             icon_svg_paths_16(self.props.icon)

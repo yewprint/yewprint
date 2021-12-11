@@ -106,15 +106,6 @@ impl Component for InputGroup {
         true
     }
 
-    fn change(&mut self, props: Self::Properties) -> bool {
-        if self.props != props {
-            self.props = props;
-            true
-        } else {
-            false
-        }
-    }
-
     fn view(&self) -> Html {
         let input_style = match (self.left_element_width, self.right_element_width) {
             (Some(left), None) => format!("padding-left:{}px", left.max(MIN_HORIZONTAL_PADDING)),

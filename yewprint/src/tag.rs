@@ -55,15 +55,6 @@ impl Component for Tag {
         true
     }
 
-    fn change(&mut self, props: Self::Properties) -> bool {
-        if self.props != props {
-            self.props = props;
-            true
-        } else {
-            false
-        }
-    }
-
     fn view(&self) -> Html {
         let icon = if_html!(let Some(icon) = self.props.icon => <Icon icon={icon} />);
 

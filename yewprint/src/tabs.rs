@@ -57,15 +57,6 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
         true
     }
 
-    fn change(&mut self, props: Self::Properties) -> bool {
-        if self.props != props {
-            self.props = props;
-            true
-        } else {
-            false
-        }
-    }
-
     fn view(&self) -> Html {
         let tabs = self
             .props

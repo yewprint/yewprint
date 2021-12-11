@@ -158,15 +158,6 @@ impl Component for PanelStack {
         }
     }
 
-    fn change(&mut self, props: Self::Properties) -> bool {
-        if self.props != props {
-            self.props = props;
-            true
-        } else {
-            false
-        }
-    }
-
     fn view(&self) -> Html {
         let opened_panels = self.props.state.opened_panels.borrow();
         let action = self.props.state.action;

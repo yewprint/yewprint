@@ -177,15 +177,6 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
         }
     }
 
-    fn change(&mut self, props: Self::Properties) -> bool {
-        if self.props != props {
-            self.props = props;
-            true
-        } else {
-            false
-        }
-    }
-
     fn view(&self) -> Html {
         let value_index = self
             .props

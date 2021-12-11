@@ -32,15 +32,6 @@ impl Component for Example {
         true
     }
 
-    fn change(&mut self, props: Self::Properties) -> bool {
-        if self.props != props {
-            self.props = props;
-            true
-        } else {
-            false
-        }
-    }
-
     fn view(&self) -> Html {
         html! {
             <div style="width: 400px; text-align: center;">

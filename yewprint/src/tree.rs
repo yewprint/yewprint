@@ -123,15 +123,6 @@ impl<T: Clone + PartialEq + 'static> Component for Tree<T> {
         true
     }
 
-    fn change(&mut self, props: Self::Properties) -> bool {
-        if self.props != props {
-            self.props = props;
-            true
-        } else {
-            false
-        }
-    }
-
     fn view(&self) -> Html {
         let tree = self.props.tree.borrow();
 

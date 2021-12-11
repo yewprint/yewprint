@@ -1,6 +1,5 @@
 use crate::Elevation;
 use yew::prelude::*;
-use yew::
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct CardProps {
@@ -29,15 +28,6 @@ impl Component for Card {
 
     fn update(&mut self, _msg: Self::Message) -> bool {
         true
-    }
-
-    fn change(&mut self, props: Self::Properties) -> bool {
-        if self.props != props {
-            self.props = props;
-            true
-        } else {
-            false
-        }
     }
 
     fn view(&self) -> Html {

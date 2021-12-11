@@ -38,15 +38,6 @@ impl Component for Spinner {
         true
     }
 
-    fn change(&mut self, props: Self::Properties) -> bool {
-        if self.props != props {
-            self.props = props;
-            true
-        } else {
-            false
-        }
-    }
-
     fn view(&self) -> Html {
         let size = f32::max(SPINNER_MIN_SIZE, self.props.size);
         let stroke_width = f32::min(MIN_STROKE_WIDTH, (STROKE_WIDTH * SPINNER_SIZE_LARGE) / size);
