@@ -109,16 +109,16 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
                                 <div
                                     class={classes!(
                                         "bp3-tab",
-                                        ctx.props().title_class.clone(),
+                                        props.title_class.clone(),
                                     )}
-                                    aria-disabled=props.disabled.then(|| "true")
-                                    aria-expanded=selected.to_string()
-                                    aria-selected=selected.to_string()
+                                    aria-disabled={props.disabled.then(|| "true")}
+                                    aria-expanded={selected.to_string()}
+                                    aria-selected={selected.to_string()}
                                     role="tab"
                                     tabIndex={(!props.disabled).then(|| "0")}
-                                    id=title_id.to_string()
-                                    aria-controls=panel_id.to_string()
-                                    data-tab-id=id.to_string()
+                                    id={title_id.to_string()}
+                                    aria-controls={panel_id.to_string()}
+                                    data-tab-id={id.to_string()}
                                     onclick={(!props.disabled).then(|| {
                                         let tab_id = ctx.props().id.clone();
                                         self
@@ -126,8 +126,8 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
                                             .onchange
                                             .reform(move |_| tab_id.clone())
                                     })}
-                                    key=*id
-                                    ref=self.tab_refs[id].clone()
+                                    key={*id}
+                                    ref={self.tab_refs[id].clone()}
                                 >
                                     { ctx.props().title.clone() }
                                 </div>

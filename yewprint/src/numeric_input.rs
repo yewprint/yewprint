@@ -138,14 +138,14 @@ where
             html! {
                 <ButtonGroup vertical=true class={classes!("bp3-fixed")}>
                     <Button
-                        icon=IconName::ChevronUp
-                        disabled=button_up_disabled
-                        onclick=self.link.callback(|_| Msg::Up)
+                        icon={IconName::ChevronUp}
+                        disabled={button_up_disabled}
+                        onclick={self.link.callback(|_| Msg::Up)}
                     />
                     <Button
-                        icon=IconName::ChevronDown
-                        disabled=button_down_disabled
-                        onclick=self.link.callback(|_| Msg::Down)
+                        icon={IconName::ChevronDown}
+                        disabled={button_down_disabled}
+                        onclick={self.link.callback(|_| Msg::Down)}
                     />
                 </ButtonGroup>
             }

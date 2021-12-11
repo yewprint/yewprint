@@ -90,20 +90,20 @@ impl Component for App {
         };
 
         html! {
-            <div class=classes!("docs-root", self.dark_theme.then(|| "bp3-dark"))>
-                <div class=classes!("docs-app")>
-                    <div class=classes!("docs-nav-wrapper")>
-                        <div class=classes!("docs-nav")>
-                            <div class=classes!("docs-nav-title")>
-                                <a class=classes!("docs-logo") href="/">
+            <div class={classes!("docs-root", self.dark_theme.then(|| "bp3-dark"))}>
+                <div class={classes!("docs-app")}>
+                    <div class={classes!("docs-nav-wrapper")}>
+                        <div class={classes!("docs-nav")}>
+                            <div class={classes!("docs-nav-title")}>
+                                <a class={classes!("docs-logo")} href="/">
                                     {crate::include_raw_html!("logo.svg")}
                                 </a>
                                 <div>
-                                    <div class=classes!("bp3-navbar-heading", "docs-heading")>
+                                    <div class={classes!("bp3-navbar-heading", "docs-heading")}>
                                         {"Yewprint"}
                                     </div>
                                     <a
-                                        class=classes!("bp3-text-muted")
+                                        class={classes!("bp3-text-muted")}
                                         href="https://github.com/yewprint/yewprint"
                                         target="_blank"
                                     >

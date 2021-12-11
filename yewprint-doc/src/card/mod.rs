@@ -42,16 +42,16 @@ impl Component for CardDoc {
 
         html! {
             <div>
-                <H1 class=classes!("docs-title")>{"Card"}</H1>
+                <H1 class={classes!("docs-title")}>{"Card"}</H1>
                 <SourceCodeUrl />
                 <ExampleContainer
-                    source=source
-                    props=Some(html! {
+                    source={source}
+                    props={Some(html! {
                         <CardProps
                             callback={self.callback.clone()}
                             props=example_props.clone()
                         />
-                    })
+                    })}
                 >
                     <Example with example_props />
                 </ExampleContainer>
