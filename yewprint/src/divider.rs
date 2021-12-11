@@ -18,8 +18,8 @@ impl Component for Divider {
     type Message = ();
     type Properties = DividerProps;
 
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        Self { props }
+    fn create(ctx: &Context<Self>) -> Self {
+        Self { props: ctx.props() }
     }
 
     fn update(&mut self, _: Self::Message) -> bool {

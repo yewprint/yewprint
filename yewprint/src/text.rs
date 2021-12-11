@@ -26,8 +26,8 @@ impl Component for Text {
     type Message = ();
     type Properties = TextProps;
 
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        Text { props }
+    fn create(ctx: &Context<Self>) -> Self {
+        Self { props: ctx.props() }
     }
 
     fn update(&mut self, _msg: Self::Message) -> bool {

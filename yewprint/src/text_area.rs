@@ -29,8 +29,8 @@ impl Component for TextArea {
     type Message = ();
     type Properties = TextAreaProps;
 
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        TextArea { props }
+    fn create(ctx: &Context<Self>) -> Self {
+        Self { props: ctx.props() }
     }
 
     fn update(&mut self, _msg: Self::Message) -> bool {

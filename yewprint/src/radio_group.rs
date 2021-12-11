@@ -28,8 +28,8 @@ impl<T: Clone + PartialEq + 'static> Component for RadioGroup<T> {
     type Message = ();
     type Properties = RadioGroupProps<T>;
 
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        Self { props }
+    fn create(ctx: &Context<Self>) -> Self {
+        Self { props: ctx.props() }
     }
 
     fn update(&mut self, _: Self::Message) -> bool {

@@ -30,8 +30,8 @@ impl Component for Spinner {
     type Message = ();
     type Properties = SpinnerProps;
 
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        Spinner { props }
+    fn create(ctx: &Context<Self>) -> Self {
+        Self { props: ctx.props() }
     }
 
     fn update(&mut self, _msg: Self::Message) -> bool {

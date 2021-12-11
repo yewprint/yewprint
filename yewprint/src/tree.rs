@@ -112,9 +112,9 @@ impl<T: Clone + PartialEq + 'static> Component for Tree<T> {
     type Message = ();
     type Properties = TreeProps<T>;
 
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        Tree {
-            props,
+    fn create(ctx: &Context<Self>) -> Self {
+        Self {
+            props: ctx.props(),
             previous_expanded_state: Default::default(),
         }
     }

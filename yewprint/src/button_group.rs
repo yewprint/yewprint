@@ -27,8 +27,8 @@ impl Component for ButtonGroup {
     type Message = ();
     type Properties = ButtonGroupProps;
 
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        Self { props }
+    fn create(ctx: &Context<Self>) -> Self {
+        Self { props: ctx.props() }
     }
 
     fn update(&mut self, _: Self::Message) -> bool {

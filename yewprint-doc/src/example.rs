@@ -92,8 +92,8 @@ macro_rules! build_example_prop_component {
             type Message = ();
             type Properties = Self;
 
-            fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-                props
+            fn create(ctx: &Context<Self>) -> Self {
+                props: ctx.props()
             }
 
             fn update(&mut self, _msg: Self::Message) -> bool {

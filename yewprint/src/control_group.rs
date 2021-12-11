@@ -22,8 +22,8 @@ impl Component for ControlGroup {
     type Message = ();
     type Properties = ControlGroupProps;
 
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        Self { props }
+    fn create(ctx: &Context<Self>) -> Self {
+        Self { props: ctx.props() }
     }
 
     fn update(&mut self, _: Self::Message) -> bool {

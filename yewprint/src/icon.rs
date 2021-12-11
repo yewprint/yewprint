@@ -37,8 +37,8 @@ impl Component for Icon {
     type Message = ();
     type Properties = IconProps;
 
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        Icon { props }
+    fn create(ctx: &Context<Self>) -> Self {
+        Self { props: ctx.props() }
     }
 
     fn update(&mut self, _msg: Self::Message) -> bool {

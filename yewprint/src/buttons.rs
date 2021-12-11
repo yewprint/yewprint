@@ -44,8 +44,8 @@ impl Component for Button {
     type Message = ();
     type Properties = ButtonProps;
 
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        Button { props }
+    fn create(ctx: &Context<Self>) -> Self {
+        Self { props: ctx.props() }
     }
 
     fn update(&mut self, _msg: Self::Message) -> bool {

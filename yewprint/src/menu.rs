@@ -21,8 +21,8 @@ impl Component for Menu {
     type Message = ();
     type Properties = MenuProps;
 
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        Menu { props }
+    fn create(ctx: &Context<Self>) -> Self {
+        Self { props: ctx.props() }
     }
 
     fn update(&mut self, _msg: Self::Message) -> bool {
@@ -84,8 +84,8 @@ impl Component for MenuItem {
     type Message = ();
     type Properties = MenuItemProps;
 
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        MenuItem { props }
+    fn create(ctx: &Context<Self>) -> Self {
+        Self { props: ctx.props() }
     }
 
     fn update(&mut self, _msg: Self::Message) -> bool {
@@ -160,8 +160,8 @@ impl Component for MenuDivider {
     type Message = ();
     type Properties = MenuDividerProps;
 
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        Self { props }
+    fn create(ctx: &Context<Self>) -> Self {
+        Self { props: ctx.props() }
     }
 
     fn update(&mut self, _msg: Self::Message) -> bool {

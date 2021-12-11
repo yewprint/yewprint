@@ -14,8 +14,8 @@ impl Component for Example {
     type Message = ();
     type Properties = ExampleProps;
 
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        Example { props }
+    fn create(ctx: &Context<Self>) -> Self {
+        Self { props: ctx.props() }
     }
 
     fn update(&mut self, _msg: Self::Message) -> bool {

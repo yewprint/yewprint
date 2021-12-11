@@ -34,8 +34,9 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
     type Message = ();
     type Properties = TabsProps<T>;
 
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        let tab_refs = props
+    fn create(ctx: &Context<Self>) -> Self {
+        let tab_refs = ctx
+            .props()
             .tabs
             .iter()
             .map(|x| {
@@ -46,8 +47,8 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
             })
             .collect::<HashMap<_, _>>();
 
-        Tabs {
-            props,
+        Self {
+            props: ctx.props(),
             tab_refs,
             indicator_ref: Default::default(),
         }

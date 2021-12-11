@@ -47,8 +47,8 @@ impl Component for Tag {
     type Message = ();
     type Properties = TagProps;
 
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        Tag { props }
+    fn create(ctx: &Context<Self>) -> Self {
+        Self { props: ctx.props() }
     }
 
     fn update(&mut self, _msg: Self::Message) -> bool {
