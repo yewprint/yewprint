@@ -14,7 +14,7 @@ impl Component for Logo {
     type Message = ();
     type Properties = LogoProps;
 
-    fn create(props: Self::Properties, _: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         Self { props }
     }
 
@@ -22,7 +22,7 @@ impl Component for Logo {
         todo!()
     }
 
-    fn change(&mut self, props: Self::Properties) -> bool {
+    fn change(&mut self, ctx: &Context<Self>) -> bool {
         if props != self.props {
             self.props = props;
             true

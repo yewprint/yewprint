@@ -3,7 +3,7 @@ use yewprint::{IconName, Intent, Tag};
 
 pub struct Example {
     props: ExampleProps,
-    link: ComponentLink<Self>,
+    link: &html::Scope<Self>,
     tags: Vec<String>,
 }
 
@@ -33,8 +33,8 @@ impl Component for Example {
     type Message = ExampleMsg;
     type Properties = ExampleProps;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
-        let tags = props.initial_tags.clone();
+    fn create(ctx: &Context<Self>) -> Self {
+        let tags = ctx.props().initial_tags.clone();
         Example { props, link, tags }
     }
 
@@ -53,10 +53,10 @@ impl Component for Example {
         true
     }
 
-    fn change(&mut self, props: Self::Properties) -> bool {
+    fn change(&mut self, ctx: &Context<Self>) -> bool {
         if self.props != props {
-            if self.props.reset_tags != props.reset_tags {
-                self.tags = props.initial_tags.clone();
+            if self.props.reset_tags != ctx.props().reset_tags {
+                self.tags = ctx.props().initial_tags.clone();
             }
             self.props = props;
             true

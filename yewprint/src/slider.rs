@@ -9,7 +9,7 @@ pub struct Slider<T: Clone + PartialEq + 'static> {
     props: SliderProps<T>,
     mouse_move: Closure<dyn FnMut(MouseEvent)>,
     mouse_up: Closure<dyn FnMut(MouseEvent)>,
-    link: ComponentLink<Self>,
+    link: &html::Scope<Self>,
     handle_ref: NodeRef,
     track_ref: NodeRef,
     is_moving: bool,
@@ -42,17 +42,17 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
     type Message = Msg;
     type Properties = SliderProps<T>;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         let mouse_move = {
-            let link = link.clone();
+            let link = ctx.link().clone();
             Closure::wrap(Box::new(move |event: web_sys::MouseEvent| {
-                link.send_message(Msg::Mouse(event));
+                ctx.link().send_message(Msg::Mouse(event));
             }) as Box<dyn FnMut(_)>)
         };
         let mouse_up = {
-            let link = link.clone();
+            let link = ctx.link().clone();
             Closure::wrap(Box::new(move |_event: web_sys::MouseEvent| {
-                link.send_message(Msg::StopChange);
+                ctx.link().send_message(Msg::StopChange);
             }) as Box<dyn FnMut(_)>)
         };
         Self {

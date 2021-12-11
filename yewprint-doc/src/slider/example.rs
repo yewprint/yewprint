@@ -7,7 +7,7 @@ pub struct Example {
     float: f64,
     integer: i32,
     log_level: Option<LogLevel>,
-    link: ComponentLink<Self>,
+    link: &html::Scope<Self>,
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -27,7 +27,7 @@ impl Component for Example {
     type Message = Msg;
     type Properties = ExampleProps;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         Example {
             props,
             float: 1.2,

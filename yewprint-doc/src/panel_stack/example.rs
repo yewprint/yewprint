@@ -2,7 +2,7 @@ use yew::prelude::*;
 use yewprint::{Button, Intent, PanelStack, PanelStackState, Text};
 
 pub struct Example {
-    link: ComponentLink<Self>,
+    link: &html::Scope<Self>,
     props: ExampleProps,
     state: PanelStackState,
 }
@@ -23,7 +23,7 @@ impl Component for Example {
     type Message = ExampleMessage;
     type Properties = ExampleProps;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         let state = PanelStackState::new(html! {
             <div class={classes!("docs-panel-stack-contents-example")}>
                 <div>{"Hello World!"}</div>
@@ -87,7 +87,7 @@ impl Component for Example {
 // Second panel: a simple counter
 
 pub struct Panel2 {
-    link: ComponentLink<Self>,
+    link: &html::Scope<Self>,
     counter: i64,
 }
 
@@ -99,7 +99,7 @@ impl Component for Panel2 {
     type Message = Panel2Message;
     type Properties = ();
 
-    fn create(_props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         Panel2 { counter: 0, link }
     }
 
@@ -112,7 +112,7 @@ impl Component for Panel2 {
         }
     }
 
-    fn change(&mut self, _props: Self::Properties) -> bool {
+    fn change(&mut self, _ctx: &Context<Self>) -> bool {
         false
     }
 

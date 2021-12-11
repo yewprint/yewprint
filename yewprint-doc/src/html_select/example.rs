@@ -3,7 +3,7 @@ use yewprint::{HtmlSelect, Text};
 
 pub struct Example {
     props: ExampleProps,
-    link: ComponentLink<Self>,
+    link: &html::Scope<Self>,
     log_level: LogLevel,
 }
 
@@ -19,7 +19,7 @@ impl Component for Example {
     type Message = LogLevel;
     type Properties = ExampleProps;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         Example {
             props,
             link,

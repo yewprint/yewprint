@@ -14,9 +14,9 @@ impl Component for RadioDoc {
     type Message = ExampleProps;
     type Properties = ();
 
-    fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         RadioDoc {
-            callback: link.callback(|x| x),
+            callback: ctx.link().callback(|x| x),
             state: ExampleProps {
                 disabled: false,
                 inline: false,
@@ -30,7 +30,7 @@ impl Component for RadioDoc {
         true
     }
 
-    fn change(&mut self, _props: Self::Properties) -> bool {
+    fn change(&mut self, _ctx: &Context<Self>) -> bool {
         true
     }
 

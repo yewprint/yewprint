@@ -3,7 +3,7 @@ use yew::prelude::*;
 
 pub struct HtmlSelect<T: Clone + PartialEq + 'static> {
     props: HtmlSelectProps<T>,
-    link: ComponentLink<Self>,
+    link: &html::Scope<Self>,
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -33,7 +33,7 @@ impl<T: Clone + PartialEq + 'static> Component for HtmlSelect<T> {
     type Message = ChangeData;
     type Properties = HtmlSelectProps<T>;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         Self { props, link }
     }
 

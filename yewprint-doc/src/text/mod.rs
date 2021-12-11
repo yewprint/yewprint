@@ -14,9 +14,9 @@ impl Component for TextDoc {
     type Message = ExampleProps;
     type Properties = ();
 
-    fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         TextDoc {
-            callback: link.callback(|x| x),
+            callback: ctx.link().callback(|x| x),
             state: ExampleProps {
                 ellipsize: false,
                 text: String::from("Hello, world!"),
@@ -29,7 +29,7 @@ impl Component for TextDoc {
         true
     }
 
-    fn change(&mut self, _props: Self::Properties) -> bool {
+    fn change(&mut self, _ctx: &Context<Self>) -> bool {
         true
     }
 

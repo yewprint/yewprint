@@ -251,11 +251,11 @@ impl Component for TreeNode {
     type Message = TreeNodeMessage;
     type Properties = TreeNodeProps;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         TreeNode {
-            handler_caret_click: link.callback(TreeNodeMessage::CaretClick),
-            handler_click: link.callback(TreeNodeMessage::Click),
-            props,
+            handler_caret_click: ctx.link().callback(TreeNodeMessage::CaretClick),
+            handler_click: ctx.link().callback(TreeNodeMessage::Click),
+            props: ctx.props(),
         }
     }
 
@@ -286,12 +286,12 @@ impl Component for TreeNode {
         false
     }
 
-    fn change(&mut self, props: Self::Properties) -> bool {
+    fn change(&mut self, ctx: &Context<Self>) -> bool {
         if self.props != props {
             // crate::log!(
             //     "rerender {:?} {} {:?}",
             //     self.props.node_id,
-            //     self.props.children == props.children,
+            //     self.props.children == ctx.props().children,
             //     self.props.icon,
             // );
             self.props = props;

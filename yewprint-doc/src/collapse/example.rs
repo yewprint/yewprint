@@ -2,7 +2,7 @@ use yew::prelude::*;
 use yewprint::{Button, Collapse};
 
 pub struct Example {
-    link: ComponentLink<Self>,
+    link: &html::Scope<Self>,
     collapsed: bool,
 }
 
@@ -14,7 +14,7 @@ impl Component for Example {
     type Message = Msg;
     type Properties = ();
 
-    fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         Example {
             collapsed: true,
             link,
@@ -28,7 +28,7 @@ impl Component for Example {
         true
     }
 
-    fn change(&mut self, _props: Self::Properties) -> bool {
+    fn change(&mut self, _ctx: &Context<Self>) -> bool {
         true
     }
 

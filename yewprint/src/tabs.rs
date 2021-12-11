@@ -109,7 +109,7 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
                                 <div
                                     class={classes!(
                                         "bp3-tab",
-                                        props.title_class.clone(),
+                                        ctx.props().title_class.clone(),
                                     )}
                                     aria-disabled=props.disabled.then(|| "true")
                                     aria-expanded=selected.to_string()
@@ -120,7 +120,7 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
                                     aria-controls=panel_id.to_string()
                                     data-tab-id=id.to_string()
                                     onclick={(!props.disabled).then(|| {
-                                        let tab_id = props.id.clone();
+                                        let tab_id = ctx.props().id.clone();
                                         self
                                             .props
                                             .onchange
@@ -129,7 +129,7 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
                                     key=*id
                                     ref=self.tab_refs[id].clone()
                                 >
-                                    { props.title.clone() }
+                                    { ctx.props().title.clone() }
                                 </div>
                             })
                             .collect::<Html>()
@@ -145,7 +145,7 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
                             <div
                                 class={classes!(
                                     "bp3-tab-panel",
-                                    selected.then(|| props.panel_class.clone()),
+                                    selected.then(|| ctx.props().panel_class.clone()),
                                 )}
                                 aria-labelledby={title_id.to_string()}
                                 aria-hidden={(!selected).then(|| "true")}
@@ -153,7 +153,7 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
                                 id={panel_id.to_string()}
                                 key={*id}
                             >
-                                { props.panel.clone() }
+                                { ctx.props().panel.clone() }
                             </div>
                         })
                         .collect::<Html>()

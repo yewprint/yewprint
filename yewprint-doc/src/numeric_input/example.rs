@@ -4,7 +4,7 @@ use yewprint::{Button, Callout, IconName, Intent, NumericInput};
 
 pub struct Example {
     props: ExampleProps,
-    link: ComponentLink<Self>,
+    link: &html::Scope<Self>,
     value: i32,
     value_two: i32,
 }
@@ -29,7 +29,7 @@ impl Component for Example {
     type Message = Msg;
     type Properties = ExampleProps;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         Example {
             props,
             link,

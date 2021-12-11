@@ -2,7 +2,7 @@ use yew::prelude::*;
 use yewprint::{Tab, Tabs};
 
 pub struct Example {
-    link: ComponentLink<Self>,
+    link: &html::Scope<Self>,
     props: ExampleProps,
     selected: Civilization,
 }
@@ -17,7 +17,7 @@ impl Component for Example {
     type Message = Civilization;
     type Properties = ExampleProps;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         Example {
             link,
             props,

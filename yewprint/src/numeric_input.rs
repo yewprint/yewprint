@@ -17,7 +17,7 @@ where
         + 'static,
 {
     props: NumericInputProps<T>,
-    link: ComponentLink<Self>,
+    link: &html::Scope<Self>,
     input: String,
 }
 
@@ -84,7 +84,7 @@ where
     type Message = Msg;
     type Properties = NumericInputProps<T>;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         Self {
             props,
             link,
@@ -107,10 +107,10 @@ where
         }
     }
 
-    fn change(&mut self, props: Self::Properties) -> bool {
+    fn change(&mut self, ctx: &Context<Self>) -> bool {
         if self.props != props {
-            if self.props.value != props.value {
-                self.input = props.value.to_string();
+            if self.props.value != ctx.props().value {
+                self.input = ctx.props().value.to_string();
             }
             self.props = props;
             true

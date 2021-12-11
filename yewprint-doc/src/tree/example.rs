@@ -17,7 +17,7 @@ impl Component for Example {
     type Message = Msg;
     type Properties = ();
 
-    fn create(_props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         let mut tree = TreeBuilder::new().build();
         let root_id = tree
             .insert(
@@ -81,8 +81,8 @@ impl Component for Example {
 
         Self {
             tree: tree.into(),
-            callback_expand_node: link.callback(|(node_id, _)| Msg::ExpandNode(node_id)),
-            callback_select_node: link.callback(|(node_id, _)| Msg::SelectNode(node_id)),
+            callback_expand_node: ctx.link().callback(|(node_id, _)| Msg::ExpandNode(node_id)),
+            callback_select_node: ctx.link().callback(|(node_id, _)| Msg::SelectNode(node_id)),
         }
     }
 
@@ -109,7 +109,7 @@ impl Component for Example {
         true
     }
 
-    fn change(&mut self, _props: Self::Properties) -> bool {
+    fn change(&mut self, _ctx: &Context<Self>) -> bool {
         true
     }
 

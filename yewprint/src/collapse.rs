@@ -14,7 +14,7 @@ pub struct Collapse {
     callback_delayed_state_change: Callback<()>,
     handle_delayed_state_change: Option<Box<dyn Task>>,
     props: CollapseProps,
-    link: ComponentLink<Self>,
+    link: &html::Scope<Self>,
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -52,33 +52,33 @@ impl Component for Collapse {
     type Message = ();
     type Properties = CollapseProps;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         Collapse {
-            height: if props.is_open {
+            height: if ctx.props().is_open {
                 Height::Auto
             } else {
                 Height::Zero
             },
             overflow_visible: false,
             translated: false,
-            render_children: props.is_open || props.keep_children_mounted,
+            render_children: ctx.props().is_open || ctx.props().keep_children_mounted,
             height_when_open: None,
-            animation_state: if props.is_open {
+            animation_state: if ctx.props().is_open {
                 AnimationState::Open
             } else {
                 AnimationState::Closed
             },
             contents_ref: NodeRef::default(),
-            callback_delayed_state_change: link.callback(|_| ()),
+            callback_delayed_state_change: ctx.link().callback(|_| ()),
             handle_delayed_state_change: None,
-            props,
-            link,
+            props: ctx.props(),
+            link: ctx.link(),
         }
     }
 
-    fn change(&mut self, props: Self::Properties) -> bool {
+    fn change(&mut self, ctx: &Context<Self>) -> bool {
         if self.props != props {
-            if props.is_open {
+            if ctx.props().is_open {
                 match self.animation_state {
                     AnimationState::Open | AnimationState::Opening => {}
                     _ => {

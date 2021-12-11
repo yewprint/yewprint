@@ -28,9 +28,9 @@ impl Component for TagDoc {
     type Message = ExampleProps;
     type Properties = ();
 
-    fn create(_props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         TagDoc {
-            callback: link.callback(|x| x),
+            callback: ctx.link().callback(|x| x),
             state: ExampleProps {
                 initial_tags: initial_tags(),
                 active: false,
@@ -54,7 +54,7 @@ impl Component for TagDoc {
         true
     }
 
-    fn change(&mut self, _props: Self::Properties) -> bool {
+    fn change(&mut self, _ctx: &Context<Self>) -> bool {
         true
     }
 
@@ -192,7 +192,7 @@ crate::build_example_prop_component! {
                             <Button
                                 icon={IconName::Refresh}
                                 onclick={self.update_props(|props, _| ExampleProps {
-                                    reset_tags: props.reset_tags + 1,
+                                    reset_tags: ctx.props().reset_tags + 1,
                                     ..props
                                 })}
                             >

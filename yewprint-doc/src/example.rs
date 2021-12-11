@@ -4,7 +4,7 @@ use yewprint::{Button, Collapse, IconName, Intent};
 pub struct ExampleContainer {
     collapsed: bool,
     props: ExampleContainerProps,
-    link: ComponentLink<Self>,
+    link: &html::Scope<Self>,
 }
 
 pub enum Msg {
@@ -23,7 +23,7 @@ impl Component for ExampleContainer {
     type Message = Msg;
     type Properties = ExampleContainerProps;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         ExampleContainer {
             collapsed: true,
             props,
@@ -100,10 +100,10 @@ macro_rules! build_example_prop_component {
                 true
             }
 
-            fn change(&mut self, props: Self::Properties) -> bool {
-                if self.props != props.props || self.callback != props.callback {
-                    self.props = props.props;
-                    self.callback = props.callback;
+            fn change(&mut self, ctx: &Context<Self>) -> bool {
+                if self.props != ctx.props().props || self.callback != ctx.props().callback {
+                    self.props = ctx.props().props;
+                    self.callback = ctx.props().callback;
                     true
                 } else {
                     false

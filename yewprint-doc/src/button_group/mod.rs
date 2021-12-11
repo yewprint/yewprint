@@ -14,9 +14,9 @@ impl Component for ButtonGroupDoc {
     type Message = ExampleProps;
     type Properties = ();
 
-    fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         ButtonGroupDoc {
-            callback: link.callback(|x| x),
+            callback: ctx.link().callback(|x| x),
             state: ExampleProps {
                 minimal: false,
                 fill: false,
@@ -31,7 +31,7 @@ impl Component for ButtonGroupDoc {
         true
     }
 
-    fn change(&mut self, _props: Self::Properties) -> bool {
+    fn change(&mut self, _ctx: &Context<Self>) -> bool {
         true
     }
 

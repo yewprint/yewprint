@@ -14,9 +14,9 @@ impl Component for ControlGroupDoc {
     type Message = ExampleProps;
     type Properties = ();
 
-    fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         ControlGroupDoc {
-            callback: link.callback(|x| x),
+            callback: ctx.link().callback(|x| x),
             state: ExampleProps {
                 fill: false,
                 vertical: false,
@@ -29,7 +29,7 @@ impl Component for ControlGroupDoc {
         true
     }
 
-    fn change(&mut self, _props: Self::Properties) -> bool {
+    fn change(&mut self, _ctx: &Context<Self>) -> bool {
         true
     }
 

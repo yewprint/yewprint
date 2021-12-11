@@ -3,7 +3,7 @@ use yewprint::{Label, Radio, RadioGroup};
 
 pub struct Example {
     props: ExampleProps,
-    link: ComponentLink<Self>,
+    link: &html::Scope<Self>,
     selected_value: Lunch,
 }
 
@@ -22,7 +22,7 @@ impl Component for Example {
     type Message = Msg;
     type Properties = ExampleProps;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         Example {
             props,
             selected_value: Lunch::Salad,

@@ -2,7 +2,7 @@ use yew::prelude::*;
 use yewprint::{Button, IconName, InputGroup, Tag};
 
 pub struct Example {
-    link: ComponentLink<Self>,
+    link: &html::Scope<Self>,
     props: ExampleProps,
     histogram_value: String,
     password_value: String,
@@ -41,7 +41,7 @@ impl Component for Example {
     type Message = Msg;
     type Properties = ExampleProps;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         Example {
             props,
             link,

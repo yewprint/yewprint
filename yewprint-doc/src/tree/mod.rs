@@ -11,7 +11,7 @@ impl Component for TreeDoc {
     type Message = ();
     type Properties = ();
 
-    fn create(_: Self::Properties, _link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         TreeDoc
     }
 
@@ -19,7 +19,7 @@ impl Component for TreeDoc {
         true
     }
 
-    fn change(&mut self, _props: Self::Properties) -> bool {
+    fn change(&mut self, _ctx: &Context<Self>) -> bool {
         true
     }
 

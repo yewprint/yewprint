@@ -121,7 +121,7 @@ impl From<StateAction> for Classes {
 pub struct PanelStack {
     timeout_task: Option<TimeoutTask>,
     props: PanelStackProps,
-    link: ComponentLink<Self>,
+    link: &html::Scope<Self>,
 }
 
 #[derive(Debug, Clone, PartialEq, Properties)]
@@ -141,11 +141,11 @@ impl Component for PanelStack {
     type Message = PanelStackMessage;
     type Properties = PanelStackProps;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         Self {
             timeout_task: None,
-            props,
-            link,
+            props: ctx.props(),
+            link: ctx.link(),
         }
     }
 
@@ -220,7 +220,7 @@ struct Panel {
     animation: Animation,
     timeout_task: Option<TimeoutTask>,
     props: PanelProps,
-    link: ComponentLink<Self>,
+    link: &html::Scope<Self>,
 }
 
 #[derive(Debug, Clone, PartialEq, Properties)]
@@ -240,12 +240,12 @@ impl Component for Panel {
     type Message = PanelMessage;
     type Properties = PanelProps;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         Self {
-            animation: props.animation,
+            animation: ctx.props().animation,
             timeout_task: None,
-            props,
-            link,
+            props: ctx.props(),
+            link: ctx.link(),
         }
     }
 
@@ -258,9 +258,9 @@ impl Component for Panel {
         }
     }
 
-    fn change(&mut self, props: Self::Properties) -> bool {
+    fn change(&mut self, ctx: &Context<Self>) -> bool {
         if self.props != props {
-            self.animation = props.animation;
+            self.animation = ctx.props().animation;
             self.props = props;
             true
         } else {

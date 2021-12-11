@@ -4,7 +4,7 @@ use yew::prelude::*;
 use yewprint::{Icon, IconName, Menu, MenuDivider, MenuItem};
 
 pub struct Example {
-    link: ComponentLink<Self>,
+    link: &html::Scope<Self>,
 }
 
 pub enum Msg {
@@ -15,7 +15,7 @@ impl Component for Example {
     type Message = Msg;
     type Properties = ();
 
-    fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         Self { link }
     }
 
@@ -23,7 +23,7 @@ impl Component for Example {
         true
     }
 
-    fn change(&mut self, _props: Self::Properties) -> bool {
+    fn change(&mut self, _ctx: &Context<Self>) -> bool {
         true
     }
 

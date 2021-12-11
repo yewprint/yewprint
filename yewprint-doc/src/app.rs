@@ -32,7 +32,7 @@ use yew_router::{
 use yewprint::{IconName, Menu, MenuItem};
 
 pub struct App {
-    link: ComponentLink<Self>,
+    link: &html::Scope<Self>,
     dark_theme: bool,
     route_dispatcher: RouteAgentDispatcher,
 }
@@ -46,7 +46,7 @@ impl Component for App {
     type Message = Msg;
     type Properties = ();
 
-    fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         App {
             dark_theme: web_sys::window()
                 .and_then(|x| x.match_media("(prefers-color-scheme: dark)").ok().flatten())
@@ -68,7 +68,7 @@ impl Component for App {
         true
     }
 
-    fn change(&mut self, _props: Self::Properties) -> bool {
+    fn change(&mut self, _ctx: &Context<Self>) -> bool {
         true
     }
 

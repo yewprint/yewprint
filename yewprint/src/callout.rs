@@ -34,14 +34,6 @@ impl Component for Callout {
         true
     }
 
-    fn change(&mut self, props: Self::Properties) -> bool {
-        if self.props == props {
-            return false;
-        }
-        self.props = props;
-        true
-    }
-
     fn view(&self) -> Html {
         let icon = if self.props.without_icon {
             None

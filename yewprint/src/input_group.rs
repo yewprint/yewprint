@@ -5,7 +5,7 @@ const MIN_HORIZONTAL_PADDING: i32 = 10;
 
 pub struct InputGroup {
     props: InputGroupProps,
-    link: ComponentLink<Self>,
+    link: &html::Scope<Self>,
     left_element_ref: NodeRef,
     left_element_width: Option<i32>,
     right_element_ref: NodeRef,
@@ -91,7 +91,7 @@ impl Component for InputGroup {
     type Message = ();
     type Properties = InputGroupProps;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         Self {
             props,
             link,
