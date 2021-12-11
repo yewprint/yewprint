@@ -62,10 +62,10 @@ impl Component for Callout {
             self.props.intent,
         );
         html! {
-            <div class=classes>
+            <div class={classes}>
                 {
                     icon.iter()
-                        .map(|name| html!{<Icon icon=*name icon_size=ICON_SIZE_LARGE/>})
+                        .map(|name| html!{<Icon icon={*name icon_size=ICON_SIZE_LARGE}/>})
                         .collect::<Html>()
                 }
                 {

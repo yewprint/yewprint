@@ -42,12 +42,12 @@ impl Component for Card {
 
     fn view(&self) -> Html {
         html! {
-            <div class=classes!(
+            <div class={classes!(
                 "bp3-card",
                 self.props.class.clone(),
                 self.props.elevation,
                 self.props.interactive.then(|| "bp3-interactive"),
-            )
+            )}
             onclick={self.props.onclick.clone()}>
                 {self.props.children.clone()}
             </div>

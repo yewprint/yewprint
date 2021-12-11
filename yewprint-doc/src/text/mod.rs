@@ -42,17 +42,17 @@ impl Component for TextDoc {
 
         html! {
             <div>
-                <H1 class=classes!("docs-title")>{"Text"}</H1>
+                <H1 class={classes!("docs-title")}>{"Text"}</H1>
                 <SourceCodeUrl />
                 <div>
                     <ExampleContainer
-                        source=source
-                        props=Some(html! {
+                        source={source}
+                        props={Some(html! {
                             <TextProps
                                 callback={self.callback.clone()}
                                 props=example_props.clone()
                             />
-                        })
+                        })}
                     >
                         <Example with example_props />
                     </ExampleContainer>
@@ -69,16 +69,16 @@ crate::build_example_prop_component! {
                 <div>
                     <H5>{"Props"}</H5>
                     <Switch
-                        onclick=self.update_props(|props, _| ExampleProps {
+                        onclick={self.update_props(|props, _| ExampleProps {
                             ellipsize: !props.ellipsize,
                             ..props
-                        })
-                        checked=self.props.ellipsize
-                        label=html!("Ellipsize")
+                        })}
+                        checked={self.props.ellipsize}
+                        label={html!("Ellipsize")}
                     />
                     <input
                         class="bp3-input"
-                        onchange=self.update_props(|props, e|
+                        onchange=s{elf.update_props(|props, e|
                             match e {
                                 ChangeData::Value(text) => {
                                     ExampleProps {
@@ -92,7 +92,7 @@ crate::build_example_prop_component! {
                                         ..props
                                     }
                                 }
-                        })
+                        })}
                         type="text"
                         value={self.props.text.clone()}
                     />

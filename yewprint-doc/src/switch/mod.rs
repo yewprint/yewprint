@@ -43,17 +43,17 @@ impl Component for SwitchDoc {
 
         html! {
             <div>
-                <H1 class=classes!("docs-title")>{"Switch"}</H1>
+                <H1 class={classes!("docs-title")}>{"Switch"}</H1>
                 <SourceCodeUrl />
                 <ExampleContainer
-                    source=source
-                    props=Some(html! {
+                    source={source}
+                    props={Some(html! {
                         <SwitchProps
                             callback={self.callback.clone()}
                             props=example_props.clone()
                         >
                         </SwitchProps>
-                    })
+                    })}
                 >
                     <Example with example_props />
                 </ExampleContainer>
@@ -69,28 +69,28 @@ crate::build_example_prop_component! {
             <div>
                 <H5>{"Props"}</H5>
                 <Switch
-                    onclick=self.update_props(|props, _| ExampleProps {
+                    onclick={self.update_props(|props, _| ExampleProps {
                         disabled: !props.disabled,
                         ..props
-                    })
-                    checked=self.props.disabled
-                    label=html!("Disabled")
+                    })}
+                    checked={self.props.disabled}
+                    label={html!("Disabled")}
                 />
                 <Switch
-                    onclick=self.update_props(|props, _| ExampleProps {
+                    onclick={self.update_props(|props, _| ExampleProps {
                         inline: !props.inline,
                         ..props
-                    })
-                    checked=self.props.inline
-                    label=html!("Inline")
+                    })}
+                    checked={self.props.inline}
+                    label={html!("Inline")}
                 />
                 <Switch
-                    onclick=self.update_props(|props, _| ExampleProps {
+                    onclick={self.update_props(|props, _| ExampleProps {
                         large: !props.large,
                         ..props
-                    })
-                    checked=self.props.large
-                    label=html!("Large")
+                    })}
+                    checked={self.props.large}
+                    label={html!("Large")}
                 />
             </div>
         }

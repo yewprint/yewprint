@@ -3647,7 +3647,7 @@ dependencies = [
  "wasm-bindgen",
  "web-sys",
  "wee_alloc",
- "yew 0.18.0",
+ "yew 0.19.3",
  "yew-router",
  "yewprint",
 ]

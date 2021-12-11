@@ -46,18 +46,18 @@ impl Component for Checkbox {
     fn view(&self) -> Html {
         html! {
             <label
-                class=classes!(
+                class={classes!(
                     "bp3-control", "bp3-checkbox",
                     self.props.disabled.then(|| "bp3-disabled"),
                     self.props.inline.then(|| "bp3-inline"),
                     self.props.large.then(|| "bp3-large")
-                )
+                )}
             >
                 <input
                     type="checkbox"
                     checked={self.props.checked}
                     onchange={self.props.onchange.clone()}
-                    disabled=self.props.disabled
+                    disabled={self.props.disabled}
                 />
                 <span
                     class="bp3-control-indicator"

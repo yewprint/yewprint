@@ -68,31 +68,31 @@ impl Component for Spinner {
 
         html! {
             <div
-                class=classes!(
+                class={classes!(
                     "bp3-spinner",
                     self.props.intent,
                     self.props.class.clone(),
-                )
+                )}
             >
                 <div
-                    class=classes!("bp3-spinner-animation")
+                    class={classes!("bp3-spinner-animation")}
                 >
                     <svg
-                        width=size.to_string()
-                        height=size.to_string()
-                        stroke-width=stroke_width.to_string()
-                        viewBox=view_box
+                        width={size.to_string()}
+                        height={size.to_string()}
+                        stroke-width={stroke_width.to_string()}
+                        viewBox={view_box}
                     >
                         <path
-                            class=classes!("bp3-spinner-track")
-                            d=spinner_track.clone()
+                            class={classes!("bp3-spinner-track")}
+                            d={spinner_track.clone()}
                         />
                         <path
-                            class=classes!("bp3-spinner-head")
-                            d=spinner_track
-                            pathLength=PATH_LENGTH.to_string()
-                            stroke-dasharray=format!("{} {}", PATH_LENGTH, PATH_LENGTH)
-                            stroke-dashoffset=stroke_offset.to_string()
+                            class={classes!("bp3-spinner-head")}
+                            d={spinner_track}
+                            pathLength={PATH_LENGTH.to_string()}
+                            stroke-dasharray={format!("{} {}", PATH_LENGTH, PATH_LENGTH)}
+                            stroke-dashoffset={stroke_offset.to_string()}
                         />
                     </svg>
                 </div>

@@ -142,11 +142,11 @@ impl<T: Clone + PartialEq + 'static> Component for Tree<T> {
         };
 
         html! {
-            <div class=classes!(
+            <div class={classes!(
                 "bp3-tree",
                 self.props.class.clone(),
-            )>
-                <ul class=classes!("bp3-tree-node-list")>
+            )}>
+                <ul class={classes!("bp3-tree-node-list")}>
                     {nodes}
                 </ul>
             </div>
@@ -182,21 +182,21 @@ impl<T: Clone> Tree<T> {
 
                 html! {
                     <TreeNode
-                        disabled=data.disabled
-                        has_caret=data.has_caret
-                        icon=data.icon
-                        icon_color=data.icon_color.clone()
-                        icon_intent=data.icon_intent
-                        is_expanded=data.is_expanded
-                        is_selected=data.is_selected
-                        label=data.label.clone()
-                        secondary_label=data.secondary_label.clone()
-                        on_collapse=self.props.on_collapse.clone()
-                        on_expand=self.props.on_expand.clone()
-                        onclick=self.props.onclick.clone()
-                        depth=depth
-                        node_id=node_id.clone()
-                        key=key
+                        disabled={data.disabled}
+                        has_caret={data.has_caret}
+                        icon={data.icon}
+                        icon_color={data.icon_color.clone()}
+                        icon_intent={data.icon_intent}
+                        is_expanded={data.is_expanded}
+                        is_selected={data.is_selected}
+                        label={data.label.clone()}
+                        secondary_label={data.secondary_label.clone()}
+                        on_collapse={self.props.on_collapse.clone()}
+                        on_expand={self.props.on_expand.clone()}
+                        onclick={self.props.onclick.clone()}
+                        depth={depth}
+                        node_id={node_id.clone()}
+                        key={key}
                     >
                         {inner_nodes}
                     </TreeNode>
@@ -314,14 +314,14 @@ impl Component for TreeNode {
         let content_style = format!("padding-left: {}px;", 23 * self.props.depth);
 
         html! {
-            <li class=classes!(
+            <li class={classes!(
                 "bp3-tree-node",
                 self.props.is_selected.then(|| "bp3-tree-node-selected")
-            )>
+            )}>
                 <div
                     class="bp3-tree-node-content"
-                    style=content_style
-                    onclick=self.handler_click.clone()
+                    style={content_style}
+                    onclick={self.handler_click.clone()}
                 >
                     {
                         if self.props.has_caret {
@@ -334,9 +334,9 @@ impl Component for TreeNode {
 
                             html! {
                                 <Icon
-                                    class=classes!(class.to_string())
-                                    icon=IconName::ChevronRight
-                                    onclick=self.handler_caret_click.clone()
+                                    class={classes!(class.to_string())}
+                                    icon={IconName::ChevronRight}
+                                    onclick={self.handler_caret_click.clone()}
                                 />
                             }
                         } else {
@@ -346,16 +346,16 @@ impl Component for TreeNode {
                         }
                     }
                     <Icon
-                        class=classes!("bp3-tree-node-icon")
-                        icon=self.props.icon.unwrap_or_default()
-                        color=self.props.icon_color.clone()
-                        intent=self.props.icon_intent
+                        class={classes!("bp3-tree-node-icon")}
+                        icon={self.props.icon.unwrap_or_default()}
+                        color={self.props.icon_color.clone()}
+                        intent={self.props.icon_intent}
                     />
-                    <span class=classes!("bp3-tree-node-label")>{self.props.label.clone()}</span>
+                    <span class={classes!("bp3-tree-node-label")}>{self.props.label.clone()}</span>
                     {
                         if let Some(label) = self.props.secondary_label.clone() {
                             html!(
-                                <span class=classes!("bp3-tree-node-secondary-label")>
+                                <span class={classes!("bp3-tree-node-secondary-label")}>
                                     {label}
                                 </span>
                             )
@@ -364,8 +364,8 @@ impl Component for TreeNode {
                         }
                     }
                 </div>
-                <Collapse is_open=self.props.is_expanded>
-                    <ul class=classes!("bp3-tree-node-list")>
+                <Collapse is_open={self.props.is_expanded}>
+                    <ul class={classes!("bp3-tree-node-list")}>
                         {self.props.children.clone()}
                     </ul>
                 </Collapse>

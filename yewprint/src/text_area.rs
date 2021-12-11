@@ -57,8 +57,8 @@ impl Component for TextArea {
         );
         html! {
             <textarea
-                class=classes
-                onchange=self.props.onchange.clone()
+                class={classes}
+                onchange={self.props.onchange.clone()}
             />
         }
     }

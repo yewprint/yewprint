@@ -19,7 +19,7 @@ impl Component for Example {
     fn view(&self) -> Html {
         html! {
             <div>
-                <Icon icon=IconName::Print />
+                <Icon icon={IconName::Print} />
             </div>
         }
     }

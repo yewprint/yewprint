@@ -107,8 +107,8 @@ macro_rules! build_source_code_component {
 
                 html! {
                     <a
-                        class=classes!("bp3-text-muted")
-                        href=self.url.clone()
+                        class={classes!("bp3-text-muted")}
+                        href={self.url.clone()}
                         target="_blank"
                     >
                         <Text>{"Go to source code"}</Text>

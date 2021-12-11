@@ -37,11 +37,11 @@ impl Component for Example {
 
         html! {
             <div>
-                <Button onclick=self.link.callback(|_| Msg::ToggleCollapse)>
+                <Button onclick={self.link.callback(|_| Msg::ToggleCollapse)}>
                     {"Toggle collapse"}
                 </Button>
                 <Collapse
-                    is_open=!self.collapsed
+                    is_open={!self.collapsed}
                     keep_children_mounted=true
                 >
                     <pre class="bp3-code-block">

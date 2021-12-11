@@ -38,11 +38,11 @@ impl Component for Divider {
     fn view(&self) -> Html {
         html! {
             <span
-                class=classes!(
+                class={classes!(
                     "bp3-divider",
                     self.props.vertical.then(|| "bp3-vertical"),
                     self.props.class.clone(),
-                )
+                )}
             />
         }
     }

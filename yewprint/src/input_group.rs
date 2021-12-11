@@ -129,7 +129,7 @@ impl Component for InputGroup {
 
         html! {
             <div
-                class=classes!(
+                class={classes!(
                     "bp3-input-group",
                     self.props.disabled.then(|| "bp3-disabled"),
                     self.props.fill.then(|| "bp3-fill"),
@@ -138,44 +138,44 @@ impl Component for InputGroup {
                     self.props.round.then(|| "bp3-round"),
                     self.props.placeholder.clone(),
                     self.props.class.clone(),
-                )
+                )}
             >
                 {
                     if let Some(left_element) = self.props.left_element.clone() {
                         html! {
                             <span
                                 class="bp3-input-left-container"
-                                ref=self.left_element_ref.clone()
+                                ref={self.left_element_ref.clone()}
                             >
                                 {left_element}
                             </span>
                         }
                     } else if let Some(icon) = self.props.left_icon {
                         html! {
-                            <Icon icon=icon />
+                            <Icon icon={icon} />
                         }
                     } else {
                         html!()
                     }
                 }
                 <input
-                    ref=self.props.input_ref.clone()
+                    ref={self.props.input_ref.clone()}
                     class="bp3-input"
-                    type=self.props.input_type.as_str()
-                    placeholder=self.props.placeholder.clone()
-                    disabled=self.props.disabled
+                    type={self.props.input_type.as_str()}
+                    placeholder={self.props.placeholder.clone()}
+                    disabled={self.props.disabled}
                     oninput={self.props.oninput.clone()}
                     onkeyup={self.props.onkeyup.clone()}
                     onkeydown={self.props.onkeydown.clone()}
-                    value=self.props.value.clone()
-                    style=input_style
+                    value={self.props.value.clone()}
+                    style={input_style}
                 />
                 {
                     if let Some(right_element) = self.props.right_element.clone() {
                         html! {
                             <span
                                 class="bp3-input-action"
-                                ref=self.right_element_ref.clone()
+                                ref={self.right_element_ref.clone()}
                             >
                                 {right_element}
                             </span>

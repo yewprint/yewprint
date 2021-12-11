@@ -113,169 +113,169 @@ impl Component for App {
                             </div>
                             <Menu>
                                 <MenuItem
-                                    text={html!(go_to_theme_label)}
-                                    onclick=self.link
-                                        .callback(|_| Msg::ToggleLight)
+                                    text={{html!(go_to_theme_label)}}
+                                    onclick={self.link
+                                        .callback(|_| Msg::ToggleLight)}
                                     icon=go_to_theme_icon
                                 />
                                 <MenuItem
                                     text={html!("Button")}
-                                    href=Cow::Borrowed("#button")
-                                    onclick=self.link
-                                        .callback(|_| Msg::GoToMenu(DocMenu::Button))
+                                    href={Cow::Borrowed("#button")}
+                                    onclick={self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Button))}
                                 />
                                 <MenuItem
                                     text={html!("ButtonGroup")}
-                                    href=Cow::Borrowed("#button-group")
-                                    onclick=self.link
-                                        .callback(|_| Msg::GoToMenu(DocMenu::ButtonGroup))
+                                    href={Cow::Borrowed("#button-group")}
+                                    onclick={self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::ButtonGroup))}
                                 />
                                 <MenuItem
                                     text={html!("Callout")}
-                                    href=Cow::Borrowed("#callout")
-                                    onclick=self.link
-                                        .callback(|_| Msg::GoToMenu(DocMenu::Callout))
+                                    href={Cow::Borrowed("#callout")}
+                                    onclick={self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Callout))}
                                 />
                                 <MenuItem
                                     text={html!("Card")}
-                                    href=Cow::Borrowed("#card")
-                                    onclick=self.link
-                                        .callback(|_| Msg::GoToMenu(DocMenu::Card))
+                                    href={Cow::Borrowed("#card")}
+                                    onclick={self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Card))}
                                 />
                                 <MenuItem
                                     text={html!("Checkbox")}
-                                    href=Cow::Borrowed("#checkbox")
-                                    onclick=self.link
-                                        .callback(|_| Msg::GoToMenu(DocMenu::Checkbox))
+                                    href={Cow::Borrowed("#checkbox")}
+                                    onclick={self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Checkbox))}
                                 />
                                 <MenuItem
                                     text={html!("Collapse")}
-                                    href=Cow::Borrowed("#collapse")
-                                    onclick=self.link
-                                        .callback(|_| Msg::GoToMenu(DocMenu::Collapse))
+                                    href={Cow::Borrowed("#collapse")}
+                                    onclick={self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Collapse))}
                                 />
                                 <MenuItem
                                     text={html!("ControlGroup")}
-                                    href=Cow::Borrowed("#control-group")
-                                    onclick=self.link
-                                        .callback(|_| Msg::GoToMenu(DocMenu::ControlGroup))
+                                    href={Cow::Borrowed("#control-group")}
+                                    onclick={self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::ControlGroup))}
                                     />
                                 <MenuItem
                                     text={html!("Divider")}
-                                    href=Cow::Borrowed("#divider")
-                                    onclick=self.link
-                                        .callback(|_| Msg::GoToMenu(DocMenu::Divider))
+                                    href={Cow::Borrowed("#divider")}
+                                    onclick={self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Divider))}
                                 />
                                 <MenuItem
                                     text={html!("HtmlSelect")}
-                                    href=Cow::Borrowed("#html-select")
-                                    onclick=self.link
-                                        .callback(|_| Msg::GoToMenu(DocMenu::HtmlSelect))
+                                    href={Cow::Borrowed("#html-select")}
+                                    onclick={self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::HtmlSelect))}
                                 />
                                 <MenuItem
                                     text={html!("Icon")}
-                                    href=Cow::Borrowed("#icon")
-                                    onclick=self.link
-                                        .callback(|_| Msg::GoToMenu(DocMenu::Icon))
+                                    href={Cow::Borrowed("#icon")}
+                                    onclick={self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Icon))}
                                 />
                                 <MenuItem
                                     text={html!("InputGroup")}
-                                    href=Cow::Borrowed("#input-group")
-                                    onclick=self.link
-                                        .callback(|_| Msg::GoToMenu(DocMenu::InputGroup))
+                                    href={Cow::Borrowed("#input-group")}
+                                    onclick={self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::InputGroup))}
                                 />
                                 <MenuItem
                                     text={html!("Menu")}
-                                    href=Cow::Borrowed("#menu")
-                                    onclick=self.link
-                                        .callback(|_| Msg::GoToMenu(DocMenu::Menu))
+                                    href={Cow::Borrowed("#menu")}
+                                    onclick={self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Menu))}
                                 />
                                 <MenuItem
                                     text={html!("NumericInput")}
-                                    href=Cow::Borrowed("#numeric-input")
-                                    onclick=self.link
-                                        .callback(|_| Msg::GoToMenu(DocMenu::NumericInput))
+                                    href={Cow::Borrowed("#numeric-input")}
+                                    onclick={self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::NumericInput))}
                                 />
                                 <MenuItem
                                     text={html!("PanelStack")}
-                                    href=Cow::Borrowed("#panel-stack")
-                                    onclick=self.link
-                                        .callback(|_| Msg::GoToMenu(DocMenu::PanelStack))
+                                    href={Cow::Borrowed("#panel-stack")}
+                                    onclick={self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::PanelStack))}
                                 />
                                 <MenuItem
                                     text={html!("ProgressBar")}
-                                    href=Cow::Borrowed("#progress-bar")
-                                    onclick=self.link
-                                        .callback(|_| Msg::GoToMenu(DocMenu::ProgressBar))
+                                    href={Cow::Borrowed("#progress-bar")}
+                                    onclick={self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::ProgressBar))}
                                 />
                                 <MenuItem
                                     text={html!("Radio")}
-                                    href=Cow::Borrowed("#radio")
-                                    onclick=self.link
-                                        .callback(|_| Msg::GoToMenu(DocMenu::Radio))
+                                    href={Cow::Borrowed("#radio")}
+                                    onclick={self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Radio))}
                                 />
                                 <MenuItem
                                     text={html!("Slider")}
-                                    href=Cow::Borrowed("#slider")
-                                    onclick=self.link.callback(|_| Msg::GoToMenu(DocMenu::Slider))
-                                />
+                                    href={Cow::Borrowed("#slider")}
+                                    onclick={self.link.callback(|_| Msg::GoToMenu(DocMenu::Slider))
+                                />}
                                 <MenuItem
                                     text={html!("Spinner")}
-                                    href=Cow::Borrowed("#spinner")
-                                    onclick=self.link
-                                        .callback(|_| Msg::GoToMenu(DocMenu::Spinner))
+                                    href={Cow::Borrowed("#spinner")}
+                                    onclick={self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Spinner))}
                                 />
                                 <MenuItem
                                     text={html!("Switch")}
-                                    href=Cow::Borrowed("#switch")
-                                    onclick=self.link
-                                        .callback(|_| Msg::GoToMenu(DocMenu::Switch))
+                                    href={Cow::Borrowed("#switch")}
+                                    onclick={self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Switch))}
                                 />
                                 <MenuItem
                                     text={html!("Tabs")}
-                                    href=Cow::Borrowed("#tabs")
-                                    onclick=self.link
-                                        .callback(|_| Msg::GoToMenu(DocMenu::Tabs))
+                                    href={Cow::Borrowed("#tabs")}
+                                    onclick={self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Tabs))}
                                 />
                                 <MenuItem
                                     text={html!("Tag")}
-                                    href=Cow::Borrowed("#tag")
-                                    onclick=self.link
-                                        .callback(|_| Msg::GoToMenu(DocMenu::Tag))
+                                    href={Cow::Borrowed("#tag")}
+                                    onclick={self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Tag))}
                                 />
                                 <MenuItem
                                     text={html!("Text")}
-                                    href=Cow::Borrowed("#text")
-                                    onclick=self.link
-                                        .callback(|_| Msg::GoToMenu(DocMenu::Text))
+                                    href={Cow::Borrowed("#text")}
+                                    onclick={self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Text))}
                                 />
                                 <MenuItem
                                     text={html!("TextArea")}
-                                    href=Cow::Borrowed("#textarea")
-                                    onclick=self.link
-                                        .callback(|_| Msg::GoToMenu(DocMenu::TextArea))
+                                    href={Cow::Borrowed("#textarea")}
+                                    onclick={self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::TextArea))}
                                 />
                                 <MenuItem
                                     text={html!("Tree")}
-                                    href=Cow::Borrowed("#tree")
-                                    onclick=self.link
-                                        .callback(|_| Msg::GoToMenu(DocMenu::Tree))
+                                    href={Cow::Borrowed("#tree")}
+                                    onclick={self.link
+                                        .callback(|_| Msg::GoToMenu(DocMenu::Tree))}
                                 />
                                 // NOTE: thanks to keep this list of <MenuItem> sorted
                                 //       alphabetically (except for the light switch)
                             </Menu>
                             <div class="docs-nav-sponsors">
-                                <a href=Cow::Borrowed("https://www.netlify.com")>
+                                <a href={Cow::Borrowed("https://www.netlify.com")}>
                                     <img
-                                        src=netlify_badge
+                                        src={netlify_badge}
                                         alt="Deploys by Netlify"
                                     />
                                 </a>
                             </div>
                         </div>
                     </div>
-                    <main class=classes!("docs-content-wrapper") role="main">
-                        <div class=classes!("docs-page")>
+                    <main class={classes!("docs-content-wrapper")} role="main">
+                        <div class={classes!("docs-page")}>
                             <Router<DocMenu, ()>
                                 render=Router::render(|switch: DocMenu| {
                                     match switch {

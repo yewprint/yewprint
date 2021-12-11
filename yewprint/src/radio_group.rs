@@ -61,13 +61,13 @@ impl<T: Clone + PartialEq + 'static> Component for RadioGroup<T> {
 
                 html! {
                     <Radio
-                        value="".to_string()
-                        label=html!(label)
-                        checked=checked
-                        onchange=self.props.onchange.reform(move |_| value.clone())
-                        inline=self.props.inline
-                        disabled=self.props.disabled
-                        large=self.props.large
+                        value={"".to_string()}
+                        label={html!(label)}
+                        checked={checked}
+                        onchange={self.props.onchange.reform(move |_| value.clone())}
+                        inline={self.props.inline}
+                        disabled={self.props.disabled}
+                        large={self.props.large}
                     />
                 }
             })
@@ -75,10 +75,10 @@ impl<T: Clone + PartialEq + 'static> Component for RadioGroup<T> {
 
         html! {
             <div
-                class=classes!(
+                class={classes!(
                     "bp3-radio-group",
                     self.props.class.clone(),
-                )
+                )}
             >
                 {
                     if let Some(label) = self.props.label.clone() {

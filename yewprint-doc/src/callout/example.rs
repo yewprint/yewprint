@@ -37,9 +37,9 @@ impl Component for Example {
     fn view(&self) -> Html {
         html! {
             <Callout
-                title=self.props.show_title.then(|| Cow::Borrowed("Visually important content"))
-                without_icon=!self.props.show_icon
-                intent=self.props.intent
+                title={self.props.show_title.then(|| Cow::Borrowed("Visually important content"))}
+                without_icon={!self.props.show_icon}
+                intent={self.props.intent}
             >
                 <p>{"The Callout element's background reflects its intent, if any."}</p>
             </Callout>

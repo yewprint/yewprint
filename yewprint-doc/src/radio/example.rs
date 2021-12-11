@@ -53,37 +53,37 @@ impl Component for Example {
             <>
                 <div>
                     <Radio
-                        label=html!("Blue pill")
-                        inline=self.props.inline
-                        disabled=self.props.disabled
-                        large=self.props.large
-                        name="group".to_string()
+                        label={html!("Blue pill")}
+                        inline={self.props.inline}
+                        disabled={self.props.disabled}
+                        large={self.props.large}
+                        name={"group".to_string()}
                     />
                     <Radio
-                        label=html!("Red pill")
-                        inline=self.props.inline
-                        disabled=self.props.disabled
-                        large=self.props.large
-                        name="group".to_string()
+                        label={html!("Red pill")}
+                        inline={self.props.inline}
+                        disabled={self.props.disabled}
+                        large={self.props.large}
+                        name={"group".to_string()}
                     />
                 </div>
                 <div>
                     <RadioGroup<Lunch>
-                        label=Some(html!(
+                        label={Some(html!(
                             <Label>
                                 {"Determine Lunch"}
                             </Label>
-                        ))
-                        options=vec![
+                        ))}
+                        options={vec![
                             (Lunch::Soup, "Soup".to_string()),
                             (Lunch::Salad, "Salad".to_string()),
                             (Lunch::Sandwich, "Sandwich".to_string()),
-                        ]
-                        value=self.selected_value
-                        onchange=self.link.callback(|v| Msg::ValueUpdate(v))
-                        inline=self.props.inline
-                        disabled=self.props.disabled
-                        large=self.props.large
+                        ]}
+                        value={self.selected_value}
+                        onchange={self.link.callback(|v| Msg::ValueUpdate(v))}
+                        inline={self.props.inline}
+                        disabled={self.props.disabled}
+                        large={self.props.large}
                     />
                 </div>
             </>

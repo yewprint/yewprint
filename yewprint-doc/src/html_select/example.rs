@@ -53,13 +53,13 @@ impl Component for Example {
                         (LogLevel::Error, "ERROR".to_string()),
                         (LogLevel::Off, "OFF".to_string()),
                     ]}
-                    minimal=self.props.minimal
-                    fill=self.props.fill
-                    disabled=self.props.disabled
-                    large=self.props.large
-                    value=Some(self.log_level)
-                    onchange=self.link.callback(|x| x)
-                    title=format!("Selected: {:?}", self.log_level)
+                    minimal={self.props.minimal}
+                    fill={self.props.fill}
+                    disabled={self.props.disabled}
+                    large={self.props.large}
+                    value={Some(self.log_level)}
+                    onchange={self.link.callback(|x| x)}
+                    title={format!("Selected: {:?}", self.log_level)}
                 />
                 <Text>{format!("Selected: {:?}", self.log_level)}</Text>
             </div>

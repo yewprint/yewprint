@@ -39,16 +39,16 @@ impl Component for DividerDoc {
 
         html! {
             <div>
-                <H1 class=classes!("docs-title")>{"Divider"}</H1>
+                <H1 class={classes!("docs-title")}>{"Divider"}</H1>
                 <SourceCodeUrl />
                 <ExampleContainer
-                    source=source
-                    props=Some(html! {
+                    source={source}
+                    props={Some(html! {
                         <DividerProps
                             callback={self.callback.clone()}
                             props=example_props.clone()
                         />
-                    })
+                    })}
                 >
                     <Example with example_props />
                 </ExampleContainer>
@@ -64,11 +64,11 @@ crate::build_example_prop_component! {
             <div>
                 <H5>{"Props"}</H5>
                     <Switch
-                        onclick=self.update_props(|props, _| ExampleProps {
+                        onclick={self.update_props(|props, _| ExampleProps {
                             vertical: !props.vertical
-                        })
-                        checked=self.props.vertical
-                        label=html!("Vertical")
+                        })}
+                        checked={self.props.vertical}
+                        label={html!("Vertical")}
                     />
             </div>
         }

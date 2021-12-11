@@ -78,18 +78,18 @@ impl Component for Example {
                 };
                 html! {
                     <Tag
-                        active=self.props.active
-                        fill=self.props.fill
-                        icon=self.props.icon.then(|| IconName::Print)
-                        intent=self.props.intent
-                        interactive=self.props.interactive
-                        large=self.props.large
-                        minimal=self.props.minimal
-                        multiline=self.props.multiline
-                        right_icon=self.props.right_icon.then(|| IconName::Star)
-                        round=self.props.round
-                        onremove=remove
-                        onclick=self.link.callback(|_| ExampleMsg::Click)
+                        active={self.props.active}
+                        fill={self.props.fill}
+                        icon={self.props.icon.then(|| IconName::Print)}
+                        intent={self.props.intent}
+                        interactive={self.props.interactive}
+                        large={self.props.large}
+                        minimal={self.props.minimal}
+                        multiline={self.props.multiline}
+                        right_icon={self.props.right_icon.then(|| IconName::Star)}
+                        round={self.props.round}
+                        onremove={remove}
+                        onclick={self.link.callback(|_| ExampleMsg::Click)}
                     >
                         {label.clone()}
                     </Tag>

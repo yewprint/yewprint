@@ -42,12 +42,12 @@ impl Component for ControlGroup {
     fn view(&self) -> Html {
         html! {
             <div
-                class=classes!(
+                class={classes!(
                     "bp3-control-group",
                     self.props.fill.then(|| "bp3-fill"),
                     self.props.vertical.then(|| "bp3-vertical"),
                     self.props.class.clone(),
-                )
+                )}
             >
                 {self.props.children.clone()}
             </div>

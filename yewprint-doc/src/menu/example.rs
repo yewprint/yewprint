@@ -33,89 +33,89 @@ impl Component for Example {
                 <Menu>
                     <MenuItem
                         text={html!("Custom SVG icon")}
-                        icon_html=html! {
-                            <Logo class=classes!("custom-icon") />
-                        }
+                        icon_html={html! {
+                            <Logo class={classes!("custom-icon")} />
+                        }}
                     />
                     <MenuDivider />
                     <MenuItem
-                        icon=IconName::NewTextBox
+                        icon={IconName::NewTextBox}
                         text={html!{"New text box"}}
-                        href=Cow::Borrowed("#menu")
-                        onclick=self.link
-                            .callback(|_| Msg::GoToMenu(DocMenu::Menu))
+                        href={Cow::Borrowed("#menu")}
+                        onclick={self.link
+                            .callback(|_| Msg::GoToMenu(DocMenu::Menu))}
                     />
                     <MenuItem
-                        icon=IconName::NewObject
+                        icon={IconName::NewObject}
                         text={html!{"New object"}}
-                        href=Cow::Borrowed("#menu")
-                        onclick=self.link
-                            .callback(|_| Msg::GoToMenu(DocMenu::Menu))
+                        href={Cow::Borrowed("#menu")}
+                        onclick={self.link
+                            .callback(|_| Msg::GoToMenu(DocMenu::Menu))}
                     />
                     <MenuItem
-                        icon=IconName::NewLink
+                        icon={IconName::NewLink}
                         text={html!{"New link"}}
-                        href=Cow::Borrowed("#menu")
-                        onclick=self.link
-                            .callback(|_| Msg::GoToMenu(DocMenu::Menu))
+                        href={Cow::Borrowed("#menu")}
+                        onclick={self.link
+                            .callback(|_| Msg::GoToMenu(DocMenu::Menu))}
                     />
                     <MenuDivider />
                     <MenuItem
-                        icon=IconName::Cog
+                        icon={IconName::Cog}
                         text={html!{"Settings"}}
-                        label=html! {
+                        label={html! {
                             <Icon icon=IconName::Share />
-                        }
-                        href=Cow::Borrowed("#menu")
-                        onclick=self.link
-                            .callback(|_| Msg::GoToMenu(DocMenu::Menu))
+                        }}
+                        href={Cow::Borrowed("#menu")}
+                        onclick={self.link
+                            .callback(|_| Msg::GoToMenu(DocMenu::Menu))}
                     />
                 </Menu>
                 <Menu>
                     <MenuDivider title={html!("Edit")} />
                     <MenuItem
-                        icon=IconName::Cut
+                        icon={IconName::Cut}
                         text={html!("Cut")}
                         label={html!("Ctrl+X")}
-                        href=Cow::Borrowed("#menu")
-                        onclick=self.link
-                            .callback(|_| Msg::GoToMenu(DocMenu::Menu))
+                        href={Cow::Borrowed("#menu")}
+                        onclick={self.link
+                            .callback(|_| Msg::GoToMenu(DocMenu::Menu))}
                     />
                     <MenuItem
-                        icon=IconName::Duplicate
+                        icon={IconName::Duplicate}
                         text={html!("Copy")}
                         label={html!("Ctrl+C")}
-                        href=Cow::Borrowed("#menu")
-                        onclick=self.link
-                            .callback(|_| Msg::GoToMenu(DocMenu::Menu))
+                        href={Cow::Borrowed("#menu")
+                        onclick={self.link
+                            .callback(|_| Msg::GoToMenu(DocMenu::Menu))}
                     />
                     <MenuItem
-                        icon=IconName::Clipboard
+                        icon={IconName::Clipboard}
                         text={html!("Paste")}
                         label={html!("Ctrl+V")}
                         disabled=true
-                    />
+                    />}
                     <MenuDivider title={html!("Text")} />
                     <MenuItem
-                        icon=IconName::AlignLeft
+                        icon={IconName::AlignLeft}
                         text={html!("Alignment")}
-                        href=Cow::Borrowed("#menu")
-                        onclick=self.link
-                            .callback(|_| Msg::GoToMenu(DocMenu::Menu))
+                        href={Cow::Borrowed("#menu")}
+                        onclick={self.link
+                            .callback(|_| Msg::GoToMenu(DocMenu::Menu))}
                     />
                     <MenuItem
-                        icon=IconName::Style
+                        icon={IconName::Style}
                         text={html!("Style")}
-                        href=Cow::Borrowed("#menu")
-                        onclick=self.link
-                            .callback(|_| Msg::GoToMenu(DocMenu::Menu))
+                        href={Cow::Borrowed("#menu")}
+                        onclick={self.link
+                            .callback(|_| Msg::GoToMenu(DocMenu::Menu))}
                     />
                     <MenuItem
-                        icon=IconName::Asterisk
+                        icon={IconName::Asterisk}
                         text={html!("Miscellaneous")}
-                        href=Cow::Borrowed("#menu")
-                        onclick=self.link
-                            .callback(|_| Msg::GoToMenu(DocMenu::Menu))
+                        href={Cow::Borrowed("#menu")}
+                        onclick={self.link
+                            .callback(|_| Msg::GoToMenu(DocMenu::Menu))}
                     />
                 </Menu>
             </>

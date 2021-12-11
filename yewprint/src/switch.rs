@@ -46,23 +46,23 @@ impl Component for Switch {
     fn view(&self) -> Html {
         html! {
             <label
-                class=classes!(
+                class={classes!(
                     "bp3-control",
                     "bp3-switch",
                     self.props.disabled.then(|| "bp3-disabled"),
                     self.props.inline.then(|| "bp3-inline"),
                     self.props.large.then(|| "bp3-large"),
                     self.props.class.clone(),
-                )
+                )}
             >
             <input
                 type="checkbox"
                 checked={self.props.checked}
                 onclick={self.props.onclick.clone()}
-                disabled=self.props.disabled
+                disabled={self.props.disabled}
             />
             <span
-                class=classes!("bp3-control-indicator")
+                class={classes!("bp3-control-indicator")}
             >
             </span>
             {self.props.label.clone()}

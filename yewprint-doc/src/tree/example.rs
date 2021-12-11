@@ -71,7 +71,7 @@ impl Component for Example {
                 icon: Some(IconName::Tag),
                 icon_intent: Some(Intent::Primary),
                 label: "Outer file".into(),
-                secondary_label: Some(html!(<Icon icon=IconName::EyeOpen />)),
+                secondary_label: Some(html!(<Icon icon={IconName::EyeOpen} />)),
                 data: 3,
                 ..Default::default()
             }),
@@ -116,10 +116,10 @@ impl Component for Example {
     fn view(&self) -> Html {
         html! {
             <Tree<i32>
-                tree=self.tree.clone()
-                on_collapse=Some(self.callback_expand_node.clone())
-                on_expand=Some(self.callback_expand_node.clone())
-                onclick=Some(self.callback_select_node.clone())
+                tree={self.tree.clone()}
+                on_collapse={Some(self.callback_expand_node.clone())}
+                on_expand={Some(self.callback_expand_node.clone())}
+                onclick={Some(self.callback_select_node.clone())}
             />
         }
     }

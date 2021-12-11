@@ -64,7 +64,7 @@ impl Component for Button {
     fn view(&self) -> Html {
         html! {
             <button
-                class=classes!(
+                class={classes!(
                     "bp3-button",
                     self.props.fill.then(|| "bp3-fill"),
                     self.props.minimal.then(|| "bp3-minimal"),
@@ -76,9 +76,9 @@ impl Component for Button {
                     self.props.disabled.then(|| "bp3-disabled"),
                     self.props.intent,
                     self.props.class.clone(),
-                )
-                style=self.props.style.clone()
-                onclick=(!self.props.disabled).then(|| self.props.onclick.clone())
+                )}
+                style={self.props.style.clone()}
+                onclick={(!self.props.disabled).then(|| self.props.onclick.clone())}
             >
                 {
                     self
@@ -86,8 +86,8 @@ impl Component for Button {
                         .loading
                         .then(|| html! {
                             <Spinner
-                                class=classes!("bp3-button-spinner")
-                                size=ICON_SIZE_LARGE as f32
+                                class={classes!("bp3-button-spinner")}
+                                size={ICON_SIZE_LARGE as f32}
                             />
                         })
                         .unwrap_or_default()
@@ -95,7 +95,7 @@ impl Component for Button {
                 {
                     if let Some(icon) = self.props.icon {
                         html! {
-                            <Icon icon=icon />
+                            <Icon icon={icon} />
                         }
                     } else {
                         html!()

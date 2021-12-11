@@ -31,9 +31,9 @@ impl Component for TreeDoc {
 
         html! {
             <div>
-                <H1 class=classes!("docs-title")>{"Tree"}</H1>
+                <H1 class={classes!("docs-title")}>{"Tree"}</H1>
                 <SourceCodeUrl />
-                <ExampleContainer source=source>
+                <ExampleContainer source={source}>
                     <Example />
                 </ExampleContainer>
             </div>

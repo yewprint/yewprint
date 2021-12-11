@@ -35,8 +35,8 @@ impl Component for Example {
     fn view(&self) -> Html {
         html! {
             <ControlGroup
-                fill=self.props.fill
-                vertical=self.props.vertical
+                fill={self.props.fill}
+                vertical={self.props.vertical}
             >
                 <HtmlSelect<Option<Sorting>>
                     options={vec![
@@ -48,7 +48,7 @@ impl Component for Example {
                     ]}
                 />
                 <InputGroup placeholder="Find filters..." />
-                <Button icon=IconName::ArrowRight />
+                <Button icon={IconName::ArrowRight} />
             </ControlGroup>
         }
     }

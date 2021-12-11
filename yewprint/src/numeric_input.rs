@@ -136,7 +136,7 @@ where
             html!()
         } else {
             html! {
-                <ButtonGroup vertical=true class=classes!("bp3-fixed")>
+                <ButtonGroup vertical=true class={classes!("bp3-fixed")}>
                     <Button
                         icon=IconName::ChevronUp
                         disabled=button_up_disabled
@@ -153,15 +153,15 @@ where
 
         let input_group = html! {
             <InputGroup
-                placeholder=self.props.placeholder.clone()
-                large=self.props.large
-                disabled=self.props.disabled
-                left_icon=self.props.left_icon
-                left_element=self.props.left_element.clone()
-                right_element=self.props.right_element.clone()
-                value=self.input.clone()
-                oninput=self.link.callback(|e: InputData| Msg::InputUpdate(e.value))
-                onkeydown=self.link.callback(|e: KeyboardEvent| {
+                placeholder={self.props.placeholder.clone()}
+                large={self.props.large}
+                disabled={self.props.disabled}
+                left_icon={self.props.left_icon}
+                left_element={self.props.left_element.clone()}
+                right_element={self.props.right_element.clone()}
+                value={self.input.clone()}
+                oninput={self.link.callback(|e: InputData| Msg::InputUpdate(e.value))}
+                onkeydown={self.link.callback(|e: KeyboardEvent| {
                     if e.key() == "ArrowUp" {
                         Msg::Up
                     } else if e.key() == "ArrowDown" {
@@ -169,16 +169,16 @@ where
                     } else {
                         Msg::Noop
                     }
-                })
+                })}
             />
         };
 
         if buttons_on_the_left {
             html! {
                 <ControlGroup
-                    class=classes!("bp3-numeric-input")
-                    fill=self.props.fill
-                    large=self.props.large
+                    class={classes!("bp3-numeric-input")}
+                    fill={self.props.fill}
+                    large={self.props.large}
                 >
                     {buttons}
                     {input_group}
@@ -187,9 +187,9 @@ where
         } else {
             html! {
                 <ControlGroup
-                    class=classes!("bp3-numeric-input")
-                    fill=self.props.fill
-                    large=self.props.large
+                    class={classes!("bp3-numeric-input")}
+                    fill={self.props.fill}
+                    large={self.props.large}
                 >
                     {input_group}
                     {buttons}

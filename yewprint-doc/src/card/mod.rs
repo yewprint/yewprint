@@ -68,12 +68,12 @@ crate::build_example_prop_component! {
                     <H5>{"Props"}</H5>
                     <div>
                         <Switch
-                            onclick=self.update_props(|props, _| ExampleProps {
+                            onclick={self.update_props(|props, _| ExampleProps {
                                 interactive: !props.interactive,
                                 ..props
-                            })
-                            checked=self.props.interactive
-                            label=html!("Toggle interaction")
+                            })}
+                            checked={self.props.interactive}
+                            label={html!("Toggle interaction")}
                         />
                         <p>{"Elevation:"}</p>
                         <HtmlSelect<Elevation>
@@ -84,11 +84,11 @@ crate::build_example_prop_component! {
                                 (Elevation::Level3, "Level 3".to_string()),
                                 (Elevation::Level4, "Level 4".to_string()),
                             ]}
-                            value=self.props.elevation
-                            onchange=self.update_props(|props, elevation| ExampleProps {
+                            value={self.props.elevation}
+                            onchange={self.update_props(|props, elevation| ExampleProps {
                                 elevation,
                                 ..props
-                            })
+                            })}
                         />
                     </div>
                 </div>

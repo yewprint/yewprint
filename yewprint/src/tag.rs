@@ -65,27 +65,27 @@ impl Component for Tag {
     }
 
     fn view(&self) -> Html {
-        let icon = if_html!(let Some(icon) = self.props.icon => <Icon icon=icon />);
+        let icon = if_html!(let Some(icon) = self.props.icon => <Icon icon={icon} />);
 
         let right_icon =
-            if_html!(let Some(right_icon) = self.props.right_icon => <Icon icon=right_icon />);
+            if_html!(let Some(right_icon) = self.props.right_icon => <Icon icon={right_icon} />);
 
         let remove_button = if_html! {
             let Some(callback) = self.props.onremove.clone() =>
             html!(
                 <button
-                    class=classes!("bp3-tag-remove")
+                    class={classes!("bp3-tag-remove")}
                     onclick={callback}
                     tabindex={self.props.interactive.then(|| "0")}
                 >
-                    <Icon icon=IconName::SmallCross />
+                    <Icon icon={IconName::SmallCross} />
                 </button>
             )
         };
 
         html! {
             <span
-                class=classes!(
+                class={classes!(
                     "bp3-tag",
                     self.props.intent,
                     self.props.active.then(|| "bp3-active"),
@@ -95,15 +95,15 @@ impl Component for Tag {
                     self.props.minimal.then(|| "bp3-minimal"),
                     self.props.round.then(|| "bp3-round"),
                     self.props.class.clone(),
-                )
-                style=self.props.style.clone()
+                )}
+                style={self.props.style.clone()}
                 onclick={self.props.onclick.clone()}
             >
                 {icon}
                 <Text
-                    class=classes!("bp3-fill")
+                    class={classes!("bp3-fill")}
                     ellipsize={!self.props.multiline}
-                    title=self.props.title.clone()
+                    title={self.props.title.clone()}
                     inline=true
                 >
                     {self.props.children.clone()}

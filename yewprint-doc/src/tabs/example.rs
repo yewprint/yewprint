@@ -48,11 +48,11 @@ impl Component for Example {
             <div>
                 <Tabs<Civilization>
                     id="civilizations"
-                    animate=self.props.animate
-                    vertical=self.props.vertical
-                    selected_tab_id=self.selected
-                    onchange=self.link.callback(|x| x)
-                    tabs=vec![
+                    animate={self.props.animate}
+                    vertical={self.props.vertical}
+                    selected_tab_id={self.selected}
+                    onchange={self.link.callback(|x| x)}
+                    tabs={vec![
                         Tab {
                             disabled: false,
                             id: Civilization::Sumer,
@@ -133,7 +133,7 @@ impl Component for Example {
                             panel_class: Classes::default(),
                             title_class: Classes::default(),
                         },
-                    ]
+                    ]}
                 />
             </div>
         }

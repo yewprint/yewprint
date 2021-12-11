@@ -33,13 +33,13 @@ impl Component for Example {
 
     fn view(&self) -> Html {
         html! {
-            <ButtonGroup vertical=self.props.vertical>
+            <ButtonGroup vertical={self.props.vertical}>
                 <Button>{"File"}</Button>
                 <Button>{"Edit"}</Button>
-                <Divider vertical=self.props.vertical />
+                <Divider vertical={self.props.vertical} />
                 <Button>{"Create"}</Button>
                 <Button>{"Delete"}</Button>
-                <Divider vertical=self.props.vertical />
+                <Divider vertical={self.props.vertical} />
                 // <Button icon=IconName::Add />
                 // <Button icon=IconName::Remove />
             </ButtonGroup>

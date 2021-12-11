@@ -51,15 +51,15 @@ impl Component for ProgressBar {
         };
         html! {
             <div
-                class=classes!(
+                class={classes!(
                     "bp3-progress-bar",
                     self.props.intent,
                     (!self.props.animate).then(|| "bp3-no-animation"),
                     (!self.props.stripes).then(|| "bp3-no-stripes"),
                     self.props.class.clone(),
-                )
+                )}
             >
-                <div class=classes!("bp3-progress-meter") style={{width}}/>
+                <div class={classes!("bp3-progress-meter") style={{width}}}/>
             </div>
         }
     }

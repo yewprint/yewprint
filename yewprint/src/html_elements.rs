@@ -16,7 +16,7 @@ macro_rules! build_component {
         impl PureComponent for $props_name {
             fn render(&self) -> Html {
                 html! {
-                    <$tag class=classes!($class, self.class.clone())>
+                    <$tag class={classes!($class, self.class.clone())}>
                         {self.children.clone()}
                     </$tag>
                 }

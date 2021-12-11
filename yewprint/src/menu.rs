@@ -41,11 +41,11 @@ impl Component for Menu {
     fn view(&self) -> Html {
         html! {
             <ul
-                class=classes!(
+                class={classes!(
                     "bp3-menu",
                     self.props.large.then(|| "bp3-large"),
                     self.props.class.clone(),
-                )
+                )}
                 ref={self.props.r#ref.clone()}
             >
                 {self.props.children.clone()}
@@ -114,15 +114,15 @@ impl Component for MenuItem {
         html! {
             <li>
                 <a
-                    class=classes!(
+                    class={classes!(
                         "bp3-menu-item",
                         self.props.active.then(|| "bp3-active"),
                         self.props.disabled.then(|| "bp3-disabled"),
                         self.props.intent
                             .or_else(|| self.props.active.then(|| Intent::Primary)),
                         self.props.class.clone(),
-                    )
-                    href={(!self.props.disabled).then(|| self.props.href.clone())}.flatten()
+                    )}
+                    href={(!self.props.disabled).then(|| self.props.href.clone()).flatten()}
                     tabIndex={(!self.props.disabled).then(|| "0")}
                     onclick={(!self.props.disabled).then(|| self.props.onclick.clone())}
                 >
@@ -135,20 +135,20 @@ impl Component for MenuItem {
                             html
                         } else {
                             html! {
-                                <Icon icon=IconName::Blank />
+                                <Icon icon={IconName::Blank} />
                             }
                         }
                     }
-                    <div class=classes!("bp3-text", "bp3-fill", self.props.text_class.clone())>
+                    <div class={classes!("bp3-text", "bp3-fill", self.props.text_class.clone())}>
                         {self.props.text.clone()}
                     </div>
                     {
                         if let Some(label) = self.props.label.clone() {
                             html! {
                                 <span
-                                    class=classes!(
+                                    class={classes!(
                                         "bp3-menu-item-label",
-                                        self.props.label_class.clone())
+                                        self.props.label_class.clone())}
                                 >
                                     {label}
                                 </span>
@@ -200,14 +200,14 @@ impl Component for MenuDivider {
             if let Some(title) = self.props.title.clone() {
                 html! {
                     <li
-                        class=classes!("bp3-menu-header")
+                        class={classes!("bp3-menu-header")}
                     >
                         <H6>{title}</H6>
                     </li>
                 }
             } else {
                 html! {
-                    <li class=classes!("bp3-menu-divider") />
+                    <li class={classes!("bp3-menu-divider")} />
                 }
             }
         }

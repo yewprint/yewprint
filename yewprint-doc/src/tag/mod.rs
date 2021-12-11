@@ -67,16 +67,16 @@ impl Component for TagDoc {
 
         html! {
             <div>
-                <H1 class=classes!("docs-title")>{"Tag"}</H1>
+                <H1 class={classes!("docs-title")}>{"Tag"}</H1>
                 <SourceCodeUrl />
                 <ExampleContainer
-                    source=source
-                    props=Some(html!{
+                    source={source}
+                    props={Some(html!{
                         <TagProps
                             callback={self.callback.clone()}
                             props=example_props.clone()
                         />
-                    })
+                    })}
                 >
                     <Example with example_props/>
                 </ExampleContainer>
@@ -93,84 +93,84 @@ crate::build_example_prop_component! {
                     <H5>{"Props"}</H5>
                     <div>
                         <Switch
-                            onclick=self.update_props(|props, _| ExampleProps {
+                            onclick={self.update_props(|props, _| ExampleProps {
                                 active: !props.active,
                                 ..props
-                            })
-                            checked=self.props.active
-                            label=html!("Active")
+                            })}
+                            checked={self.props.active}
+                            label={html!("Active")}
                         />
                         <Switch
-                            onclick=self.update_props(|props, _| ExampleProps {
+                            onclick={self.update_props(|props, _| ExampleProps {
                                 fill: !props.fill,
                                 ..props
-                            })
-                            checked=self.props.fill
-                            label=html!("Fill")
+                            })}
+                            checked={self.props.fill}
+                            label={html!("Fill")}
                         />
                         <Switch
-                            onclick=self.update_props(|props, _| ExampleProps {
+                            onclick={self.update_props(|props, _| ExampleProps {
                                 interactive: !props.interactive,
                                 ..props
-                            })
-                            checked=self.props.interactive
-                            label=html!("Interactive")
+                            })}
+                            checked={self.props.interactive}
+                            label={html!("Interactive")}
                         />
                         <Switch
-                            onclick=self.update_props(|props, _| ExampleProps {
+                            onclick={self.update_props(|props, _| ExampleProps {
                                 large: !props.large,
                                 ..props
-                            })
-                            checked=self.props.large
-                            label=html!("Large")
+                            })}
+                            checked={self.props.large}
+                            label={html!("Large")}
                         />
                         <Switch
-                            onclick=self.update_props(|props, _| ExampleProps {
+                            onclick={self.update_props(|props, _| ExampleProps {
                                 minimal: !props.minimal,
                                 ..props
-                            })
-                            checked=self.props.minimal
-                            label=html!("Minimal")
+                            })}
+                            checked={self.props.minimal}
+                            label={html!("Minimal")}
                         />
                         <Switch
-                            onclick=self.update_props(|props, _| ExampleProps {
+                            onclick={self.update_props(|props, _| ExampleProps {
                                 multiline: !props.multiline,
                                 ..props
-                            })
-                            checked=self.props.multiline
-                            label=html!("Multiline")
+                            })}
+                            checked={self.props.multiline}
+                            label={html!("Multiline")}
                         />
                         <Switch
-                            onclick=self.update_props(|props, _| ExampleProps {
+                            onclick={self.update_props(|props, _| ExampleProps {
                                 round: !props.round,
                                 ..props
-                            })
-                            checked=self.props.round
-                            label=html!("Round")
+                            })}
+                            checked={self.props.round}
+                            label={html!("Round")}
                         />
                         <Switch
-                            onclick=self.update_props(|props, _| ExampleProps {
+                            onclick={self.update_props(|props, _| ExampleProps {
                                 removable: !props.removable,
                                 ..props
-                            })
-                            checked=self.props.removable
-                            label=html!("Removable")
+                            })}
+                            checked={self.props.removable}
+                            label={html!("Removable")}
                         />
                         <Switch
-                            onclick=self.update_props(|props, _| ExampleProps {
+                            onclick={self.update_props(|props, _| ExampleProps {
                                 icon: !props.icon,
                                 ..props
-                            })
-                            checked=self.props.icon
-                            label=html!("Icon")
+                            })}
+                            checked={self.props.icon}
+                            label={html!("Icon")}
                         />
                         <Switch
-                            onclick=self.update_props(|props, _| ExampleProps {
+                            onclick={self.update_props(|props, _| ExampleProps {
                                 right_icon: !props.right_icon,
                                 ..props
-                            })
-                            checked=self.props.right_icon
-                            label=html!("Right icon")
+                            })}
+                            checked={self.props.right_icon}
+                            label={html!("Right icon")}
                         />
                         <p>{"Select intent:"}</p>
                         <ButtonGroup
@@ -184,17 +184,17 @@ crate::build_example_prop_component! {
                                     (Some(Intent::Warning), "Warning".to_string()),
                                     (Some(Intent::Danger), "Danger".to_string()),
                                 ]}
-                                onchange=self.update_props(|props, intent| ExampleProps {
+                                onchange={self.update_props(|props, intent| ExampleProps {
                                     intent,
                                     ..props
-                                })
+                                })}
                             />
                             <Button
-                                icon=IconName::Refresh
-                                onclick=self.update_props(|props, _| ExampleProps {
+                                icon={IconName::Refresh}
+                                onclick={self.update_props(|props, _| ExampleProps {
                                     reset_tags: props.reset_tags + 1,
                                     ..props
-                                })
+                                })}
                             >
                                 {"Reset tags"}
                             </Button>

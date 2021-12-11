@@ -25,18 +25,18 @@ impl Component for Example {
 
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
         let state = PanelStackState::new(html! {
-            <div class=classes!("docs-panel-stack-contents-example")>
+            <div class={classes!("docs-panel-stack-contents-example")}>
                 <div>{"Hello World!"}</div>
                 <Button
-                    intent=Intent::Primary
-                    onclick=link.callback(|_| ExampleMessage::OpenPanel2)
+                    intent={Intent::Primary}
+                    onclick={link.callback(|_| ExampleMessage::OpenPanel2)}
                 >
                     {"Open panel 2"}
                 </Button>
             </div>
         })
         .with_title(html! {
-            <Text class=classes!("bp3-heading") ellipsize=true>
+            <Text class={classes!("bp3-heading")} ellipsize=true>
                 {"Root Panel"}
             </Text>
         })
@@ -50,10 +50,10 @@ impl Component for Example {
             ExampleMessage::OpenPanel2 => self
                 .state
                 .open_panel(html! {
-                    <div class=classes!("docs-panel-stack-contents-example")>
+                    <div class={classes!("docs-panel-stack-contents-example")}>
                         <Button
-                            intent=Intent::Success
-                            onclick=self.link.callback(|_| ExampleMessage::OpenPanel2)
+                            intent={Intent::Success}
+                            onclick={self.link.callback(|_| ExampleMessage::OpenPanel2)}
                         >
                             {"Open another panel 2"}
                         </Button>
@@ -61,7 +61,7 @@ impl Component for Example {
                     </div>
                 })
                 .with_title(html! {
-                    <Text class=classes!("bp3-heading") ellipsize=true>
+                    <Text class={classes!("bp3-heading")} ellipsize=true>
                         {"Panel 2"}
                     </Text>
                 })
@@ -84,9 +84,9 @@ impl Component for Example {
         html! {
             <div>
                 <PanelStack
-                    state=self.state.clone()
-                    onclose=self.link.callback(|_| ExampleMessage::ClosePanel)
-                    class=classes!("docs-panel-stack-example")
+                    state={self.state.clone()}
+                    onclose={self.link.callback(|_| ExampleMessage::ClosePanel)}
+                    class={classes!("docs-panel-stack-example")}
                 />
             </div>
         }
@@ -130,7 +130,7 @@ impl Component for Panel2 {
             <div>
                 <p>{"Counter: "}{self.counter}</p>
                 <div>
-                    <Button onclick=self.link.callback(|_| Panel2Message::AddOne)>
+                    <Button onclick={self.link.callback(|_| Panel2Message::AddOne)}>
                         {"Add 1"}
                     </Button>
                 </div>

@@ -84,24 +84,24 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
 
         html! {
             <div
-                class=classes!(
+                class={classes!(
                     "bp3-tabs",
                     self.props.vertical.then(|| "bp3-vertical"),
                     self.props.class.clone(),
-                )
+                )}
             >
                 <div
-                    class=classes!(
+                    class={classes!(
                         "bp3-tab-list",
                         self.props.large.then(|| "bp3-large"),
-                    )
+                    )}
                 >
                     {
                         if self.props.animate {
                             html! {
                                 <div
                                     class="bp3-tab-indicator-wrapper"
-                                    ref=self.indicator_ref.clone()
+                                    ref={self.indicator_ref.clone()}
                                 >
                                     <div class="bp3-tab-indicator" />
                                 </div>
@@ -115,10 +115,10 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
                             .iter()
                             .map(|(props, id, title_id, panel_id, selected)| html! {
                                 <div
-                                    class=classes!(
+                                    class={classes!(
                                         "bp3-tab",
                                         props.title_class.clone(),
-                                    )
+                                    )}
                                     aria-disabled=props.disabled.then(|| "true")
                                     aria-expanded=selected.to_string()
                                     aria-selected=selected.to_string()
@@ -151,15 +151,15 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
                         })
                         .map(|(props, id, title_id, panel_id, selected)| html! {
                             <div
-                                class=classes!(
+                                class={classes!(
                                     "bp3-tab-panel",
                                     selected.then(|| props.panel_class.clone()),
-                                )
-                                aria-labelledby=title_id.to_string()
-                                aria-hidden=(!selected).then(|| "true")
+                                )}
+                                aria-labelledby={title_id.to_string()}
+                                aria-hidden={(!selected).then(|| "true")}
                                 role="tabpanel"
-                                id=panel_id.to_string()
-                                key=*id
+                                id={panel_id.to_string()}
+                                key={*id}
                             >
                                 { props.panel.clone() }
                             </div>

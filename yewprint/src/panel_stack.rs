@@ -177,11 +177,11 @@ impl Component for PanelStack {
 
         html! {
             <div
-                class=classes!(
+                class={classes!(
                     "bp3-panel-stack2",
                     action,
                     self.props.class.clone(),
-                )
+                )}
             >
             {
                 opened_panels
@@ -190,7 +190,7 @@ impl Component for PanelStack {
                     .rev()
                     .map(|(i, (title, content))| html! {
                         <Panel
-                            title=title.clone()
+                            title={title.clone()}
                             animation={
                                 match action {
                                     _ if i == last => Animation::EnterStart,
@@ -201,8 +201,8 @@ impl Component for PanelStack {
                                     _ => Animation::Exited,
                                 }
                             }
-                            onclose=(i > 0).then(|| self.props.onclose.clone()).flatten()
-                            key=i
+                            onclose={(i > 0).then(|| self.props.onclose.clone()).flatten()}
+                            key={i}
                         >
                             // TODO the state of content doesn't seem to be kept when re-opening
                             //      a panel using the same components
@@ -297,12 +297,12 @@ impl Component for Panel {
         let back_button = self.props.onclose.clone().map(|onclose| {
             html! {
                 <Button
-                    class=classes!("bp3-panel-stack-header-back")
-                    style=Cow::Borrowed("padding-right:0")
-                    icon=IconName::ChevronLeft
-                    minimal=true
-                    small=true
-                    onclick=onclose.reform(|_| ())
+                    class={classes!("bp3-panel-stack-header-back")}
+                    style={Cow::Borrowed("padding-right:0")}
+                    icon={IconName::ChevronLeft}
+                    minimal={true}
+                    small={true}
+                    onclick={onclose.reform(|_| ())}
                 >
                     // TODO: I get a lot of "VComp is not mounted" if I try to use the title
                     //       of the previous panel
@@ -311,7 +311,7 @@ impl Component for Panel {
         });
 
         html! {
-            <div class=classes style=style>
+            <div class={classes} style={style}>
                 <div class="bp3-panel-stack-header">
                     <span>{back_button.unwrap_or_default()}</span>
                     {self.props.title.clone().unwrap_or_default()}

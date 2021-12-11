@@ -57,15 +57,15 @@ impl Component for Example {
                 <p>{"Counter: "}{self.counter}</p>
                 <div>
                     <Button
-                        onclick=self.link.callback(|_| Msg::AddOne)
-                        minimal=self.props.minimal
-                        fill=self.props.fill
-                        small=self.props.small
-                        outlined=self.props.outlined
-                        loading=self.props.loading
-                        large=self.props.large
-                        active=self.props.active
-                        disabled=self.props.disabled
+                        onclick={self.link.callback(|_| Msg::AddOne)}
+                        minimal={self.props.minimal}
+                        fill={self.props.fill}
+                        small={self.props.small}
+                        outlined={self.props.outlined}
+                        loading={self.props.loading}
+                        large={self.props.large}
+                        active={self.props.active}
+                        disabled={self.props.disabled}
                     >
                         {"Add 1"}
                     </Button>

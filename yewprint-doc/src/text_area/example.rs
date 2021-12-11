@@ -37,10 +37,10 @@ impl Component for Example {
     fn view(&self) -> Html {
         html! {
             <div style="width: 200px; height: 50px">
-                <TextArea intent=self.props.intent
-                          large=self.props.large
-                          fill=self.props.fill
-                          small=self.props.small
+                <TextArea intent={self.props.intent}
+                          large={self.props.large}
+                          fill={self.props.fill}
+                          small={self.props.small}
                 />
             </div>
         }

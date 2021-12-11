@@ -201,11 +201,11 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     label.clone().map(|x| {
                         html! {
                             <div
-                                class=classes!("bp3-slider-label")
-                                style=format!(
+                                class={classes!("bp3-slider-label")}
+                                style={format!(
                                     "left: {}%;", (i as f64) * 100.0
                                         / ((self.props.values.len() as f64) - 1.0)
-                                )
+                                )}
                             >
                                 {x}
                             </div>
@@ -216,8 +216,8 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
         } else if let Some((_, Some(label))) = self.props.values.first() {
             html! {
                 <div
-                    class=classes!("bp3-slider-label")
-                    style="left: 50%;"
+                    class={classes!("bp3-slider-label")}
+                    style={"left: 50%;"}
                 >
                     {label}
                 </div>
@@ -227,7 +227,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
         };
         let value_label = self.props.value_label.clone().map(|x| {
             html! {
-                <span class=classes!("bp3-slider-label")>
+                <span class={classes!("bp3-slider-label")}>
                     {x}
                 </span>
             }
@@ -235,11 +235,11 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
 
         html! {
             <div
-                class=classes!(
+                class={classes!(
                     "bp3-slider",
                     self.props.vertical.then(|| "bp3-vertical"),
-                )
-                onmousedown=(self.props.values.len() > 1).then(
+                )}
+                onmousedown={(self.props.values.len() > 1).then(
                     || self.link.batch_callback(
                         |event: MouseEvent| {
                             if event.buttons() ==
@@ -251,19 +251,19 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                             }
                         }
                     )
-                )
+                )}
             >
                 <div
-                    class=classes!("bp3-slider-track")
+                    class={classes!("bp3-slider-track")}
                     ref={self.track_ref.clone()}
                 >
                     {
                         if value_index.is_none() && !self.props.values.is_empty() {
                             html! {
                                 <div
-                                    class=classes!("bp3-slider-progress")
+                                    class={classes!("bp3-slider-progress")}
                                     style="top: 0px;"
-                                    onkeydown=self.link.callback(|event| Msg::Keyboard(event))
+                                    onkeydown={self.link.callback(|event| Msg::Keyboard(event))}
                                     tabindex=0
                                 >
                                 </div>
@@ -271,7 +271,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                         } else {
                             html! {
                                 <div
-                                    class=classes!("bp3-slider-progress")
+                                    class={classes!("bp3-slider-progress")}
                                     style="top: 0px;"
                                 >
                                 </div>
@@ -284,14 +284,14 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                                 && self.props.intent.is_some() => {
                                 html! {
                                     <div
-                                        class=classes!("bp3-slider-progress", self.props.intent)
-                                        style=format!(
+                                        class={classes!("bp3-slider-progress", self.props.intent)}
+                                        style={format!(
                                             "left: 0%; right: {}%; top: 0px;",
                                             100.0 - (
                                                 100.0 * (index as f64)
                                                 / (self.props.values.len() as f64 - 1.0)
                                             )
-                                        )
+                                        )}
                                     >
                                     </div>
                                 }
@@ -300,7 +300,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                         }
                     }
                 </div>
-                <div class=classes!("bp3-slider-axis")>
+                <div class={classes!("bp3-slider-axis")}>
                     {labels}
                 </div>
                 {
@@ -309,25 +309,25 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                             {
                             html! {
                                 <span
-                                    class=classes!(
+                                    class={classes!(
                                         "bp3-slider-handle",
                                         self.is_moving.then(|| "bp3-active"),
-                                    )
+                                    )}
                                     ref={self.handle_ref.clone()}
-                                    style=format!(
+                                    style={format!(
                                         "left: calc({}% - 8px);",
                                         100.0 * (index as f64)
                                             / (self.props.values.len() as f64 - 1.0),
-                                    )
-                                    onmousedown=self.link.batch_callback(
+                                    )}
+                                    onmousedown={self.link.batch_callback(
                                     |event: MouseEvent| {
                                         if event.buttons() == crate::MOUSE_EVENT_BUTTONS_PRIMARY {
                                             vec![Msg::StartChange]
                                         } else {
                                             vec![]
                                         }
-                                    })
-                                    onkeydown=self.link.callback(|event| Msg::Keyboard(event))
+                                    })}
+                                    onkeydown={self.link.callback(|event| Msg::Keyboard(event))}
                                     tabindex=0
                                 >
                                     {value_label.clone().unwrap_or_default()}
@@ -337,10 +337,10 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                         Some(_) => {
                             html! {
                                 <span
-                                    class=classes!(
+                                    class={classes!(
                                         "bp3-slider-handle",
                                         self.is_moving.then(|| "bp3-active"),
-                                    )
+                                    )}
                                     ref={self.handle_ref.clone()}
                                     style="left: calc(50% - 8px);"
                                 >

@@ -38,22 +38,22 @@ impl Component for Example {
             <div>
                 <Label>{"Assign responsability"}</Label>
                 <Checkbox
-                    disabled=self.props.disabled
-                    inline=self.props.inline
-                    large=self.props.large
-                    label=html!("Gilad Gray")
+                    disabled={self.props.disabled}
+                    inline={self.props.inline}
+                    large={self.props.large}
+                    label={html!("Gilad Gray")}
                 />
                 <Checkbox
-                    disabled=self.props.disabled
-                    inline=self.props.inline
-                    large=self.props.large
-                    label=html!("Jason Killian")
+                    disabled={self.props.disabled}
+                    inline={self.props.inline}
+                    large={self.props.large}
+                    label={html!("Jason Killian")}
                 />
                 <Checkbox
-                    disabled=self.props.disabled
-                    inline=self.props.inline
-                    large=self.props.large
-                    label=html!("Antoine Llorca")
+                    disabled={self.props.disabled}
+                    inline={self.props.inline}
+                    large={self.props.large}
+                    label={html!("Antoine Llorca")}
                 />
             </div>
         }

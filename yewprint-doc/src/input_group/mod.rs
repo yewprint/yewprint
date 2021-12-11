@@ -45,17 +45,17 @@ impl Component for InputGroupDoc {
 
         html! {
             <div>
-                <H1 class=classes!("docs-title")>{"InputGroup"}</H1>
+                <H1 class={classes!("docs-title")}>{"InputGroup"}</H1>
                 <SourceCodeUrl />
                 <ExampleContainer
-                    source=source
-                    props=Some(html! {
+                    source={source}
+                    props={Some(html! {
                         <InputGroupProps
                             callback={self.callback.clone()}
                             props=example_props.clone()
                         >
                         </InputGroupProps>
-                    })
+                    })}
                 >
                     <Example with example_props />
                 </ExampleContainer>
@@ -71,44 +71,44 @@ crate::build_example_prop_component! {
             <div>
                 <H5>{"Props"}</H5>
                 <Switch
-                    onclick=self.update_props(|props, _| ExampleProps {
+                    onclick={self.update_props(|props, _| ExampleProps {
                         disabled: !props.disabled,
                         ..props
-                    })
-                    checked=self.props.disabled
-                    label=html!("Disabled")
+                    })}
+                    checked={self.props.disabled}
+                    label={html!("Disabled")}
                 />
                 <Switch
-                    onclick=self.update_props(|props, _| ExampleProps {
+                    onclick={self.update_props(|props, _| ExampleProps {
                         fill: !props.fill,
                         ..props
-                    })
-                    checked=self.props.fill
-                    label=html!("Fill")
+                    })}
+                    checked={self.props.fill}
+                    label={html!("Fill")}
                 />
                 <Switch
-                    onclick=self.update_props(|props, _| ExampleProps {
+                    onclick={self.update_props(|props, _| ExampleProps {
                         large: !props.large,
                         ..props
-                    })
-                    checked=self.props.large
-                    label=html!("Large")
+                    })}
+                    checked={self.props.large}
+                    label={html!("Large")}
                 />
                 <Switch
-                    onclick=self.update_props(|props, _| ExampleProps {
+                    onclick={self.update_props(|props, _| ExampleProps {
                         small: !props.small,
                         ..props
-                    })
-                    checked=self.props.small
-                    label=html!("Small")
+                    })}
+                    checked={self.props.small}
+                    label={html!("Small")}
                 />
                 <Switch
-                    onclick=self.update_props(|props, _| ExampleProps {
+                    onclick={self.update_props(|props, _| ExampleProps {
                         round: !props.round,
                         ..props
-                    })
-                    checked=self.props.round
-                    label=html!("Round")
+                    })}
+                    checked={self.props.round}
+                    label={html!("Round")}
                 />
             </div>
         }

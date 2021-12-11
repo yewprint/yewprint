@@ -106,57 +106,57 @@ impl Component for Example {
         html! {
             <>
                 <InputGroup
-                    fill=self.props.fill
-                    large=self.props.large
-                    small=self.props.small
-                    round=self.props.round
-                    disabled=self.props.disabled
-                    left_icon=IconName::Filter
+                    fill={self.props.fill}
+                    large={self.props.large}
+                    small={self.props.small}
+                    round={self.props.round}
+                    disabled={self.props.disabled}
+                    left_icon={IconName::Filter}
                     placeholder={"Filter histogram..."}
-                    value=self.histogram_value.clone()
-                    oninput=self.link.callback(|e: InputData| Msg::UpdateHistogram(e.value))
-                    onkeydown=self.link.callback(|e: KeyboardEvent| {
+                    value={self.histogram_value.clone()}
+                    oninput={self.link.callback(|e: InputData| Msg::UpdateHistogram(e.value))}
+                    onkeydown={self.link.callback(|e: KeyboardEvent| {
                         if e.key() == "Enter" { Msg::AddHistogramEntry } else { Msg::Noop }
-                    })
+                    })}
                 />
                 <InputGroup
-                    fill=self.props.fill
-                    large=self.props.large
-                    small=self.props.small
-                    round=self.props.round
-                    disabled=self.props.disabled
+                    fill={self.props.fill}
+                    large={self.props.large}
+                    small={self.props.small}
+                    round={self.props.round}
+                    disabled={self.props.disabled}
                     left_element=self.password_strength.clone()
                     placeholder={"Enter your password..."}
-                    value=self.password_value.clone()
-                    oninput=self.link.callback(|e: InputData| Msg::UpdatePassword(e.value))
-                    onkeydown=self.link.callback(|e: KeyboardEvent| {
+                    value={self.password_value.clone()}
+                    oninput={self.link.callback(|e: InputData| Msg::UpdatePassword(e.value))}
+                    onkeydown={self.link.callback(|e: KeyboardEvent| {
                         if e.key() == "Enter" { Msg::AddPasswordEntry } else { Msg::Noop }
-                    })
+                    })}
                     right_element=html! {
                         <Button
-                            icon=IconName::Lock
-                            minimal=true
-                            disabled=self.props.disabled
+                            icon={IconName::Lock}
+                            minimal={true}
+                            disabled={self.props.disabled}
                         />
                     }
                 />
                 <InputGroup
-                    fill=self.props.fill
-                    large=self.props.large
-                    small=self.props.small
-                    round=self.props.round
-                    disabled=self.props.disabled
+                    fill={self.props.fill}
+                    large={self.props.large}
+                    small={self.props.small}
+                    round={self.props.round}
+                    disabled={self.props.disabled}
                     left_icon=IconName::Tag
                     placeholder={"Find tags"}
-                    value=self.tags_value.clone()
-                    oninput=self.link.callback(|e: InputData| Msg::UpdateTags(e.value))
-                    onkeydown=self.link.callback(|e: KeyboardEvent| {
+                    value={self.tags_value.clone()}
+                    oninput={self.link.callback(|e: InputData| Msg::UpdateTags(e.value))}
+                    onkeydown={self.link.callback(|e: KeyboardEvent| {
                         if e.key() == "Enter" { Msg::AddTagsEntry } else { Msg::Noop }
-                    })
+                    })}
                     right_element=html! {
                         <Tag
                             minimal=true
-                            round=self.props.round
+                            round=s{elf.props.round}
                         >
                             {{10000 / 1.max(self.tags_value.len().pow(2))}}
                         </Tag>

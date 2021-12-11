@@ -69,8 +69,8 @@ impl Component for Icon {
 
         html! {
             <span
-                class=classes!("bp3-icon", self.props.class.clone(), self.props.intent)
-                onclick=self.props.onclick.clone()
+                class={classes!("bp3-icon", self.props.class.clone(), self.props.intent)}
+                onclick={self.props.onclick.clone()}
             >
                 <svg
                     fill={self.props.color.clone()}

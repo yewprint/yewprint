@@ -42,12 +42,12 @@ impl Component for PanelStackDoc {
 
         html! {
             <div>
-                <H1 class=classes!("docs-title")>{"PanelStack"}</H1>
+                <H1 class={classes!("docs-title")}>{"PanelStack"}</H1>
                 <SourceCodeUrl />
                 <div>
                     <ExampleContainer
-                        source=source
-                        props=None
+                        source={source}
+                        props={None}
                     >
                         <Example with example_props />
                     </ExampleContainer>

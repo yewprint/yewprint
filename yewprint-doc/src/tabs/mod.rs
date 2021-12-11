@@ -42,17 +42,17 @@ impl Component for TabsDoc {
 
         html! {
             <div>
-                <H1 class=classes!("docs-title")>{"Tabs"}</H1>
+                <H1 class={classes!("docs-title")}>{"Tabs"}</H1>
                 <SourceCodeUrl />
                 <div>
                     <ExampleContainer
-                        source=source
-                        props=Some(html! {
+                        source={source}
+                        props={Some(html! {
                             <TabsProps
                                 callback={self.callback.clone()}
                                 props=example_props.clone()
                             />
-                        })
+                        })}
                     >
                         <Example with example_props />
                     </ExampleContainer>
@@ -69,20 +69,20 @@ crate::build_example_prop_component! {
                 <div>
                     <H5>{"Props"}</H5>
                     <Switch
-                        onclick=self.update_props(|props, _| ExampleProps {
+                        onclick={self.update_props(|props, _| ExampleProps {
                             animate: !props.animate,
                             ..props
-                        })
-                        checked=self.props.animate
-                        label=html!("Animate indicator")
+                        })}
+                        checked={self.props.animate}
+                        label={html!("Animate indicator")}
                     />
                     <Switch
-                        onclick=self.update_props(|props, _| ExampleProps {
+                        onclick={self.update_props(|props, _| ExampleProps {
                             vertical: !props.vertical,
                             ..props
-                        })
-                        checked=self.props.vertical
-                        label=html!("Use vertical tabs")
+                        })}
+                        checked={self.props.vertical}
+                        label={html!("Use vertical tabs")}
                     />
                 </div>
             }

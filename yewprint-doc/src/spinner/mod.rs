@@ -42,17 +42,17 @@ impl Component for SpinnerDoc {
 
         html! {
             <div>
-                <H1 class=classes!("docs-title")>{"Spinner"}</H1>
+                <H1 class={classes!("docs-title")}>{"Spinner"}</H1>
                 <SourceCodeUrl />
                 <div>
                     <ExampleContainer
-                        source=source
-                        props=Some(html! {
+                        source={source}
+                        props={Some(html! {
                             <SpinnerProps
                                 callback={self.callback.clone()}
                                 props=example_props.clone()
                             />
-                        })
+                        })}
                     >
                         <Example with example_props />
                     </ExampleContainer>
@@ -78,10 +78,10 @@ crate::build_example_prop_component! {
                             (Some(Intent::Warning), "Warning".to_string()),
                             (Some(Intent::Danger), "Danger".to_string()),
                         ]}
-                        onchange=self.update_props(|props, intent| ExampleProps {
+                        onchange={self.update_props(|props, intent| ExampleProps {
                             intent,
                             ..props
-                        })
+                        })}
                     />
                     <p
                         style="margin-top: 5px;"
@@ -89,7 +89,7 @@ crate::build_example_prop_component! {
                         {"Select Size:"}
                     </p>
                     <Slider<u32>
-                        selected=self.props.size
+                        selected={self.props.size}
                         values={vec![
                             (10, Some("10".into())),
                             (20, None),
@@ -102,10 +102,10 @@ crate::build_example_prop_component! {
                             (90, None),
                             (100, Some("100".into())),
                         ]}
-                        onchange=self.update_props(|props, size| ExampleProps {
+                        onchange={self.update_props(|props, size| ExampleProps {
                             size,
                             ..props
-                        })
+                        })}
                     />
                 </div>
             </div>

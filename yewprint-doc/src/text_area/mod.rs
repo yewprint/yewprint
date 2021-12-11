@@ -44,17 +44,17 @@ impl Component for TextAreaDoc {
 
         html! {
             <div>
-                <H1 class=classes!("docs-title")>{"Text"}</H1>
+                <H1 class={classes!("docs-title")}>{"Text"}</H1>
                 <SourceCodeUrl />
                 <div>
                     <ExampleContainer
-                        source=source
-                        props=Some(html! {
+                        source={source}
+                        props={Some(html! {
                             <TextAreaProps
                                 callback={self.callback.clone()}
-                                props=example_props.clone()
+                                props={example_props.clone()}
                             />
-                        })
+                        })}
                     >
                         <Example with example_props />
                     </ExampleContainer>
@@ -71,28 +71,28 @@ crate::build_example_prop_component! {
                 <div>
                     <H5>{"Props"}</H5>
                     <Switch
-                        onclick=self.update_props(|props, _| ExampleProps {
+                        onclick={self.update_props(|props, _| ExampleProps {
                             fill: !props.fill,
                             ..props
-                        })
-                        checked=self.props.fill
-                        label=html!("Fill")
+                        })}
+                        checked={self.props.fill}
+                        label={html!("Fill")}
                          />
                     <Switch
-                        onclick=self.update_props(|props, _| ExampleProps {
+                        onclick={self.update_props(|props, _| ExampleProps {
                             large: !props.large,
                             ..props
-                        })
-                        checked=self.props.large
-                        label=html!("Large")
+                        })}
+                        checked={self.props.large}
+                        label={html!("Large")}
                     />
                     <Switch
-                        onclick=self.update_props(|props, _| ExampleProps {
+                        onclick={self.update_props(|props, _| ExampleProps {
                             small: !props.small,
                             ..props
-                        })
-                        checked=self.props.small
-                        label=html!("Small")
+                        })}
+                        checked={self.props.small}
+                        label={html!("Small")}
                     />
                     <HtmlSelect<Option<Intent>>
                         options={vec![
@@ -102,10 +102,10 @@ crate::build_example_prop_component! {
                             (Some(Intent::Warning), "Warning".to_string()),
                             (Some(Intent::Danger), "Danger".to_string()),
                         ]}
-                        onchange=self.update_props(|props, intent| ExampleProps {
+                        onchange={self.update_props(|props, intent| ExampleProps {
                             intent,
                             ..props
-                        })
+                        })}
                     />
                 </div>
             }
