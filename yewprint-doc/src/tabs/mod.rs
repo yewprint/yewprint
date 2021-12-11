@@ -46,7 +46,7 @@ impl Component for TabsDoc {
                         props={Some(html! {
                             <TabsProps
                                 callback={self.callback.clone()}
-                                {props=example_props.clone()}
+                                props={example_props.clone()}
                             />
                         })}
                     >

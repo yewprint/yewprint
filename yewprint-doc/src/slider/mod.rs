@@ -45,7 +45,7 @@ impl Component for SliderDoc {
                     props={Some(html! {
                         <SliderProps
                             callback={self.callback.clone()}
-                            {props=example_props.clone()}
+                            props={example_props.clone()}
                         />
                     })}
                 >

@@ -46,7 +46,7 @@ impl Component for CalloutDoc {
                     props={Some(html! {
                         <CalloutProps
                             callback={self.callback.clone()}
-                            {props=example_props.clone()}
+                            props={example_props.clone()}
                         />
                     })}
                 >

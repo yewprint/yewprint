@@ -46,7 +46,7 @@ impl Component for SpinnerDoc {
                         props={Some(html! {
                             <SpinnerProps
                                 callback={self.callback.clone()}
-                                {props=example_props.clone()}
+                                props={example_props.clone()}
                             />
                         })}
                     >

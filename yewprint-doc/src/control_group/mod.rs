@@ -45,7 +45,7 @@ impl Component for ControlGroupDoc {
                     props={Some(html! {
                         <ControlGroupProps
                             callback={self.callback.clone()}
-                            {props=example_props.clone()}
+                            props={example_props.clone()}
                         >
                         </ControlGroupProps>
                     })}

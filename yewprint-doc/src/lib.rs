@@ -42,7 +42,7 @@ macro_rules! log {
 #[macro_export]
 macro_rules! include_raw_html {
     ($file:expr $(, $class:expr)?) => {{
-        yew::virtual_dom::VNode::VRef(yew::web_sys::Node::from({
+        yew::virtual_dom::VNode::VRef(web_sys::Node::from({
             let div = web_sys::window()
                 .unwrap()
                 .document()

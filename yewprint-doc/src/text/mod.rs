@@ -46,7 +46,7 @@ impl Component for TextDoc {
                         props={Some(html! {
                             <TextProps
                                 callback={self.callback.clone()}
-                                {props=example_props.clone()}
+                                props={example_props.clone()}
                             />
                         })}
                     >
@@ -74,7 +74,7 @@ crate::build_example_prop_component! {
                     />
                     <input
                         class="bp3-input"
-                        onchange=s{elf.update_props(|props, e|
+                        onchange={self.update_props(|props, e|
                             match e {
                                 ChangeData::Value(text) => {
                                     ExampleProps {

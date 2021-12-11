@@ -46,7 +46,7 @@ impl Component for ProgressBarDoc {
                     props={Some(html! {
                         <ProgressBarProps
                             callback={self.callback.clone()}
-                            {props=example_props.clone()}
+                            props={example_props.clone()}
                         />
                     })}
                 >
