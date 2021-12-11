@@ -23,10 +23,6 @@ impl Component for Example {
         true
     }
 
-    fn changed(&mut self, _ctx: &Context<Self>) -> bool {
-        true
-    }
-
     fn view(&self) -> Html {
         html! {
             <>

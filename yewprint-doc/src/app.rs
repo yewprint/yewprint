@@ -68,10 +68,6 @@ impl Component for App {
         true
     }
 
-    fn changed(&mut self, _ctx: &Context<Self>) -> bool {
-        true
-    }
-
     fn view(&self) -> Html {
         let netlify_badge = if self.dark_theme {
             "https://www.netlify.com/img/global/badges/netlify-color-accent.svg"

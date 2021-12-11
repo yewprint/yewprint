@@ -19,10 +19,6 @@ impl Component for CollapseDoc {
         true
     }
 
-    fn changed(&mut self, _ctx: &Context<Self>) -> bool {
-        true
-    }
-
     fn view(&self) -> Html {
         let source = crate::include_raw_html!(
             concat!(env!("OUT_DIR"), "/", file!(), ".html"),

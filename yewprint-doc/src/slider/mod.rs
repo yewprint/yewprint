@@ -29,10 +29,6 @@ impl Component for SliderDoc {
         true
     }
 
-    fn changed(&mut self, _ctx: &Context<Self>) -> bool {
-        true
-    }
-
     fn view(&self) -> Html {
         let example_props = self.state.clone();
         let source = crate::include_raw_html!(
