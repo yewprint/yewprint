@@ -22,7 +22,7 @@ impl Component for Logo {
         todo!()
     }
 
-    fn change(&mut self, ctx: &Context<Self>) -> bool {
+    fn changed(&mut self, ctx: &Context<Self>) -> bool {
         if props != self.props {
             self.props = props;
             true

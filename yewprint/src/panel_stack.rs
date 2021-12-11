@@ -5,7 +5,6 @@ use std::fmt;
 use std::rc::Rc;
 use std::time::Duration;
 use yew::prelude::*;
-use yew::services::timeout::{TimeoutService, TimeoutTask};
 
 pub struct PanelBuilder<F: Fn(Option<Html>, I) -> O, I, O> {
     title: Option<Html>,
@@ -258,10 +257,10 @@ impl Component for Panel {
         }
     }
 
-    fn change(&mut self, ctx: &Context<Self>) -> bool {
-        if self.props != props {
+    fn changed(&mut self, ctx: &Context<Self>) -> bool {
+        if self.props != ctx.props() {
             self.animation = ctx.props().animation;
-            self.props = props;
+            self.props = ctx.props();
             true
         } else {
             false

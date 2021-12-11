@@ -86,8 +86,8 @@ where
 
     fn create(ctx: &Context<Self>) -> Self {
         Self {
-            props,
-            link,
+            props: ctx.props(),
+            link: ctx.link(),
             input: Default::default(),
         }
     }
@@ -107,12 +107,12 @@ where
         }
     }
 
-    fn change(&mut self, ctx: &Context<Self>) -> bool {
-        if self.props != props {
+    fn changed(&mut self, ctx: &Context<Self>) -> bool {
+        if self.props != ctx.props() {
             if self.props.value != ctx.props().value {
                 self.input = ctx.props().value.to_string();
             }
-            self.props = props;
+            self.props = ctx.props();
             true
         } else {
             false

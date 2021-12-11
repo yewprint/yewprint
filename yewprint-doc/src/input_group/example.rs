@@ -116,20 +116,20 @@ impl Component for Example {
                     small={self.props.small}
                     round={self.props.round}
                     disabled={self.props.disabled}
-                    left_element=self.password_strength.clone()
+                    left_element={self.password_strength.clone()}
                     placeholder={"Enter your password..."}
                     value={self.password_value.clone()}
                     oninput={self.link.callback(|e: InputData| Msg::UpdatePassword(e.value))}
                     onkeydown={self.link.callback(|e: KeyboardEvent| {
                         if e.key() == "Enter" { Msg::AddPasswordEntry } else { Msg::Noop }
                     })}
-                    right_element=html! {
+                    right_element={html! {
                         <Button
                             icon={IconName::Lock}
                             minimal={true}
                             disabled={self.props.disabled}
                         />
-                    }
+                    }}
                 />
                 <InputGroup
                     fill={self.props.fill}

@@ -26,7 +26,7 @@ impl Component for DividerDoc {
         true
     }
 
-    fn change(&mut self, _ctx: &Context<Self>) -> bool {
+    fn changed(&mut self, _ctx: &Context<Self>) -> bool {
         true
     }
 

@@ -34,7 +34,10 @@ impl<T: Clone + PartialEq + 'static> Component for HtmlSelect<T> {
     type Properties = HtmlSelectProps<T>;
 
     fn create(ctx: &Context<Self>) -> Self {
-        Self { props, link }
+        Self {
+            props: ctx.props(),
+            link: ctx.link(),
+        }
     }
 
     fn update(&mut self, msg: Self::Message) -> bool {

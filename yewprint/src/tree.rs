@@ -286,15 +286,9 @@ impl Component for TreeNode {
         false
     }
 
-    fn change(&mut self, ctx: &Context<Self>) -> bool {
-        if self.props != props {
-            // crate::log!(
-            //     "rerender {:?} {} {:?}",
-            //     self.props.node_id,
-            //     self.props.children == ctx.props().children,
-            //     self.props.icon,
-            // );
-            self.props = props;
+    fn changed(&mut self, ctx: &Context<Self>) -> bool {
+        if self.props != ctx.props() {
+            self.props = ctx.props();
             true
         } else {
             false

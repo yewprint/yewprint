@@ -1,7 +1,6 @@
 use std::time::Duration;
 use web_sys::Element;
 use yew::prelude::*;
-use yew::services::*;
 
 pub struct Collapse {
     height: Height,
@@ -76,8 +75,8 @@ impl Component for Collapse {
         }
     }
 
-    fn change(&mut self, ctx: &Context<Self>) -> bool {
-        if self.props != props {
+    fn changed(&mut self, ctx: &Context<Self>) -> bool {
+        if self.props != ctx.props() {
             if ctx.props().is_open {
                 match self.animation_state {
                     AnimationState::Open | AnimationState::Opening => {}
@@ -98,7 +97,7 @@ impl Component for Collapse {
                 }
             }
 
-            self.props = props;
+            self.props = ctx.props();
             true
         } else {
             false

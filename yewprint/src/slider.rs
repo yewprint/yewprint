@@ -56,10 +56,10 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
             }) as Box<dyn FnMut(_)>)
         };
         Self {
-            props,
+            props: ctx.props(),
             mouse_move,
             mouse_up,
-            link,
+            link: ctx.link(),
             handle_ref: NodeRef::default(),
             track_ref: NodeRef::default(),
             is_moving: false,

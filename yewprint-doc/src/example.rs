@@ -100,7 +100,7 @@ macro_rules! build_example_prop_component {
                 true
             }
 
-            fn change(&mut self, ctx: &Context<Self>) -> bool {
+            fn changed(&mut self, ctx: &Context<Self>) -> bool {
                 if self.props != ctx.props().props || self.callback != ctx.props().callback {
                     self.props = ctx.props().props;
                     self.callback = ctx.props().callback;

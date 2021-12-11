@@ -93,8 +93,8 @@ impl Component for InputGroup {
 
     fn create(ctx: &Context<Self>) -> Self {
         Self {
-            props,
-            link,
+            props: ctx.props(),
+            link: ctx.link(),
             left_element_ref: Default::default(),
             left_element_width: Default::default(),
             right_element_ref: Default::default(),
