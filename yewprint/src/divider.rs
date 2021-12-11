@@ -22,11 +22,11 @@ impl Component for Divider {
         Self { props }
     }
 
-    fn update(&mut self, _: Self::Message) -> ShouldRender {
+    fn update(&mut self, _: Self::Message) -> bool {
         true
     }
 
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
+    fn change(&mut self, props: Self::Properties) -> bool {
         if self.props != props {
             self.props = props;
             true

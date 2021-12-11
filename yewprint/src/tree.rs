@@ -119,11 +119,11 @@ impl<T: Clone + PartialEq + 'static> Component for Tree<T> {
         }
     }
 
-    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, _msg: Self::Message) -> bool {
         true
     }
 
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
+    fn change(&mut self, props: Self::Properties) -> bool {
         if self.props != props {
             self.props = props;
             true
@@ -268,7 +268,7 @@ impl Component for TreeNode {
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, msg: Self::Message) -> bool {
         if self.props.disabled {
             return false;
         }
@@ -295,7 +295,7 @@ impl Component for TreeNode {
         false
     }
 
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
+    fn change(&mut self, props: Self::Properties) -> bool {
         if self.props != props {
             // crate::log!(
             //     "rerender {:?} {} {:?}",

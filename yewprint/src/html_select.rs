@@ -37,7 +37,7 @@ impl<T: Clone + PartialEq + 'static> Component for HtmlSelect<T> {
         Self { props, link }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, msg: Self::Message) -> bool {
         let i = if let ChangeData::Select(select) = msg {
             select.selected_index()
         } else {
@@ -51,7 +51,7 @@ impl<T: Clone + PartialEq + 'static> Component for HtmlSelect<T> {
         false
     }
 
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
+    fn change(&mut self, props: Self::Properties) -> bool {
         if self.props != props {
             self.props = props;
             true

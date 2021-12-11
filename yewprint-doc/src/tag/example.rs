@@ -38,7 +38,7 @@ impl Component for Example {
         Example { props, link, tags }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, msg: Self::Message) -> bool {
         match msg {
             ExampleMsg::Remove(label) => {
                 self.tags = self
@@ -53,7 +53,7 @@ impl Component for Example {
         true
     }
 
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
+    fn change(&mut self, props: Self::Properties) -> bool {
         if self.props != props {
             if self.props.reset_tags != props.reset_tags {
                 self.tags = props.initial_tags.clone();

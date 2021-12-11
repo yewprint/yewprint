@@ -92,7 +92,7 @@ where
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, msg: Self::Message) -> bool {
         match msg {
             Msg::InputUpdate(new_value) => {
                 if let Ok(new_value) = new_value.trim().parse::<T>() {
@@ -107,7 +107,7 @@ where
         }
     }
 
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
+    fn change(&mut self, props: Self::Properties) -> bool {
         if self.props != props {
             if self.props.value != props.value {
                 self.input = props.value.to_string();
@@ -210,7 +210,7 @@ where
         + PartialOrd
         + 'static,
 {
-    fn update_value(&mut self, new_value: T) -> ShouldRender {
+    fn update_value(&mut self, new_value: T) -> bool {
         let new_value = self.props.bounds.clamp(new_value, self.props.increment);
 
         if new_value != self.props.value {

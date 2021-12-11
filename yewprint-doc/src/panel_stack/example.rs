@@ -45,7 +45,7 @@ impl Component for Example {
         Example { link, props, state }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, msg: Self::Message) -> bool {
         match msg {
             ExampleMessage::OpenPanel2 => self
                 .state
@@ -71,7 +71,7 @@ impl Component for Example {
         }
     }
 
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
+    fn change(&mut self, props: Self::Properties) -> bool {
         if self.props != props {
             self.props = props;
             true
@@ -112,7 +112,7 @@ impl Component for Panel2 {
         Panel2 { counter: 0, link }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, msg: Self::Message) -> bool {
         match msg {
             Panel2Message::AddOne => {
                 self.counter += 1;
@@ -121,7 +121,7 @@ impl Component for Panel2 {
         }
     }
 
-    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
+    fn change(&mut self, _props: Self::Properties) -> bool {
         false
     }
 

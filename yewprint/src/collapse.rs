@@ -76,7 +76,7 @@ impl Component for Collapse {
         }
     }
 
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
+    fn change(&mut self, props: Self::Properties) -> bool {
         if self.props != props {
             if props.is_open {
                 match self.animation_state {
@@ -105,7 +105,7 @@ impl Component for Collapse {
         }
     }
 
-    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, _msg: Self::Message) -> bool {
         match self.animation_state {
             AnimationState::OpenStart => {
                 self.animation_state = AnimationState::Opening;

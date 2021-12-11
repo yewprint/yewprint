@@ -21,14 +21,14 @@ impl Component for Example {
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, msg: Self::Message) -> bool {
         match msg {
             Msg::ToggleCollapse => self.collapsed ^= true,
         }
         true
     }
 
-    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
+    fn change(&mut self, _props: Self::Properties) -> bool {
         true
     }
 

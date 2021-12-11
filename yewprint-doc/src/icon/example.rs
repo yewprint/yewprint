@@ -10,10 +10,10 @@ impl Component for Example {
     fn create(_: Self::Properties, _link: ComponentLink<Self>) -> Self {
         Example {}
     }
-    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, _msg: Self::Message) -> bool {
         true
     }
-    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
+    fn change(&mut self, _props: Self::Properties) -> bool {
         true
     }
     fn view(&self) -> Html {

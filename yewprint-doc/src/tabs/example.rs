@@ -25,7 +25,7 @@ impl Component for Example {
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, msg: Self::Message) -> bool {
         if self.selected != msg {
             self.selected = msg;
             true
@@ -34,7 +34,7 @@ impl Component for Example {
         }
     }
 
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
+    fn change(&mut self, props: Self::Properties) -> bool {
         if self.props != props {
             self.props = props;
             true

@@ -19,7 +19,7 @@ tree = ["id_tree"]
 
 [dependencies]
 web-sys = { version = "0.3", features = ["DomRect", "Element"] }
-yew = "0.18"
+yew = { git = "https://github.com/yewstack/yew" }
 id_tree = { version = "1.7", optional = true }
 yewtil = { version = "0.4", features = ["pure"] }
 wasm-bindgen = "0.2"

@@ -67,7 +67,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, msg: Self::Message) -> bool {
         match msg {
             Msg::StartChange if self.props.values.len() > 1 => {
                 let document = yew::utils::document();
@@ -177,7 +177,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
         }
     }
 
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
+    fn change(&mut self, props: Self::Properties) -> bool {
         if self.props != props {
             self.props = props;
             true

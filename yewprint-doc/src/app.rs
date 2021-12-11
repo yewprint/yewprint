@@ -57,7 +57,7 @@ impl Component for App {
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, msg: Self::Message) -> bool {
         match msg {
             Msg::ToggleLight => self.dark_theme ^= true,
             Msg::GoToMenu(doc_menu) => {
@@ -68,7 +68,7 @@ impl Component for App {
         true
     }
 
-    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
+    fn change(&mut self, _props: Self::Properties) -> bool {
         true
     }
 

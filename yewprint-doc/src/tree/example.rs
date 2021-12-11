@@ -86,7 +86,7 @@ impl Component for Example {
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, msg: Self::Message) -> bool {
         match msg {
             Msg::ExpandNode(node_id) => {
                 let mut tree = self.tree.borrow_mut();
@@ -109,7 +109,7 @@ impl Component for Example {
         true
     }
 
-    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
+    fn change(&mut self, _props: Self::Properties) -> bool {
         true
     }
 

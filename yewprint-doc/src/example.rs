@@ -31,14 +31,14 @@ impl Component for ExampleContainer {
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, msg: Self::Message) -> bool {
         match msg {
             Msg::ToggleSource => self.collapsed ^= true,
         }
         true
     }
 
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
+    fn change(&mut self, props: Self::Properties) -> bool {
         if self.props != props {
             self.props = props;
             true
@@ -105,11 +105,11 @@ macro_rules! build_example_prop_component {
                 props
             }
 
-            fn update(&mut self, _msg: Self::Message) -> ShouldRender {
+            fn update(&mut self, _msg: Self::Message) -> bool {
                 true
             }
 
-            fn change(&mut self, props: Self::Properties) -> ShouldRender {
+            fn change(&mut self, props: Self::Properties) -> bool {
                 if self.props != props.props || self.callback != props.callback {
                     self.props = props.props;
                     self.callback = props.callback;

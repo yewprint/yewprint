@@ -149,7 +149,7 @@ impl Component for PanelStack {
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, msg: Self::Message) -> bool {
         match msg {
             PanelStackMessage::PopPanel => {
                 self.props.state.opened_panels.borrow_mut().pop();
@@ -158,7 +158,7 @@ impl Component for PanelStack {
         }
     }
 
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
+    fn change(&mut self, props: Self::Properties) -> bool {
         if self.props != props {
             self.props = props;
             true
@@ -258,7 +258,7 @@ impl Component for Panel {
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, msg: Self::Message) -> bool {
         match msg {
             PanelMessage::UpdateAnimation(animation) => {
                 self.animation = animation;
@@ -267,7 +267,7 @@ impl Component for Panel {
         }
     }
 
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
+    fn change(&mut self, props: Self::Properties) -> bool {
         if self.props != props {
             self.animation = props.animation;
             self.props = props;
