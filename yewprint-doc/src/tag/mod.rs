@@ -70,7 +70,7 @@ impl Component for TagDoc {
                     props={Some(html!{
                         <TagProps
                             callback={self.callback.clone()}
-                            props=example_props.clone()
+                            {props=example_props.clone()}
                         />
                     })}
                 >

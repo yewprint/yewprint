@@ -46,11 +46,11 @@ impl Component for CheckboxDoc {
                 props={Some(html! {
                     <CheckboxProps
                         callback={self.callback.clone()}
-                        props=example_props.clone()
+                        {props=example_props.clone()}
                     />
                 })}
             >
-                <Example with example_props />
+                <Example ..example_props />
             </ExampleContainer>
             </div>
         }

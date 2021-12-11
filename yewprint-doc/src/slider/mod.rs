@@ -45,11 +45,11 @@ impl Component for SliderDoc {
                     props={Some(html! {
                         <SliderProps
                             callback={self.callback.clone()}
-                            props=example_props.clone()
+                            {props=example_props.clone()}
                         />
                     })}
                 >
-                    <Example with example_props />
+                    <Example ..example_props />
                 </ExampleContainer>
                 <H2>{"Edge Cases"}</H2>
                 <div class={classes!("bp3-running-text")}>

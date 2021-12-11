@@ -48,12 +48,12 @@ impl Component for InputGroupDoc {
                     props={Some(html! {
                         <InputGroupProps
                             callback={self.callback.clone()}
-                            props=example_props.clone()
+                            {props=example_props.clone()}
                         >
                         </InputGroupProps>
                     })}
                 >
-                    <Example with example_props />
+                    <Example ..example_props />
                 </ExampleContainer>
             </div>
         }

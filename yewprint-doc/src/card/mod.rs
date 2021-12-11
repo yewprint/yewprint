@@ -45,11 +45,11 @@ impl Component for CardDoc {
                     props={Some(html! {
                         <CardProps
                             callback={self.callback.clone()}
-                            props=example_props.clone()
+                            {props=example_props.clone()}
                         />
                     })}
                 >
-                    <Example with example_props />
+                    <Example ..example_props />
                 </ExampleContainer>
             </div>
         }

@@ -52,7 +52,7 @@ impl Component for ButtonGroupDoc {
                         </ButtonGroupProps>
                     })}
                 >
-                    <Example with example_props />
+                    <Example ..example_props />
                 </ExampleContainer>
             </div>
         }

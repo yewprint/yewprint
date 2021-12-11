@@ -46,12 +46,12 @@ impl Component for SwitchDoc {
                     props={Some(html! {
                         <SwitchProps
                             callback={self.callback.clone()}
-                            props=example_props.clone()
+                            {props=example_props.clone()}
                         >
                         </SwitchProps>
                     })}
                 >
-                    <Example with example_props />
+                    <Example ..example_props />
                 </ExampleContainer>
             </div>
         }

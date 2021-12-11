@@ -45,7 +45,7 @@ impl Component for PanelStackDoc {
                         source={source}
                         props={None}
                     >
-                        <Example with example_props />
+                        <Example ..example_props />
                     </ExampleContainer>
                 </div>
             </div>
