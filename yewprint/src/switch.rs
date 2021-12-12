@@ -20,6 +20,10 @@ pub struct SwitchProps {
     pub label: yew::virtual_dom::VNode,
     #[prop_or_default]
     pub class: Classes,
+    #[prop_or_default]
+    pub inner_label_checked: Option<String>,
+    #[prop_or_default]
+    pub inner_label: Option<String>,
 }
 
 impl Component for Switch {
@@ -44,6 +48,34 @@ impl Component for Switch {
     }
 
     fn view(&self) -> Html {
+        let display_label = {
+            if self.props.inner_label.is_some() || self.props.inner_label_checked.is_some() {
+                let inner_label = self.props.inner_label.as_deref().unwrap_or_default();
+                let inner_label_checked = self.props.inner_label_checked.as_ref();
+                html! {
+                    <>
+                        <div class=classes!("bp3-control-indicator-child")>
+                            <div class=classes!("bp3-switch-inner-text")>
+                                {
+                                    if let Some(label_checked) = inner_label_checked {
+                                        label_checked.clone()
+                                    } else {
+                                        inner_label.to_string()
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <div class=classes!("bp3-control-indicator-child")>
+                            <div class=classes!("bp3-switch-inner-text")>
+                                {inner_label.to_string()}
+                            </div>
+                        </div>
+                    </>
+                }
+            } else {
+                Html::default()
+            }
+        };
         html! {
             <label
                 class=classes!(
@@ -64,6 +96,7 @@ impl Component for Switch {
             <span
                 class=classes!("bp3-control-indicator")
             >
+                {display_label}
             </span>
             {self.props.label.clone()}
             </label>

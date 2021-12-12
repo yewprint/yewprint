@@ -41,25 +41,28 @@ impl Component for Example {
                     disabled=self.props.disabled
                     inline=self.props.inline
                     large=self.props.large
-                    label=html!("Enabled")
+                    label=html!{<strong>{"Enabled"}</strong>}
                 />
                 <Switch
                     disabled=self.props.disabled
                     inline=self.props.inline
                     large=self.props.large
-                    label=html!(<em>{"Public"}</em>)
+                    label=html!{<em>{"Public"}</em>}
                 />
                 <Switch
                     disabled=self.props.disabled
                     inline=self.props.inline
                     large=self.props.large
-                    label=html!{<strong>{"Cooperative"}</strong>}
+                    checked=true
+                    label=html!{<u>{"Cooperative"}</u>}
                 />
                 <Switch
                     disabled=self.props.disabled
                     inline=self.props.inline
                     large=self.props.large
-                    label=html!(<u>{"Containing Text"}</u>)
+                    label=html!{"Containing Text"}
+                    inner_label_checked={"on".to_string()}
+                    inner_label={"off".to_string()}
                 />
             </div>
         }
