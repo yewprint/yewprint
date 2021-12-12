@@ -12,9 +12,9 @@ pub struct Collapse {
     animation_state: AnimationState,
     contents_ref: NodeRef,
     callback_delayed_state_change: Callback<()>,
-    handle_delayed_state_change: Option<Box<dyn Task>>,
+    handle_delayed_state_change: Option<gloo_timers::callback::Timeout>,
     props: CollapseProps,
-    link: &html::Scope<Self>,
+    link: html::Scope<Self>,
 }
 
 #[derive(Clone, PartialEq, Properties)]

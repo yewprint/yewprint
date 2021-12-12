@@ -170,7 +170,7 @@ impl Component for MenuDivider {
 
     fn view(&self) -> Html {
         html! {
-            if let Some(title) = self.props.title.clone() {
+            {if let Some(title) = self.props.title.clone() {
                 html! {
                     <li
                         class={classes!("bp3-menu-header")}
@@ -182,7 +182,7 @@ impl Component for MenuDivider {
                 html! {
                     <li class={classes!("bp3-menu-divider")} />
                 }
-            }
+            }}
         }
     }
 }

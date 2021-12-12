@@ -121,7 +121,7 @@ impl From<StateAction> for Classes {
 pub struct PanelStack {
     timeout_task: Option<Timeout>,
     props: PanelStackProps,
-    link: &html::Scope<Self>,
+    link: html::Scope<Self>,
 }
 
 #[derive(Debug, Clone, PartialEq, Properties)]
@@ -220,7 +220,7 @@ struct Panel {
     animation: Animation,
     timeout_task: Option<Timeout>,
     props: PanelProps,
-    link: &html::Scope<Self>,
+    link: html::Scope<Self>,
 }
 
 #[derive(Debug, Clone, PartialEq, Properties)]

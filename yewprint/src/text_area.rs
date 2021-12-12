@@ -22,7 +22,7 @@ pub struct TextAreaProps {
     #[prop_or_default]
     pub small: bool,
     #[prop_or_default]
-    pub onchange: Option<Callback<ChangeData>>,
+    pub onchange: Option<Callback<Event>>,
 }
 
 impl Component for TextArea {

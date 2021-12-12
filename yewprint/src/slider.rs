@@ -9,7 +9,7 @@ pub struct Slider<T: Clone + PartialEq + 'static> {
     props: SliderProps<T>,
     mouse_move: Closure<dyn FnMut(MouseEvent)>,
     mouse_up: Closure<dyn FnMut(MouseEvent)>,
-    link: &html::Scope<Self>,
+    link: html::Scope<Self>,
     handle_ref: NodeRef,
     track_ref: NodeRef,
     is_moving: bool,

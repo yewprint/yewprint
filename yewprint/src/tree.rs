@@ -47,7 +47,7 @@ pub struct Tree<T: Clone> {
 }
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct TreeProps<T: Clone> {
+pub struct TreeProps<T: Clone + std::cmp::PartialEq> {
     #[prop_or_default]
     pub is_expanded: bool,
     pub tree: TreeData<T>,

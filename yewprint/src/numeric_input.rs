@@ -17,7 +17,7 @@ where
         + 'static,
 {
     props: NumericInputProps<T>,
-    link: &html::Scope<Self>,
+    link: html::Scope<Self>,
     input: String,
 }
 
@@ -160,7 +160,7 @@ where
                 left_element={self.props.left_element.clone()}
                 right_element={self.props.right_element.clone()}
                 value={self.input.clone()}
-                oninput={self.link.callback(|e: InputData| Msg::InputUpdate(e.value))}
+                oninput={self.link.callback(|e: InputEvent| Msg::InputUpdate(e.value))}
                 onkeydown={self.link.callback(|e: KeyboardEvent| {
                     if e.key() == "ArrowUp" {
                         Msg::Up

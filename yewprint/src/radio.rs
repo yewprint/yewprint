@@ -17,7 +17,7 @@ pub struct RadioProps {
     #[prop_or_default]
     pub name: Option<String>,
     #[prop_or_default]
-    pub onchange: Option<Callback<ChangeData>>,
+    pub onchange: Option<Callback<Event>>,
     #[prop_or_default]
     pub label: yew::virtual_dom::VNode,
     #[prop_or_default]

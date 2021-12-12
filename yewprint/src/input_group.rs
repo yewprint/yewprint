@@ -5,7 +5,7 @@ const MIN_HORIZONTAL_PADDING: i32 = 10;
 
 pub struct InputGroup {
     props: InputGroupProps,
-    link: &html::Scope<Self>,
+    link: html::Scope<Self>,
     left_element_ref: NodeRef,
     left_element_width: Option<i32>,
     right_element_ref: NodeRef,
@@ -74,7 +74,7 @@ pub struct InputGroupProps {
     #[prop_or_default]
     pub input_type: TextInputType,
     #[prop_or_default]
-    pub oninput: Callback<InputData>,
+    pub oninput: Callback<InputEvent>,
     #[prop_or_default]
     pub onkeyup: Callback<KeyboardEvent>,
     #[prop_or_default]

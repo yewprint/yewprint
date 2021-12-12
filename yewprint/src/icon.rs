@@ -74,7 +74,7 @@ impl Component for Icon {
                     {
                         paths.iter()
                             .map(|x| html! {
-                                <path d=*x fillRule="evenodd" />
+                                <path d={*x} fillRule="evenodd" />
                             })
                             .collect::<Html>()
                     }

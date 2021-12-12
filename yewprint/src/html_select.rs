@@ -3,7 +3,7 @@ use yew::prelude::*;
 
 pub struct HtmlSelect<T: Clone + PartialEq + 'static> {
     props: HtmlSelectProps<T>,
-    link: &html::Scope<Self>,
+    link: html::Scope<Self>,
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -30,7 +30,7 @@ pub struct HtmlSelectProps<T: Clone + PartialEq + 'static> {
 }
 
 impl<T: Clone + PartialEq + 'static> Component for HtmlSelect<T> {
-    type Message = ChangeData;
+    type Message = Event;
     type Properties = HtmlSelectProps<T>;
 
     fn create(ctx: &Context<Self>) -> Self {
@@ -41,7 +41,7 @@ impl<T: Clone + PartialEq + 'static> Component for HtmlSelect<T> {
     }
 
     fn update(&mut self, msg: Self::Message) -> bool {
-        let i = if let ChangeData::Select(select) = msg {
+        let i = if let Event::Select(select) = msg {
             select.selected_index()
         } else {
             unreachable!("unexpected ChangeData variant: {:?}", msg);
