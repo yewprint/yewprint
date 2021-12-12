@@ -31,14 +31,16 @@ impl Component for Spinner {
     type Properties = SpinnerProps;
 
     fn create(ctx: &Context<Self>) -> Self {
-        Self { props: ctx.props() }
+        Self {
+            props: *ctx.props(),
+        }
     }
 
     fn update(&mut self, _ctx: &Context<Self>, _msg: Self::Message) -> bool {
         true
     }
 
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         let size = f32::max(SPINNER_MIN_SIZE, self.props.size);
         let stroke_width = f32::min(MIN_STROKE_WIDTH, (STROKE_WIDTH * SPINNER_SIZE_LARGE) / size);
         let view_box = {

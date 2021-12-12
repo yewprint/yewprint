@@ -58,7 +58,7 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
         true
     }
 
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         let tabs = self
             .props
             .tabs

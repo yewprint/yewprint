@@ -54,7 +54,7 @@ impl Component for TagDoc {
         true
     }
 
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         let example_props = self.state.clone();
         let source = crate::include_raw_html!(
             concat!(env!("OUT_DIR"), "/", file!(), ".html"),
@@ -83,7 +83,7 @@ impl Component for TagDoc {
 
 crate::build_example_prop_component! {
     TagProps for ExampleProps =>
-        fn view(&self) -> Html {
+        fn view(&self, _ctx: &Context<Self>) -> Html {
             html! {
                 <div>
                     <H5>{"Props"}</H5>

@@ -54,7 +54,7 @@ impl Component for Example {
         true
     }
 
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         html! {
             <>
             <NumericInput<i32>

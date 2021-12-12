@@ -158,7 +158,7 @@ impl Component for PanelStack {
         }
     }
 
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         let opened_panels = self.props.state.opened_panels.borrow();
         let action = self.props.state.action;
         let last = match action {
@@ -268,7 +268,7 @@ impl Component for Panel {
         }
     }
 
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         let style = if self.animation == Animation::Exited {
             "display:none"
         } else {

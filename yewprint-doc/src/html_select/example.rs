@@ -32,7 +32,7 @@ impl Component for Example {
         true
     }
 
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         html! {
             <div style="width: 400px; text-align: center;">
                 <HtmlSelect<LogLevel>

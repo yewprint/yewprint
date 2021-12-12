@@ -65,7 +65,7 @@ impl Component for Example {
         }
     }
 
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         self.tags
             .iter()
             .map(|label| {

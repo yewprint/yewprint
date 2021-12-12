@@ -31,7 +31,7 @@ impl Component for Logo {
         }
     }
 
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         crate::include_raw_html!("logo.svg", &self.props.class.to_string())
     }
 }

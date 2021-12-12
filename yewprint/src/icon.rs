@@ -38,14 +38,16 @@ impl Component for Icon {
     type Properties = IconProps;
 
     fn create(ctx: &Context<Self>) -> Self {
-        Self { props: ctx.props() }
+        Self {
+            props: *ctx.props(),
+        }
     }
 
     fn update(&mut self, _ctx: &Context<Self>, _msg: Self::Message) -> bool {
         true
     }
 
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         let paths = if self.props.icon_size == ICON_SIZE_STANDARD {
             icon_svg_paths_16(self.props.icon)
         } else {

@@ -22,14 +22,16 @@ impl Component for Menu {
     type Properties = MenuProps;
 
     fn create(ctx: &Context<Self>) -> Self {
-        Self { props: ctx.props() }
+        Self {
+            props: *ctx.props(),
+        }
     }
 
     fn update(&mut self, _ctx: &Context<Self>, _msg: Self::Message) -> bool {
         true
     }
 
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         html! {
             <ul
                 class={classes!(
@@ -85,14 +87,16 @@ impl Component for MenuItem {
     type Properties = MenuItemProps;
 
     fn create(ctx: &Context<Self>) -> Self {
-        Self { props: ctx.props() }
+        Self {
+            props: *ctx.props(),
+        }
     }
 
     fn update(&mut self, _ctx: &Context<Self>, _msg: Self::Message) -> bool {
         true
     }
 
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         html! {
             <li>
                 <a
@@ -161,14 +165,16 @@ impl Component for MenuDivider {
     type Properties = MenuDividerProps;
 
     fn create(ctx: &Context<Self>) -> Self {
-        Self { props: ctx.props() }
+        Self {
+            props: *ctx.props(),
+        }
     }
 
     fn update(&mut self, _ctx: &Context<Self>, _msg: Self::Message) -> bool {
         true
     }
 
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         html! {
             {if let Some(title) = self.props.title.clone() {
                 html! {

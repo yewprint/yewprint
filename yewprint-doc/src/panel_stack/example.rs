@@ -71,7 +71,7 @@ impl Component for Example {
         }
     }
 
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         html! {
             <div>
                 <PanelStack
@@ -116,7 +116,7 @@ impl Component for Panel2 {
         false
     }
 
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         html! {
             <div>
                 <p>{"Counter: "}{self.counter}</p>

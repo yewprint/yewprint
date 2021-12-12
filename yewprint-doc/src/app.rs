@@ -68,7 +68,7 @@ impl Component for App {
         true
     }
 
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         let netlify_badge = if self.dark_theme {
             "https://www.netlify.com/img/global/badges/netlify-color-accent.svg"
         } else {

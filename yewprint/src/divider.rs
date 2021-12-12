@@ -19,14 +19,16 @@ impl Component for Divider {
     type Properties = DividerProps;
 
     fn create(ctx: &Context<Self>) -> Self {
-        Self { props: ctx.props() }
+        Self {
+            props: *ctx.props(),
+        }
     }
 
-    fn update(&mut self, _: Self::Message) -> bool {
+    fn update(&mut self, _ctx: &Context<Self>, _: Self::Message) -> bool {
         true
     }
 
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         html! {
             <span
                 class={classes!(

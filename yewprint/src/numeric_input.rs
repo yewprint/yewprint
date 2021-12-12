@@ -119,7 +119,7 @@ where
         }
     }
 
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         let NumericInputProps {
             value,
             increment,

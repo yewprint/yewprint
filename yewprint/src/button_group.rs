@@ -37,7 +37,7 @@ impl Component for ButtonGroup {
         true
     }
 
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         html! {
             <div
                 class={classes!(

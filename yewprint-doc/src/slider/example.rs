@@ -53,7 +53,7 @@ impl Component for Example {
         true
     }
 
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         let percentage_labels = (0..=100)
             .step_by(1)
             .map(|x| (x, (x % 10 == 0).then(|| format!("{}%", x).into())))

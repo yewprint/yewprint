@@ -29,7 +29,7 @@ impl Component for TextDoc {
         true
     }
 
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         let example_props = self.state.clone();
         let source = crate::include_raw_html!(
             concat!(env!("OUT_DIR"), "/", file!(), ".html"),
@@ -60,7 +60,7 @@ impl Component for TextDoc {
 
 crate::build_example_prop_component! {
     TextProps for ExampleProps =>
-        fn view(&self) -> Html {
+        fn view(&self, _ctx: &Context<Self>) -> Html {
             html! {
                 <div>
                     <H5>{"Props"}</H5>

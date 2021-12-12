@@ -54,7 +54,7 @@ impl<T: Clone + PartialEq + 'static> Component for HtmlSelect<T> {
         false
     }
 
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         let option_children = self
             .props
             .options

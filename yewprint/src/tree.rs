@@ -123,7 +123,7 @@ impl<T: Clone + PartialEq + 'static> Component for Tree<T> {
         true
     }
 
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         let tree = self.props.tree.borrow();
 
         let nodes = if let Some(root_id) = tree.root_node_id() {
@@ -295,7 +295,7 @@ impl Component for TreeNode {
         }
     }
 
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         let content_style = format!("padding-left: {}px;", 23 * self.props.depth);
 
         html! {

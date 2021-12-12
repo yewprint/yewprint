@@ -24,14 +24,16 @@ impl Component for ProgressBar {
     type Properties = ProgressBarProps;
 
     fn create(ctx: &Context<Self>) -> Self {
-        Self { props: ctx.props() }
+        Self {
+            props: *ctx.props(),
+        }
     }
 
     fn update(&mut self, _ctx: &Context<Self>, _msg: Self::Message) -> bool {
         true
     }
 
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         let width = if let Some(value) = self.props.value {
             // NOTE: nightly, issue #44095 for f32::clamp
             // let percent = ((1000. * value).ceil() / 10.).clamp(0.,100.);

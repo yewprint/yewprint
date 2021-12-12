@@ -93,7 +93,7 @@ impl Component for Example {
         }
     }
 
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         html! {
             <>
                 <InputGroup

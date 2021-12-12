@@ -153,7 +153,7 @@ impl Component for Collapse {
         }
     }
 
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         let mut container_style = String::with_capacity(30);
         match (self.height, self.height_when_open.as_ref()) {
             (Height::Zero, _) => container_style.push_str("height: 0px; "),

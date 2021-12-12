@@ -177,7 +177,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
         }
     }
 
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         let value_index = self
             .props
             .values

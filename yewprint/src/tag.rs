@@ -48,14 +48,16 @@ impl Component for Tag {
     type Properties = TagProps;
 
     fn create(ctx: &Context<Self>) -> Self {
-        Self { props: ctx.props() }
+        Self {
+            props: *ctx.props(),
+        }
     }
 
     fn update(&mut self, _ctx: &Context<Self>, _msg: Self::Message) -> bool {
         true
     }
 
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         let icon = if_html!(let Some(icon) = self.props.icon => <Icon icon={icon} />);
 
         let right_icon =

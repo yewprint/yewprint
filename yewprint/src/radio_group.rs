@@ -29,14 +29,16 @@ impl<T: Clone + PartialEq + 'static> Component for RadioGroup<T> {
     type Properties = RadioGroupProps<T>;
 
     fn create(ctx: &Context<Self>) -> Self {
-        Self { props: ctx.props() }
+        Self {
+            props: *ctx.props(),
+        }
     }
 
-    fn update(&mut self, _: Self::Message) -> bool {
+    fn update(&mut self, _ctx: &Context<Self>, _: Self::Message) -> bool {
         true
     }
 
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         let option_children = self
             .props
             .options

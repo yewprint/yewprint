@@ -102,11 +102,11 @@ impl Component for InputGroup {
         }
     }
 
-    fn update(&mut self, _: Self::Message) -> bool {
+    fn update(&mut self, _ctx: &Context<Self>, _: Self::Message) -> bool {
         true
     }
 
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         let input_style = match (self.left_element_width, self.right_element_width) {
             (Some(left), None) => format!("padding-left:{}px", left.max(MIN_HORIZONTAL_PADDING)),
             (None, Some(right)) => format!("padding-right:{}px", right.max(MIN_HORIZONTAL_PADDING)),
