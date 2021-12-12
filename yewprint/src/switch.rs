@@ -76,8 +76,6 @@ impl Component for Switch {
                 Html::default()
             }
         };
-
-
         html! {
             <label
                 class=classes!(
