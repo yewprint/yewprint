@@ -28,10 +28,12 @@ impl Component for ButtonGroup {
     type Properties = ButtonGroupProps;
 
     fn create(ctx: &Context<Self>) -> Self {
-        Self { props: ctx.props() }
+        Self {
+            props: *ctx.props(),
+        }
     }
 
-    fn update(&mut self, _: Self::Message) -> bool {
+    fn update(&mut self, _: &Context<Self>, _: Self::Message) -> bool {
         true
     }
 

@@ -25,7 +25,7 @@ impl Component for Menu {
         Self { props: ctx.props() }
     }
 
-    fn update(&mut self, _msg: Self::Message) -> bool {
+    fn update(&mut self, _ctx: &Context<Self>, _msg: Self::Message) -> bool {
         true
     }
 
@@ -88,7 +88,7 @@ impl Component for MenuItem {
         Self { props: ctx.props() }
     }
 
-    fn update(&mut self, _msg: Self::Message) -> bool {
+    fn update(&mut self, _ctx: &Context<Self>, _msg: Self::Message) -> bool {
         true
     }
 
@@ -164,7 +164,7 @@ impl Component for MenuDivider {
         Self { props: ctx.props() }
     }
 
-    fn update(&mut self, _msg: Self::Message) -> bool {
+    fn update(&mut self, _ctx: &Context<Self>, _msg: Self::Message) -> bool {
         true
     }
 

@@ -10,7 +10,7 @@ impl Component for Example {
     fn create(ctx: &Context<Self>) -> Self {
         Example {}
     }
-    fn update(&mut self, _msg: Self::Message) -> bool {
+    fn update(&mut self, _ctx: &Context<Self>, _msg: Self::Message) -> bool {
         true
     }
 

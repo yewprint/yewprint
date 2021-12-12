@@ -41,13 +41,13 @@ impl<T> From<id_tree::Tree<NodeData<T>>> for TreeData<T> {
     }
 }
 
-pub struct Tree<T: Clone> {
+pub struct Tree<T: Clone + PartialEq> {
     props: TreeProps<T>,
     previous_expanded_state: RefCell<HashMap<u64, bool>>,
 }
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct TreeProps<T: Clone + std::cmp::PartialEq> {
+pub struct TreeProps<T: Clone + PartialEq> {
     #[prop_or_default]
     pub is_expanded: bool,
     pub tree: TreeData<T>,
@@ -119,7 +119,7 @@ impl<T: Clone + PartialEq + 'static> Component for Tree<T> {
         }
     }
 
-    fn update(&mut self, _msg: Self::Message) -> bool {
+    fn update(&mut self, _ctx: &Context<Self>, _msg: Self::Message) -> bool {
         true
     }
 
@@ -145,7 +145,7 @@ impl<T: Clone + PartialEq + 'static> Component for Tree<T> {
     }
 }
 
-impl<T: Clone> Tree<T> {
+impl<T: Clone + PartialEq> Tree<T> {
     fn render_children(&self, node_id: &NodeId, depth: u32) -> yew::virtual_dom::VNode {
         let tree = self.props.tree.borrow();
         let node = tree.get(node_id).unwrap();

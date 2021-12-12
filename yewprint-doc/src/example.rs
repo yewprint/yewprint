@@ -96,7 +96,7 @@ macro_rules! build_example_prop_component {
                 props: ctx.props()
             }
 
-            fn update(&mut self, _msg: Self::Message) -> bool {
+            fn update(&mut self, _ctx: &Context<Self>, _msg: Self::Message) -> bool {
                 true
             }
 

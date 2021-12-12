@@ -54,7 +54,7 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
         }
     }
 
-    fn update(&mut self, _msg: Self::Message) -> bool {
+    fn update(&mut self, _ctx: &Context<Self>, _msg: Self::Message) -> bool {
         true
     }
 
