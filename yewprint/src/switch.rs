@@ -60,13 +60,13 @@ impl Component for Switch {
                                     if let Some(label_checked) = inner_label_checked {
                                         label_checked.clone()
                                     } else {
-                                        inner_label.clone()
+                                        inner_label.to_string()
                                     }
                                 }
                             </div>
                         </div>
                         <div class=classes!("bp3-control-indicator-child")>
-                            <div class=classes!("bp3-switch-inner-text")>{inner_label.clone()}</div>
+                            <div class=classes!("bp3-switch-inner-text")>{inner_label.to_string()}</div>
                         </div>
                     </>
                 }
