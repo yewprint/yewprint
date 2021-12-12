@@ -50,7 +50,7 @@ impl Component for Switch {
     fn view(&self) -> Html {
         let maybe_display_label = move || -> Html {
             if self.props.inner_label.is_some() || self.props.inner_label_checked.is_some() {
-                let inner_label = self.props.inner_label.as_ref().unwrap_or_default();
+                let inner_label = self.props.inner_label.as_deref().unwrap_or_default();
                 let inner_label_checked = self.props.inner_label_checked.as_ref();
                 html! {
                     <>
