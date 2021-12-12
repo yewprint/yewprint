@@ -50,7 +50,7 @@ impl Component for Switch {
     fn view(&self) -> Html {
         let maybe_display_label = move || -> Html {
             if self.props.inner_label.is_some() || self.props.inner_label_checked.is_some() {
-                let inner_label = self.props.inner_label.clone().unwrap_or_default();
+                let inner_label = self.props.inner_label.as_ref().unwrap_or_default();
                 let inner_label_checked = self.props.inner_label_checked.as_ref();
                 html! {
                     <>
@@ -60,13 +60,13 @@ impl Component for Switch {
                                     if let Some(label_checked) = inner_label_checked {
                                         label_checked.clone()
                                     } else {
-                                        inner_label
+                                        inner_label.clone()
                                     }
                                 }
                             </div>
                         </div>
                         <div class=classes!("bp3-control-indicator-child")>
-                            <div class=classes!("bp3-switch-inner-text")>{inner_label}</div>
+                            <div class=classes!("bp3-switch-inner-text")>{inner_label.clone()}</div>
                         </div>
                     </>
                 }
