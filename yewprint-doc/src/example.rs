@@ -31,7 +31,7 @@ impl Component for ExampleContainer {
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> bool {
+    fn update(&mut self, _ctx:  &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             Msg::ToggleSource => self.collapsed ^= true,
         }
@@ -93,7 +93,7 @@ macro_rules! build_example_prop_component {
             type Properties = Self;
 
             fn create(ctx: &Context<Self>) -> Self {
-                props: ctx.props()
+                props: *ctx.props()
             }
 
             fn update(&mut self, _ctx: &Context<Self>, _msg: Self::Message) -> bool {

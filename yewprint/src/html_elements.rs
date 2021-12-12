@@ -17,11 +17,11 @@ macro_rules! build_component {
             type Message = Self;
             type Properties = Self;
 
-            fn create(ctx: &Context<Self>) -> Self {
+            fn create(_ctx: &Context<Self>) -> Self {
                 Self
             }
 
-            fn rendered(&self, _ctx: &yew::Context<Self>, _first_render: bool) -> Html {
+            fn view(&self, _ctx: &yew::Context<Self>) -> Html {
                 html! {
                     <$tag class={classes!($class, self.class.clone())}>
                         {self.children.clone()}

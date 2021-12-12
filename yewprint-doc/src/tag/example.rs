@@ -38,7 +38,7 @@ impl Component for Example {
         Example { props, link, tags }
     }
 
-    fn update(&mut self, msg: Self::Message) -> bool {
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             ExampleMsg::Remove(label) => {
                 self.tags = self

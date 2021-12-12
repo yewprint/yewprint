@@ -24,7 +24,7 @@ impl Component for ControlGroupDoc {
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> bool {
+    fn update(&mut self, _ctx:  &Context<Self>, msg: Self::Message) -> bool {
         self.state = msg;
         true
     }

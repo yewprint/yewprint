@@ -86,13 +86,13 @@ where
 
     fn create(ctx: &Context<Self>) -> Self {
         Self {
-            props: ctx.props(),
-            link: ctx.link(),
+            props: *ctx.props(),
+            link: *ctx.link(),
             input: Default::default(),
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> bool {
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             Msg::InputUpdate(new_value) => {
                 if let Ok(new_value) = new_value.trim().parse::<T>() {
@@ -108,11 +108,11 @@ where
     }
 
     fn changed(&mut self, ctx: &Context<Self>) -> bool {
-        if self.props != ctx.props() {
+        if self.props != *ctx.props() {
             if self.props.value != ctx.props().value {
                 self.input = ctx.props().value.to_string();
             }
-            self.props = ctx.props();
+            self.props = *ctx.props();
             true
         } else {
             false

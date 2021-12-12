@@ -144,12 +144,12 @@ impl Component for PanelStack {
     fn create(ctx: &Context<Self>) -> Self {
         Self {
             timeout_task: None,
-            props: ctx.props(),
-            link: ctx.link(),
+            props: *ctx.props(),
+            link: *ctx.link(),
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> bool {
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             PanelStackMessage::PopPanel => {
                 self.props.state.opened_panels.borrow_mut().pop();
@@ -244,12 +244,12 @@ impl Component for Panel {
         Self {
             animation: ctx.props().animation,
             timeout_task: None,
-            props: ctx.props(),
-            link: ctx.link(),
+            props: *ctx.props(),
+            link: *ctx.link(),
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> bool {
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             PanelMessage::UpdateAnimation(animation) => {
                 self.animation = animation;

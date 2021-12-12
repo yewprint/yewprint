@@ -48,7 +48,7 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
             .collect::<HashMap<_, _>>();
 
         Self {
-            props: ctx.props(),
+            props: *ctx.props(),
             tab_refs,
             indicator_ref: Default::default(),
         }

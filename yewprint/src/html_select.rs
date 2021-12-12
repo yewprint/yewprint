@@ -35,12 +35,12 @@ impl<T: Clone + PartialEq + 'static> Component for HtmlSelect<T> {
 
     fn create(ctx: &Context<Self>) -> Self {
         Self {
-            props: ctx.props(),
-            link: ctx.link(),
+            props: *ctx.props(),
+            link: *ctx.link(),
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> bool {
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         let i = if let Event::Select(select) = msg {
             select.selected_index()
         } else {

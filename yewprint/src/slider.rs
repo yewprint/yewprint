@@ -56,10 +56,10 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
             }) as Box<dyn FnMut(_)>)
         };
         Self {
-            props: ctx.props(),
+            props: *ctx.props(),
             mouse_move,
             mouse_up,
-            link: ctx.link(),
+            link: *ctx.link(),
             handle_ref: NodeRef::default(),
             track_ref: NodeRef::default(),
             is_moving: false,
@@ -67,7 +67,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> bool {
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             Msg::StartChange if self.props.values.len() > 1 => {
                 let document = gloo_utils::document();

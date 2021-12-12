@@ -86,7 +86,7 @@ impl Component for Example {
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> bool {
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             Msg::ExpandNode(node_id) => {
                 let mut tree = self.tree.borrow_mut();

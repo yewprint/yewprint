@@ -71,13 +71,13 @@ impl Component for Collapse {
             contents_ref: NodeRef::default(),
             callback_delayed_state_change: ctx.link().callback(|_| ()),
             handle_delayed_state_change: None,
-            props: ctx.props(),
-            link: ctx.link(),
+            props: *ctx.props(),
+            link: *ctx.link(),
         }
     }
 
     fn changed(&mut self, ctx: &Context<Self>) -> bool {
-        if self.props != ctx.props() {
+        if self.props != *ctx.props() {
             if ctx.props().is_open {
                 match self.animation_state {
                     AnimationState::Open | AnimationState::Opening => {}
