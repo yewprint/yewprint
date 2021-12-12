@@ -19,9 +19,8 @@ tree = ["id_tree"]
 
 [dependencies]
 web-sys = { version = "0.3", features = ["DomRect", "Element"] }
-yew = { git = "https://github.com/yewstack/yew" }
+yew = "0.19"
 id_tree = { version = "1.7", optional = true }
-yewtil = { version = "0.4", features = ["pure"] }
 wasm-bindgen = "0.2"
 gloo-timers = "0.2.2"
 gloo-utils = "0.1.1"
