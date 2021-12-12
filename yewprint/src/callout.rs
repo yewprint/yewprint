@@ -57,7 +57,7 @@ impl Component for Callout {
             <div class={classes}>
                 {
                     icon.iter()
-                        .map(|name| html!{<Icon icon={*name icon_size=ICON_SIZE_LARGE}/>})
+                        .map(|name| html!{<Icon icon={*name} icon_size={ICON_SIZE_LARGE}/>})
                         .collect::<Html>()
                 }
                 {

@@ -88,17 +88,13 @@ macro_rules! build_source_code_component {
             type Message = ();
             type Properties = ();
 
-            fn create(ctx: &Context<Self>) -> Self {
+            fn create(_ctx: &Context<Self>) -> Self {
                 let url = SourceCodeUrl::generate_url();
 
                 Self { url }
             }
 
             fn update(&mut self, _msg: Self::Message) -> bool {
-                true
-            }
-
-            fn changed(&mut self, _ctx: &Context<Self>) -> bool {
                 true
             }
 

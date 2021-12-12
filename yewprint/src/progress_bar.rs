@@ -50,7 +50,7 @@ impl Component for ProgressBar {
                     self.props.class.clone(),
                 )}
             >
-                <div class={classes!("bp3-progress-meter") style={{width}}}/>
+                <div class={classes!("bp3-progress-meter")} style={{width}}/>
             </div>
         }
     }

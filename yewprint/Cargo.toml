@@ -23,6 +23,8 @@ yew = { git = "https://github.com/yewstack/yew" }
 id_tree = { version = "1.7", optional = true }
 yewtil = { version = "0.4", features = ["pure"] }
 wasm-bindgen = "0.2"
+gloo-timers = "0.2.2"
+gloo-utils = "0.1.1"
 
 [build-dependencies]
 regex = { version = "1", default-features = false, features = ["std", "unicode-perl"] }

@@ -109,10 +109,10 @@ impl Component for App {
                             </div>
                             <Menu>
                                 <MenuItem
-                                    text={{html!(go_to_theme_label)}}
+                                    text={html!(go_to_theme_label)}
                                     onclick={self.link
                                         .callback(|_| Msg::ToggleLight)}
-                                    icon=go_to_theme_icon
+                                    icon={go_to_theme_icon}
                                 />
                                 <MenuItem
                                     text={html!("Button")}

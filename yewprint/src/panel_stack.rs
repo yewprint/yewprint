@@ -1,4 +1,5 @@
 use crate::{Button, IconName};
+use gloo_timers::callback::Timeout;
 use std::borrow::Cow;
 use std::cell::RefCell;
 use std::fmt;
@@ -118,7 +119,7 @@ impl From<StateAction> for Classes {
 }
 
 pub struct PanelStack {
-    timeout_task: Option<TimeoutTask>,
+    timeout_task: Option<Timeout>,
     props: PanelStackProps,
     link: &html::Scope<Self>,
 }
@@ -207,7 +208,7 @@ impl Component for PanelStack {
 
     fn rendered(&mut self, _first_render: bool) {
         if self.props.state.action.take() == Some(StateAction::Pop) {
-            self.timeout_task.replace(TimeoutService::spawn(
+            self.timeout_task.replace(Timeout::new(
                 Duration::from_millis(400),
                 self.link.callback(|_| PanelStackMessage::PopPanel),
             ));
@@ -217,7 +218,7 @@ impl Component for PanelStack {
 
 struct Panel {
     animation: Animation,
-    timeout_task: Option<TimeoutTask>,
+    timeout_task: Option<Timeout>,
     props: PanelProps,
     link: &html::Scope<Self>,
 }
@@ -315,14 +316,14 @@ impl Component for Panel {
     fn rendered(&mut self, _first_render: bool) {
         match self.animation {
             Animation::EnterStart => {
-                self.timeout_task.replace(TimeoutService::spawn(
+                self.timeout_task.replace(Timeout::new(
                     Duration::from_millis(0),
                     self.link
                         .callback(|_| PanelMessage::UpdateAnimation(Animation::Entering)),
                 ));
             }
             Animation::Entering => {
-                self.timeout_task.replace(TimeoutService::spawn(
+                self.timeout_task.replace(Timeout::new(
                     Duration::from_millis(400),
                     self.link
                         .callback(|_| PanelMessage::UpdateAnimation(Animation::Entered)),
@@ -330,14 +331,14 @@ impl Component for Panel {
             }
             Animation::Entered => {}
             Animation::ExitStart => {
-                self.timeout_task.replace(TimeoutService::spawn(
+                self.timeout_task.replace(Timeout::new(
                     Duration::from_millis(0),
                     self.link
                         .callback(|_| PanelMessage::UpdateAnimation(Animation::Exiting)),
                 ));
             }
             Animation::Exiting => {
-                self.timeout_task.replace(TimeoutService::spawn(
+                self.timeout_task.replace(Timeout::new(
                     Duration::from_millis(400),
                     self.link
                         .callback(|_| PanelMessage::UpdateAnimation(Animation::Exited)),

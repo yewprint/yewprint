@@ -1,3 +1,4 @@
+use gloo_timers::callback::Timeout;
 use std::time::Duration;
 use web_sys::Element;
 use yew::prelude::*;
@@ -109,7 +110,7 @@ impl Component for Collapse {
             AnimationState::OpenStart => {
                 self.animation_state = AnimationState::Opening;
                 self.height = Height::Full;
-                self.handle_delayed_state_change = Some(Box::new(TimeoutService::spawn(
+                self.handle_delayed_state_change = Some(Box::new(Timeout::new(
                     self.props.transition_duration,
                     self.callback_delayed_state_change.clone(),
                 )));
@@ -118,7 +119,7 @@ impl Component for Collapse {
             AnimationState::ClosingStart => {
                 self.animation_state = AnimationState::Closing;
                 self.height = Height::Zero;
-                self.handle_delayed_state_change = Some(Box::new(TimeoutService::spawn(
+                self.handle_delayed_state_change = Some(Box::new(Timeout::new(
                     self.props.transition_duration,
                     self.callback_delayed_state_change.clone(),
                 )));
