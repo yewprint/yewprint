@@ -13,8 +13,8 @@ macro_rules! build_component {
         }
 
         impl Component for $props_name {
-            type Message = Self;
-            type Properties = Self;
+            type Message = ();
+            type Properties = $props_name;
 
             fn create(ctx: &Context<Self>) -> Self {
                 Self {
