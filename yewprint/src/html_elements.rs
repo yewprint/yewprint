@@ -2,7 +2,7 @@ use yew::prelude::*;
 
 macro_rules! build_component {
     ($name:ident, $props_name:ident, $tag:tt, $class:literal) => {
-        // pub type $name = dyn Component<$props_name, Message = $props_name, Properties = $props_name>;
+        pub struct $name;
 
         #[derive(Debug, Clone, PartialEq, yew::prelude::Properties)]
         pub struct $props_name {
