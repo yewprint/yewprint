@@ -25,7 +25,7 @@ impl Component for Example {
         }
     }
 
-    fn update(&mut self, _ctx:  &Context<Self>, msg: Self::Message) -> bool {
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         if self.selected != msg {
             self.selected = msg;
             true

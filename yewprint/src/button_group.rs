@@ -1,4 +1,3 @@
-use std::borrow::Cow;
 use yew::prelude::*;
 
 pub struct ButtonGroup {
@@ -16,7 +15,7 @@ pub struct ButtonGroupProps {
     #[prop_or_default]
     pub large: bool,
     #[prop_or_default]
-    pub style: Option<Cow<'static, str>>,
+    pub style: Option<String>,
     #[prop_or_default]
     pub children: html::Children,
     #[prop_or_default]

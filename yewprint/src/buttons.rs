@@ -1,5 +1,4 @@
 use crate::{Icon, IconName, Intent, Spinner, ICON_SIZE_LARGE};
-use std::borrow::Cow;
 use yew::prelude::*;
 
 pub struct Button {
@@ -35,7 +34,7 @@ pub struct ButtonProps {
     #[prop_or_default]
     pub class: Classes,
     #[prop_or_default]
-    pub style: Option<Cow<'static, str>>,
+    pub style: Option<String>,
     #[prop_or_default]
     pub children: html::Children,
 }

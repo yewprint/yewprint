@@ -18,7 +18,7 @@ pub struct CalloutProps {
     #[prop_or_default]
     pub intent: Option<Intent>,
     #[prop_or_default]
-    pub title: Option<Cow<'static, str>>,
+    pub title: Option<String>,
     pub children: html::Children,
 }
 

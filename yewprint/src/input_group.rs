@@ -179,7 +179,7 @@ impl Component for InputGroup {
         }
     }
 
-    fn rendered(&mut self, _first_render: bool) {
+    fn rendered(&mut self, _ctx: &Context<Self>, _first_render: bool) {
         let left_old_value = self.left_element_width.take();
         self.left_element_width = self
             .left_element_ref

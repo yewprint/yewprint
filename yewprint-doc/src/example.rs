@@ -31,7 +31,7 @@ impl Component for ExampleContainer {
         }
     }
 
-    fn update(&mut self, _ctx:  &Context<Self>, msg: Self::Message) -> bool {
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             Msg::ToggleSource => self.collapsed ^= true,
         }

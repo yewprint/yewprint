@@ -38,7 +38,7 @@ impl Component for Example {
         }
     }
 
-    fn update(&mut self, _ctx:  &Context<Self>, msg: Self::Message) -> bool {
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             Msg::Reset => {
                 self.value = 4;

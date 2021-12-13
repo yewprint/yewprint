@@ -162,7 +162,7 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
         }
     }
 
-    fn rendered(&mut self, _first_render: bool) {
+    fn rendered(&mut self, _ctx: &Context<Self>, _first_render: bool) {
         if self.props.animate {
             let mut hasher = DefaultHasher::new();
             self.props.selected_tab_id.hash(&mut hasher);

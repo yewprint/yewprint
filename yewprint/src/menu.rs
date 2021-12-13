@@ -1,5 +1,4 @@
 use crate::{Icon, IconName, Intent, H6};
-use std::borrow::Cow;
 use yew::prelude::*;
 
 pub struct Menu {
@@ -64,7 +63,7 @@ pub struct MenuItemProps {
     #[prop_or_default]
     pub disabled: bool,
     #[prop_or_default]
-    pub href: Option<Cow<'static, str>>,
+    pub href: Option<String>,
     #[prop_or_default]
     pub label: Option<yew::virtual_dom::VNode>,
     #[prop_or_default]

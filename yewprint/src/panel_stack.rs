@@ -4,7 +4,6 @@ use std::borrow::Cow;
 use std::cell::RefCell;
 use std::fmt;
 use std::rc::Rc;
-use std::time::Duration;
 use yew::prelude::*;
 
 pub struct PanelBuilder<F: Fn(Option<Html>, I) -> O, I, O> {
@@ -206,12 +205,12 @@ impl Component for PanelStack {
         }
     }
 
-    fn rendered(&mut self, _first_render: bool) {
+    fn rendered(&mut self, ctx: &Context<Self>, _first_render: bool) {
         if self.props.state.action.take() == Some(StateAction::Pop) {
-            self.timeout_task.replace(Timeout::new(
-                Duration::from_millis(400),
-                self.link.callback(|_| PanelStackMessage::PopPanel),
-            ));
+            let link = ctx.link().clone();
+            self.timeout_task.replace(Timeout::new(400, move || {
+                link.send_message(PanelStackMessage::PopPanel)
+            }));
         }
     }
 }
@@ -259,9 +258,9 @@ impl Component for Panel {
     }
 
     fn changed(&mut self, ctx: &Context<Self>) -> bool {
-        if self.props != ctx.props() {
+        if self.props != *ctx.props() {
             self.animation = ctx.props().animation;
-            self.props = ctx.props();
+            self.props = *ctx.props();
             true
         } else {
             false
@@ -289,7 +288,7 @@ impl Component for Panel {
             html! {
                 <Button
                     class={classes!("bp3-panel-stack-header-back")}
-                    style={Cow::Borrowed("padding-right:0")}
+                    style={"padding-right:0"}
                     icon={IconName::ChevronLeft}
                     minimal={true}
                     small={true}
@@ -313,36 +312,32 @@ impl Component for Panel {
         }
     }
 
-    fn rendered(&mut self, _first_render: bool) {
+    fn rendered(&mut self, _ctx: &Context<Self>, _first_render: bool) {
         match self.animation {
             Animation::EnterStart => {
-                self.timeout_task.replace(Timeout::new(
-                    Duration::from_millis(0),
-                    self.link
-                        .callback(|_| PanelMessage::UpdateAnimation(Animation::Entering)),
-                ));
+                let link = self.link.clone();
+                self.timeout_task.replace(Timeout::new(0, move || {
+                    link.send_message(PanelMessage::UpdateAnimation(Animation::Entering));
+                }));
             }
             Animation::Entering => {
-                self.timeout_task.replace(Timeout::new(
-                    Duration::from_millis(400),
-                    self.link
-                        .callback(|_| PanelMessage::UpdateAnimation(Animation::Entered)),
-                ));
+                let link = self.link.clone();
+                self.timeout_task.replace(Timeout::new(400, || {
+                    link.send_message(PanelMessage::UpdateAnimation(Animation::Entered));
+                }));
             }
             Animation::Entered => {}
             Animation::ExitStart => {
-                self.timeout_task.replace(Timeout::new(
-                    Duration::from_millis(0),
-                    self.link
-                        .callback(|_| PanelMessage::UpdateAnimation(Animation::Exiting)),
-                ));
+                let link = self.link.clone();
+                self.timeout_task.replace(Timeout::new(0, || {
+                    link.send_message(PanelMessage::UpdateAnimation(Animation::Exiting));
+                }));
             }
             Animation::Exiting => {
-                self.timeout_task.replace(Timeout::new(
-                    Duration::from_millis(400),
-                    self.link
-                        .callback(|_| PanelMessage::UpdateAnimation(Animation::Exited)),
-                ));
+                let link = self.link.clone();
+                self.timeout_task.replace(Timeout::new(400, || {
+                    link.send_message(PanelMessage::UpdateAnimation(Animation::Exited));
+                }));
             }
             Animation::Exited => {}
         }
