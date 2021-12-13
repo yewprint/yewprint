@@ -25,7 +25,7 @@ macro_rules! build_component {
 
             fn view(&self, _ctx: &yew::Context<Self>) -> Html {
                 html! {
-                    <$tag class={classes!($class, self.class.clone())}>
+                    <$tag class={classes!($class, ctx.props().class.clone())}>
                         {self.children.clone()}
                     </$tag>
                 }
