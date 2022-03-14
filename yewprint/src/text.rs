@@ -1,9 +1,4 @@
-use std::borrow::Cow;
 use yew::prelude::*;
-
-pub struct Text {
-    props: TextProps,
-}
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct TextProps {
@@ -22,32 +17,18 @@ pub struct TextProps {
     pub style: Option<String>,
 }
 
-impl Component for Text {
-    type Message = ();
-    type Properties = TextProps;
-
-    fn create(ctx: &Context<Self>) -> Self {
-        Self {
-            props: *ctx.props(),
-        }
-    }
-
-    fn update(&mut self, _ctx: &Context<Self>, _msg: Self::Message) -> bool {
-        true
-    }
-
-    fn view(&self, _ctx: &Context<Self>) -> Html {
-        html! {
-            <@{if self.props.inline { "span" } else { "div"}}
-                class={classes!(
-                    self.props.class.clone(),
-                    self.props.ellipsize.then (|| "bp3-text-overflow-ellipsis"),
-                )}
-                style={self.props.style.clone()}
-                title={self.props.title.clone()}
-            >
-                {self.props.children.clone()}
-            </@>
-        }
+#[function_component(Text)]
+pub fn text(props: &TextProps) -> Html {
+    html! {
+        <@{if props.inline { "span" } else { "div"}}
+            class={classes!(
+                props.class.clone(),
+                props.ellipsize.then (|| "bp3-text-overflow-ellipsis"),
+            )}
+            style={props.style.clone()}
+            title={props.title.clone()}
+        >
+            {props.children.clone()}
+        </@>
     }
 }
