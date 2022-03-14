@@ -14,35 +14,17 @@ pub struct CardProps {
     pub children: html::Children,
 }
 
-pub struct Card {
-    props: CardProps,
-}
-
-impl Component for Card {
-    type Message = ();
-    type Properties = CardProps;
-
-    fn create(ctx: &Context<Self>) -> Self {
-        Self {
-            props: *ctx.props(),
-        }
-    }
-
-    fn update(&mut self, _ctx: &Context<Self>, _msg: Self::Message) -> bool {
-        true
-    }
-
-    fn view(&self, _ctx: &Context<Self>) -> Html {
-        html! {
-            <div class={classes!(
-                "bp3-card",
-                self.props.class.clone(),
-                self.props.elevation,
-                self.props.interactive.then(|| "bp3-interactive"),
-            )}
-            onclick={self.props.onclick.clone()}>
-                {self.props.children.clone()}
-            </div>
-        }
+#[function_component(Card)]
+pub fn card(props: &CardProps) -> Html {
+    html! {
+        <div class={classes!(
+            "bp3-card",
+            props.class.clone(),
+            props.elevation,
+            props.interactive.then(|| "bp3-interactive"),
+        )}
+        onclick={props.onclick.clone()}>
+            {props.children.clone()}
+        </div>
     }
 }
