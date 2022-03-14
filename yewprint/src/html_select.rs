@@ -1,12 +1,11 @@
-use std::ops::Deref;
+use std::{marker::PhantomData, ops::Deref};
 
 use crate::{Icon, IconName};
 use web_sys::HtmlSelectElement;
 use yew::prelude::*;
 
 pub struct HtmlSelect<T: Clone + PartialEq + 'static> {
-    props: HtmlSelectProps<T>,
-    link: html::Scope<Self>,
+    phantom: PhantomData<T>,
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -36,14 +35,13 @@ impl<T: Clone + PartialEq + 'static> Component for HtmlSelect<T> {
     type Message = Event;
     type Properties = HtmlSelectProps<T>;
 
-    fn create(ctx: &Context<Self>) -> Self {
+    fn create(_ctx: &Context<Self>) -> Self {
         Self {
-            props: *ctx.props(),
-            link: *ctx.link(),
+            phantom: PhantomData,
         }
     }
 
-    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
+    fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
         let i = if let Some(select) = msg.target_dyn_into::<HtmlSelectElement>() {
             select.selected_index()
         } else {
@@ -51,20 +49,20 @@ impl<T: Clone + PartialEq + 'static> Component for HtmlSelect<T> {
         };
         if i >= 0 {
             let i = i as usize;
-            let variant = self.props.options[i].0.clone();
-            self.props.onchange.emit(variant);
+            let variant = ctx.props().options[i].0.clone();
+            ctx.props().onchange.emit(variant);
         }
         false
     }
 
-    fn view(&self, _ctx: &Context<Self>) -> Html {
-        let option_children = self
-            .props
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        let option_children = ctx
+            .props()
             .options
             .iter()
             .map(|(value, label)| {
-                let selected = self
-                    .props
+                let selected = ctx
+                    .props()
                     .value
                     .as_ref()
                     .map(|x| value == x)
@@ -82,17 +80,17 @@ impl<T: Clone + PartialEq + 'static> Component for HtmlSelect<T> {
             <div
                 class={classes!(
                     "bp3-html-select",
-                    self.props.minimal.then(|| "bp3-minimal"),
-                    self.props.large.then(|| "bp3-large"),
-                    self.props.fill.then(|| "bp3-fill"),
-                    self.props.disabled.then(|| "bp3-disabled"),
-                    self.props.class.clone(),
+                    ctx.props().minimal.then(|| "bp3-minimal"),
+                    ctx.props().large.then(|| "bp3-large"),
+                    ctx.props().fill.then(|| "bp3-fill"),
+                    ctx.props().disabled.then(|| "bp3-disabled"),
+                    ctx.props().class.clone(),
                 )}
             >
                 <select
-                    disabled={self.props.disabled}
-                    onchange={self.link.callback(|x| x)}
-                    title={self.props.title.clone()}
+                    disabled={ctx.props().disabled}
+                    onchange={ctx.link().callback(|x| x)}
+                    title={ctx.props().title.clone()}
                     value={"".to_string()}
                 >
                     {option_children}
