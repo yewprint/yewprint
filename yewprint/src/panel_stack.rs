@@ -119,8 +119,6 @@ impl From<StateAction> for Classes {
 
 pub struct PanelStack {
     timeout_task: Option<Timeout>,
-    props: PanelStackProps,
-    link: html::Scope<Self>,
 }
 
 #[derive(Debug, Clone, PartialEq, Properties)]
@@ -141,25 +139,21 @@ impl Component for PanelStack {
     type Properties = PanelStackProps;
 
     fn create(ctx: &Context<Self>) -> Self {
-        Self {
-            timeout_task: None,
-            props: *ctx.props(),
-            link: *ctx.link(),
-        }
+        Self { timeout_task: None }
     }
 
-    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
+    fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             PanelStackMessage::PopPanel => {
-                self.props.state.opened_panels.borrow_mut().pop();
+                ctx.props().state.opened_panels.borrow_mut().pop();
                 true
             }
         }
     }
 
-    fn view(&self, _ctx: &Context<Self>) -> Html {
-        let opened_panels = self.props.state.opened_panels.borrow();
-        let action = self.props.state.action;
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        let opened_panels = ctx.props().state.opened_panels.borrow();
+        let action = ctx.props().state.action;
         let last = match action {
             Some(StateAction::Pop) => opened_panels.len() - 2,
             _ => opened_panels.len() - 1,
@@ -170,7 +164,7 @@ impl Component for PanelStack {
                 class={classes!(
                     "bp3-panel-stack2",
                     action,
-                    self.props.class.clone(),
+                    ctx.props().class.clone(),
                 )}
             >
             {
@@ -191,7 +185,7 @@ impl Component for PanelStack {
                                     _ => Animation::Exited,
                                 }
                             }
-                            onclose={(i > 0).then(|| self.props.onclose.clone()).flatten()}
+                            onclose={(i > 0).then(|| ctx.props().onclose.clone()).flatten()}
                             key={i}
                         >
                             // TODO the state of content doesn't seem to be kept when re-opening
@@ -206,7 +200,7 @@ impl Component for PanelStack {
     }
 
     fn rendered(&mut self, ctx: &Context<Self>, _first_render: bool) {
-        if self.props.state.action.take() == Some(StateAction::Pop) {
+        if ctx.props().clone().state.action.take() == Some(StateAction::Pop) {
             let link = ctx.link().clone();
             self.timeout_task.replace(Timeout::new(400, move || {
                 link.send_message(PanelStackMessage::PopPanel)
@@ -218,8 +212,6 @@ impl Component for PanelStack {
 struct Panel {
     animation: Animation,
     timeout_task: Option<Timeout>,
-    props: PanelProps,
-    link: html::Scope<Self>,
 }
 
 #[derive(Debug, Clone, PartialEq, Properties)]
@@ -243,8 +235,6 @@ impl Component for Panel {
         Self {
             animation: ctx.props().animation,
             timeout_task: None,
-            props: *ctx.props(),
-            link: *ctx.link(),
         }
     }
 
@@ -257,17 +247,7 @@ impl Component for Panel {
         }
     }
 
-    fn changed(&mut self, ctx: &Context<Self>) -> bool {
-        if self.props != *ctx.props() {
-            self.animation = ctx.props().animation;
-            self.props = *ctx.props();
-            true
-        } else {
-            false
-        }
-    }
-
-    fn view(&self, _ctx: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         let style = if self.animation == Animation::Exited {
             "display:none"
         } else {
@@ -284,7 +264,7 @@ impl Component for Panel {
                 Animation::Exited => None,
             }
         );
-        let back_button = self.props.onclose.clone().map(|onclose| {
+        let back_button = ctx.props().onclose.clone().map(|onclose| {
             html! {
                 <Button
                     class={classes!("bp3-panel-stack-header-back")}
@@ -304,38 +284,38 @@ impl Component for Panel {
             <div class={classes} style={style}>
                 <div class="bp3-panel-stack-header">
                     <span>{back_button.unwrap_or_default()}</span>
-                    {self.props.title.clone().unwrap_or_default()}
+                    {ctx.props().title.clone().unwrap_or_default()}
                     <span/>
                 </div>
-                {for self.props.children.iter()}
+                {for ctx.props().children.iter()}
             </div>
         }
     }
 
-    fn rendered(&mut self, _ctx: &Context<Self>, _first_render: bool) {
+    fn rendered(&mut self, ctx: &Context<Self>, _first_render: bool) {
         match self.animation {
             Animation::EnterStart => {
-                let link = self.link.clone();
+                let link = ctx.link().clone();
                 self.timeout_task.replace(Timeout::new(0, move || {
                     link.send_message(PanelMessage::UpdateAnimation(Animation::Entering));
                 }));
             }
             Animation::Entering => {
-                let link = self.link.clone();
-                self.timeout_task.replace(Timeout::new(400, || {
+                let link = ctx.link().clone();
+                self.timeout_task.replace(Timeout::new(400, move || {
                     link.send_message(PanelMessage::UpdateAnimation(Animation::Entered));
                 }));
             }
             Animation::Entered => {}
             Animation::ExitStart => {
-                let link = self.link.clone();
-                self.timeout_task.replace(Timeout::new(0, || {
+                let link = ctx.link().clone();
+                self.timeout_task.replace(Timeout::new(0, move || {
                     link.send_message(PanelMessage::UpdateAnimation(Animation::Exiting));
                 }));
             }
             Animation::Exiting => {
-                let link = self.link.clone();
-                self.timeout_task.replace(Timeout::new(400, || {
+                let link = ctx.link().clone();
+                self.timeout_task.replace(Timeout::new(400, move || {
                     link.send_message(PanelMessage::UpdateAnimation(Animation::Exited));
                 }));
             }
