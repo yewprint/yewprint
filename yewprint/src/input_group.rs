@@ -4,8 +4,6 @@ use yew::prelude::*;
 const MIN_HORIZONTAL_PADDING: i32 = 10;
 
 pub struct InputGroup {
-    props: InputGroupProps,
-    link: html::Scope<Self>,
     left_element_ref: NodeRef,
     left_element_width: Option<i32>,
     right_element_ref: NodeRef,
@@ -93,8 +91,6 @@ impl Component for InputGroup {
 
     fn create(ctx: &Context<Self>) -> Self {
         Self {
-            props: *ctx.props(),
-            link: *ctx.link(),
             left_element_ref: Default::default(),
             left_element_width: Default::default(),
             right_element_ref: Default::default(),
@@ -106,7 +102,7 @@ impl Component for InputGroup {
         true
     }
 
-    fn view(&self, _ctx: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         let input_style = match (self.left_element_width, self.right_element_width) {
             (Some(left), None) => format!("padding-left:{}px", left.max(MIN_HORIZONTAL_PADDING)),
             (None, Some(right)) => format!("padding-right:{}px", right.max(MIN_HORIZONTAL_PADDING)),
@@ -122,17 +118,17 @@ impl Component for InputGroup {
             <div
                 class={classes!(
                     "bp3-input-group",
-                    self.props.disabled.then(|| "bp3-disabled"),
-                    self.props.fill.then(|| "bp3-fill"),
-                    self.props.large.then(|| "bp3-large"),
-                    self.props.small.then(|| "bp3-small"),
-                    self.props.round.then(|| "bp3-round"),
-                    self.props.placeholder.clone(),
-                    self.props.class.clone(),
+                    ctx.props().disabled.then(|| "bp3-disabled"),
+                    ctx.props().fill.then(|| "bp3-fill"),
+                    ctx.props().large.then(|| "bp3-large"),
+                    ctx.props().small.then(|| "bp3-small"),
+                    ctx.props().round.then(|| "bp3-round"),
+                    ctx.props().placeholder.clone(),
+                    ctx.props().class.clone(),
                 )}
             >
                 {
-                    if let Some(left_element) = self.props.left_element.clone() {
+                    if let Some(left_element) = ctx.props().left_element.clone() {
                         html! {
                             <span
                                 class="bp3-input-left-container"
@@ -141,7 +137,7 @@ impl Component for InputGroup {
                                 {left_element}
                             </span>
                         }
-                    } else if let Some(icon) = self.props.left_icon {
+                    } else if let Some(icon) = ctx.props().left_icon {
                         html! {
                             <Icon icon={icon} />
                         }
@@ -150,19 +146,19 @@ impl Component for InputGroup {
                     }
                 }
                 <input
-                    ref={self.props.input_ref.clone()}
+                    ref={ctx.props().input_ref.clone()}
                     class="bp3-input"
-                    type={self.props.input_type.as_str()}
-                    placeholder={self.props.placeholder.clone()}
-                    disabled={self.props.disabled}
-                    oninput={self.props.oninput.clone()}
-                    onkeyup={self.props.onkeyup.clone()}
-                    onkeydown={self.props.onkeydown.clone()}
-                    value={self.props.value.clone()}
+                    type={ctx.props().input_type.as_str()}
+                    placeholder={ctx.props().placeholder.clone()}
+                    disabled={ctx.props().disabled}
+                    oninput={ctx.props().oninput.clone()}
+                    onkeyup={ctx.props().onkeyup.clone()}
+                    onkeydown={ctx.props().onkeydown.clone()}
+                    value={ctx.props().value.clone()}
                     style={input_style}
                 />
                 {
-                    if let Some(right_element) = self.props.right_element.clone() {
+                    if let Some(right_element) = ctx.props().right_element.clone() {
                         html! {
                             <span
                                 class="bp3-input-action"
@@ -179,7 +175,7 @@ impl Component for InputGroup {
         }
     }
 
-    fn rendered(&mut self, _ctx: &Context<Self>, _first_render: bool) {
+    fn rendered(&mut self, ctx: &Context<Self>, _first_render: bool) {
         let left_old_value = self.left_element_width.take();
         self.left_element_width = self
             .left_element_ref
@@ -194,7 +190,7 @@ impl Component for InputGroup {
 
         if left_old_value != self.left_element_width || right_old_value != self.right_element_width
         {
-            self.link.send_message(());
+            ctx.link().send_message(());
         }
     }
 }
