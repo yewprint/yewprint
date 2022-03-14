@@ -1,9 +1,5 @@
 use yew::prelude::*;
 
-pub struct Switch {
-    props: SwitchProps,
-}
-
 #[derive(Clone, PartialEq, Properties)]
 pub struct SwitchProps {
     #[prop_or_default]
@@ -22,44 +18,30 @@ pub struct SwitchProps {
     pub class: Classes,
 }
 
-impl Component for Switch {
-    type Message = ();
-    type Properties = SwitchProps;
-
-    fn create(ctx: &Context<Self>) -> Self {
-        Self {
-            props: *ctx.props(),
-        }
-    }
-
-    fn update(&mut self, _ctx: &Context<Self>, _msg: Self::Message) -> bool {
-        true
-    }
-
-    fn view(&self, _ctx: &Context<Self>) -> Html {
-        html! {
-            <label
-                class={classes!(
-                    "bp3-control",
-                    "bp3-switch",
-                    self.props.disabled.then(|| "bp3-disabled"),
-                    self.props.inline.then(|| "bp3-inline"),
-                    self.props.large.then(|| "bp3-large"),
-                    self.props.class.clone(),
-                )}
-            >
-            <input
-                type="checkbox"
-                checked={self.props.checked}
-                onclick={self.props.onclick.clone()}
-                disabled={self.props.disabled}
-            />
-            <span
-                class={classes!("bp3-control-indicator")}
-            >
-            </span>
-            {self.props.label.clone()}
-            </label>
-        }
+#[function_component(Switch)]
+pub fn switch(props: &SwitchProps) -> Html {
+    html! {
+        <label
+            class={classes!(
+                "bp3-control",
+                "bp3-switch",
+                props.disabled.then(|| "bp3-disabled"),
+                props.inline.then(|| "bp3-inline"),
+                props.large.then(|| "bp3-large"),
+                props.class.clone(),
+            )}
+        >
+        <input
+            type="checkbox"
+            checked={props.checked}
+            onclick={props.onclick.clone()}
+            disabled={props.disabled}
+        />
+        <span
+            class={classes!("bp3-control-indicator")}
+        >
+        </span>
+        {props.label.clone()}
+        </label>
     }
 }
