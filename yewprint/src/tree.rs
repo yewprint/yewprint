@@ -6,6 +6,7 @@ use std::cell::{Ref, RefCell, RefMut};
 use std::collections::hash_map::DefaultHasher;
 use std::collections::HashMap;
 use std::hash::{Hash, Hasher};
+use std::marker::PhantomData;
 use std::rc::Rc;
 use yew::prelude::*;
 
@@ -42,8 +43,8 @@ impl<T> From<id_tree::Tree<NodeData<T>>> for TreeData<T> {
 }
 
 pub struct Tree<T: Clone + PartialEq> {
-    props: TreeProps<T>,
     previous_expanded_state: RefCell<HashMap<u64, bool>>,
+    phantom: PhantomData<T>,
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -112,10 +113,10 @@ impl<T: Clone + PartialEq + 'static> Component for Tree<T> {
     type Message = ();
     type Properties = TreeProps<T>;
 
-    fn create(ctx: &Context<Self>) -> Self {
+    fn create(_ctx: &Context<Self>) -> Self {
         Self {
-            props: *ctx.props(),
             previous_expanded_state: Default::default(),
+            phantom: PhantomData,
         }
     }
 
@@ -123,11 +124,11 @@ impl<T: Clone + PartialEq + 'static> Component for Tree<T> {
         true
     }
 
-    fn view(&self, _ctx: &Context<Self>) -> Html {
-        let tree = self.props.tree.borrow();
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        let tree = ctx.props().tree.borrow();
 
         let nodes = if let Some(root_id) = tree.root_node_id() {
-            self.render_children(root_id, 0)
+            self.render_children(ctx, root_id, 0)
         } else {
             html!()
         };
@@ -135,7 +136,7 @@ impl<T: Clone + PartialEq + 'static> Component for Tree<T> {
         html! {
             <div class={classes!(
                 "bp3-tree",
-                self.props.class.clone(),
+                ctx.props().class.clone(),
             )}>
                 <ul class={classes!("bp3-tree-node-list")}>
                     {nodes}
@@ -145,9 +146,15 @@ impl<T: Clone + PartialEq + 'static> Component for Tree<T> {
     }
 }
 
-impl<T: Clone + PartialEq> Tree<T> {
-    fn render_children(&self, node_id: &NodeId, depth: u32) -> yew::virtual_dom::VNode {
-        let tree = self.props.tree.borrow();
+// FIXME: The 'static bound here is probably wrong. Fix this at the end of PR.
+impl<T: 'static + Clone + PartialEq> Tree<T> {
+    fn render_children(
+        &self,
+        ctx: &Context<Self>,
+        node_id: &NodeId,
+        depth: u32,
+    ) -> yew::virtual_dom::VNode {
+        let tree = ctx.props().tree.borrow();
         let node = tree.get(node_id).unwrap();
         let children = node.children();
 
@@ -168,7 +175,7 @@ impl<T: Clone + PartialEq> Tree<T> {
                 let inner_nodes = if !data.is_expanded && !previous_is_expanded.unwrap_or(true) {
                     Default::default()
                 } else {
-                    self.render_children(node_id, depth + 1)
+                    self.render_children(ctx, node_id, depth + 1)
                 };
 
                 html! {
@@ -182,9 +189,9 @@ impl<T: Clone + PartialEq> Tree<T> {
                         is_selected={data.is_selected}
                         label={data.label.clone()}
                         secondary_label={data.secondary_label.clone()}
-                        on_collapse={self.props.on_collapse.clone()}
-                        on_expand={self.props.on_expand.clone()}
-                        onclick={self.props.onclick.clone()}
+                        on_collapse={ctx.props().on_collapse.clone()}
+                        on_expand={ctx.props().on_expand.clone()}
+                        onclick={ctx.props().onclick.clone()}
                         depth={depth}
                         node_id={node_id.clone()}
                         key={key}
@@ -198,7 +205,6 @@ impl<T: Clone + PartialEq> Tree<T> {
 }
 
 struct TreeNode {
-    props: TreeNodeProps,
     handler_caret_click: Callback<MouseEvent>,
     handler_click: Callback<MouseEvent>,
 }
@@ -255,30 +261,29 @@ impl Component for TreeNode {
         TreeNode {
             handler_caret_click: ctx.link().callback(TreeNodeMessage::CaretClick),
             handler_click: ctx.link().callback(TreeNodeMessage::Click),
-            props: *ctx.props(),
         }
     }
 
-    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
-        if self.props.disabled {
+    fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
+        if ctx.props().disabled {
             return false;
         }
 
         match msg {
             TreeNodeMessage::CaretClick(event) => {
-                if self.props.is_expanded {
-                    if let Some(on_collapse) = self.props.on_collapse.as_ref() {
+                if ctx.props().is_expanded {
+                    if let Some(on_collapse) = ctx.props().on_collapse.as_ref() {
                         event.stop_propagation();
-                        on_collapse.emit((self.props.node_id.clone(), event));
+                        on_collapse.emit((ctx.props().node_id.clone(), event));
                     }
-                } else if let Some(on_expand) = self.props.on_expand.as_ref() {
+                } else if let Some(on_expand) = ctx.props().on_expand.as_ref() {
                     event.stop_propagation();
-                    on_expand.emit((self.props.node_id.clone(), event));
+                    on_expand.emit((ctx.props().node_id.clone(), event));
                 }
             }
             TreeNodeMessage::Click(event) => {
-                if let Some(onclick) = self.props.onclick.as_ref() {
-                    onclick.emit((self.props.node_id.clone(), event));
+                if let Some(onclick) = ctx.props().onclick.as_ref() {
+                    onclick.emit((ctx.props().node_id.clone(), event));
                 }
             }
         }
@@ -286,22 +291,13 @@ impl Component for TreeNode {
         false
     }
 
-    fn changed(&mut self, ctx: &Context<Self>) -> bool {
-        if self.props != *ctx.props() {
-            self.props = *ctx.props();
-            true
-        } else {
-            false
-        }
-    }
-
-    fn view(&self, _ctx: &Context<Self>) -> Html {
-        let content_style = format!("padding-left: {}px;", 23 * self.props.depth);
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        let content_style = format!("padding-left: {}px;", 23 * ctx.props().depth);
 
         html! {
             <li class={classes!(
                 "bp3-tree-node",
-                self.props.is_selected.then(|| "bp3-tree-node-selected")
+                ctx.props().is_selected.then(|| "bp3-tree-node-selected")
             )}>
                 <div
                     class="bp3-tree-node-content"
@@ -309,9 +305,9 @@ impl Component for TreeNode {
                     onclick={self.handler_click.clone()}
                 >
                     {
-                        if self.props.has_caret {
+                        if ctx.props().has_caret {
                             let mut class = Classes::from("bp3-tree-node-caret");
-                            class.push(if self.props.is_expanded {
+                            class.push(if ctx.props().is_expanded {
                                 "bp3-tree-node-caret-open"
                             } else {
                                 "bp3-tree-node-caret-closed"
@@ -332,13 +328,13 @@ impl Component for TreeNode {
                     }
                     <Icon
                         class={classes!("bp3-tree-node-icon")}
-                        icon={self.props.icon.unwrap_or_default()}
-                        color={self.props.icon_color.clone()}
-                        intent={self.props.icon_intent}
+                        icon={ctx.props().icon.unwrap_or_default()}
+                        color={ctx.props().icon_color.clone()}
+                        intent={ctx.props().icon_intent}
                     />
-                    <span class={classes!("bp3-tree-node-label")}>{self.props.label.clone()}</span>
+                    <span class={classes!("bp3-tree-node-label")}>{ctx.props().label.clone()}</span>
                     {
-                        if let Some(label) = self.props.secondary_label.clone() {
+                        if let Some(label) = ctx.props().secondary_label.clone() {
                             html!(
                                 <span class={classes!("bp3-tree-node-secondary-label")}>
                                     {label}
@@ -349,9 +345,9 @@ impl Component for TreeNode {
                         }
                     }
                 </div>
-                <Collapse is_open={self.props.is_expanded}>
+                <Collapse is_open={ctx.props().is_expanded}>
                     <ul class={classes!("bp3-tree-node-list")}>
-                        {self.props.children.clone()}
+                        {ctx.props().children.clone()}
                     </ul>
                 </Collapse>
             </li>
