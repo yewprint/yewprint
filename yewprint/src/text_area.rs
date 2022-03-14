@@ -1,10 +1,6 @@
 use crate::Intent;
 use yew::prelude::*;
 
-pub struct TextArea {
-    props: TextAreaProps,
-}
-
 #[derive(Clone, PartialEq, Properties)]
 pub struct TextAreaProps {
     #[prop_or_default]
@@ -25,34 +21,20 @@ pub struct TextAreaProps {
     pub onchange: Option<Callback<Event>>,
 }
 
-impl Component for TextArea {
-    type Message = ();
-    type Properties = TextAreaProps;
-
-    fn create(ctx: &Context<Self>) -> Self {
-        Self {
-            props: *ctx.props(),
-        }
-    }
-
-    fn update(&mut self, _ctx: &Context<Self>, _msg: Self::Message) -> bool {
-        true
-    }
-
-    fn view(&self, _ctx: &Context<Self>) -> Html {
-        let classes = classes!(
-            "bp3-input",
-            self.props.intent,
-            self.props.class.clone(),
-            self.props.fill.then(|| "bp3-fill"),
-            self.props.small.then(|| "bp3-small"),
-            self.props.large.then(|| "bp3-large"),
-        );
-        html! {
-            <textarea
-                class={classes}
-                onchange={self.props.onchange.clone()}
-            />
-        }
+#[function_component(TextArea)]
+pub fn text_area(props: &TextAreaProps) -> Html {
+    let classes = classes!(
+        "bp3-input",
+        props.intent,
+        props.class.clone(),
+        props.fill.then(|| "bp3-fill"),
+        props.small.then(|| "bp3-small"),
+        props.large.then(|| "bp3-large"),
+    );
+    html! {
+        <textarea
+            class={classes}
+            onchange={props.onchange.clone()}
+        />
     }
 }
