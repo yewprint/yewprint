@@ -1,10 +1,6 @@
 use crate::{Icon, IconName, Intent, Spinner, ICON_SIZE_LARGE};
 use yew::prelude::*;
 
-pub struct Button {
-    props: ButtonProps,
-}
-
 #[derive(Clone, PartialEq, Properties)]
 pub struct ButtonProps {
     #[prop_or_default]
@@ -39,72 +35,57 @@ pub struct ButtonProps {
     pub children: html::Children,
 }
 
-impl Component for Button {
-    type Message = ();
-    type Properties = ButtonProps;
-
-    fn create(ctx: &Context<Self>) -> Self {
-        Self {
-            props: *ctx.props(),
-        }
-    }
-
-    fn update(&mut self, _ctx: &Context<Self>, _msg: Self::Message) -> bool {
-        true
-    }
-
-    fn view(&self, _ctx: &Context<Self>) -> Html {
-        html! {
-            <button
-                class={classes!(
-                    "bp3-button",
-                    self.props.fill.then(|| "bp3-fill"),
-                    self.props.minimal.then(|| "bp3-minimal"),
-                    self.props.small.then(|| "bp3-small"),
-                    self.props.outlined.then(|| "bp3-outlined"),
-                    self.props.loading.then(|| "bp3-loading"),
-                    self.props.large.then(|| "bp3-large"),
-                    (self.props.active && !self.props.disabled).then(|| "bp3-active"),
-                    self.props.disabled.then(|| "bp3-disabled"),
-                    self.props.intent,
-                    self.props.class.clone(),
-                )}
-                style={self.props.style.clone()}
-                onclick={(!self.props.disabled).then(|| self.props.onclick.clone())}
-            >
-                {
-                    self
-                        .props
-                        .loading
-                        .then(|| html! {
-                            <Spinner
-                                class={classes!("bp3-button-spinner")}
-                                size={ICON_SIZE_LARGE as f32}
-                            />
-                        })
-                        .unwrap_or_default()
+#[function_component(Button)]
+pub fn button(props: &ButtonProps) -> Html {
+    html! {
+        <button
+            class={classes!(
+                "bp3-button",
+                props.fill.then(|| "bp3-fill"),
+                props.minimal.then(|| "bp3-minimal"),
+                props.small.then(|| "bp3-small"),
+                props.outlined.then(|| "bp3-outlined"),
+                props.loading.then(|| "bp3-loading"),
+                props.large.then(|| "bp3-large"),
+                (props.active && !props.disabled).then(|| "bp3-active"),
+                props.disabled.then(|| "bp3-disabled"),
+                props.intent,
+                props.class.clone(),
+            )}
+            style={props.style.clone()}
+            onclick={(!props.disabled).then(|| props.onclick.clone())}
+        >
+            {
+                props
+                    .loading
+                    .then(|| html! {
+                        <Spinner
+                            class={classes!("bp3-button-spinner")}
+                            size={ICON_SIZE_LARGE as f32}
+                        />
+                    })
+                    .unwrap_or_default()
+            }
+            {
+                if let Some(icon) = props.icon {
+                    html! {
+                        <Icon icon={icon} />
+                    }
+                } else {
+                    html!()
                 }
-                {
-                    if let Some(icon) = self.props.icon {
-                        html! {
-                            <Icon icon={icon} />
-                        }
-                    } else {
-                        html!()
+            }
+            {
+                if props.children.is_empty() {
+                    html! ()
+                } else {
+                    html! {
+                        <span class="bp3-button-text">
+                            {for props.children.iter()}
+                        </span>
                     }
                 }
-                {
-                    if self.props.children.is_empty() {
-                        html! ()
-                    } else {
-                        html! {
-                            <span class="bp3-button-text">
-                                {for self.props.children.iter()}
-                            </span>
-                        }
-                    }
-                }
-            </button>
-        }
+            }
+        </button>
     }
 }
