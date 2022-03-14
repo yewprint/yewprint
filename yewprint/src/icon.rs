@@ -12,10 +12,6 @@ impl Default for IconName {
 pub const ICON_SIZE_STANDARD: i32 = 16;
 pub const ICON_SIZE_LARGE: i32 = 20;
 
-pub struct Icon {
-    props: IconProps,
-}
-
 #[derive(Clone, PartialEq, Properties)]
 pub struct IconProps {
     pub icon: IconName,
@@ -33,55 +29,41 @@ pub struct IconProps {
     pub onclick: Callback<MouseEvent>,
 }
 
-impl Component for Icon {
-    type Message = ();
-    type Properties = IconProps;
+#[function_component(Icon)]
+pub fn icon(props: &IconProps) -> Html {
+    let paths = if props.icon_size == ICON_SIZE_STANDARD {
+        icon_svg_paths_16(props.icon)
+    } else {
+        icon_svg_paths_20(props.icon)
+    };
+    let pixel_grid_size = if props.icon_size >= ICON_SIZE_LARGE {
+        ICON_SIZE_LARGE
+    } else {
+        ICON_SIZE_STANDARD
+    };
+    let icon_string = format!("{:?}", props.icon);
 
-    fn create(ctx: &Context<Self>) -> Self {
-        Self {
-            props: *ctx.props(),
-        }
-    }
-
-    fn update(&mut self, _ctx: &Context<Self>, _msg: Self::Message) -> bool {
-        true
-    }
-
-    fn view(&self, _ctx: &Context<Self>) -> Html {
-        let paths = if self.props.icon_size == ICON_SIZE_STANDARD {
-            icon_svg_paths_16(self.props.icon)
-        } else {
-            icon_svg_paths_20(self.props.icon)
-        };
-        let pixel_grid_size = if self.props.icon_size >= ICON_SIZE_LARGE {
-            ICON_SIZE_LARGE
-        } else {
-            ICON_SIZE_STANDARD
-        };
-        let icon_string = format!("{:?}", self.props.icon);
-
-        html! {
-            <span
-                class={classes!("bp3-icon", self.props.class.clone(), self.props.intent)}
-                onclick={self.props.onclick.clone()}
+    html! {
+        <span
+            class={classes!("bp3-icon", props.class.clone(), props.intent)}
+            onclick={props.onclick.clone()}
+        >
+            <svg
+                fill={props.color.clone()}
+                data-icon={icon_string.clone()}
+                width={props.icon_size.to_string()}
+                height={props.icon_size.to_string()}
+                viewBox={format!("0 0 {x} {x}", x=pixel_grid_size)}
             >
-                <svg
-                    fill={self.props.color.clone()}
-                    data-icon={icon_string.clone()}
-                    width={self.props.icon_size.to_string()}
-                    height={self.props.icon_size.to_string()}
-                    viewBox={format!("0 0 {x} {x}", x=pixel_grid_size)}
-                >
-                    <desc>{self.props.title.clone().unwrap_or(icon_string)}</desc>
-                    {
-                        paths.iter()
-                            .map(|x| html! {
-                                <path d={*x} fillRule="evenodd" />
-                            })
-                            .collect::<Html>()
-                    }
-                </svg>
-            </span>
-        }
+                <desc>{props.title.clone().unwrap_or(icon_string)}</desc>
+                {
+                    paths.iter()
+                        .map(|x| html! {
+                            <path d={*x} fillRule="evenodd" />
+                        })
+                        .collect::<Html>()
+                }
+            </svg>
+        </span>
     }
 }
