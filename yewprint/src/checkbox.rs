@@ -1,11 +1,7 @@
 use yew::prelude::*;
 
-pub struct Checkbox {
-    props: Props,
-}
-
 #[derive(Clone, PartialEq, Properties)]
-pub struct Props {
+pub struct CheckboxProps {
     #[prop_or_default]
     pub disabled: bool,
     #[prop_or_default]
@@ -22,42 +18,28 @@ pub struct Props {
     pub indeterminate_state: bool,
 }
 
-impl Component for Checkbox {
-    type Message = ();
-    type Properties = Props;
-
-    fn create(ctx: &Context<Self>) -> Self {
-        Self {
-            props: *ctx.props(),
-        }
-    }
-
-    fn update(&mut self, _ctx: &Context<Self>, _msg: Self::Message) -> bool {
-        true
-    }
-
-    fn view(&self, _ctx: &Context<Self>) -> Html {
-        html! {
-            <label
-                class={classes!(
-                    "bp3-control", "bp3-checkbox",
-                    self.props.disabled.then(|| "bp3-disabled"),
-                    self.props.inline.then(|| "bp3-inline"),
-                    self.props.large.then(|| "bp3-large")
-                )}
+#[function_component(Checkbox)]
+pub fn checkbox(props: &CheckboxProps) -> Html {
+    html! {
+        <label
+            class={classes!(
+                "bp3-control", "bp3-checkbox",
+                props.disabled.then(|| "bp3-disabled"),
+                props.inline.then(|| "bp3-inline"),
+                props.large.then(|| "bp3-large")
+            )}
+        >
+            <input
+                type="checkbox"
+                checked={props.checked}
+                onchange={props.onchange.clone()}
+                disabled={props.disabled}
+            />
+            <span
+                class="bp3-control-indicator"
             >
-                <input
-                    type="checkbox"
-                    checked={self.props.checked}
-                    onchange={self.props.onchange.clone()}
-                    disabled={self.props.disabled}
-                />
-                <span
-                    class="bp3-control-indicator"
-                >
-                </span>
-                {self.props.label.clone()}
-            </label>
-        }
+            </span>
+            {props.label.clone()}
+        </label>
     }
 }
