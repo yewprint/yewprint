@@ -180,7 +180,7 @@ impl Component for MenuDivider {
                     <li
                         class={classes!("bp3-menu-header")}
                     >
-                        <h6>{title}</h6>
+                        <H6>{title}</H6>
                     </li>
                 }
             } else {
