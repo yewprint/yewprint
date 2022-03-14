@@ -1,6 +1,5 @@
 use crate::{Button, IconName};
 use gloo_timers::callback::Timeout;
-use std::borrow::Cow;
 use std::cell::RefCell;
 use std::fmt;
 use std::rc::Rc;
@@ -138,7 +137,7 @@ impl Component for PanelStack {
     type Message = PanelStackMessage;
     type Properties = PanelStackProps;
 
-    fn create(ctx: &Context<Self>) -> Self {
+    fn create(_ctx: &Context<Self>) -> Self {
         Self { timeout_task: None }
     }
 

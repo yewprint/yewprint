@@ -1,4 +1,4 @@
-use std::{marker::PhantomData, ops::Deref};
+use std::marker::PhantomData;
 
 use crate::{Icon, IconName};
 use web_sys::HtmlSelectElement;

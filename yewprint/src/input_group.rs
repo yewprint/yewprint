@@ -89,7 +89,7 @@ impl Component for InputGroup {
     type Message = ();
     type Properties = InputGroupProps;
 
-    fn create(ctx: &Context<Self>) -> Self {
+    fn create(_ctx: &Context<Self>) -> Self {
         Self {
             left_element_ref: Default::default(),
             left_element_width: Default::default(),
