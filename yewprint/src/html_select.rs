@@ -1,4 +1,7 @@
+use std::ops::Deref;
+
 use crate::{Icon, IconName};
+use web_sys::HtmlSelectElement;
 use yew::prelude::*;
 
 pub struct HtmlSelect<T: Clone + PartialEq + 'static> {
@@ -41,10 +44,10 @@ impl<T: Clone + PartialEq + 'static> Component for HtmlSelect<T> {
     }
 
     fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
-        let i = if let Event::Select(select) = msg {
+        let i = if let Some(select) = msg.target_dyn_into::<HtmlSelectElement>() {
             select.selected_index()
         } else {
-            unreachable!("unexpected ChangeData variant: {:?}", msg);
+            unreachable!("unexpected Event: {:?}", msg);
         };
         if i >= 0 {
             let i = i as usize;
