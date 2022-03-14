@@ -120,7 +120,7 @@ pub struct MenuDividerProps {
 }
 
 #[function_component(MenuDivider)]
-fn menu_divider(props: &MenuDividerProps) -> Html {
+pub fn menu_divider(props: &MenuDividerProps) -> Html {
     html! {
         {if let Some(title) = props.title.clone() {
             html! {

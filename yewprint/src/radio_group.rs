@@ -23,7 +23,7 @@ pub struct RadioGroupProps<T: Clone + PartialEq + 'static> {
 // impl<T: Clone + PartialEq + 'static> Component for RadioGroup<T> {
 
 #[function_component(RadioGroup)]
-fn radio_group<T: Clone + PartialEq + 'static>(props: &RadioGroupProps<T>) -> Html {
+pub fn radio_group<T: Clone + PartialEq + 'static>(props: &RadioGroupProps<T>) -> Html {
     let option_children = props
         .options
         .iter()
