@@ -1,9 +1,5 @@
 use yew::prelude::*;
 
-pub struct ControlGroup {
-    props: ControlGroupProps,
-}
-
 #[derive(Clone, PartialEq, Properties)]
 pub struct ControlGroupProps {
     #[prop_or_default]
@@ -18,32 +14,18 @@ pub struct ControlGroupProps {
     pub class: Classes,
 }
 
-impl Component for ControlGroup {
-    type Message = ();
-    type Properties = ControlGroupProps;
-
-    fn create(ctx: &Context<Self>) -> Self {
-        Self {
-            props: *ctx.props(),
-        }
-    }
-
-    fn update(&mut self, _ctx: &Context<Self>, _: Self::Message) -> bool {
-        true
-    }
-
-    fn view(&self, _ctx: &Context<Self>) -> Html {
-        html! {
-            <div
-                class={classes!(
-                    "bp3-control-group",
-                    self.props.fill.then(|| "bp3-fill"),
-                    self.props.vertical.then(|| "bp3-vertical"),
-                    self.props.class.clone(),
-                )}
-            >
-                {self.props.children.clone()}
-            </div>
-        }
+#[function_component(ControlGroup)]
+pub fn control_group(props: &ControlGroupProps) -> Html {
+    html! {
+        <div
+            class={classes!(
+                "bp3-control-group",
+                props.fill.then(|| "bp3-fill"),
+                props.vertical.then(|| "bp3-vertical"),
+                props.class.clone(),
+            )}
+        >
+            {props.children.clone()}
+        </div>
     }
 }
