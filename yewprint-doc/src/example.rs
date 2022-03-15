@@ -3,8 +3,6 @@ use yewprint::{Button, Collapse, IconName, Intent};
 
 pub struct ExampleContainer {
     collapsed: bool,
-    props: ExampleContainerProps,
-    link: &html::Scope<Self>,
 }
 
 pub enum Msg {
@@ -24,11 +22,7 @@ impl Component for ExampleContainer {
     type Properties = ExampleContainerProps;
 
     fn create(ctx: &Context<Self>) -> Self {
-        ExampleContainer {
-            collapsed: true,
-            props,
-            link,
-        }
+        ExampleContainer { collapsed: true }
     }
 
     fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
@@ -38,15 +32,15 @@ impl Component for ExampleContainer {
         true
     }
 
-    fn view(&self, _ctx: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         html! {
             <div class={classes!("docs-example-wrapper")}>
                 <div class={classes!("docs-example-frame", "docs-example-frame-row")}>
                     <div class={classes!("docs-example")}>
-                        {self.props.children.clone()}
+                        {ctx.props().children.clone()}
                     </div>
                     {
-                        if let Some(props) = self.props.props.clone() {
+                        if let Some(props) = ctx.props().props.clone() {
                             html! {
                                 <div class={classes!("docs-example-options")}>
                                     {props}
@@ -63,7 +57,7 @@ impl Component for ExampleContainer {
                         fill={{true}}
                         intent={{Intent::Primary}}
                         minimal={{true}}
-                        onclick={self.link.callback(|_| Msg::ToggleSource)}
+                        onclick={ctx.link().callback(|_| Msg::ToggleSource)}
                     >
                         {"View source"}
                     </Button>
@@ -71,7 +65,7 @@ impl Component for ExampleContainer {
                         is_open={!self.collapsed}
                         keep_children_mounted=true
                     >
-                        {self.props.source.clone()}
+                        {ctx.props().source.clone()}
                     </Collapse>
                 </div>
             </div>
@@ -85,7 +79,6 @@ macro_rules! build_example_prop_component {
         #[derive(Clone, PartialEq, Properties)]
         pub struct $name {
             callback: Callback<$prop_component>,
-            props: $prop_component,
         }
 
         impl Component for $name {
@@ -93,21 +86,7 @@ macro_rules! build_example_prop_component {
             type Properties = Self;
 
             fn create(ctx: &Context<Self>) -> Self {
-                props: *ctx.props()
-            }
-
-            fn update(&mut self, _ctx: &Context<Self>, _msg: Self::Message) -> bool {
-                true
-            }
-
-            fn changed(&mut self, ctx: &Context<Self>) -> bool {
-                if self.props != ctx.props().props || self.callback != ctx.props().callback {
-                    self.props = ctx.props().props;
-                    self.callback = ctx.props().callback;
-                    true
-                } else {
-                    false
-                }
+                ctx.props().clone()
             }
 
             $($view)*
@@ -116,9 +95,10 @@ macro_rules! build_example_prop_component {
         impl $name {
             fn update_props<T>(
                 &self,
+                props: $prop_component,
                 updater: impl Fn($prop_component, T) -> $prop_component + 'static,
             ) -> Callback<T> {
-                let props = self.props.clone();
+                // let props = props.clone();
                 self.callback.clone().reform(move |event| updater(props.clone(), event))
             }
         }
