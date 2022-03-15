@@ -66,7 +66,7 @@ impl Component for ButtonDoc {
 
 crate::build_example_prop_component! {
     ButtonProps for ExampleProps =>
-    fn view(&self, _ctx: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         html! {
             <div>
                 <H5>{"Props"}</H5>
@@ -75,7 +75,7 @@ crate::build_example_prop_component! {
                         minimal: !props.minimal,
                         ..props
                     })}
-                    checked={self.props.minimal}
+                    checked={ctx.props().minimal}
                     label={html!("Minimal")}
                 />
                 <Switch
@@ -83,7 +83,7 @@ crate::build_example_prop_component! {
                         fill: !props.fill,
                         ..props
                     })}
-                    checked={self.props.fill}
+                    checked={ctx.props().fill}
                     label={html!("Fill")}
                 />
                 <Switch
@@ -91,7 +91,7 @@ crate::build_example_prop_component! {
                         small: !props.small,
                         ..props
                     })}
-                    checked={self.props.small}
+                    checked={ctx.props().small}
                     label={html!("Small")}
                 />
                 <Switch
@@ -99,7 +99,7 @@ crate::build_example_prop_component! {
                         outlined: !props.outlined,
                         ..props
                     })}
-                    checked={self.props.outlined}
+                    checked={ctx.props().outlined}
                     label={html!("Outlined")}
                 />
                 <Switch
@@ -107,7 +107,7 @@ crate::build_example_prop_component! {
                         loading: !props.loading,
                         ..props
                     })}
-                    checked={self.props.loading}
+                    checked={ctx.props().loading}
                     label={html!("Loading")}
                 />
                 <Switch
@@ -115,7 +115,7 @@ crate::build_example_prop_component! {
                         large: !props.large,
                         ..props
                     })}
-                    checked={self.props.large}
+                    checked={ctx.props().large}
                     label={html!("Large")}
                 />
                 <Switch
@@ -123,7 +123,7 @@ crate::build_example_prop_component! {
                         active: !props.active,
                         ..props
                     })}
-                    checked={self.props.active}
+                    checked={ctx.props().active}
                     label={html!("Active")}
                 />
                 <Switch
@@ -131,7 +131,7 @@ crate::build_example_prop_component! {
                         disabled: !props.disabled,
                         ..props
                     })}
-                    checked={self.props.disabled}
+                    checked={ctx.props().disabled}
                     label={html!("Disabled")}
                 />
             </div>

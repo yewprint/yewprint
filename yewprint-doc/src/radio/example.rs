@@ -2,8 +2,6 @@ use yew::prelude::*;
 use yewprint::{Label, Radio, RadioGroup};
 
 pub struct Example {
-    props: ExampleProps,
-    link: &html::Scope<Self>,
     selected_value: Lunch,
 }
 
@@ -24,9 +22,7 @@ impl Component for Example {
 
     fn create(ctx: &Context<Self>) -> Self {
         Example {
-            props,
             selected_value: Lunch::Salad,
-            link,
         }
     }
 
@@ -39,22 +35,22 @@ impl Component for Example {
         }
     }
 
-    fn view(&self, _ctx: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         html! {
             <>
                 <div>
                     <Radio
                         label={html!("Blue pill")}
-                        inline={self.props.inline}
-                        disabled={self.props.disabled}
-                        large={self.props.large}
+                        inline={ctx.props().inline}
+                        disabled={ctx.props().disabled}
+                        large={ctx.props().large}
                         name={"group".to_string()}
                     />
                     <Radio
                         label={html!("Red pill")}
-                        inline={self.props.inline}
-                        disabled={self.props.disabled}
-                        large={self.props.large}
+                        inline={ctx.props().inline}
+                        disabled={ctx.props().disabled}
+                        large={ctx.props().large}
                         name={"group".to_string()}
                     />
                 </div>
@@ -71,10 +67,10 @@ impl Component for Example {
                             (Lunch::Sandwich, "Sandwich".to_string()),
                         ]}
                         value={self.selected_value}
-                        onchange={self.link.callback(|v| Msg::ValueUpdate(v))}
-                        inline={self.props.inline}
-                        disabled={self.props.disabled}
-                        large={self.props.large}
+                        onchange={ctx.link().callback(|v| Msg::ValueUpdate(v))}
+                        inline={ctx.props().inline}
+                        disabled={ctx.props().disabled}
+                        large={ctx.props().large}
                     />
                 </div>
             </>

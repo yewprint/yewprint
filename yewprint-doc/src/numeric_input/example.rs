@@ -3,8 +3,6 @@ use yew::prelude::*;
 use yewprint::{Button, Callout, IconName, Intent, NumericInput};
 
 pub struct Example {
-    props: ExampleProps,
-    link: &html::Scope<Self>,
     value: i32,
     value_two: i32,
 }
@@ -31,8 +29,6 @@ impl Component for Example {
 
     fn create(ctx: &Context<Self>) -> Self {
         Example {
-            props,
-            link,
             value: 0,
             value_two: 0,
         }
@@ -54,37 +50,37 @@ impl Component for Example {
         true
     }
 
-    fn view(&self, _ctx: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         html! {
             <>
             <NumericInput<i32>
-                disabled={self.props.disabled}
-                fill={self.props.large}
+                disabled={ctx.props().disabled}
+                fill={ctx.props().large}
                 value={self.value}
                 bounds={-105..}
                 increment=10
                 placeholder={String::from("Greater or equal to -105...")}
-                onchange={self.link.callback(|x| Msg::UpdateValue(x))}
-                disable_buttons={self.props.disable_buttons}
-                buttons_on_the_left={self.props.buttons_on_the_left}
-                left_icon={self.props.left_icon.then(|| IconName::Dollar)}
+                onchange={ctx.link().callback(|x| Msg::UpdateValue(x))}
+                disable_buttons={ctx.props().disable_buttons}
+                buttons_on_the_left={ctx.props().buttons_on_the_left}
+                left_icon={ctx.props().left_icon.then(|| IconName::Dollar)}
             />
             <NumericInput<i32>
-                disabled={self.props.disabled}
-                fill={self.props.fill}
-                large={self.props.large}
+                disabled={ctx.props().disabled}
+                fill={ctx.props().fill}
+                large={ctx.props().large}
                 value={self.value_two}
                 bounds={-10..=10}
                 increment=1
                 placeholder={String::from("Integer between -10 and 10")}
-                onchange={self.link.callback(|x| Msg::UpdateValueTwo(x))}
-                disable_buttons={self.props.disable_buttons}
-                buttons_on_the_left={self.props.buttons_on_the_left}
-                left_icon={self.props.left_icon.then(|| IconName::Dollar)}
+                onchange={ctx.link().callback(|x| Msg::UpdateValueTwo(x))}
+                disable_buttons={ctx.props().disable_buttons}
+                buttons_on_the_left={ctx.props().buttons_on_the_left}
+                left_icon={ctx.props().left_icon.then(|| IconName::Dollar)}
             />
             <Button
                 icon={IconName::Refresh}
-                onclick={self.link.callback(|_| Msg::Reset)}
+                onclick={ctx.link().callback(|_| Msg::Reset)}
             >
                 {"Reset at 4"}
             </Button>

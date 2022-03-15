@@ -2,8 +2,6 @@ use yew::prelude::*;
 use yewprint::{HtmlSelect, Text};
 
 pub struct Example {
-    props: ExampleProps,
-    link: &html::Scope<Self>,
     log_level: LogLevel,
 }
 
@@ -21,8 +19,6 @@ impl Component for Example {
 
     fn create(ctx: &Context<Self>) -> Self {
         Example {
-            props,
-            link,
             log_level: LogLevel::Info,
         }
     }
@@ -32,7 +28,7 @@ impl Component for Example {
         true
     }
 
-    fn view(&self, _ctx: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         html! {
             <div style="width: 400px; text-align: center;">
                 <HtmlSelect<LogLevel>
@@ -44,10 +40,10 @@ impl Component for Example {
                         (LogLevel::Error, "ERROR".to_string()),
                         (LogLevel::Off, "OFF".to_string()),
                     ]}
-                    minimal={self.props.minimal}
-                    fill={self.props.fill}
-                    disabled={self.props.disabled}
-                    large={self.props.large}
+                    minimal={ctx.props().minimal}
+                    fill={ctx.props().fill}
+                    disabled={ctx.props().disabled}
+                    large={ctx.props().large}
                     value={Some(self.log_level)}
                     onchange={self.link.callback(|x| x)}
                     title={format!("Selected: {:?}", self.log_level)}

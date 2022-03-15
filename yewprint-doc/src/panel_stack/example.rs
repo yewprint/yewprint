@@ -2,8 +2,6 @@ use yew::prelude::*;
 use yewprint::{Button, Intent, PanelStack, PanelStackState, Text};
 
 pub struct Example {
-    link: &html::Scope<Self>,
-    props: ExampleProps,
     state: PanelStackState,
 }
 
@@ -29,7 +27,7 @@ impl Component for Example {
                 <div>{"Hello World!"}</div>
                 <Button
                     intent={Intent::Primary}
-                    onclick={link.callback(|_| ExampleMessage::OpenPanel2)}
+                    onclick={ctx.link().callback(|_| ExampleMessage::OpenPanel2)}
                 >
                     {"Open panel 2"}
                 </Button>
@@ -42,10 +40,10 @@ impl Component for Example {
         })
         .finish();
 
-        Example { link, props, state }
+        Example { state }
     }
 
-    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
+    fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             ExampleMessage::OpenPanel2 => self
                 .state
@@ -53,7 +51,7 @@ impl Component for Example {
                     <div class={classes!("docs-panel-stack-contents-example")}>
                         <Button
                             intent={Intent::Success}
-                            onclick={self.link.callback(|_| ExampleMessage::OpenPanel2)}
+                            onclick={ctx.link().callback(|_| ExampleMessage::OpenPanel2)}
                         >
                             {"Open another panel 2"}
                         </Button>
@@ -71,12 +69,12 @@ impl Component for Example {
         }
     }
 
-    fn view(&self, _ctx: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         html! {
             <div>
                 <PanelStack
                     state={self.state.clone()}
-                    onclose={self.link.callback(|_| ExampleMessage::ClosePanel)}
+                    onclose={ctx.link().callback(|_| ExampleMessage::ClosePanel)}
                     class={classes!("docs-panel-stack-example")}
                 />
             </div>
@@ -87,7 +85,6 @@ impl Component for Example {
 // Second panel: a simple counter
 
 pub struct Panel2 {
-    link: &html::Scope<Self>,
     counter: i64,
 }
 
@@ -99,8 +96,8 @@ impl Component for Panel2 {
     type Message = Panel2Message;
     type Properties = ();
 
-    fn create(ctx: &Context<Self>) -> Self {
-        Panel2 { counter: 0, link }
+    fn create(_ctx: &Context<Self>) -> Self {
+        Panel2 { counter: 0 }
     }
 
     fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
@@ -112,16 +109,12 @@ impl Component for Panel2 {
         }
     }
 
-    fn changed(&mut self, _ctx: &Context<Self>) -> bool {
-        false
-    }
-
-    fn view(&self, _ctx: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         html! {
             <div>
                 <p>{"Counter: "}{self.counter}</p>
                 <div>
-                    <Button onclick={self.link.callback(|_| Panel2Message::AddOne)}>
+                    <Button onclick={ctx.link().callback(|_| Panel2Message::AddOne)}>
                         {"Add 1"}
                     </Button>
                 </div>

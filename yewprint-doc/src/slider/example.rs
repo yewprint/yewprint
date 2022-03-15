@@ -3,11 +3,9 @@ use yew::prelude::*;
 use yewprint::{Intent, Slider, Tag};
 
 pub struct Example {
-    props: ExampleProps,
     float: f64,
     integer: i32,
     log_level: Option<LogLevel>,
-    link: &html::Scope<Self>,
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -29,11 +27,9 @@ impl Component for Example {
 
     fn create(ctx: &Context<Self>) -> Self {
         Example {
-            props,
             float: 1.2,
             integer: 30,
             log_level: None,
-            link,
         }
     }
 
@@ -53,7 +49,7 @@ impl Component for Example {
         true
     }
 
-    fn view(&self, _ctx: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         let percentage_labels = (0..=100)
             .step_by(1)
             .map(|x| (x, (x % 10 == 0).then(|| format!("{}%", x).into())))
@@ -79,13 +75,13 @@ impl Component for Example {
                             (0.9, None),
                             (1.0, Some("1".into())),
                         ]}
-                        intent={self.props.intent}
-                        onchange={self.link.callback(|x| Msg::FloatUpdate(x))}
+                        intent={ctx.props().intent}
+                        onchange={ctx.link().callback(|x| Msg::FloatUpdate(x))}
                     />
                     <Tag
                         style={Cow::Borrowed("width: 32px; margin-left: 16px")}
                         minimal=true
-                        intent={self.props.intent}
+                        intent={ctx.props().intent}
                     >
                         {format!("{:.1}", self.float)}
                     </Tag>
@@ -93,9 +89,9 @@ impl Component for Example {
                 <Slider<i32>
                     values={percentage_labels}
                     selected={self.integer}
-                    intent={self.props.intent}
+                    intent={ctx.props().intent}
                     value_label={Cow::Owned(format!("{}%", self.integer))}
-                    onchange={self.link.callback(|x| Msg::IntegerUpdate(x))}
+                    onchange={ctx.link().callback(|x| Msg::IntegerUpdate(x))}
                 />
                 <Slider<LogLevel>
                     values={vec![
@@ -106,15 +102,15 @@ impl Component for Example {
                         (LogLevel::Debug, Some("DEBUG".into())),
                         (LogLevel::Trace, Some("TRACE".into())),
                     ]}
-                    intent={self.props.intent}
+                    intent={ctx.props().intent}
                     selected={self.log_level.clone()}
-                    onchange={self.link.callback(|x| Msg::LogLevelUpdate(x))}
+                    onchange={ctx.link().callback(|x| Msg::LogLevelUpdate(x))}
                 />
                 <Slider<()>
                     values={vec![((), Some("Neo".into()))]}
-                    intent={self.props.intent}
+                    intent={ctx.props().intent}
                     selected={()}
-                    onchange={self.link.callback(|_| Msg::Noop)}
+                    onchange={ctx.link().callback(|_| Msg::Noop)}
                 />
             </>
         }

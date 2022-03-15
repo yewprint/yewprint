@@ -2,8 +2,6 @@ use yew::prelude::*;
 use yewprint::{Tab, Tabs};
 
 pub struct Example {
-    link: &html::Scope<Self>,
-    props: ExampleProps,
     selected: Civilization,
 }
 
@@ -19,8 +17,6 @@ impl Component for Example {
 
     fn create(ctx: &Context<Self>) -> Self {
         Example {
-            link,
-            props,
             selected: Civilization::Minoan,
         }
     }
@@ -34,15 +30,15 @@ impl Component for Example {
         }
     }
 
-    fn view(&self, _ctx: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         html! {
             <div>
                 <Tabs<Civilization>
                     id="civilizations"
-                    animate={self.props.animate}
-                    vertical={self.props.vertical}
+                    animate={ctx.props().animate}
+                    vertical={ctx.props().vertical}
                     selected_tab_id={self.selected}
-                    onchange={self.link.callback(|x| x)}
+                    onchange={ctx.link().callback(|x| x)}
                     tabs={vec![
                         Tab {
                             disabled: false,

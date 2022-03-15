@@ -2,8 +2,6 @@ use yew::prelude::*;
 use yewprint::{Button, IconName, InputGroup, Tag};
 
 pub struct Example {
-    link: &html::Scope<Self>,
-    props: ExampleProps,
     histogram_value: String,
     password_value: String,
     password_strength: Html,
@@ -43,8 +41,6 @@ impl Component for Example {
 
     fn create(ctx: &Context<Self>) -> Self {
         Example {
-            props,
-            link,
             histogram_value: Default::default(),
             password_value: Default::default(),
             password_strength: Default::default(),
@@ -52,7 +48,7 @@ impl Component for Example {
         }
     }
 
-    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
+    fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             Msg::AddHistogramEntry => {
                 alert!("You sent: {}", self.histogram_value);
@@ -97,51 +93,51 @@ impl Component for Example {
         html! {
             <>
                 <InputGroup
-                    fill={self.props.fill}
-                    large={self.props.large}
-                    small={self.props.small}
-                    round={self.props.round}
-                    disabled={self.props.disabled}
+                    fill={ctx.props().fill}
+                    large={ctx.props().large}
+                    small={ctx.props().small}
+                    round={ctx.props().round}
+                    disabled={ctx.props().disabled}
                     left_icon={IconName::Filter}
                     placeholder={"Filter histogram..."}
                     value={self.histogram_value.clone()}
-                    oninput={self.link.callback(|e: InputData| Msg::UpdateHistogram(e.value))}
-                    onkeydown={self.link.callback(|e: KeyboardEvent| {
+                    oninput={ctx.link().callback(|e: InputData| Msg::UpdateHistogram(e.value))}
+                    onkeydown={ctx.link().callback(|e: KeyboardEvent| {
                         if e.key() == "Enter" { Msg::AddHistogramEntry } else { Msg::Noop }
                     })}
                 />
                 <InputGroup
-                    fill={self.props.fill}
-                    large={self.props.large}
-                    small={self.props.small}
-                    round={self.props.round}
-                    disabled={self.props.disabled}
+                    fill={ctx.props().fill}
+                    large={ctx.props().large}
+                    small={ctx.props().small}
+                    round={ctx.props().round}
+                    disabled={ctx.props().disabled}
                     left_element={self.password_strength.clone()}
                     placeholder={"Enter your password..."}
                     value={self.password_value.clone()}
-                    oninput={self.link.callback(|e: InputData| Msg::UpdatePassword(e.value))}
-                    onkeydown={self.link.callback(|e: KeyboardEvent| {
+                    oninput={ctx.link().callback(|e: InputData| Msg::UpdatePassword(e.value))}
+                    onkeydown={ctx.link().callback(|e: KeyboardEvent| {
                         if e.key() == "Enter" { Msg::AddPasswordEntry } else { Msg::Noop }
                     })}
                     right_element={html! {
                         <Button
                             icon={IconName::Lock}
                             minimal={true}
-                            disabled={self.props.disabled}
+                            disabled={ctx.props().disabled}
                         />
                     }}
                 />
                 <InputGroup
-                    fill={self.props.fill}
-                    large={self.props.large}
-                    small={self.props.small}
-                    round={self.props.round}
-                    disabled={self.props.disabled}
+                    fill={ctx.props().fill}
+                    large={ctx.props().large}
+                    small={ctx.props().small}
+                    round={ctx.props().round}
+                    disabled={ctx.props().disabled}
                     left_icon=IconName::Tag
                     placeholder={"Find tags"}
                     value={self.tags_value.clone()}
-                    oninput={self.link.callback(|e: InputData| Msg::UpdateTags(e.value))}
-                    onkeydown={self.link.callback(|e: KeyboardEvent| {
+                    oninput={ctx.link().callback(|e: InputData| Msg::UpdateTags(e.value))}
+                    onkeydown={ctx.link().callback(|e: KeyboardEvent| {
                         if e.key() == "Enter" { Msg::AddTagsEntry } else { Msg::Noop }
                     })}
                     right_element=html! {

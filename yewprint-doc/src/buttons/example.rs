@@ -2,9 +2,7 @@ use yew::prelude::*;
 use yewprint::Button;
 
 pub struct Example {
-    link: &html::Scope<Self>,
     counter: i64,
-    props: ExampleProps,
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -28,11 +26,7 @@ impl Component for Example {
     type Properties = ExampleProps;
 
     fn create(ctx: &Context<Self>) -> Self {
-        Example {
-            counter: 0,
-            link,
-            props,
-        }
+        Example { counter: 0 }
     }
 
     fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
@@ -42,21 +36,21 @@ impl Component for Example {
         true
     }
 
-    fn view(&self, _ctx: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         html! {
             <div>
                 <p>{"Counter: "}{self.counter}</p>
                 <div>
                     <Button
-                        onclick={self.link.callback(|_| Msg::AddOne)}
-                        minimal={self.props.minimal}
-                        fill={self.props.fill}
-                        small={self.props.small}
-                        outlined={self.props.outlined}
-                        loading={self.props.loading}
-                        large={self.props.large}
-                        active={self.props.active}
-                        disabled={self.props.disabled}
+                        onclick={ctx.link().callback(|_| Msg::AddOne)}
+                        minimal={ctx.props().minimal}
+                        fill={ctx.props().fill}
+                        small={ctx.props().small}
+                        outlined={ctx.props().outlined}
+                        loading={ctx.props().loading}
+                        large={ctx.props().large}
+                        active={ctx.props().active}
+                        disabled={ctx.props().disabled}
                     >
                         {"Add 1"}
                     </Button>

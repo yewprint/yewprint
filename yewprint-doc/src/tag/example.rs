@@ -2,8 +2,6 @@ use yew::prelude::*;
 use yewprint::{IconName, Intent, Tag};
 
 pub struct Example {
-    props: ExampleProps,
-    link: &html::Scope<Self>,
     tags: Vec<String>,
 }
 
@@ -35,7 +33,7 @@ impl Component for Example {
 
     fn create(ctx: &Context<Self>) -> Self {
         let tags = ctx.props().initial_tags.clone();
-        Example { props, link, tags }
+        Example { tags }
     }
 
     fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
@@ -54,42 +52,37 @@ impl Component for Example {
     }
 
     fn changed(&mut self, ctx: &Context<Self>) -> bool {
-        if self.props != props {
-            if self.props.reset_tags != ctx.props().reset_tags {
-                self.tags = ctx.props().initial_tags.clone();
-            }
-            self.props = props;
-            true
-        } else {
-            false
+        if ctx.props().reset_tags != ctx.props().reset_tags {
+            self.tags = ctx.props().initial_tags.clone();
         }
+        true
     }
 
-    fn view(&self, _ctx: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         self.tags
             .iter()
             .map(|label| {
                 let remove = {
                     let label = label.clone();
-                    self.props.removable.then(|| {
+                    ctx.props().removable.then(|| {
                         self.link
                             .callback(move |_| ExampleMsg::Remove(label.clone()))
                     })
                 };
                 html! {
                     <Tag
-                        active={self.props.active}
-                        fill={self.props.fill}
-                        icon={self.props.icon.then(|| IconName::Print)}
-                        intent={self.props.intent}
-                        interactive={self.props.interactive}
-                        large={self.props.large}
-                        minimal={self.props.minimal}
-                        multiline={self.props.multiline}
-                        right_icon={self.props.right_icon.then(|| IconName::Star)}
-                        round={self.props.round}
+                        active={ctx.props().active}
+                        fill={ctx.props().fill}
+                        icon={ctx.props().icon.then(|| IconName::Print)}
+                        intent={ctx.props().intent}
+                        interactive={ctx.props().interactive}
+                        large={ctx.props().large}
+                        minimal={ctx.props().minimal}
+                        multiline={ctx.props().multiline}
+                        right_icon={ctx.props().right_icon.then(|| IconName::Star)}
+                        round={ctx.props().round}
                         onremove={remove}
-                        onclick={self.link.callback(|_| ExampleMsg::Click)}
+                        onclick={ctx.link().callback(|_| ExampleMsg::Click)}
                     >
                         {label.clone()}
                     </Tag>

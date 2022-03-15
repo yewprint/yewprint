@@ -3,9 +3,7 @@ use std::borrow::Cow;
 use yew::prelude::*;
 use yewprint::{Icon, IconName, Menu, MenuDivider, MenuItem};
 
-pub struct Example {
-    link: &html::Scope<Self>,
-}
+pub struct Example {}
 
 pub enum Msg {
     GoToMenu(DocMenu),
@@ -15,55 +13,59 @@ impl Component for Example {
     type Message = Msg;
     type Properties = ();
 
-    fn create(ctx: &Context<Self>) -> Self {
-        Self { link }
+    fn create(_ctx: &Context<Self>) -> Self {
+        Self {}
     }
 
     fn update(&mut self, _ctx: &Context<Self>, _msg: Self::Message) -> bool {
         true
     }
 
-    fn view(&self, _ctx: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        let custom_icon = html! {
+            <Logo class={classes!("custom-icon")} />
+        };
+
+        let share_icon = html! {
+            <Icon icon={IconName::Share} />
+        };
+
         html! {
             <>
                 <Menu>
                     <MenuItem
                         text={html!("Custom SVG icon")}
-                        icon_html={html! {
-                            <Logo class={classes!("custom-icon")} />
-                        }}
+                        icon_html={custom_icon}
                     />
                     <MenuDivider />
                     <MenuItem
                         icon={IconName::NewTextBox}
-                        text={html!{"New text box"}}
+                        text={html!("New text box")}
                         href={Cow::Borrowed("#menu")}
-                        onclick={self.link
+                        onclick={ctx.link()
                             .callback(|_| Msg::GoToMenu(DocMenu::Menu))}
                     />
                     <MenuItem
                         icon={IconName::NewObject}
-                        text={html!{"New object"}}
+                        text={html!("New object")}
                         href={Cow::Borrowed("#menu")}
-                        onclick={self.link
+                        onclick={ctx.link()
                             .callback(|_| Msg::GoToMenu(DocMenu::Menu))}
                     />
                     <MenuItem
                         icon={IconName::NewLink}
-                        text={html!{"New link"}}
+                        text={html!("New link")}
                         href={Cow::Borrowed("#menu")}
-                        onclick={self.link
+                        onclick={ctx.link()
                             .callback(|_| Msg::GoToMenu(DocMenu::Menu))}
                     />
                     <MenuDivider />
                     <MenuItem
                         icon={IconName::Cog}
-                        text={html!{"Settings"}}
-                        label={html! {
-                            <Icon icon=IconName::Share />
-                        }}
+                        text={html!("Settings")}
+                        label={share_icon}
                         href={Cow::Borrowed("#menu")}
-                        onclick={self.link
+                        onclick={ctx.link()
                             .callback(|_| Msg::GoToMenu(DocMenu::Menu))}
                     />
                 </Menu>
@@ -74,7 +76,7 @@ impl Component for Example {
                         text={html!("Cut")}
                         label={html!("Ctrl+X")}
                         href={Cow::Borrowed("#menu")}
-                        onclick={self.link
+                        onclick={ctx.link()
                             .callback(|_| Msg::GoToMenu(DocMenu::Menu))}
                     />
                     <MenuItem
@@ -82,7 +84,7 @@ impl Component for Example {
                         text={html!("Copy")}
                         label={html!("Ctrl+C")}
                         href={Cow::Borrowed("#menu")
-                        onclick={self.link
+                        onclick={ctx.link()
                             .callback(|_| Msg::GoToMenu(DocMenu::Menu))}
                     />
                     <MenuItem
@@ -96,21 +98,21 @@ impl Component for Example {
                         icon={IconName::AlignLeft}
                         text={html!("Alignment")}
                         href={Cow::Borrowed("#menu")}
-                        onclick={self.link
+                        onclick={ctx.link()
                             .callback(|_| Msg::GoToMenu(DocMenu::Menu))}
                     />
                     <MenuItem
                         icon={IconName::Style}
                         text={html!("Style")}
                         href={Cow::Borrowed("#menu")}
-                        onclick={self.link
+                        onclick={ctx.link()
                             .callback(|_| Msg::GoToMenu(DocMenu::Menu))}
                     />
                     <MenuItem
                         icon={IconName::Asterisk}
                         text={html!("Miscellaneous")}
                         href={Cow::Borrowed("#menu")}
-                        onclick={self.link
+                        onclick={ctx.link()
                             .callback(|_| Msg::GoToMenu(DocMenu::Menu))}
                     />
                 </Menu>

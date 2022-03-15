@@ -32,7 +32,6 @@ use yew_router::{
 use yewprint::{IconName, Menu, MenuItem};
 
 pub struct App {
-    link: &html::Scope<Self>,
     dark_theme: bool,
     route_dispatcher: RouteAgentDispatcher,
 }
@@ -52,7 +51,6 @@ impl Component for App {
                 .and_then(|x| x.match_media("(prefers-color-scheme: dark)").ok().flatten())
                 .map(|x| x.matches())
                 .unwrap_or(true),
-            link,
             route_dispatcher: RouteAgentDispatcher::new(),
         }
     }
