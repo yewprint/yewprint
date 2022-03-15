@@ -48,7 +48,6 @@ impl Component for TextAreaDoc {
                         props={Some(html! {
                             <TextAreaProps
                                 callback={self.callback.clone()}
-                                props={example_props.clone()}
                             />
                         })}
                     >
