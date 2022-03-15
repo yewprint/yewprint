@@ -54,7 +54,7 @@ impl Component for TagDoc {
         true
     }
 
-    fn view(&self, _ctx: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         let example_props = self.state.clone();
         let source = crate::include_raw_html!(
             concat!(env!("OUT_DIR"), "/", file!(), ".html"),
@@ -70,7 +70,7 @@ impl Component for TagDoc {
                     props={Some(html!{
                         <TagProps
                             callback={self.callback.clone()}
-                            props={example_props.clone()}
+                            example_props={example_props.clone()}
                         />
                     })}
                 >
@@ -83,7 +83,7 @@ impl Component for TagDoc {
 
 crate::build_example_prop_component! {
     TagProps for ExampleProps =>
-        fn view(&self, _ctx: &Context<Self>) -> Html {
+        fn view(&self, ctx: &Context<Self>) -> Html {
             html! {
                 <div>
                     <H5>{"Props"}</H5>
@@ -93,7 +93,7 @@ crate::build_example_prop_component! {
                                 active: !props.active,
                                 ..props
                             })}
-                            checked={ctx.props().active}
+                            checked={ctx.props().example_props.active}
                             label={html!("Active")}
                         />
                         <Switch
@@ -101,7 +101,7 @@ crate::build_example_prop_component! {
                                 fill: !props.fill,
                                 ..props
                             })}
-                            checked={ctx.props().fill}
+                            checked={ctx.props().example_props.fill}
                             label={html!("Fill")}
                         />
                         <Switch
@@ -109,7 +109,7 @@ crate::build_example_prop_component! {
                                 interactive: !props.interactive,
                                 ..props
                             })}
-                            checked={ctx.props().interactive}
+                            checked={ctx.props().example_props.interactive}
                             label={html!("Interactive")}
                         />
                         <Switch
@@ -117,7 +117,7 @@ crate::build_example_prop_component! {
                                 large: !props.large,
                                 ..props
                             })}
-                            checked={ctx.props().large}
+                            checked={ctx.props().example_props.large}
                             label={html!("Large")}
                         />
                         <Switch
@@ -125,7 +125,7 @@ crate::build_example_prop_component! {
                                 minimal: !props.minimal,
                                 ..props
                             })}
-                            checked={ctx.props().minimal}
+                            checked={ctx.props().example_props.minimal}
                             label={html!("Minimal")}
                         />
                         <Switch
@@ -133,7 +133,7 @@ crate::build_example_prop_component! {
                                 multiline: !props.multiline,
                                 ..props
                             })}
-                            checked={ctx.props().multiline}
+                            checked={ctx.props().example_props.multiline}
                             label={html!("Multiline")}
                         />
                         <Switch
@@ -141,7 +141,7 @@ crate::build_example_prop_component! {
                                 round: !props.round,
                                 ..props
                             })}
-                            checked={ctx.props().round}
+                            checked={ctx.props().example_props.round}
                             label={html!("Round")}
                         />
                         <Switch
@@ -149,7 +149,7 @@ crate::build_example_prop_component! {
                                 removable: !props.removable,
                                 ..props
                             })}
-                            checked={ctx.props().removable}
+                            checked={ctx.props().example_props.removable}
                             label={html!("Removable")}
                         />
                         <Switch
@@ -157,7 +157,7 @@ crate::build_example_prop_component! {
                                 icon: !props.icon,
                                 ..props
                             })}
-                            checked={ctx.props().icon}
+                            checked={ctx.props().example_props.icon}
                             label={html!("Icon")}
                         />
                         <Switch
@@ -165,7 +165,7 @@ crate::build_example_prop_component! {
                                 right_icon: !props.right_icon,
                                 ..props
                             })}
-                            checked={ctx.props().right_icon}
+                            checked={ctx.props().example_props.right_icon}
                             label={html!("Right icon")}
                         />
                         <p>{"Select intent:"}</p>
@@ -188,7 +188,7 @@ crate::build_example_prop_component! {
                             <Button
                                 icon={IconName::Refresh}
                                 onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
-                                    reset_tags: ctx.props().reset_tags + 1,
+                                    reset_tags: ctx.props().example_props.reset_tags + 1,
                                     ..props
                                 })}
                             >

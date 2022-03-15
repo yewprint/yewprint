@@ -98,7 +98,7 @@ macro_rules! build_source_code_component {
                 true
             }
 
-            fn view(&self, _ctx: &Context<Self>) -> Html {
+            fn view(&self, ctx: &Context<Self>) -> Html {
                 use yewprint::Text;
 
                 html! {

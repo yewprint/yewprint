@@ -8,5 +8,5 @@ pub struct LogoProps {
 
 #[function_component(Logo)]
 pub fn logo(props: &LogoProps) -> Html {
-    crate::include_raw_html!("logo.svg", props.class.to_string())
+    crate::include_raw_html!("logo.svg", &props.class.to_string())
 }

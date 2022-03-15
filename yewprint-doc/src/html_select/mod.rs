@@ -31,7 +31,7 @@ impl Component for HtmlSelectDoc {
         true
     }
 
-    fn view(&self, _ctx: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         let example_props = self.state.clone();
         let source = crate::include_raw_html!(
             concat!(env!("OUT_DIR"), "/", file!(), ".html"),
@@ -48,7 +48,7 @@ impl Component for HtmlSelectDoc {
                         props={Some(html! {
                             <HtmlSelectProps
                                 callback={self.callback.clone()}
-                                props={example_props.clone()}
+                                example_props={example_props.clone()}
                             />
                         })}
                     >
@@ -62,7 +62,7 @@ impl Component for HtmlSelectDoc {
 
 crate::build_example_prop_component! {
     HtmlSelectProps for ExampleProps =>
-        fn view(&self, _ctx: &Context<Self>) -> Html {
+        fn view(&self, ctx: &Context<Self>) -> Html {
             html! {
                 <div>
                     <H5>{"Props"}</H5>
@@ -71,7 +71,7 @@ crate::build_example_prop_component! {
                         minimal: !props.minimal,
                         ..props
                     })}
-                    checked={ctx.props().minimal}
+                    checked={ctx.props().example_props.minimal}
                     label={html!("Minimal")}
                 />
                 <Switch
@@ -79,7 +79,7 @@ crate::build_example_prop_component! {
                         fill: !props.fill,
                         ..props
                     })}
-                    checked={ctx.props().fill}
+                    checked={ctx.props().example_props.fill}
                     label={html!("Fill")}
                 />
                 <Switch
@@ -87,7 +87,7 @@ crate::build_example_prop_component! {
                         disabled: !props.disabled,
                         ..props
                     })}
-                    checked={ctx.props().disabled}
+                    checked={ctx.props().example_props.disabled}
                     label={html!("Disabled")}
                 />
                 <Switch
@@ -95,7 +95,7 @@ crate::build_example_prop_component! {
                         large: !props.large,
                         ..props
                     })}
-                    checked={ctx.props().large}
+                    checked={ctx.props().example_props.large}
                     label={html!("Large")}
                 />
             </div>

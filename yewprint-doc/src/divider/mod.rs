@@ -26,7 +26,7 @@ impl Component for DividerDoc {
         true
     }
 
-    fn view(&self, _ctx: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         let example_props = self.state.clone();
         let source = crate::include_raw_html!(
             concat!(env!("OUT_DIR"), "/", file!(), ".html"),
@@ -42,7 +42,7 @@ impl Component for DividerDoc {
                     props={Some(html! {
                         <DividerProps
                             callback={self.callback.clone()}
-                            props={example_props.clone()}
+                            example_props={example_props.clone()}
                         />
                     })}
                 >
@@ -55,7 +55,7 @@ impl Component for DividerDoc {
 
 crate::build_example_prop_component! {
     DividerProps for ExampleProps =>
-    fn view(&self, _ctx: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         html! {
             <div>
                 <H5>{"Props"}</H5>
@@ -63,7 +63,7 @@ crate::build_example_prop_component! {
                         onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
                             vertical: !props.vertical
                         })}
-                        checked={ctx.props().vertical}
+                        checked={ctx.props().example_props.vertical}
                         label={html!("Vertical")}
                     />
             </div>

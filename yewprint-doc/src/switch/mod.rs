@@ -30,7 +30,7 @@ impl Component for SwitchDoc {
         true
     }
 
-    fn view(&self, _ctx: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         let example_props = self.state.clone();
         let source = crate::include_raw_html!(
             concat!(env!("OUT_DIR"), "/", file!(), ".html"),
@@ -46,7 +46,7 @@ impl Component for SwitchDoc {
                     props={Some(html! {
                         <SwitchProps
                             callback={self.callback.clone()}
-                            props={example_props.clone()}
+                            example_props={example_props.clone()}
                         >
                         </SwitchProps>
                     })}
@@ -60,7 +60,7 @@ impl Component for SwitchDoc {
 
 crate::build_example_prop_component! {
     SwitchProps for ExampleProps =>
-    fn view(&self, _ctx: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         html! {
             <div>
                 <H5>{"Props"}</H5>
@@ -69,7 +69,7 @@ crate::build_example_prop_component! {
                         disabled: !props.disabled,
                         ..props
                     })}
-                    checked={ctx.props().disabled}
+                    checked={ctx.props().example_props.disabled}
                     label={html!("Disabled")}
                 />
                 <Switch
@@ -77,7 +77,7 @@ crate::build_example_prop_component! {
                         inline: !props.inline,
                         ..props
                     })}
-                    checked={ctx.props().inline}
+                    checked={ctx.props().example_props.inline}
                     label={html!("Inline")}
                 />
                 <Switch
@@ -85,7 +85,7 @@ crate::build_example_prop_component! {
                         large: !props.large,
                         ..props
                     })}
-                    checked={ctx.props().large}
+                    checked={ctx.props().example_props.large}
                     label={html!("Large")}
                 />
             </div>

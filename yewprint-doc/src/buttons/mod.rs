@@ -35,12 +35,19 @@ impl Component for ButtonDoc {
         true
     }
 
-    fn view(&self, _ctx: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         let example_props = self.state.clone();
         let source = crate::include_raw_html!(
             concat!(env!("OUT_DIR"), "/", file!(), ".html"),
             "bp3-code-block"
         );
+
+        let props_component = html! {
+            <ButtonProps
+                callback={self.callback.clone()}
+                example_props={example_props.clone()}
+            />
+        };
 
         html! {
             <div>
@@ -49,12 +56,7 @@ impl Component for ButtonDoc {
                 <div>
                     <ExampleContainer
                         source={source}
-                        props={Some(html! {
-                            <ButtonProps
-                                callback={self.callback.clone()}
-                                props={example_props.clone()}
-                            />
-                        })}
+                        props={Some(props_component)}
                     >
                         <Example ..example_props />
                     </ExampleContainer>
@@ -66,77 +68,179 @@ impl Component for ButtonDoc {
 
 crate::build_example_prop_component! {
     ButtonProps for ExampleProps =>
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        html! {
-            <div>
-                <H5>{"Props"}</H5>
-                <Switch
-                    onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
-                        minimal: !props.minimal,
-                        ..props
-                    })}
-                    checked={ctx.props().minimal}
-                    label={html!("Minimal")}
-                />
-                <Switch
-                    onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
-                        fill: !props.fill,
-                        ..props
-                    })}
-                    checked={ctx.props().fill}
-                    label={html!("Fill")}
-                />
-                <Switch
-                    onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
-                        small: !props.small,
-                        ..props
-                    })}
-                    checked={ctx.props().small}
-                    label={html!("Small")}
-                />
-                <Switch
-                    onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
-                        outlined: !props.outlined,
-                        ..props
-                    })}
-                    checked={ctx.props().outlined}
-                    label={html!("Outlined")}
-                />
-                <Switch
-                    onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
-                        loading: !props.loading,
-                        ..props
-                    })}
-                    checked={ctx.props().loading}
-                    label={html!("Loading")}
-                />
-                <Switch
-                    onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
-                        large: !props.large,
-                        ..props
-                    })}
-                    checked={ctx.props().large}
-                    label={html!("Large")}
-                />
-                <Switch
-                    onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
-                        active: !props.active,
-                        ..props
-                    })}
-                    checked={ctx.props().active}
-                    label={html!("Active")}
-                />
-                <Switch
-                    onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
-                        disabled: !props.disabled,
-                        ..props
-                    })}
-                    checked={ctx.props().disabled}
-                    label={html!("Disabled")}
-                />
-            </div>
+        fn view(&self, ctx: &Context<Self>) -> Html {
+            html! {
+                <div>
+                    <H5>{"Props"}</H5>
+                    <Switch
+                        onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
+                            minimal: !props.minimal,
+                            ..props
+                        })}
+                        checked={ctx.props().example_props.minimal}
+                        label={html!("Minimal")}
+                    />
+                    <Switch
+                        onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
+                            fill: !props.fill,
+                            ..props
+                        })}
+                        checked={ctx.props().example_props.fill}
+                        label={html!("Fill")}
+                    />
+                    <Switch
+                        onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
+                            small: !props.small,
+                            ..props
+                        })}
+                        checked={ctx.props().example_props.small}
+                        label={html!("Small")}
+                    />
+                    <Switch
+                        onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
+                            outlined: !props.outlined,
+                            ..props
+                        })}
+                        checked={ctx.props().example_props.outlined}
+                        label={html!("Outlined")}
+                    />
+                    <Switch
+                        onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
+                            loading: !props.loading,
+                            ..props
+                        })}
+                        checked={ctx.props().example_props.loading}
+                        label={html!("Loading")}
+                    />
+                    <Switch
+                        onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
+                            large: !props.large,
+                            ..props
+                        })}
+                        checked={ctx.props().example_props.large}
+                        label={html!("Large")}
+                    />
+                    <Switch
+                        onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
+                            active: !props.active,
+                            ..props
+                        })}
+                        checked={ctx.props().example_props.active}
+                        label={html!("Active")}
+                    />
+                    <Switch
+                        onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
+                            disabled: !props.disabled,
+                            ..props
+                        })}
+                        checked={ctx.props().example_props.disabled}
+                        label={html!("Disabled")}
+                    />
+                </div>
+            }
         }
-    }
 }
+
+//// This is the component that will let the user changes the props of the
+//// example component.
+// #[derive(Clone, PartialEq, Properties)]
+// pub struct ButtonProps {
+//     callback: Callback<ExampleProps>,
+//     example_props: ExampleProps,
+// }
+
+// impl ButtonProps {
+//     fn update_props<T>(
+//         &self,
+//         props: &ButtonProps,
+//         updater: impl Fn(ExampleProps, T) -> ExampleProps + 'static,
+//     ) -> Callback<T> {
+//         let props = props.clone().example_props;
+//         self.callback
+//             .clone()
+//             .reform(move |event| updater(props, event))
+//     }
+// }
+
+// impl Component for ButtonProps {
+//     type Message = ();
+//     type Properties = Self;
+
+//     fn create(ctx: &Context<Self>) -> Self {
+//         ctx.props().clone()
+//     }
+
+//     fn view(&self, ctx: &Context<Self>) -> Html {
+//         html! {
+//             <div>
+//                 <H5>{"Props"}</H5>
+//                 <Switch
+//                     onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
+//                         minimal: !props.minimal,
+//                         ..props
+//                     })}
+//                     checked={ctx.props().example_props.minimal}
+//                     label={html!("Minimal")}
+//                 />
+//                 <Switch
+//                     onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
+//                         fill: !props.fill,
+//                         ..props
+//                     })}
+//                     checked={ctx.props().example_props.fill}
+//                     label={html!("Fill")}
+//                 />
+//                 <Switch
+//                     onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
+//                         small: !props.small,
+//                         ..props
+//                     })}
+//                     checked={ctx.props().example_props.small}
+//                     label={html!("Small")}
+//                 />
+//                 <Switch
+//                     onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
+//                         outlined: !props.outlined,
+//                         ..props
+//                     })}
+//                     checked={ctx.props().example_props.outlined}
+//                     label={html!("Outlined")}
+//                 />
+//                 <Switch
+//                     onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
+//                         loading: !props.loading,
+//                         ..props
+//                     })}
+//                     checked={ctx.props().example_props.loading}
+//                     label={html!("Loading")}
+//                 />
+//                 <Switch
+//                     onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
+//                         large: !props.large,
+//                         ..props
+//                     })}
+//                     checked={ctx.props().example_props.large}
+//                     label={html!("Large")}
+//                 />
+//                 <Switch
+//                     onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
+//                         active: !props.active,
+//                         ..props
+//                     })}
+//                     checked={ctx.props().example_props.active}
+//                     label={html!("Active")}
+//                 />
+//                 <Switch
+//                     onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
+//                         disabled: !props.disabled,
+//                         ..props
+//                     })}
+//                     checked={ctx.props().example_props.disabled}
+//                     label={html!("Disabled")}
+//                 />
+//             </div>
+//         }
+//     }
+// }
 
 crate::build_source_code_component!();

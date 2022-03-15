@@ -29,7 +29,7 @@ impl Component for TextDoc {
         true
     }
 
-    fn view(&self, _ctx: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         let example_props = self.state.clone();
         let source = crate::include_raw_html!(
             concat!(env!("OUT_DIR"), "/", file!(), ".html"),
@@ -46,7 +46,7 @@ impl Component for TextDoc {
                         props={Some(html! {
                             <TextProps
                                 callback={self.callback.clone()}
-                                props={example_props.clone()}
+                                example_props={example_props.clone()}
                             />
                         })}
                     >
@@ -60,7 +60,7 @@ impl Component for TextDoc {
 
 crate::build_example_prop_component! {
     TextProps for ExampleProps =>
-        fn view(&self, _ctx: &Context<Self>) -> Html {
+        fn view(&self, ctx: &Context<Self>) -> Html {
             html! {
                 <div>
                     <H5>{"Props"}</H5>
@@ -69,7 +69,7 @@ crate::build_example_prop_component! {
                             ellipsize: !props.ellipsize,
                             ..props
                         })}
-                        checked={ctx.props().ellipsize}
+                        checked={ctx.props().example_props.ellipsize}
                         label={html!("Ellipsize")}
                     />
                     <input
@@ -90,7 +90,7 @@ crate::build_example_prop_component! {
                                 }
                         })}
                         type="text"
-                        value={ctx.props().text.clone()}
+                        value={ctx.props().example_props.text.clone()}
                     />
                 </div>
             }

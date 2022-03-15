@@ -31,7 +31,7 @@ impl Component for TextAreaDoc {
         true
     }
 
-    fn view(&self, _ctx: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         let example_props = self.state.clone();
         let source = crate::include_raw_html!(
             concat!(env!("OUT_DIR"), "/", file!(), ".html"),
@@ -48,6 +48,7 @@ impl Component for TextAreaDoc {
                         props={Some(html! {
                             <TextAreaProps
                                 callback={self.callback.clone()}
+                                example_props={example_props.clone()}
                             />
                         })}
                     >
@@ -70,7 +71,7 @@ crate::build_example_prop_component! {
                             fill: !props.fill,
                             ..props
                         })}
-                        checked={ctx.props().fill}
+                        checked={ctx.props().example_props.fill}
                         label={html!("Fill")}
                          />
                     <Switch
@@ -78,7 +79,7 @@ crate::build_example_prop_component! {
                             large: !props.large,
                             ..props
                         })}
-                        checked={ctx.props().large}
+                        checked={ctx.props().example_props.large}
                         label={html!("Large")}
                     />
                     <Switch
@@ -86,7 +87,7 @@ crate::build_example_prop_component! {
                             small: !props.small,
                             ..props
                         })}
-                        checked={ctx.props().small}
+                        checked={ctx.props().example_props.small}
                         label={html!("Small")}
                     />
                     <HtmlSelect<Option<Intent>>

@@ -30,7 +30,7 @@ impl Component for CalloutDoc {
         true
     }
 
-    fn view(&self, _ctx: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         let example_props = self.state.clone();
         let source = crate::include_raw_html!(
             concat!(env!("OUT_DIR"), "/", file!(), ".html"),
@@ -46,7 +46,7 @@ impl Component for CalloutDoc {
                     props={Some(html! {
                         <CalloutProps
                             callback={self.callback.clone()}
-                            props={example_props.clone()}
+                            example_props={example_props.clone()}
                         />
                     })}
                 >
@@ -59,7 +59,7 @@ impl Component for CalloutDoc {
 
 crate::build_example_prop_component! {
     CalloutProps for ExampleProps =>
-        fn view(&self, _ctx: &Context<Self>) -> Html {
+        fn view(&self, ctx: &Context<Self>) -> Html {
             html! {
                 <div>
                     <H5>{"Props"}</H5>
@@ -69,7 +69,7 @@ crate::build_example_prop_component! {
                                 show_icon: !props.show_icon,
                                 ..props
                             })}
-                            checked={ctx.props().show_icon}
+                            checked={ctx.props().example_props.show_icon}
                             label={html!("Show/hide icon")}
                         />
                         <Switch
@@ -77,7 +77,7 @@ crate::build_example_prop_component! {
                                 show_title: !props.show_title,
                                 ..props
                             })}
-                            checked={ctx.props().show_title}
+                            checked={ctx.props().example_props.show_title}
                             label={html!("Show/hide title")}
                         />
                         <p>{"Select intent:"}</p>

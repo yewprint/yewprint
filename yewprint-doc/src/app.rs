@@ -66,7 +66,7 @@ impl Component for App {
         true
     }
 
-    fn view(&self, _ctx: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         let netlify_badge = if self.dark_theme {
             "https://www.netlify.com/img/global/badges/netlify-color-accent.svg"
         } else {
@@ -211,7 +211,7 @@ impl Component for App {
                                 <MenuItem
                                     text={html!("Slider")}
                                     href={Cow::Borrowed("#slider")}
-                                    onclick={self.link.callback(|_| Msg::GoToMenu(DocMenu::Slider))
+                                    onclick={ctx.link().callback(|_| Msg::GoToMenu(DocMenu::Slider))
                                 />}
                                 <MenuItem
                                     text={html!("Spinner")}

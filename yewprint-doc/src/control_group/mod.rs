@@ -29,7 +29,7 @@ impl Component for ControlGroupDoc {
         true
     }
 
-    fn view(&self, _ctx: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         let example_props = self.state.clone();
         let source = crate::include_raw_html!(
             concat!(env!("OUT_DIR"), "/", file!(), ".html"),
@@ -45,7 +45,7 @@ impl Component for ControlGroupDoc {
                     props={Some(html! {
                         <ControlGroupProps
                             callback={self.callback.clone()}
-                            props={example_props.clone()}
+                            example_props={example_props.clone()}
                         >
                         </ControlGroupProps>
                     })}
@@ -59,7 +59,7 @@ impl Component for ControlGroupDoc {
 
 crate::build_example_prop_component! {
     ControlGroupProps for ExampleProps =>
-    fn view(&self, _ctx: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         html! {
             <div>
                 <H5>{"Props"}</H5>
@@ -68,7 +68,7 @@ crate::build_example_prop_component! {
                         fill: !props.fill,
                         ..props
                     })}
-                    checked={ctx.props().fill}
+                    checked={ctx.props().example_props.fill}
                     label={html!("Fill")}
                 />
                 <Switch
@@ -76,7 +76,7 @@ crate::build_example_prop_component! {
                         vertical: !props.vertical,
                         ..props
                     })}
-                    checked={ctx.props().vertical}
+                    checked={ctx.props().example_props.vertical}
                     label={html!("Vertical")}
                 />
             </div>

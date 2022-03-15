@@ -24,12 +24,12 @@ impl Component for Example {
         true
     }
 
-    fn view(&self, _ctx: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         let logs = include_str!("example.log");
 
         html! {
             <div>
-                <Button onclick={self.link.callback(|_| Msg::ToggleCollapse)}>
+                <Button onclick={ctx.link().callback(|_| Msg::ToggleCollapse)}>
                     {"Toggle collapse"}
                 </Button>
                 <Collapse

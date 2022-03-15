@@ -73,12 +73,15 @@ impl Component for ExampleContainer {
     }
 }
 
+/// The macro generates the component that will be used to render the editable
+/// properties of an associated example.
 #[macro_export]
 macro_rules! build_example_prop_component {
     ($name:ident for $prop_component:ty => $($view:tt)*) => {
         #[derive(Clone, PartialEq, Properties)]
         pub struct $name {
             callback: Callback<$prop_component>,
+            example_props: $prop_component
         }
 
         impl Component for $name {
@@ -93,13 +96,17 @@ macro_rules! build_example_prop_component {
         }
 
         impl $name {
+            /// Propagate the prop changes to the parent so the example is
+            /// re-rendered.
             fn update_props<T>(
                 &self,
-                props: &$prop_component,
+                props: &Self,
                 updater: impl Fn($prop_component, T) -> $prop_component + 'static,
             ) -> Callback<T> {
-                // let props = props.clone();
-                self.callback.clone().reform(move |event| updater(props.clone(), event))
+                let props = props.clone().example_props;
+                self.callback
+                    .clone()
+                    .reform(move |event| updater(props, event))
             }
         }
     };

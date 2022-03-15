@@ -29,7 +29,7 @@ impl Component for SpinnerDoc {
         true
     }
 
-    fn view(&self, _ctx: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         let example_props = self.state.clone();
         let source = crate::include_raw_html!(
             concat!(env!("OUT_DIR"), "/", file!(), ".html"),
@@ -46,7 +46,7 @@ impl Component for SpinnerDoc {
                         props={Some(html! {
                             <SpinnerProps
                                 callback={self.callback.clone()}
-                                props={example_props.clone()}
+                                example_props={example_props.clone()}
                             />
                         })}
                     >
@@ -60,7 +60,7 @@ impl Component for SpinnerDoc {
 
 crate::build_example_prop_component! {
     SpinnerProps for ExampleProps =>
-    fn view(&self, _ctx: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         html! {
             <div>
                 <H5>{"Props"}</H5>
@@ -85,7 +85,7 @@ crate::build_example_prop_component! {
                         {"Select Size:"}
                     </p>
                     <Slider<u32>
-                        selected={ctx.props().size}
+                        selected={ctx.props().example_props.size}
                         values={vec![
                             (10, Some("10".into())),
                             (20, None),

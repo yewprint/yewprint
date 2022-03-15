@@ -30,7 +30,7 @@ impl Component for ProgressBarDoc {
         true
     }
 
-    fn view(&self, _ctx: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         let example_props = self.state.clone();
         let source = crate::include_raw_html!(
             concat!(env!("OUT_DIR"), "/", file!(), ".html"),
@@ -46,7 +46,7 @@ impl Component for ProgressBarDoc {
                     props={Some(html! {
                         <ProgressBarProps
                             callback={self.callback.clone()}
-                            props={example_props.clone()}
+                            example_props={example_props.clone()}
                         />
                     })}
                 >
@@ -59,7 +59,7 @@ impl Component for ProgressBarDoc {
 
 crate::build_example_prop_component! {
     ProgressBarProps for ExampleProps =>
-        fn view(&self, _ctx: &Context<Self>) -> Html {
+        fn view(&self, ctx: &Context<Self>) -> Html {
             html! {
                 <div>
                     <H5>{"Props"}</H5>
@@ -69,7 +69,7 @@ crate::build_example_prop_component! {
                                 stripes: !props.stripes,
                                 ..props
                             })}
-                            checked={ctx.props().stripes}
+                            checked={ctx.props().example_props.stripes}
                             label={html!("Stripes")}
                         />
                         <Switch
@@ -77,7 +77,7 @@ crate::build_example_prop_component! {
                                 animate: !props.animate,
                                 ..props
                             })}
-                            checked={ctx.props().animate}
+                            checked={ctx.props().example_props.animate}
                             label={html!("Animate")}
                         />
                         <p>{"Select intent:"}</p>

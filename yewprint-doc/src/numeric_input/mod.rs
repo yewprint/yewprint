@@ -33,7 +33,7 @@ impl Component for NumericInputDoc {
         true
     }
 
-    fn view(&self, _ctx: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         let example_props = self.state.clone();
         let source = crate::include_raw_html!(
             concat!(env!("OUT_DIR"), "/", file!(), ".html"),
@@ -50,7 +50,7 @@ impl Component for NumericInputDoc {
                         props={Some(html! {
                             <NumericInputProps
                                 callback={self.callback.clone()}
-                                props={example_props.clone()}
+                                example_props={example_props.clone()}
                             />
                         })}
                     >
@@ -64,7 +64,7 @@ impl Component for NumericInputDoc {
 
 crate::build_example_prop_component! {
     NumericInputProps for ExampleProps =>
-    fn view(&self, _ctx: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         html! {
             <div>
                 <H5>{"Props"}</H5>
@@ -73,7 +73,7 @@ crate::build_example_prop_component! {
                         fill: !props.fill,
                         ..props
                     })}
-                    checked={ctx.props().fill}
+                    checked={ctx.props().example_props.fill}
                     label={html!("Fill")}
                 />
                 <Switch
@@ -81,7 +81,7 @@ crate::build_example_prop_component! {
                         disabled: !props.disabled,
                         ..props
                     })}
-                    checked={ctx.props().disabled}
+                    checked={ctx.props().example_props.disabled}
                     label={html!("Disabled")}
                 />
                 <Switch
@@ -89,7 +89,7 @@ crate::build_example_prop_component! {
                         large: !props.large,
                         ..props
                     })}
-                    checked={ctx.props().large}
+                    checked={ctx.props().example_props.large}
                     label={html!("Large")}
                 />
                 <Switch
@@ -97,7 +97,7 @@ crate::build_example_prop_component! {
                         disable_buttons: !props.disable_buttons,
                         ..props
                     })}
-                    checked={ctx.props().disable_buttons}
+                    checked={ctx.props().example_props.disable_buttons}
                     label={html!("Disable buttons")}
                 />
                 <Switch
@@ -105,7 +105,7 @@ crate::build_example_prop_component! {
                         buttons_on_the_left: !props.buttons_on_the_left,
                         ..props
                     })}
-                    checked={ctx.props().buttons_on_the_left}
+                    checked={ctx.props().example_props.buttons_on_the_left}
                     label={html!("Buttons on the left")}
                 />
                 <Switch
@@ -113,7 +113,7 @@ crate::build_example_prop_component! {
                         left_icon: !props.left_icon,
                         ..props
                     })}
-                    checked={ctx.props().left_icon}
+                    checked={ctx.props().example_props.left_icon}
                     label={html!("Left icon")}
                 />
             </div>

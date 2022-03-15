@@ -29,7 +29,7 @@ impl Component for CardDoc {
         true
     }
 
-    fn view(&self, _ctx: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         let example_props = self.state.clone();
         let source = crate::include_raw_html!(
             concat!(env!("OUT_DIR"), "/", file!(), ".html"),
@@ -45,7 +45,7 @@ impl Component for CardDoc {
                     props={Some(html! {
                         <CardProps
                             callback={self.callback.clone()}
-                            props={example_props.clone()}
+                            example_props={example_props.clone()}
                         />
                     })}
                 >
@@ -58,7 +58,7 @@ impl Component for CardDoc {
 
 crate::build_example_prop_component! {
     CardProps for ExampleProps =>
-        fn view(&self, _ctx: &Context<Self>) -> Html {
+        fn view(&self, ctx: &Context<Self>) -> Html {
             html! {
                 <div>
                     <H5>{"Props"}</H5>
@@ -68,7 +68,7 @@ crate::build_example_prop_component! {
                                 interactive: !props.interactive,
                                 ..props
                             })}
-                            checked={ctx.props().interactive}
+                            checked={ctx.props().example_props.interactive}
                             label={html!("Toggle interaction")}
                         />
                         <p>{"Elevation:"}</p>
@@ -80,7 +80,7 @@ crate::build_example_prop_component! {
                                 (Elevation::Level3, "Level 3".to_string()),
                                 (Elevation::Level4, "Level 4".to_string()),
                             ]}
-                            value={ctx.props().elevation}
+                            value={ctx.props().example_props.elevation}
                             onchange={self.update_props(ctx.props(), |props, elevation| ExampleProps {
                                 elevation,
                                 ..props

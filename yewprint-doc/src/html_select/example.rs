@@ -45,7 +45,7 @@ impl Component for Example {
                     disabled={ctx.props().disabled}
                     large={ctx.props().large}
                     value={Some(self.log_level)}
-                    onchange={self.link.callback(|x| x)}
+                    onchange={ctx.link().callback(|x| x)}
                     title={format!("Selected: {:?}", self.log_level)}
                 />
                 <Text>{format!("Selected: {:?}", self.log_level)}</Text>
