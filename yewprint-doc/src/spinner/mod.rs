@@ -74,7 +74,7 @@ crate::build_example_prop_component! {
                             (Some(Intent::Warning), "Warning".to_string()),
                             (Some(Intent::Danger), "Danger".to_string()),
                         ]}
-                        onchange={self.update_props(|props, intent| ExampleProps {
+                        onchange={self.update_props(ctx.props(), |props, intent| ExampleProps {
                             intent,
                             ..props
                         })}
@@ -85,7 +85,7 @@ crate::build_example_prop_component! {
                         {"Select Size:"}
                     </p>
                     <Slider<u32>
-                        selected={self.props.size}
+                        selected={ctx.props().size}
                         values={vec![
                             (10, Some("10".into())),
                             (20, None),
@@ -98,7 +98,7 @@ crate::build_example_prop_component! {
                             (90, None),
                             (100, Some("100".into())),
                         ]}
-                        onchange={self.update_props(|props, size| ExampleProps {
+                        onchange={self.update_props(ctx.props(), |props, size| ExampleProps {
                             size,
                             ..props
                         })}

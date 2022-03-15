@@ -31,21 +31,21 @@ impl Component for Example {
             <div>
                 <Label>{"Assign responsability"}</Label>
                 <Checkbox
-                    disabled={self.props.disabled}
-                    inline={self.props.inline}
-                    large={self.props.large}
+                    disabled={ctx.props().disabled}
+                    inline={ctx.props().inline}
+                    large={ctx.props().large}
                     label={html!("Gilad Gray")}
                 />
                 <Checkbox
-                    disabled={self.props.disabled}
-                    inline={self.props.inline}
-                    large={self.props.large}
+                    disabled={ctx.props().disabled}
+                    inline={ctx.props().inline}
+                    large={ctx.props().large}
                     label={html!("Jason Killian")}
                 />
                 <Checkbox
-                    disabled={self.props.disabled}
-                    inline={self.props.inline}
-                    large={self.props.large}
+                    disabled={ctx.props().disabled}
+                    inline={ctx.props().inline}
+                    large={ctx.props().large}
                     label={html!("Antoine Llorca")}
                 />
             </div>

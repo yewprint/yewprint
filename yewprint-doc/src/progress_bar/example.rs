@@ -28,9 +28,9 @@ impl Component for Example {
     fn view(&self, _ctx: &Context<Self>) -> Html {
         html! {
             <ProgressBar
-                animate={self.props.animate}
-                stripes={self.props.stripes}
-                intent={self.props.intent}
+                animate={ctx.props().animate}
+                stripes={ctx.props().stripes}
+                intent={ctx.props().intent}
                 value=0.3
             />
         }

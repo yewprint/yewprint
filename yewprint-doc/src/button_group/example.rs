@@ -31,10 +31,10 @@ impl Component for Example {
     fn view(&self, _ctx: &Context<Self>) -> Html {
         html! {
             <ButtonGroup
-                minimal={self.props.minimal}
-                fill={self.props.fill}
-                large={self.props.large}
-                vertical={self.props.vertical}
+                minimal={ctx.props().minimal}
+                fill={ctx.props().fill}
+                large={ctx.props().large}
+                vertical={ctx.props().vertical}
                 style={Cow::Borrowed("margin:0;")}
             >
                 <Button icon={IconName::Database>{"Queries"}</Button>}

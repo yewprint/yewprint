@@ -31,27 +31,27 @@ impl Component for Example {
             <div>
                 <Label>{"Privacy settings"}</Label>
                 <Switch
-                    disabled={self.props.disabled}
-                    inline={self.props.inline}
-                    large={self.props.large}
+                    disabled={ctx.props().disabled}
+                    inline={ctx.props().inline}
+                    large={ctx.props().large}
                     label={html!("Enabled")}
                 />
                 <Switch
-                    disabled={self.props.disabled}
-                    inline={self.props.inline}
-                    large={self.props.large}
+                    disabled={ctx.props().disabled}
+                    inline={ctx.props().inline}
+                    large={ctx.props().large}
                     label={html!(<em>{"Public"}</em>)}
                 />
                 <Switch
-                    disabled={self.props.disabled}
-                    inline={self.props.inline}
-                    large={self.props.large}
+                    disabled={ctx.props().disabled}
+                    inline={ctx.props().inline}
+                    large={ctx.props().large}
                     label={html!(<strong>{"Cooperative"}</strong>)}
                 />
                 <Switch
-                    disabled={self.props.disabled}
-                    inline={self.props.inline}
-                    large={self.props.large}
+                    disabled={ctx.props().disabled}
+                    inline={ctx.props().inline}
+                    large={ctx.props().large}
                     label={html!(<u>{"Containing Text"}</u>)}
                 />
             </div>

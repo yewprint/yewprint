@@ -109,11 +109,11 @@ crate::build_example_prop_component! {
             <div>
                 <H5>{"Props"}</H5>
                 <Switch
-                    onclick={self.update_props(|props, _| ExampleProps {
+                    onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
                         vertical: !props.vertical,
                         ..props
                     })}
-                    checked={self.props.vertical}
+                    checked={ctx.props().vertical}
                     label={html!("Vertical")}
                     disabled=true
                 />
@@ -126,7 +126,7 @@ crate::build_example_prop_component! {
                         (Some(Intent::Warning), "Warning".to_string()),
                         (Some(Intent::Danger), "Danger".to_string()),
                     ]}
-                    onchange={self.update_props(|props, intent| ExampleProps {
+                    onchange={self.update_props(ctx.props(), |props, intent| ExampleProps {
                         intent,
                         ..props
                     })}

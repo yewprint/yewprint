@@ -28,8 +28,8 @@ impl Component for Example {
     fn view(&self, _ctx: &Context<Self>) -> Html {
         html! {
             <div style="width: 150px; height: 20px">
-                <Text ellipsize={self.props.ellipsize}>
-                    {&self.props.text}
+                <Text ellipsize={ctx.props().ellipsize}>
+                    {&ctx.props().text}
                 </Text>
             </div>
         }

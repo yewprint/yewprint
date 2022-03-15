@@ -26,13 +26,13 @@ impl Component for Example {
 
     fn view(&self, _ctx: &Context<Self>) -> Html {
         html! {
-            <ButtonGroup vertical={self.props.vertical}>
+            <ButtonGroup vertical={ctx.props().vertical}>
                 <Button>{"File"}</Button>
                 <Button>{"Edit"}</Button>
-                <Divider vertical={self.props.vertical} />
+                <Divider vertical={ctx.props().vertical} />
                 <Button>{"Create"}</Button>
                 <Button>{"Delete"}</Button>
-                <Divider vertical={self.props.vertical} />
+                <Divider vertical={ctx.props().vertical} />
                 // <Button icon=IconName::Add />
                 // <Button icon=IconName::Remove />
             </ButtonGroup>

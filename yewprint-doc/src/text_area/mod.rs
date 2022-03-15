@@ -61,32 +61,32 @@ impl Component for TextAreaDoc {
 
 crate::build_example_prop_component! {
     TextAreaProps for ExampleProps =>
-        fn view(&self, _ctx: &Context<Self>) -> Html {
+        fn view(&self, ctx: &Context<Self>) -> Html {
             html! {
                 <div>
                     <H5>{"Props"}</H5>
                     <Switch
-                        onclick={self.update_props(|props, _| ExampleProps {
+                        onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
                             fill: !props.fill,
                             ..props
                         })}
-                        checked={self.props.fill}
+                        checked={ctx.props().fill}
                         label={html!("Fill")}
                          />
                     <Switch
-                        onclick={self.update_props(|props, _| ExampleProps {
+                        onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
                             large: !props.large,
                             ..props
                         })}
-                        checked={self.props.large}
+                        checked={ctx.props().large}
                         label={html!("Large")}
                     />
                     <Switch
-                        onclick={self.update_props(|props, _| ExampleProps {
+                        onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
                             small: !props.small,
                             ..props
                         })}
-                        checked={self.props.small}
+                        checked={ctx.props().small}
                         label={html!("Small")}
                     />
                     <HtmlSelect<Option<Intent>>
@@ -97,7 +97,7 @@ crate::build_example_prop_component! {
                             (Some(Intent::Warning), "Warning".to_string()),
                             (Some(Intent::Danger), "Danger".to_string()),
                         ]}
-                        onchange={self.update_props(|props, intent| ExampleProps {
+                        onchange={self.update_props(ctx.props(), |props, intent| ExampleProps {
                             intent,
                             ..props
                         })}

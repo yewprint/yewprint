@@ -69,51 +69,51 @@ crate::build_example_prop_component! {
             <div>
                 <H5>{"Props"}</H5>
                 <Switch
-                    onclick={self.update_props(|props, _| ExampleProps {
+                    onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
                         fill: !props.fill,
                         ..props
                     })}
-                    checked={self.props.fill}
+                    checked={ctx.props().fill}
                     label={html!("Fill")}
                 />
                 <Switch
-                    onclick={self.update_props(|props, _| ExampleProps {
+                    onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
                         disabled: !props.disabled,
                         ..props
                     })}
-                    checked={self.props.disabled}
+                    checked={ctx.props().disabled}
                     label={html!("Disabled")}
                 />
                 <Switch
-                    onclick={self.update_props(|props, _| ExampleProps {
+                    onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
                         large: !props.large,
                         ..props
                     })}
-                    checked={self.props.large}
+                    checked={ctx.props().large}
                     label={html!("Large")}
                 />
                 <Switch
-                    onclick={self.update_props(|props, _| ExampleProps {
+                    onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
                         disable_buttons: !props.disable_buttons,
                         ..props
                     })}
-                    checked={self.props.disable_buttons}
+                    checked={ctx.props().disable_buttons}
                     label={html!("Disable buttons")}
                 />
                 <Switch
-                    onclick={self.update_props(|props, _| ExampleProps {
+                    onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
                         buttons_on_the_left: !props.buttons_on_the_left,
                         ..props
                     })}
-                    checked={self.props.buttons_on_the_left}
+                    checked={ctx.props().buttons_on_the_left}
                     label={html!("Buttons on the left")}
                 />
                 <Switch
-                    onclick={self.update_props(|props, _| ExampleProps {
+                    onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
                         left_icon: !props.left_icon,
                         ..props
                     })}
-                    checked={self.props.left_icon}
+                    checked={ctx.props().left_icon}
                     label={html!("Left icon")}
                 />
             </div>

@@ -67,35 +67,35 @@ crate::build_example_prop_component! {
                 <div>
                     <H5>{"Props"}</H5>
                 <Switch
-                    onclick={self.update_props(|props, _| ExampleProps {
+                    onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
                         minimal: !props.minimal,
                         ..props
                     })}
-                    checked={self.props.minimal}
+                    checked={ctx.props().minimal}
                     label={html!("Minimal")}
                 />
                 <Switch
-                    onclick={self.update_props(|props, _| ExampleProps{
+                    onclick={self.update_props(ctx.props(), |props, _| ExampleProps{
                         fill: !props.fill,
                         ..props
                     })}
-                    checked={self.props.fill}
+                    checked={ctx.props().fill}
                     label={html!("Fill")}
                 />
                 <Switch
-                    onclick={self.update_props(|props, _| ExampleProps {
+                    onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
                         disabled: !props.disabled,
                         ..props
                     })}
-                    checked={self.props.disabled}
+                    checked={ctx.props().disabled}
                     label={html!("Disabled")}
                 />
                 <Switch
-                    onclick={self.update_props(|props, _| ExampleProps{
+                    onclick={self.update_props(ctx.props(), |props, _| ExampleProps{
                         large: !props.large,
                         ..props
                     })}
-                    checked={self.props.large}
+                    checked={ctx.props().large}
                     label={html!("Large")}
                 />
             </div>

@@ -27,7 +27,7 @@ impl Component for Example {
 
     fn view(&self, _ctx: &Context<Self>) -> Html {
         html! {
-            <Card elevation={self.props.elevation} interactive={self.props.interactive}>
+            <Card elevation={ctx.props().elevation} interactive={ctx.props().interactive}>
                 <p>
                     {
                         "This is a card component. The elevation of the card can be adjusted. \

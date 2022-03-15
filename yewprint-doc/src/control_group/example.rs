@@ -28,8 +28,8 @@ impl Component for Example {
     fn view(&self, _ctx: &Context<Self>) -> Html {
         html! {
             <ControlGroup
-                fill={self.props.fill}
-                vertical={self.props.vertical}
+                fill={ctx.props().fill}
+                vertical={ctx.props().vertical}
             >
                 <HtmlSelect<Option<Sorting>>
                     options={vec![

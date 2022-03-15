@@ -60,10 +60,10 @@ crate::build_example_prop_component! {
             <div>
                 <H5>{"Props"}</H5>
                     <Switch
-                        onclick={self.update_props(|props, _| ExampleProps {
+                        onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
                             vertical: !props.vertical
                         })}
-                        checked={self.props.vertical}
+                        checked={ctx.props().vertical}
                         label={html!("Vertical")}
                     />
             </div>

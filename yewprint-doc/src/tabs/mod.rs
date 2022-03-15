@@ -65,19 +65,19 @@ crate::build_example_prop_component! {
                 <div>
                     <H5>{"Props"}</H5>
                     <Switch
-                        onclick={self.update_props(|props, _| ExampleProps {
+                        onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
                             animate: !props.animate,
                             ..props
                         })}
-                        checked={self.props.animate}
+                        checked={ctx.props().animate}
                         label={html!("Animate indicator")}
                     />
                     <Switch
-                        onclick={self.update_props(|props, _| ExampleProps {
+                        onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
                             vertical: !props.vertical,
                             ..props
                         })}
-                        checked={self.props.vertical}
+                        checked={ctx.props().vertical}
                         label={html!("Use vertical tabs")}
                     />
                 </div>

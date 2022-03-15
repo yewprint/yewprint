@@ -95,7 +95,7 @@ macro_rules! build_example_prop_component {
         impl $name {
             fn update_props<T>(
                 &self,
-                props: $prop_component,
+                props: &$prop_component,
                 updater: impl Fn($prop_component, T) -> $prop_component + 'static,
             ) -> Callback<T> {
                 // let props = props.clone();

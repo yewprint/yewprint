@@ -29,8 +29,8 @@ impl Component for Example {
         html! {
             <div>
                 <Spinner
-                    size={self.props.size as f32}
-                    intent={self.props.intent}
+                    size={ctx.props().size as f32}
+                    intent={ctx.props().intent}
                 />
             </div>
         }

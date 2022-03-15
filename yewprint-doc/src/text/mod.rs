@@ -65,16 +65,16 @@ crate::build_example_prop_component! {
                 <div>
                     <H5>{"Props"}</H5>
                     <Switch
-                        onclick={self.update_props(|props, _| ExampleProps {
+                        onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
                             ellipsize: !props.ellipsize,
                             ..props
                         })}
-                        checked={self.props.ellipsize}
+                        checked={ctx.props().ellipsize}
                         label={html!("Ellipsize")}
                     />
                     <input
                         class="bp3-input"
-                        onchange={self.update_props(|props, e|
+                        onchange={self.update_props(ctx.props(), |props, e|
                             match e {
                                 ChangeData::Value(text) => {
                                     ExampleProps {
@@ -90,7 +90,7 @@ crate::build_example_prop_component! {
                                 }
                         })}
                         type="text"
-                        value={self.props.text.clone()}
+                        value={ctx.props().text.clone()}
                     />
                 </div>
             }

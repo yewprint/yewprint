@@ -27,13 +27,13 @@ impl Component for Example {
         true
     }
 
-    fn view(&self, _ctx: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         html! {
             <div style="width: 200px; height: 50px">
-                <TextArea intent={self.props.intent}
-                          large={self.props.large}
-                          fill={self.props.fill}
-                          small={self.props.small}
+                <TextArea intent={ctx.props().intent}
+                          large={ctx.props().large}
+                          fill={ctx.props().fill}
+                          small={ctx.props().small}
                 />
             </div>
         }
