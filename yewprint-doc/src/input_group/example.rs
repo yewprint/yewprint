@@ -1,3 +1,4 @@
+use gloo::dialogs::alert;
 use yew::prelude::*;
 use yewprint::{Button, IconName, InputGroup, Tag};
 
@@ -27,14 +28,6 @@ pub enum Msg {
     Noop,
 }
 
-macro_rules! alert {
-    ($($arg:tt)*) => {
-        yew::services::DialogService::alert(&format!(
-            $($arg)*
-        ))
-    };
-}
-
 impl Component for Example {
     type Message = Msg;
     type Properties = ExampleProps;
@@ -51,7 +44,7 @@ impl Component for Example {
     fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             Msg::AddHistogramEntry => {
-                alert!("You sent: {}", self.histogram_value);
+                alert(&format!("You sent: {}", self.histogram_value));
                 self.histogram_value = Default::default();
                 true
             }
@@ -60,7 +53,7 @@ impl Component for Example {
                 true
             }
             Msg::AddPasswordEntry => {
-                alert!("You sent: {}", self.password_value);
+                alert(&format!("You sent: {}", self.password_value));
                 self.password_value = Default::default();
                 true
             }
@@ -77,7 +70,7 @@ impl Component for Example {
                 true
             }
             Msg::AddTagsEntry => {
-                alert!("You sent: {}", self.tags_value);
+                alert(&format!("You sent: {}", self.tags_value));
                 self.tags_value = Default::default();
                 true
             }
