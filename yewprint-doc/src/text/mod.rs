@@ -2,6 +2,7 @@ mod example;
 
 use crate::ExampleContainer;
 use example::*;
+use web_sys::HtmlInputElement;
 use yew::prelude::*;
 use yewprint::{Switch, H1, H5};
 
@@ -74,21 +75,20 @@ crate::build_example_prop_component! {
                     />
                     <input
                         class="bp3-input"
-                        onchange={self.update_props(ctx.props(), |props, e|
-                            match e {
-                                ChangeData::Value(text) => {
+                        onchange={self.update_props(ctx.props(), |props, e: Event| {
+                                if let Some(input) = e.target_dyn_into::<HtmlInputElement>() {
                                     ExampleProps {
-                                        text,
+                                        text: input.value(),
                                         ..props
                                     }
-                                },
-                                _ => {
+                                } else {
                                     ExampleProps {
                                         text: "Hello, world!".to_string(),
                                         ..props
                                     }
                                 }
-                        })}
+                            }
+                        )}
                         type="text"
                         value={ctx.props().example_props.text.clone()}
                     />

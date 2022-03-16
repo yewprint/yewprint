@@ -1,4 +1,5 @@
 use gloo::dialogs::alert;
+use web_sys::HtmlInputElement;
 use yew::prelude::*;
 use yewprint::{Button, IconName, InputGroup, Tag};
 
@@ -94,7 +95,9 @@ impl Component for Example {
                     left_icon={IconName::Filter}
                     placeholder={"Filter histogram..."}
                     value={self.histogram_value.clone()}
-                    oninput={ctx.link().callback(|e: InputData| Msg::UpdateHistogram(e.value))}
+                    oninput={ctx.link().callback(|e: InputEvent| {
+                        Msg::UpdateHistogram(e.data().unwrap_or_else(|| String::new()))
+                    })}
                     onkeydown={ctx.link().callback(|e: KeyboardEvent| {
                         if e.key() == "Enter" { Msg::AddHistogramEntry } else { Msg::Noop }
                     })}
@@ -108,7 +111,9 @@ impl Component for Example {
                     left_element={self.password_strength.clone()}
                     placeholder={"Enter your password..."}
                     value={self.password_value.clone()}
-                    oninput={ctx.link().callback(|e: InputData| Msg::UpdatePassword(e.value))}
+                    oninput={ctx.link().callback(|e: InputEvent| {
+                        Msg::UpdatePassword(e.data().unwrap_or_else(|| String::new()))
+                    })}
                     onkeydown={ctx.link().callback(|e: KeyboardEvent| {
                         if e.key() == "Enter" { Msg::AddPasswordEntry } else { Msg::Noop }
                     })}
@@ -129,7 +134,9 @@ impl Component for Example {
                     left_icon={IconName::Tag}
                     placeholder={"Find tags"}
                     value={self.tags_value.clone()}
-                    oninput={ctx.link().callback(|e: InputData| Msg::UpdateTags(e.value))}
+                    oninput={ctx.link().callback(|e: InputEvent| {
+                        Msg::UpdateTags(e.data().unwrap_or_else(|| String::new()))
+                    })}
                     onkeydown={ctx.link().callback(|e: KeyboardEvent| {
                         if e.key() == "Enter" { Msg::AddTagsEntry } else { Msg::Noop }
                     })}
