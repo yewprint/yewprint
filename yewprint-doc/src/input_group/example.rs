@@ -119,13 +119,13 @@ impl Component for Example {
                     onkeydown={ctx.link().callback(|e: KeyboardEvent| {
                         if e.key() == "Enter" { Msg::AddPasswordEntry } else { Msg::Noop }
                     })}
-                    right_element={html! {
+                    right_element={{ html! {
                         <Button
                             icon={IconName::Lock}
                             minimal={true}
                             disabled={ctx.props().disabled}
                         />
-                    }}
+                    }}}
                 />
                 <InputGroup
                     fill={ctx.props().fill}
@@ -133,21 +133,21 @@ impl Component for Example {
                     small={ctx.props().small}
                     round={ctx.props().round}
                     disabled={ctx.props().disabled}
-                    left_icon=IconName::Tag
+                    left_icon={IconName::Tag}
                     placeholder={"Find tags"}
                     value={self.tags_value.clone()}
                     oninput={ctx.link().callback(|e: InputData| Msg::UpdateTags(e.value))}
                     onkeydown={ctx.link().callback(|e: KeyboardEvent| {
                         if e.key() == "Enter" { Msg::AddTagsEntry } else { Msg::Noop }
                     })}
-                    right_element=html! {
+                    right_element={{html! {
                         <Tag
                             minimal=true
-                            round=s{elf.props.round}
+                            round={ctx.props().round}
                         >
                             {{10000 / 1.max(self.tags_value.len().pow(2))}}
                         </Tag>
-                    }
+                    }}}
                 />
             </>
         }
