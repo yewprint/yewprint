@@ -33,13 +33,6 @@ pub use example::*;
 pub use logo::*;
 
 #[macro_export]
-macro_rules! log {
-    ($s:expr $(,$args:expr)*) => {{
-        yew::services::ConsoleService::log(format!($s $(,$args)*).as_str());
-    }};
-}
-
-#[macro_export]
 macro_rules! include_raw_html {
     ($file:expr $(, $class:expr)?) => {{
         yew::virtual_dom::VNode::VRef(web_sys::Node::from({
@@ -138,7 +131,7 @@ static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 pub fn run_app() -> Result<(), wasm_bindgen::JsValue> {
     #[cfg(feature = "console_error_panic_hook")]
     console_error_panic_hook::set_once();
-    yew::start_app::<app::App>();
+    yew::start_app::<app::AppRoot>();
 
     Ok(())
 }
