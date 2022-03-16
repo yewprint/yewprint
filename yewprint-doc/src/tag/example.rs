@@ -65,7 +65,7 @@ impl Component for Example {
                 let remove = {
                     let label = label.clone();
                     ctx.props().removable.then(|| {
-                        self.link
+                        ctx.link()
                             .callback(move |_| ExampleMsg::Remove(label.clone()))
                     })
                 };
