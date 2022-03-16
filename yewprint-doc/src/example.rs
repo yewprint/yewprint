@@ -21,7 +21,7 @@ impl Component for ExampleContainer {
     type Message = Msg;
     type Properties = ExampleContainerProps;
 
-    fn create(ctx: &Context<Self>) -> Self {
+    fn create(_ctx: &Context<Self>) -> Self {
         ExampleContainer { collapsed: true }
     }
 
@@ -103,10 +103,10 @@ macro_rules! build_example_prop_component {
                 props: &Self,
                 updater: impl Fn($prop_component, T) -> $prop_component + 'static,
             ) -> Callback<T> {
-                let props = props.clone().example_props;
+                let example_props = props.example_props.clone();
                 self.callback
                     .clone()
-                    .reform(move |event| updater(props, event))
+                    .reform(move |event| updater(example_props.clone(), event))
             }
         }
     };
