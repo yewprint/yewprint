@@ -188,8 +188,8 @@ crate::build_example_prop_component! {
                             <Button
                                 icon={IconName::Refresh}
                                 onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
-                                    reset_tags: ctx.props().example_props.reset_tags + 1,
-                                    ..props
+                                    reset_tags: props.reset_tags + 1,
+                                    ..props.clone()
                                 })}
                             >
                                 {"Reset tags"}
