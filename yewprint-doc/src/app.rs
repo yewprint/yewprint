@@ -22,18 +22,12 @@ use crate::tag::*;
 use crate::text::*;
 use crate::text_area::*;
 use crate::tree::*;
-use std::borrow::Cow;
 use yew::prelude::*;
-use yew_router::{
-    agent::{RouteAgentDispatcher, RouteRequest},
-    router::Router,
-    Switch,
-};
+use yew_router::prelude::*;
 use yewprint::{IconName, Menu, MenuItem};
 
 pub struct App {
     dark_theme: bool,
-    route_dispatcher: RouteAgentDispatcher,
 }
 
 pub enum Msg {
@@ -51,16 +45,18 @@ impl Component for App {
                 .and_then(|x| x.match_media("(prefers-color-scheme: dark)").ok().flatten())
                 .map(|x| x.matches())
                 .unwrap_or(true),
-            route_dispatcher: RouteAgentDispatcher::new(),
         }
     }
 
-    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
+    fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             Msg::ToggleLight => self.dark_theme ^= true,
             Msg::GoToMenu(doc_menu) => {
-                self.route_dispatcher
-                    .send(RouteRequest::ChangeRoute(doc_menu.into()));
+                if let Some(history) = ctx.link().history() {
+                    history.push(doc_menu);
+                } else {
+                    // debug!("Could not get history from Context")
+                }
             }
         }
         true
@@ -278,36 +274,9 @@ impl Component for App {
                     {{ navigation }}
                     <main class={classes!("docs-content-wrapper")} role="main">
                         <div class={classes!("docs-page")}>
-                            <Router<DocMenu, ()>
-                                render={Router::render(|switch: DocMenu| {
-                                    match switch {
-                                        DocMenu::Button | DocMenu::Home => html! (<ButtonDoc />),
-                                        DocMenu::ButtonGroup => html! (<ButtonGroupDoc />),
-                                        DocMenu::Callout => html!(<CalloutDoc />),
-                                        DocMenu::Card => html!(<CardDoc />),
-                                        DocMenu::Checkbox => html!(<CheckboxDoc />),
-                                        DocMenu::Collapse => html!(<CollapseDoc />),
-                                        DocMenu::ControlGroup => html!(<ControlGroupDoc />),
-                                        DocMenu::Divider => html!(<DividerDoc />),
-                                        DocMenu::HtmlSelect => html!(<HtmlSelectDoc />),
-                                        DocMenu::Icon => html!(<IconDoc />),
-                                        DocMenu::InputGroup => html!(<InputGroupDoc />),
-                                        DocMenu::Menu => html!(<MenuDoc />),
-                                        DocMenu::NumericInput => html!(<NumericInputDoc />),
-                                        DocMenu::PanelStack => html!(<PanelStackDoc />),
-                                        DocMenu::ProgressBar => html!(<ProgressBarDoc />),
-                                        DocMenu::Radio => html!(<RadioDoc />),
-                                        DocMenu::Slider => html!(<SliderDoc />),
-                                        DocMenu::Spinner => html!(<SpinnerDoc />),
-                                        DocMenu::Switch => html!(<SwitchDoc />),
-                                        DocMenu::Tabs => html!(<TabsDoc />),
-                                        DocMenu::Tag => html!(<TagDoc />),
-                                        DocMenu::Text => html!(<TextDoc />),
-                                        DocMenu::TextArea => html!(<TextAreaDoc />),
-                                        DocMenu::Tree => html!(<TreeDoc />),
-                                    }
-                                })}
-                            />
+                            <BrowserRouter>
+                                <Switch<DocMenu> render={Switch::render(App::switch)} />
+                            </BrowserRouter>
                         </div>
                     </main>
                 </div>
@@ -316,56 +285,87 @@ impl Component for App {
     }
 }
 
-#[derive(Debug, Copy, Clone, Switch)]
+impl App {
+    fn switch(route: &DocMenu) -> Html {
+        match route {
+            DocMenu::Button | DocMenu::Home => html! (<ButtonDoc />),
+            DocMenu::ButtonGroup => html! (<ButtonGroupDoc />),
+            DocMenu::Callout => html!(<CalloutDoc />),
+            DocMenu::Card => html!(<CardDoc />),
+            DocMenu::Checkbox => html!(<CheckboxDoc />),
+            DocMenu::Collapse => html!(<CollapseDoc />),
+            DocMenu::ControlGroup => html!(<ControlGroupDoc />),
+            DocMenu::Divider => html!(<DividerDoc />),
+            DocMenu::HtmlSelect => html!(<HtmlSelectDoc />),
+            DocMenu::Icon => html!(<IconDoc />),
+            DocMenu::InputGroup => html!(<InputGroupDoc />),
+            DocMenu::Menu => html!(<MenuDoc />),
+            DocMenu::NumericInput => html!(<NumericInputDoc />),
+            DocMenu::PanelStack => html!(<PanelStackDoc />),
+            DocMenu::ProgressBar => html!(<ProgressBarDoc />),
+            DocMenu::Radio => html!(<RadioDoc />),
+            DocMenu::Slider => html!(<SliderDoc />),
+            DocMenu::Spinner => html!(<SpinnerDoc />),
+            DocMenu::Switch => html!(<SwitchDoc />),
+            DocMenu::Tabs => html!(<TabsDoc />),
+            DocMenu::Tag => html!(<TagDoc />),
+            DocMenu::Text => html!(<TextDoc />),
+            DocMenu::TextArea => html!(<TextAreaDoc />),
+            DocMenu::Tree => html!(<TreeDoc />),
+        }
+    }
+}
+
+#[derive(PartialEq, Clone, Routable)]
 pub enum DocMenu {
-    #[to = "/#button-group"]
+    #[at("/#button-group")]
     ButtonGroup,
-    #[to = "/#button"]
+    #[at("/#button")]
     Button,
-    #[to = "/#callout"]
+    #[at("/#callout")]
     Callout,
-    #[to = "/#card"]
+    #[at("/#card")]
     Card,
-    #[to = "/#checkbox"]
+    #[at("/#checkbox")]
     Checkbox,
-    #[to = "/#collapse"]
+    #[at("/#collapse")]
     Collapse,
-    #[to = "/#control-group"]
+    #[at("/#control-group")]
     ControlGroup,
-    #[to = "/#html-select"]
+    #[at("/#html-select")]
     HtmlSelect,
-    #[to = "/#divider"]
+    #[at("/#divider")]
     Divider,
-    #[to = "/#icon"]
+    #[at("/#icon")]
     Icon,
-    #[to = "/#input-group"]
+    #[at("/#input-group")]
     InputGroup,
-    #[to = "/#menu"]
+    #[at("/#menu")]
     Menu,
-    #[to = "/#numeric-input"]
+    #[at("/#numeric-input")]
     NumericInput,
-    #[to = "/#panel-stack"]
+    #[at("/#panel-stack")]
     PanelStack,
-    #[to = "/#progress-bar"]
+    #[at("/#progress-bar")]
     ProgressBar,
-    #[to = "/#radio"]
+    #[at("/#radio")]
     Radio,
-    #[to = "/#slider"]
+    #[at("/#slider")]
     Slider,
-    #[to = "/#spinner"]
+    #[at("/#spinner")]
     Spinner,
-    #[to = "/#switch"]
+    #[at("/#switch")]
     Switch,
-    #[to = "/#tabs"]
+    #[at("/#tabs")]
     Tabs,
-    #[to = "/#tag"]
+    #[at("/#tag")]
     Tag,
-    #[to = "/#textarea"]
+    #[at("/#textarea")]
     TextArea,
-    #[to = "/#text"]
+    #[at("/#text")]
     Text,
-    #[to = "/#tree"]
+    #[at("/#tree")]
     Tree,
-    #[to = "/"]
+    #[at("/")]
     Home,
 }
