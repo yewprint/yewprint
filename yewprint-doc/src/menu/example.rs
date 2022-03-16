@@ -41,21 +41,21 @@ impl Component for Example {
                     <MenuItem
                         icon={IconName::NewTextBox}
                         text={html!("New text box")}
-                        href={Cow::Borrowed("#menu")}
+                        href={"#menu"}
                         onclick={ctx.link()
                             .callback(|_| Msg::GoToMenu(DocMenu::Menu))}
                     />
                     <MenuItem
                         icon={IconName::NewObject}
                         text={html!("New object")}
-                        href={Cow::Borrowed("#menu")}
+                        href={"#menu"}
                         onclick={ctx.link()
                             .callback(|_| Msg::GoToMenu(DocMenu::Menu))}
                     />
                     <MenuItem
                         icon={IconName::NewLink}
                         text={html!("New link")}
-                        href={Cow::Borrowed("#menu")}
+                        href={"#menu"}
                         onclick={ctx.link()
                             .callback(|_| Msg::GoToMenu(DocMenu::Menu))}
                     />
@@ -64,7 +64,7 @@ impl Component for Example {
                         icon={IconName::Cog}
                         text={html!("Settings")}
                         label={share_icon}
-                        href={Cow::Borrowed("#menu")}
+                        href={"#menu"}
                         onclick={ctx.link()
                             .callback(|_| Msg::GoToMenu(DocMenu::Menu))}
                     />
@@ -75,7 +75,7 @@ impl Component for Example {
                         icon={IconName::Cut}
                         text={html!("Cut")}
                         label={html!("Ctrl+X")}
-                        href={Cow::Borrowed("#menu")}
+                        href={"#menu"}
                         onclick={ctx.link()
                             .callback(|_| Msg::GoToMenu(DocMenu::Menu))}
                     />
@@ -83,37 +83,36 @@ impl Component for Example {
                         icon={IconName::Duplicate}
                         text={html!("Copy")}
                         label={html!("Ctrl+C")}
-                        href={Cow::Borrowed("#menu")
+                        href={"#menu"}
                         onclick={ctx.link()
                             .callback(|_| Msg::GoToMenu(DocMenu::Menu))}
                     />
                     <MenuItem
                         icon={IconName::Clipboard}
-                        text={html!("Paste")}
-                        label={html!("Ctrl+V")}
+                        text={{html!("Paste")}}
+                        label={{html!("Ctrl+V")}}
                         disabled=true
-                    />}
-                    <MenuDivider title={html!("Text")} />
+                    />
+                    <MenuDivider title={{html!("Text")}} />
                     <MenuItem
                         icon={IconName::AlignLeft}
                         text={html!("Alignment")}
-                        href={Cow::Borrowed("#menu")}
+                        href={"#menu"}
                         onclick={ctx.link()
                             .callback(|_| Msg::GoToMenu(DocMenu::Menu))}
                     />
                     <MenuItem
                         icon={IconName::Style}
                         text={html!("Style")}
-                        href={Cow::Borrowed("#menu")}
+                        href={"#menu"}
                         onclick={ctx.link()
                             .callback(|_| Msg::GoToMenu(DocMenu::Menu))}
                     />
                     <MenuItem
                         icon={IconName::Asterisk}
                         text={html!("Miscellaneous")}
-                        href={Cow::Borrowed("#menu")}
-                        onclick={ctx.link()
-                            .callback(|_| Msg::GoToMenu(DocMenu::Menu))}
+                        href={"#menu"}
+                        onclick={ctx.link().callback(|_| Msg::GoToMenu(DocMenu::Menu))}
                     />
                 </Menu>
             </>
