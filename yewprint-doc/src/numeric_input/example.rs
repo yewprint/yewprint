@@ -85,7 +85,7 @@ impl Component for Example {
                 {"Reset at 4"}
             </Button>
             <Callout
-                title={Cow::Borrowed("Selected values")}
+                title={"Selected values"}
                 intent={Intent::Primary}
             >
                 <ul>

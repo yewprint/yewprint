@@ -30,7 +30,7 @@ impl Component for Example {
     fn view(&self, ctx: &Context<Self>) -> Html {
         html! {
             <Callout
-                title={ctx.props().show_title.then(|| Cow::Borrowed("Visually important content"))}
+                title={ctx.props().show_title.then(|| "Visually important content")}
                 without_icon={!ctx.props().show_icon}
                 intent={ctx.props().intent}
             >

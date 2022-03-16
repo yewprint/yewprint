@@ -79,7 +79,7 @@ impl Component for Example {
                         onchange={ctx.link().callback(|x| Msg::FloatUpdate(x))}
                     />
                     <Tag
-                        style={Cow::Borrowed("width: 32px; margin-left: 16px")}
+                        style={"width: 32px; margin-left: 16px"}
                         minimal=true
                         intent={ctx.props().intent}
                     >
