@@ -33,7 +33,7 @@ impl Component for Example {
     type Message = Msg;
     type Properties = ExampleProps;
 
-    fn create(ctx: &Context<Self>) -> Self {
+    fn create(_ctx: &Context<Self>) -> Self {
         Example {
             histogram_value: Default::default(),
             password_value: Default::default(),
@@ -42,7 +42,7 @@ impl Component for Example {
         }
     }
 
-    fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             Msg::AddHistogramEntry => {
                 alert(&format!("You sent: {}", self.histogram_value));
@@ -96,7 +96,8 @@ impl Component for Example {
                     placeholder={"Filter histogram..."}
                     value={self.histogram_value.clone()}
                     oninput={ctx.link().callback(|e: InputEvent| {
-                        Msg::UpdateHistogram(e.data().unwrap_or_else(|| String::new()))
+                        let value = e.target_unchecked_into::<HtmlInputElement>().value();
+                        Msg::UpdateHistogram(value)
                     })}
                     onkeydown={ctx.link().callback(|e: KeyboardEvent| {
                         if e.key() == "Enter" { Msg::AddHistogramEntry } else { Msg::Noop }
@@ -112,7 +113,8 @@ impl Component for Example {
                     placeholder={"Enter your password..."}
                     value={self.password_value.clone()}
                     oninput={ctx.link().callback(|e: InputEvent| {
-                        Msg::UpdatePassword(e.data().unwrap_or_else(|| String::new()))
+                        let value = e.target_unchecked_into::<HtmlInputElement>().value();
+                        Msg::UpdatePassword(value)
                     })}
                     onkeydown={ctx.link().callback(|e: KeyboardEvent| {
                         if e.key() == "Enter" { Msg::AddPasswordEntry } else { Msg::Noop }
@@ -135,7 +137,8 @@ impl Component for Example {
                     placeholder={"Find tags"}
                     value={self.tags_value.clone()}
                     oninput={ctx.link().callback(|e: InputEvent| {
-                        Msg::UpdateTags(e.data().unwrap_or_else(|| String::new()))
+                        let value = e.target_unchecked_into::<HtmlInputElement>().value();
+                        Msg::UpdateTags(value)
                     })}
                     onkeydown={ctx.link().callback(|e: KeyboardEvent| {
                         if e.key() == "Enter" { Msg::AddTagsEntry } else { Msg::Noop }
