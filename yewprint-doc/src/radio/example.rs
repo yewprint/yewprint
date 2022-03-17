@@ -20,7 +20,7 @@ impl Component for Example {
     type Message = Msg;
     type Properties = ExampleProps;
 
-    fn create(ctx: &Context<Self>) -> Self {
+    fn create(_ctx: &Context<Self>) -> Self {
         Example {
             selected_value: Lunch::Salad,
         }

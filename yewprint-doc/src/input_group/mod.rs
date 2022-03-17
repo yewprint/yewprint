@@ -32,7 +32,7 @@ impl Component for InputGroupDoc {
         true
     }
 
-    fn view(&self, ctx: &Context<Self>) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         let example_props = self.state.clone();
         let source = crate::include_raw_html!(
             concat!(env!("OUT_DIR"), "/", file!(), ".html"),

@@ -11,7 +11,7 @@ impl Component for MenuDoc {
     type Message = ();
     type Properties = ();
 
-    fn create(ctx: &Context<Self>) -> Self {
+    fn create(_ctx: &Context<Self>) -> Self {
         MenuDoc
     }
 
@@ -19,7 +19,7 @@ impl Component for MenuDoc {
         true
     }
 
-    fn view(&self, ctx: &Context<Self>) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         let source = crate::include_raw_html!(
             concat!(env!("OUT_DIR"), "/", file!(), ".html"),
             "bp3-code-block"

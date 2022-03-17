@@ -17,7 +17,7 @@ impl Component for Example {
     type Message = LogLevel;
     type Properties = ExampleProps;
 
-    fn create(ctx: &Context<Self>) -> Self {
+    fn create(_ctx: &Context<Self>) -> Self {
         Example {
             log_level: LogLevel::Info,
         }

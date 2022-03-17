@@ -1,5 +1,4 @@
 use crate::{DocMenu, Logo};
-use std::borrow::Cow;
 use yew::prelude::*;
 use yewprint::{Icon, IconName, Menu, MenuDivider, MenuItem};
 
