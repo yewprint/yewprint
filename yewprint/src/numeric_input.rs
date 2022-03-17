@@ -3,6 +3,7 @@ use std::fmt::Display;
 use std::marker::PhantomData;
 use std::ops::{Add, Bound, RangeBounds, Sub};
 use std::str::FromStr;
+use web_sys::HtmlInputElement;
 use yew::html::IntoPropValue;
 use yew::prelude::*;
 
@@ -118,6 +119,11 @@ where
         }
     }
 
+    fn changed(&mut self, ctx: &Context<Self>) -> bool {
+        self.input = ctx.props().value.to_string();
+        true
+    }
+
     fn view(&self, ctx: &Context<Self>) -> Html {
         let NumericInputProps {
             value,
@@ -160,7 +166,10 @@ where
                 left_element={ctx.props().left_element.clone()}
                 right_element={ctx.props().right_element.clone()}
                 value={self.input.clone()}
-                oninput={ctx.link().callback(|e: InputEvent| Msg::InputUpdate(e.data().unwrap_or_else(|| String::new())))}
+                oninput={ctx.link().callback(|e: InputEvent| {
+                    let value = e.target_unchecked_into::<HtmlInputElement>().value();
+                    Msg::InputUpdate(value)
+                })}
                 onkeydown={ctx.link().callback(|e: KeyboardEvent| {
                     if e.key() == "ArrowUp" {
                         Msg::Up

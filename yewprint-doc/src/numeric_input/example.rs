@@ -27,7 +27,7 @@ impl Component for Example {
     type Message = Msg;
     type Properties = ExampleProps;
 
-    fn create(ctx: &Context<Self>) -> Self {
+    fn create(_ctx: &Context<Self>) -> Self {
         Example {
             value: 0,
             value_two: 0,
