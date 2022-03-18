@@ -1,5 +1,5 @@
 use crate::{Button, IconName};
-use gloo_timers::callback::Timeout;
+use gloo::timers::callback::Timeout;
 use std::cell::RefCell;
 use std::fmt;
 use std::rc::Rc;
@@ -133,6 +133,7 @@ pub enum PanelStackMessage {
     PopPanel,
 }
 
+// de
 impl Component for PanelStack {
     type Message = PanelStackMessage;
     type Properties = PanelStackProps;
@@ -153,6 +154,10 @@ impl Component for PanelStack {
     fn view(&self, ctx: &Context<Self>) -> Html {
         let opened_panels = ctx.props().state.opened_panels.borrow();
         let action = ctx.props().state.action;
+
+        let panel_count = opened_panels.len();
+        gloo::console::debug!(format!("Panel Count: {panel_count}"));
+
         let last = match action {
             Some(StateAction::Pop) => opened_panels.len() - 2,
             _ => opened_panels.len() - 1,
@@ -289,6 +294,11 @@ impl Component for Panel {
                 {for ctx.props().children.iter()}
             </div>
         }
+    }
+
+    fn changed(&mut self, ctx: &Context<Self>) -> bool {
+        self.animation = ctx.props().animation;
+        true
     }
 
     fn rendered(&mut self, ctx: &Context<Self>, _first_render: bool) {

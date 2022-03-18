@@ -2,7 +2,7 @@
 name = "yewprint"
 version = "0.1.1"
 authors = ["Cecile Tonglet <cecile.tonglet@cecton.com>"]
-edition = "2018"
+edition = "2021"
 license = "MIT OR Apache-2.0"
 description = "Port of blueprintjs.com to Yew"
 repository = "https://github.com/yewprint/yewprint"
@@ -23,8 +23,7 @@ web-sys = { version = "0.3", features = ["DomRect", "Element", "Event", "HtmlSel
 yew = "0.19"
 id_tree = { version = "1.7", optional = true }
 wasm-bindgen = "0.2"
-gloo-timers = "0.2.2"
-gloo-utils = "0.1.1"
+gloo = "0.6"
 
 [build-dependencies]
 regex = { version = "1", default-features = false, features = ["std", "unicode-perl"] }

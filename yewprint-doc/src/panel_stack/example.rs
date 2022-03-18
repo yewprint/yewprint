@@ -45,6 +45,7 @@ impl Component for Example {
 
     fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
+            // Open
             ExampleMessage::OpenPanel2 => self
                 .state
                 .open_panel(html! {

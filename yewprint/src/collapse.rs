@@ -1,4 +1,4 @@
-use gloo_timers::callback::Timeout;
+use gloo::timers::callback::Timeout;
 use std::{convert::TryInto, time::Duration};
 use web_sys::Element;
 use yew::prelude::*;
@@ -11,7 +11,7 @@ pub struct Collapse {
     height_when_open: Option<String>,
     animation_state: AnimationState,
     contents_ref: NodeRef,
-    handle_delayed_state_change: Option<gloo_timers::callback::Timeout>,
+    handle_delayed_state_change: Option<Timeout>,
 }
 
 #[derive(Clone, PartialEq, Properties)]

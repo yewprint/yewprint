@@ -69,7 +69,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
     fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             Msg::StartChange if ctx.props().values.len() > 1 => {
-                let document = gloo_utils::document();
+                let document = gloo::utils::document();
                 let event_target: &web_sys::EventTarget = document.as_ref();
                 self.is_moving = true;
                 event_target
@@ -114,7 +114,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
             }
             Msg::Mouse(_) => false,
             Msg::StopChange => {
-                let document = gloo_utils::document();
+                let document = gloo::utils::document();
                 let event_target: &web_sys::EventTarget = document.as_ref();
                 self.is_moving = false;
                 event_target

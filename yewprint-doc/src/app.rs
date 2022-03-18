@@ -62,7 +62,6 @@ impl Component for App {
             Msg::ToggleLight => self.dark_theme ^= true,
             Msg::GoToMenu(doc_menu) => {
                 if let Some(history) = ctx.link().history() {
-                    gloo::console::debug!("Pushing new route in history");
                     history.push(doc_menu);
                 } else {
                     gloo::console::warn!("Could not get history from Context");
