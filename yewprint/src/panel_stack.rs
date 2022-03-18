@@ -133,7 +133,6 @@ pub enum PanelStackMessage {
     PopPanel,
 }
 
-// de
 impl Component for PanelStack {
     type Message = PanelStackMessage;
     type Properties = PanelStackProps;
