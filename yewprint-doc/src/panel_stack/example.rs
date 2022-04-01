@@ -85,41 +85,20 @@ impl Component for Example {
 
 // Second panel: a simple counter
 
-pub struct Panel2 {
-    counter: i64,
-}
+#[function_component(Panel2)]
+pub fn panel2() -> Html {
+    let counter = use_state(|| 0);
+    let onclick = {
+        let counter = counter.clone();
+        Callback::from(move |_| counter.set(*counter + 1))
+    };
 
-pub enum Panel2Message {
-    AddOne,
-}
-
-impl Component for Panel2 {
-    type Message = Panel2Message;
-    type Properties = ();
-
-    fn create(_ctx: &Context<Self>) -> Self {
-        Panel2 { counter: 0 }
-    }
-
-    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
-        match msg {
-            Panel2Message::AddOne => {
-                self.counter += 1;
-                true
-            }
-        }
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        html! {
+    html! {
+        <div>
+            <p>{"Counter: "}{ *counter}</p>
             <div>
-                <p>{"Counter: "}{self.counter}</p>
-                <div>
-                    <Button onclick={ctx.link().callback(|_| Panel2Message::AddOne)}>
-                        {"Add 1"}
-                    </Button>
-                </div>
+                <Button {onclick}>{ "Add 1" }</Button>
             </div>
-        }
+        </div>
     }
 }
