@@ -83,8 +83,7 @@ impl Component for Example {
     }
 }
 
-// Second panel: a simple counter
-
+/// Second panel: a simple counter
 #[function_component(Panel2)]
 pub fn panel2() -> Html {
     let counter = use_state(|| 0);

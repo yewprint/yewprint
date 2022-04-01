@@ -118,6 +118,10 @@ impl From<StateAction> for Classes {
 
 pub struct PanelStack {
     timeout_task: Option<Timeout>,
+
+    // We keep track of the latest action to perform from the PanelStackState
+    // because we need a mutable access to the action.
+    action_to_perform: Option<StateAction>,
 }
 
 #[derive(Debug, Clone, PartialEq, Properties)]
@@ -138,7 +142,10 @@ impl Component for PanelStack {
     type Properties = PanelStackProps;
 
     fn create(_ctx: &Context<Self>) -> Self {
-        Self { timeout_task: None }
+        Self {
+            timeout_task: None,
+            action_to_perform: None,
+        }
     }
 
     fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
@@ -152,12 +159,8 @@ impl Component for PanelStack {
 
     fn view(&self, ctx: &Context<Self>) -> Html {
         let opened_panels = ctx.props().state.opened_panels.borrow();
-        let action = ctx.props().state.action;
-
         let panel_count = opened_panels.len();
-        gloo::console::debug!(format!("Panel Count: {panel_count}"));
-
-        let last = match action {
+        let last = match self.action_to_perform {
             Some(StateAction::Pop) => opened_panels.len() - 2,
             _ => opened_panels.len() - 1,
         };
@@ -166,7 +169,7 @@ impl Component for PanelStack {
             <div
                 class={classes!(
                     "bp3-panel-stack2",
-                    action,
+                    self.action_to_perform,
                     ctx.props().class.clone(),
                 )}
             >
@@ -179,7 +182,7 @@ impl Component for PanelStack {
                         <Panel
                             title={title.clone()}
                             animation={
-                                match action {
+                                match self.action_to_perform {
                                     _ if i == last => Animation::EnterStart,
                                     Some(StateAction::Push) if i == last - 1 =>
                                         Animation::ExitStart,
@@ -202,8 +205,13 @@ impl Component for PanelStack {
         }
     }
 
+    fn changed(&mut self, ctx: &Context<Self>) -> bool {
+        self.action_to_perform = ctx.props().state.action.clone();
+        true
+    }
+
     fn rendered(&mut self, ctx: &Context<Self>, _first_render: bool) {
-        if ctx.props().clone().state.action.take() == Some(StateAction::Pop) {
+        if self.action_to_perform.take() == Some(StateAction::Pop) {
             let link = ctx.link().clone();
             self.timeout_task.replace(Timeout::new(400, move || {
                 link.send_message(PanelStackMessage::PopPanel)
