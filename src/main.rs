@@ -51,6 +51,7 @@ fn download_css(package: &Package, force: bool) -> Result<()> {
 
         let version = yewprint_css::download_from_npm_package(
             "@blueprintjs/docs-theme",
+            "3.11.1",
             Path::new("package/lib/css/docs-theme.css"),
             &static_path.join("docs-theme.css"),
         )
