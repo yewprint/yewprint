@@ -24,6 +24,8 @@ pub struct SwitchProps {
     pub inner_label_checked: Option<String>,
     #[prop_or_default]
     pub inner_label: Option<String>,
+    #[prop_or_default]
+    pub align_right: bool,
 }
 
 impl Component for Switch {
@@ -85,6 +87,11 @@ impl Component for Switch {
                     self.props.inline.then(|| "bp3-inline"),
                     self.props.large.then(|| "bp3-large"),
                     self.props.class.clone(),
+                    if self.props.align_right {
+                        "bp3-align-right"
+                    } else {
+                        "bp3-align-left"
+                    },
                 )
             >
             <input

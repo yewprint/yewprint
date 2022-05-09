@@ -21,6 +21,7 @@ impl Component for SwitchDoc {
                 disabled: false,
                 inline: false,
                 large: false,
+                align_right: false,
             },
         }
     }
@@ -91,6 +92,14 @@ crate::build_example_prop_component! {
                     })
                     checked=self.props.large
                     label=html!("Large")
+                />
+                <Switch
+                    onclick=self.update_props(|props, _| ExampleProps {
+                        align_right: !props.align_right,
+                        ..props
+                    })
+                    checked=self.props.align_right
+                    label=html!("Align right")
                 />
             </div>
         }
