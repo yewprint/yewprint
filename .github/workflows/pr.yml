@@ -19,7 +19,7 @@ jobs:
     - run: cargo test --workspace --all-features --verbose
     - name: Build (Release)
       id: build
-      run: "cargo xtask dist --release && echo ::set-output name=size::`cat target/debug/dist/app.wasm | wc -c`"
+      run: "cargo xtask dist --release && echo ::set-output name=size::`cat target/release/dist/app.wasm | wc -c`"
     - name: Deploy to Netlify
       uses: nwtgck/actions-netlify@v1.1
       with:
@@ -42,4 +42,4 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         args: --all --all-features --tests -- -D warnings
-    - run: cargo +nightly fmt -- --all --check
+    - run: cargo +nightly fmt -- --check
