@@ -19,11 +19,11 @@ jobs:
     - run: cargo test --all-features --verbose
     - name: Build (Release)
       id: build
-      run: "cargo run -- build && echo ::set-output name=size::`cat build/wasm_bg.wasm | wc -c`"
+      run: "cargo xtask dist && echo ::set-output name=size::`cat target/debug/dist/app.wasm | wc -c`"
     - name: Deploy to Netlify
       uses: nwtgck/actions-netlify@v1.1
       with:
-        publish-dir: './build'
+        publish-dir: 'target/debug/dist'
         github-token: ${{ secrets.GITHUB_TOKEN }}
         deploy-message: ${{ github.event.pull_request.title }}
       env:
