@@ -16,7 +16,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: Swatinem/rust-cache@v1
-    - run: cargo test --all-features --verbose
+    - run: cargo test --workspace --all-features --verbose
     - name: Build (Release)
       id: build
       run: "cargo xtask dist --release && echo ::set-output name=size::`cat target/debug/dist/app.wasm | wc -c`"
@@ -41,5 +41,5 @@ jobs:
     - uses: actions-rs/clippy-check@v1
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        args: --all-features --workspace -- -D warnings
-    - run: cargo +nightly fmt -- --check
+        args: --all --all-features --tests -- -D warnings
+    - run: cargo +nightly fmt -- --all --check
