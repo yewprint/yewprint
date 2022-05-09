@@ -15,22 +15,22 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: Swatinem/rust-cache@v1
-    - run: cargo test --all-features --verbose
+    - run: cargo test --workspace --all-features --verbose
 
   site:
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' }}
     steps:
     - uses: actions/checkout@v2
-    - run: cargo doc --verbose --all-features --no-deps
+    - run: cargo doc --verbose --workspace --all-features --no-deps
     - name: Build (Release)
-      run: "cargo run -- build"
+      run: "cargo xtask dist --release"
     - name: Move doc to build/api
-      run: mv ./target/doc ./build/api
+      run: mv ./target/doc ./target/release/dist/api
     - name: Deploy to Netlify
       uses: nwtgck/actions-netlify@v1.1
       with:
-        publish-dir: './build'
+        publish-dir: './target/release/dist'
         github-token: ${{ secrets.GITHUB_TOKEN }}
         deploy-message: ${{ github.event.head_commit.message }}
         production-deploy: true

@@ -78,7 +78,7 @@ macro_rules! build_source_code_component {
 
                 format!(
                     "https://github.com/yewprint/yewprint/blob/{}\
-                        /yewprint/src/{}.rs",
+                        /src/{}.rs",
                     branch, component_name,
                 )
             }
