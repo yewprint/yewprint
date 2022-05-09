@@ -10,6 +10,7 @@ pub struct ExampleProps {
     pub disabled: bool,
     pub inline: bool,
     pub large: bool,
+    pub align_right: bool,
 }
 
 impl Component for Example {
@@ -42,12 +43,14 @@ impl Component for Example {
                     inline=self.props.inline
                     large=self.props.large
                     label=html!{<strong>{"Enabled"}</strong>}
+                    align_right=self.props.align_right
                 />
                 <Switch
                     disabled=self.props.disabled
                     inline=self.props.inline
                     large=self.props.large
                     label=html!{<em>{"Public"}</em>}
+                    align_right=self.props.align_right
                 />
                 <Switch
                     disabled=self.props.disabled
@@ -55,6 +58,7 @@ impl Component for Example {
                     large=self.props.large
                     checked=true
                     label=html!{<u>{"Cooperative"}</u>}
+                    align_right=self.props.align_right
                 />
                 <Switch
                     disabled=self.props.disabled
@@ -63,6 +67,7 @@ impl Component for Example {
                     label=html!{"Containing Text"}
                     inner_label_checked={"on".to_string()}
                     inner_label={"off".to_string()}
+                    align_right=self.props.align_right
                 />
             </div>
         }
