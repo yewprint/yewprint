@@ -124,9 +124,9 @@ macro_rules! build_source_code_component {
             #[test]
             fn check_url() {
                 let url = SourceCodeUrl::generate_url();
-                let response = reqwest::blocking::get(url).unwrap();
+                let response = ureq::get(&url).call().expect("can send request");
 
-                assert!(response.status().is_success())
+                assert_eq!(response.status(), 200)
             }
         }
     };

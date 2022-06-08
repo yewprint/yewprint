@@ -24,31 +24,46 @@ pub fn download_from_npm_package(
     src: impl AsRef<Path>,
     dest: impl AsRef<Path>,
 ) -> Result<String> {
+    use std::io::Read;
     use std::ops::Deref;
 
     let src = src.as_ref();
     let dest = dest.as_ref();
 
     let version = if version.is_empty() || version == "latest" {
-        let info = reqwest::blocking::get(format!("https://registry.npmjs.org/{}", package_name))?
-            .json::<PackageInfo>()?;
+        let info: PackageInfo =
+            ureq::get(format!("https://registry.npmjs.org/{}", package_name).as_str())
+                .call()?
+                .into_json()?;
 
         info.dist_tags.latest
     } else {
         version.to_string()
     };
 
-    let archive = reqwest::blocking::get(format!(
-        "https://registry.npmjs.org/{}/-/{}-{}.tgz",
-        package_name,
-        package_name
-            .split_once('/')
-            .map(|(_, name)| name)
-            .unwrap_or(package_name),
-        version,
-    ))?
-    .bytes()?;
-    let mut archive = tar::Archive::new(flate2::read::GzDecoder::new(archive.deref()));
+    let resp = ureq::get(
+        format!(
+            "https://registry.npmjs.org/{}/-/{}-{}.tgz",
+            package_name,
+            package_name
+                .split_once('/')
+                .map(|(_, name)| name)
+                .unwrap_or(package_name),
+            version,
+        )
+        .as_str(),
+    )
+    .call()?;
+
+    let mut bytes = if let Some(len) = resp.header("Content-Length") {
+        Vec::with_capacity(len.parse()?)
+    } else {
+        Vec::new()
+    };
+
+    resp.into_reader().read_to_end(&mut bytes)?;
+
+    let mut archive = tar::Archive::new(flate2::read::GzDecoder::new(bytes.deref()));
 
     let blueprint_css = archive.entries()?.find(|entry| {
         entry
