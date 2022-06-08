@@ -24,9 +24,6 @@ pub fn download_from_npm_package(
     src: impl AsRef<Path>,
     dest: impl AsRef<Path>,
 ) -> Result<String> {
-    use std::io::Read;
-    use std::ops::Deref;
-
     let src = src.as_ref();
     let dest = dest.as_ref();
 
@@ -55,15 +52,7 @@ pub fn download_from_npm_package(
     )
     .call()?;
 
-    let mut bytes = if let Some(len) = resp.header("Content-Length") {
-        Vec::with_capacity(len.parse()?)
-    } else {
-        Vec::new()
-    };
-
-    resp.into_reader().read_to_end(&mut bytes)?;
-
-    let mut archive = tar::Archive::new(flate2::read::GzDecoder::new(bytes.deref()));
+    let mut archive = tar::Archive::new(flate2::read::GzDecoder::new(resp.into_reader()));
 
     let blueprint_css = archive.entries()?.find(|entry| {
         entry
