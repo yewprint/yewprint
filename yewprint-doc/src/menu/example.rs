@@ -88,11 +88,11 @@ impl Component for Example {
                     />
                     <MenuItem
                         icon={IconName::Clipboard}
-                        text={{html!("Paste")}}
-                        label={{html!("Ctrl+V")}}
+                        text={html!("Paste")}
+                        label={html!("Ctrl+V")}
                         disabled=true
                     />
-                    <MenuDivider title={{html!("Text")}} />
+                    <MenuDivider title={html!("Text")} />
                     <MenuItem
                         icon={IconName::AlignLeft}
                         text={html!("Alignment")}
