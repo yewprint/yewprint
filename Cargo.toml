@@ -1,13 +1,34 @@
 [package]
-name = "run"
-version = "0.0.0"
+name = "yewprint"
+version = "0.1.1"
+authors = ["Cecile Tonglet <cecile.tonglet@cecton.com>"]
 edition = "2018"
+license = "MIT OR Apache-2.0"
+description = "Port of blueprintjs.com to Yew"
+repository = "https://github.com/yewprint/yewprint"
+homepage = "https://github.com/yewprint/yewprint"
+documentation = "https://docs.rs/yewprint"
+readme = "README.md"
+include = ["src/**/*.rs", "README.md", "LICENSE.Apache-2.0", "LICENSE.MIT", "iconSvgPaths.js", "build.rs"]
+keywords = ["blueprint", "yew", "ui"]
+categories = ["gui"]
+
+[features]
+default = ["tree"]
+tree = ["id_tree"]
 
 [dependencies]
-log = "0.4"
-structopt = "0.3"
-wasm-run = "0.9"
-yewprint-css = { path = "./yewprint-css" }
+web-sys = { version = "0.3", features = ["DomRect", "Element", "Event", "HtmlSelectElement"] }
+# yew = { git = "https://github.com/yewstack/yew", branch = "master" }
+yew = "0.19"
+id_tree = { version = "1.7", optional = true }
+wasm-bindgen = "0.2"
+gloo = "0.6"
+
+
+[build-dependencies]
+regex = { version = "1", default-features = false, features = ["std", "unicode-perl"] }
+heck = "0.3"
 
 [workspace]
-members = ["yewprint", "yewprint-css", "yewprint-doc"]
+members = ["yewprint-css", "yewprint-doc", "xtask"]

@@ -16,14 +16,14 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: Swatinem/rust-cache@v1
-    - run: cargo test --all-features --verbose
+    - run: cargo test --workspace --all-features --verbose
     - name: Build (Release)
       id: build
-      run: "cargo run -- build && echo ::set-output name=size::`cat build/wasm_bg.wasm | wc -c`"
+      run: "cargo xtask dist --release && echo ::set-output name=size::`cat target/release/dist/app.wasm | wc -c`"
     - name: Deploy to Netlify
       uses: nwtgck/actions-netlify@v1.1
       with:
-        publish-dir: './build'
+        publish-dir: 'target/release/dist'
         github-token: ${{ secrets.GITHUB_TOKEN }}
         deploy-message: ${{ github.event.pull_request.title }}
       env:
@@ -41,5 +41,5 @@ jobs:
     - uses: actions-rs/clippy-check@v1
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        args: --all-features --workspace -- -D warnings
+        args: --all --all-features --tests -- -D warnings
     - run: cargo +nightly fmt -- --check

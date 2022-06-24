@@ -29,15 +29,15 @@ cargo generate --git https://github.com/yewprint/yewprint-template.git
 ## Development Environment
 
 ```
-cargo run -- serve
+cargo xtask start
 ```
 
-You can now go to http://localhost:3000
+You can now go to http://localhost:8000
 
 ### Blueprint CSS update
 
 ```
-cargo run -- update-css
+cargo xtask update-css
 ```
 
 Roadmap

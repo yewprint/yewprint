@@ -1,6 +1,6 @@
 [package]
 name = "yewprint-css"
-version = "0.1.1"
+version = "0.2.1"
 authors = ["Cecile Tonglet <cecile.tonglet@cecton.com>"]
 edition = "2018"
 license = "MIT OR Apache-2.0"
@@ -17,6 +17,6 @@ categories = ["gui"]
 anyhow = "1"
 flate2 = "1"
 log = "0.4"
-reqwest = { version = "0.11", features = ["blocking", "json"] }
 serde = { version = "1", features = ["derive"] }
 tar = "0.4"
+ureq = { version = "2.4", features = ["json"] }

@@ -21,6 +21,7 @@ impl Component for SwitchDoc {
                 disabled: false,
                 inline: false,
                 large: false,
+                align_right: false,
             },
         }
     }
@@ -87,6 +88,14 @@ crate::build_example_prop_component! {
                     })}
                     checked={ctx.props().example_props.large}
                     label={html!("Large")}
+                />
+                <Switch
+                    onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
+                        align_right: !props.align_right,
+                        ..props
+                    })}
+                    checked={ctx.props().example_props.align_right}
+                    label={html!("Align right")}
                 />
             </div>
         }
