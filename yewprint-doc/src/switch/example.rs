@@ -41,6 +41,8 @@ pub fn example(props: &ExampleProps) -> Html {
                 large={props.large}
                 align_right={props.align_right}
                 label={html!(<u>{"Containing Text"}</u>)}
+                inner_label_checked={"on".to_string()}
+                inner_label={"off".to_string()}
             />
         </div>
     }
