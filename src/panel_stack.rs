@@ -159,7 +159,6 @@ impl Component for PanelStack {
 
     fn view(&self, ctx: &Context<Self>) -> Html {
         let opened_panels = ctx.props().state.opened_panels.borrow();
-        let panel_count = opened_panels.len();
         let last = match self.action_to_perform {
             Some(StateAction::Pop) => opened_panels.len() - 2,
             _ => opened_panels.len() - 1,
@@ -206,7 +205,7 @@ impl Component for PanelStack {
     }
 
     fn changed(&mut self, ctx: &Context<Self>) -> bool {
-        self.action_to_perform = ctx.props().state.action.clone();
+        self.action_to_perform = ctx.props().state.action;
         true
     }
 
