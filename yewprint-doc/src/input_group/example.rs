@@ -143,14 +143,16 @@ impl Component for Example {
                     onkeydown={ctx.link().callback(|e: KeyboardEvent| {
                         if e.key() == "Enter" { Msg::AddTagsEntry } else { Msg::Noop }
                     })}
-                    right_element={{html! {
-                        <Tag
-                            minimal=true
-                            round={ctx.props().round}
-                        >
-                            {{ 10000 / 1.max(self.tags_value.len().pow(2)) }}
-                        </Tag>
-                    }}}
+                    right_element={{
+                        html!{
+                            <Tag
+                                minimal={true}
+                                round={ctx.props().round}
+                            >
+                                { (10000 / 1.max(self.tags_value.len().pow(2))).to_string() }
+                            </Tag>
+                        }
+                    }}
                 />
             </>
         }
