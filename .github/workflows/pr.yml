@@ -39,7 +39,7 @@ jobs:
   build-main:
     runs-on: ubuntu-latest
     outputs:
-      size: ${{ steps.build.output.outputs.size }}
+      size: ${{ steps.build.outputs.size }}
     steps:
     - uses: actions/checkout@v2
       with:
