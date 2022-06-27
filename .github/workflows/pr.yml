@@ -1,3 +1,5 @@
+name: PR
+
 on:
   pull_request:
     branches: [ main ]
@@ -61,5 +63,4 @@ jobs:
             |File name | Old Size | New size |
             | --- | --- | --- |
             | app.wasm | ${{needs.build-main.outputs.size}} | ${{needs.build.outputs.size}} |
-          proxy-url: https://add-pr-comment-proxy-94idvmwyie-uc.a.run.app
           repo-token: ${{ secrets.GITHUB_TOKEN }}
