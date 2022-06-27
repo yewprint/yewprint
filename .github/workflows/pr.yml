@@ -4,6 +4,9 @@ on:
   pull_request:
     branches: [ main ]
 
+permissions:
+  pull-requests: read
+
 env:
   CARGO_TERM_COLOR: always
 
@@ -55,9 +58,11 @@ jobs:
       - build
       - build-main
     steps:
-      - uses: peter-evans/commit-comment@v2
+      - uses: mshick/add-pr-comment@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          body: |
+          message: |
             **Compiled size report**
 
             |File name | Old Size | New size |
