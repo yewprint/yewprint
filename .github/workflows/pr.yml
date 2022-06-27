@@ -59,4 +59,4 @@ jobs:
       - build
       - build-main
     steps:
-      - run: echo "::info::app.wasm | ${{needs.build-main.outputs.size}} | ${{needs.build.outputs.size}} |"
+      - run: echo "app.wasm | ${{needs.build-main.outputs.size}} | ${{needs.build.outputs.size}} |"
