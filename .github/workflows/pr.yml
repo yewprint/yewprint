@@ -56,8 +56,6 @@ jobs:
       - build-main
     steps:
       - uses: mshick/add-pr-comment@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           message: |
             **Compiled size report**
