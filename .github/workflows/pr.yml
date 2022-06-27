@@ -62,4 +62,6 @@ jobs:
 
             |File name | Old Size | New size |
             | --- | --- | --- |
-            | target/release/dist | ${{needs.build-main.outputs.size}} | ${{needs.build.outputs.size}} |
+            | app.wasm | ${{needs.build-main.outputs.size}} | ${{needs.build.outputs.size}} |
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token-user-login: 'github-actions[bot]'
