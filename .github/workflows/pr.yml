@@ -59,4 +59,5 @@ jobs:
       - build
       - build-main
     steps:
-      - run: echo "app.wasm | ${{needs.build-main.outputs.size}} | ${{needs.build.outputs.size}} |"
+      - name: Report Wasm size
+        run: echo "app.wasm | ${{needs.build-main.outputs.size}} | ${{needs.build.outputs.size}} |"
