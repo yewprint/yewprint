@@ -5,7 +5,7 @@ on:
     branches: [ main ]
 
 permissions:
-  actions: read
+  actions: write
   pull-requests: write
 
 env:
