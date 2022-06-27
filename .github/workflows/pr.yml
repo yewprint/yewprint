@@ -10,8 +10,6 @@ env:
 jobs:
   checks:
     runs-on: ubuntu-latest
-    outputs:
-      size: ${{ steps.build.outputs.size }}
     steps:
     - uses: actions/checkout@v2
     - uses: Swatinem/rust-cache@v1
@@ -26,3 +24,44 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         args: --all --all-features --tests -- -D warnings
     - run: cargo +nightly fmt -- --check
+
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      size: ${{ steps.build.outputs.size }}
+    steps:
+    - uses: actions/checkout@v2
+    - uses: Swatinem/rust-cache@v1
+    - name: Build (release)
+      id: build
+      run: cargo xtask dist --release && echo ::set-output name=size::`cat target/release/dist/wasm_bg.wasm | wc -c`
+
+  build-main:
+    runs-on: ubuntu-latest
+    outputs:
+      size: ${{ steps.build.output.outputs.size }}
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: main
+    - uses: Swatinem/rust-cache@v1
+    - name: Build (release)
+      id: build
+      run: cargo xtask dist --release && echo ::set-output name=size::`cat target/release/dist/wasm_bg.wasm | wc -c`
+
+  report-wasm-size:
+    runs-on: ubuntu-latest
+    needs:
+      - build
+      - build-main
+    steps:
+      - uses: mshick/add-pr-comment@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          message: |
+            **Compiled size report**
+
+            |File name | Old Size | New size |
+            | --- | --- | --- |
+            | target/release/dist | ${{needs.build-main.outputs.size}} | ${{needs.build.outputs.size}} |
