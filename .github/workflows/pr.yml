@@ -59,13 +59,4 @@ jobs:
       - build
       - build-main
     steps:
-      - uses: mshick/add-pr-comment@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          message: |
-            **Compiled size report**
-
-            |File name | Old Size | New size |
-            | --- | --- | --- |
-            | app.wasm | ${{needs.build-main.outputs.size}} | ${{needs.build.outputs.size}} |
+    - run: echo app.wasm | ${{needs.build-main.outputs.size}} | ${{needs.build.outputs.size}} |
