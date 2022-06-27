@@ -55,7 +55,7 @@ jobs:
       - build
       - build-main
     steps:
-      - uses: peter-evans/commit-comment
+      - uses: peter-evans/commit-comment@v2
         with:
           body: |
             **Compiled size report**
