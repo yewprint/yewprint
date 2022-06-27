@@ -34,7 +34,7 @@ jobs:
     - uses: Swatinem/rust-cache@v1
     - name: Build (release)
       id: build
-      run: cargo xtask dist --release && echo ::set-output name=size::`cat target/release/dist/wasm_bg.wasm | wc -c`
+      run: cargo xtask dist --release && echo ::set-output name=size::`cat target/release/dist/app.wasm | wc -c`
 
   build-main:
     runs-on: ubuntu-latest
@@ -47,7 +47,7 @@ jobs:
     - uses: Swatinem/rust-cache@v1
     - name: Build (release)
       id: build
-      run: cargo xtask dist --release && echo ::set-output name=size::`cat target/release/dist/wasm_bg.wasm | wc -c`
+      run: cargo xtask dist --release && echo ::set-output name=size::`cat target/release/dist/app.wasm | wc -c`
 
   report-wasm-size:
     runs-on: ubuntu-latest
