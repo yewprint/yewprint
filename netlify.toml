@@ -3,8 +3,8 @@ publish = "target/release/dist"
 
 # All deploys from the Production branch
 [context.production]
-command = "cargo xtask dist && cargo doc --workspace --all-features --no-deps && mv target/doc target/release/dist/api"
+command = "cargo xtask dist --release && cargo doc --workspace --all-features --no-deps && mv target/doc target/release/dist/api"
 
 # all deploys generated from a pull/merge request
 [context.deploy-preview]
-command = "cargo xtask dist"
+command = "cargo xtask dist --release"
