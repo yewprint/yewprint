@@ -1,4 +1,4 @@
-name: PR Workflow
+name: PR
 
 on:
   pull_request:
@@ -8,32 +8,13 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-
-  build:
+  checks:
     runs-on: ubuntu-latest
-    outputs:
-      size: ${{ steps.build.outputs.size }}
     steps:
     - uses: actions/checkout@v2
     - uses: Swatinem/rust-cache@v1
     - run: cargo test --workspace --all-features --verbose
-    - name: Build (Release)
-      id: build
-      run: "cargo xtask dist --release && echo ::set-output name=size::`cat target/release/dist/app.wasm | wc -c`"
-    - name: Deploy to Netlify
-      uses: nwtgck/actions-netlify@v1.1
-      with:
-        publish-dir: 'target/release/dist'
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        deploy-message: ${{ github.event.pull_request.title }}
-      env:
-        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-      timeout-minutes: 1
 
-  checks:
-    runs-on: ubuntu-latest
-    steps:
     - uses: actions/checkout@v2
     - run: rustup install --profile default nightly
     # NOTE: we use nightly here to enable the options error_on_line_overflow and

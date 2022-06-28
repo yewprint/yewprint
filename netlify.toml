@@ -1,0 +1,3 @@
+[build]
+publish = "target/release/dist"
+command = "cargo xtask dist --release"
