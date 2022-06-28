@@ -14,9 +14,9 @@ impl Component for ControlGroupDoc {
     type Message = ExampleProps;
     type Properties = ();
 
-    fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         ControlGroupDoc {
-            callback: link.callback(|x| x),
+            callback: ctx.link().callback(|x| x),
             state: ExampleProps {
                 fill: false,
                 vertical: false,
@@ -24,16 +24,12 @@ impl Component for ControlGroupDoc {
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         self.state = msg;
         true
     }
 
-    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
-        true
-    }
-
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         let example_props = self.state.clone();
         let source = crate::include_raw_html!(
             concat!(env!("OUT_DIR"), "/", file!(), ".html"),
@@ -42,19 +38,19 @@ impl Component for ControlGroupDoc {
 
         html! {
             <div>
-                <H1 class=classes!("docs-title")>{"ControlGroup"}</H1>
+                <H1 class={classes!("docs-title")}>{"ControlGroup"}</H1>
                 <SourceCodeUrl />
                 <ExampleContainer
-                    source=source
-                    props=Some(html! {
+                    source={source}
+                    props={Some(html! {
                         <ControlGroupProps
                             callback={self.callback.clone()}
-                            props=example_props.clone()
+                            example_props={example_props.clone()}
                         >
                         </ControlGroupProps>
-                    })
+                    })}
                 >
-                    <Example with example_props />
+                    <Example ..example_props />
                 </ExampleContainer>
             </div>
         }
@@ -63,25 +59,25 @@ impl Component for ControlGroupDoc {
 
 crate::build_example_prop_component! {
     ControlGroupProps for ExampleProps =>
-    fn view(&self) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         html! {
             <div>
                 <H5>{"Props"}</H5>
                 <Switch
-                    onclick=self.update_props(|props, _| ExampleProps {
+                    onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
                         fill: !props.fill,
                         ..props
-                    })
-                    checked=self.props.fill
-                    label=html!("Fill")
+                    })}
+                    checked={ctx.props().example_props.fill}
+                    label={html!("Fill")}
                 />
                 <Switch
-                    onclick=self.update_props(|props, _| ExampleProps {
+                    onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
                         vertical: !props.vertical,
                         ..props
-                    })
-                    checked=self.props.vertical
-                    label=html!("Vertical")
+                    })}
+                    checked={ctx.props().example_props.vertical}
+                    label={html!("Vertical")}
                 />
             </div>
         }

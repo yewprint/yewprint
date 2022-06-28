@@ -1,11 +1,9 @@
 use crate::{Button, IconName};
-use std::borrow::Cow;
+use gloo::timers::callback::Timeout;
 use std::cell::RefCell;
 use std::fmt;
 use std::rc::Rc;
-use std::time::Duration;
 use yew::prelude::*;
-use yew::services::timeout::{TimeoutService, TimeoutTask};
 
 pub struct PanelBuilder<F: Fn(Option<Html>, I) -> O, I, O> {
     title: Option<Html>,
@@ -119,9 +117,11 @@ impl From<StateAction> for Classes {
 }
 
 pub struct PanelStack {
-    timeout_task: Option<TimeoutTask>,
-    props: PanelStackProps,
-    link: ComponentLink<Self>,
+    timeout_task: Option<Timeout>,
+
+    // We keep track of the latest action to perform from the PanelStackState
+    // because we need a mutable access to the action.
+    action_to_perform: Option<StateAction>,
 }
 
 #[derive(Debug, Clone, PartialEq, Properties)]
@@ -141,47 +141,36 @@ impl Component for PanelStack {
     type Message = PanelStackMessage;
     type Properties = PanelStackProps;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(_ctx: &Context<Self>) -> Self {
         Self {
             timeout_task: None,
-            props,
-            link,
+            action_to_perform: None,
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             PanelStackMessage::PopPanel => {
-                self.props.state.opened_panels.borrow_mut().pop();
+                ctx.props().state.opened_panels.borrow_mut().pop();
                 true
             }
         }
     }
 
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        if self.props != props {
-            self.props = props;
-            true
-        } else {
-            false
-        }
-    }
-
-    fn view(&self) -> Html {
-        let opened_panels = self.props.state.opened_panels.borrow();
-        let action = self.props.state.action;
-        let last = match action {
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        let opened_panels = ctx.props().state.opened_panels.borrow();
+        let last = match self.action_to_perform {
             Some(StateAction::Pop) => opened_panels.len() - 2,
             _ => opened_panels.len() - 1,
         };
 
         html! {
             <div
-                class=classes!(
+                class={classes!(
                     "bp3-panel-stack2",
-                    action,
-                    self.props.class.clone(),
-                )
+                    self.action_to_perform,
+                    ctx.props().class.clone(),
+                )}
             >
             {
                 opened_panels
@@ -190,9 +179,9 @@ impl Component for PanelStack {
                     .rev()
                     .map(|(i, (title, content))| html! {
                         <Panel
-                            title=title.clone()
+                            title={title.clone()}
                             animation={
-                                match action {
+                                match self.action_to_perform {
                                     _ if i == last => Animation::EnterStart,
                                     Some(StateAction::Push) if i == last - 1 =>
                                         Animation::ExitStart,
@@ -201,8 +190,8 @@ impl Component for PanelStack {
                                     _ => Animation::Exited,
                                 }
                             }
-                            onclose=(i > 0).then(|| self.props.onclose.clone()).flatten()
-                            key=i
+                            onclose={(i > 0).then(|| ctx.props().onclose.clone()).flatten()}
+                            key={i}
                         >
                             // TODO the state of content doesn't seem to be kept when re-opening
                             //      a panel using the same components
@@ -215,21 +204,24 @@ impl Component for PanelStack {
         }
     }
 
-    fn rendered(&mut self, _first_render: bool) {
-        if self.props.state.action.take() == Some(StateAction::Pop) {
-            self.timeout_task.replace(TimeoutService::spawn(
-                Duration::from_millis(400),
-                self.link.callback(|_| PanelStackMessage::PopPanel),
-            ));
+    fn changed(&mut self, ctx: &Context<Self>) -> bool {
+        self.action_to_perform = ctx.props().state.action;
+        true
+    }
+
+    fn rendered(&mut self, ctx: &Context<Self>, _first_render: bool) {
+        if self.action_to_perform.take() == Some(StateAction::Pop) {
+            let link = ctx.link().clone();
+            self.timeout_task.replace(Timeout::new(400, move || {
+                link.send_message(PanelStackMessage::PopPanel)
+            }));
         }
     }
 }
 
 struct Panel {
     animation: Animation,
-    timeout_task: Option<TimeoutTask>,
-    props: PanelProps,
-    link: ComponentLink<Self>,
+    timeout_task: Option<Timeout>,
 }
 
 #[derive(Debug, Clone, PartialEq, Properties)]
@@ -249,16 +241,14 @@ impl Component for Panel {
     type Message = PanelMessage;
     type Properties = PanelProps;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         Self {
-            animation: props.animation,
+            animation: ctx.props().animation,
             timeout_task: None,
-            props,
-            link,
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             PanelMessage::UpdateAnimation(animation) => {
                 self.animation = animation;
@@ -267,17 +257,7 @@ impl Component for Panel {
         }
     }
 
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        if self.props != props {
-            self.animation = props.animation;
-            self.props = props;
-            true
-        } else {
-            false
-        }
-    }
-
-    fn view(&self) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         let style = if self.animation == Animation::Exited {
             "display:none"
         } else {
@@ -294,15 +274,15 @@ impl Component for Panel {
                 Animation::Exited => None,
             }
         );
-        let back_button = self.props.onclose.clone().map(|onclose| {
+        let back_button = ctx.props().onclose.clone().map(|onclose| {
             html! {
                 <Button
-                    class=classes!("bp3-panel-stack-header-back")
-                    style=Cow::Borrowed("padding-right:0")
-                    icon=IconName::ChevronLeft
-                    minimal=true
-                    small=true
-                    onclick=onclose.reform(|_| ())
+                    class={classes!("bp3-panel-stack-header-back")}
+                    style={"padding-right:0"}
+                    icon={IconName::ChevronLeft}
+                    minimal={true}
+                    small={true}
+                    onclick={onclose.reform(|_| ())}
                 >
                     // TODO: I get a lot of "VComp is not mounted" if I try to use the title
                     //       of the previous panel
@@ -311,47 +291,48 @@ impl Component for Panel {
         });
 
         html! {
-            <div class=classes style=style>
+            <div class={classes} style={style}>
                 <div class="bp3-panel-stack-header">
                     <span>{back_button.unwrap_or_default()}</span>
-                    {self.props.title.clone().unwrap_or_default()}
+                    {ctx.props().title.clone().unwrap_or_default()}
                     <span/>
                 </div>
-                {for self.props.children.iter()}
+                {for ctx.props().children.iter()}
             </div>
         }
     }
 
-    fn rendered(&mut self, _first_render: bool) {
+    fn changed(&mut self, ctx: &Context<Self>) -> bool {
+        self.animation = ctx.props().animation;
+        true
+    }
+
+    fn rendered(&mut self, ctx: &Context<Self>, _first_render: bool) {
         match self.animation {
             Animation::EnterStart => {
-                self.timeout_task.replace(TimeoutService::spawn(
-                    Duration::from_millis(0),
-                    self.link
-                        .callback(|_| PanelMessage::UpdateAnimation(Animation::Entering)),
-                ));
+                let link = ctx.link().clone();
+                self.timeout_task.replace(Timeout::new(0, move || {
+                    link.send_message(PanelMessage::UpdateAnimation(Animation::Entering));
+                }));
             }
             Animation::Entering => {
-                self.timeout_task.replace(TimeoutService::spawn(
-                    Duration::from_millis(400),
-                    self.link
-                        .callback(|_| PanelMessage::UpdateAnimation(Animation::Entered)),
-                ));
+                let link = ctx.link().clone();
+                self.timeout_task.replace(Timeout::new(400, move || {
+                    link.send_message(PanelMessage::UpdateAnimation(Animation::Entered));
+                }));
             }
             Animation::Entered => {}
             Animation::ExitStart => {
-                self.timeout_task.replace(TimeoutService::spawn(
-                    Duration::from_millis(0),
-                    self.link
-                        .callback(|_| PanelMessage::UpdateAnimation(Animation::Exiting)),
-                ));
+                let link = ctx.link().clone();
+                self.timeout_task.replace(Timeout::new(0, move || {
+                    link.send_message(PanelMessage::UpdateAnimation(Animation::Exiting));
+                }));
             }
             Animation::Exiting => {
-                self.timeout_task.replace(TimeoutService::spawn(
-                    Duration::from_millis(400),
-                    self.link
-                        .callback(|_| PanelMessage::UpdateAnimation(Animation::Exited)),
-                ));
+                let link = ctx.link().clone();
+                self.timeout_task.replace(Timeout::new(400, move || {
+                    link.send_message(PanelMessage::UpdateAnimation(Animation::Exited));
+                }));
             }
             Animation::Exited => {}
         }

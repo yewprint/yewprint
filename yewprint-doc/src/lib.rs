@@ -33,16 +33,9 @@ pub use example::*;
 pub use logo::*;
 
 #[macro_export]
-macro_rules! log {
-    ($s:expr $(,$args:expr)*) => {{
-        yew::services::ConsoleService::log(format!($s $(,$args)*).as_str());
-    }};
-}
-
-#[macro_export]
 macro_rules! include_raw_html {
     ($file:expr $(, $class:expr)?) => {{
-        yew::virtual_dom::VNode::VRef(yew::web_sys::Node::from({
+        yew::virtual_dom::VNode::VRef(web_sys::Node::from({
             let div = web_sys::window()
                 .unwrap()
                 .document()
@@ -88,27 +81,23 @@ macro_rules! build_source_code_component {
             type Message = ();
             type Properties = ();
 
-            fn create(_: Self::Properties, _link: ComponentLink<Self>) -> Self {
+            fn create(_ctx: &Context<Self>) -> Self {
                 let url = SourceCodeUrl::generate_url();
 
                 Self { url }
             }
 
-            fn update(&mut self, _msg: Self::Message) -> ShouldRender {
+            fn update(&mut self, _ctx: &Context<Self>, _msg: Self::Message) -> bool {
                 true
             }
 
-            fn change(&mut self, _props: Self::Properties) -> ShouldRender {
-                true
-            }
-
-            fn view(&self) -> Html {
+            fn view(&self, _ctx: &Context<Self>) -> Html {
                 use yewprint::Text;
 
                 html! {
                     <a
-                        class=classes!("bp3-text-muted")
-                        href=self.url.clone()
+                        class={classes!("bp3-text-muted")}
+                        href={self.url.clone()}
                         target="_blank"
                     >
                         <Text>{"Go to source code"}</Text>
@@ -142,7 +131,7 @@ static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 pub fn run_app() -> Result<(), wasm_bindgen::JsValue> {
     #[cfg(feature = "console_error_panic_hook")]
     console_error_panic_hook::set_once();
-    yew::start_app::<app::App>();
+    yew::start_app::<app::AppRoot>();
 
     Ok(())
 }

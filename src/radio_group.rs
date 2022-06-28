@@ -1,10 +1,6 @@
 use crate::Radio;
 use yew::prelude::*;
 
-pub struct RadioGroup<T: Clone + PartialEq + 'static> {
-    props: RadioGroupProps<T>,
-}
-
 #[derive(Clone, PartialEq, Properties)]
 pub struct RadioGroupProps<T: Clone + PartialEq + 'static> {
     #[prop_or_default]
@@ -24,71 +20,46 @@ pub struct RadioGroupProps<T: Clone + PartialEq + 'static> {
     pub class: Classes,
 }
 
-impl<T: Clone + PartialEq + 'static> Component for RadioGroup<T> {
-    type Message = ();
-    type Properties = RadioGroupProps<T>;
+// impl<T: Clone + PartialEq + 'static> Component for RadioGroup<T> {
 
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        Self { props }
-    }
+#[function_component(RadioGroup)]
+pub fn radio_group<T: Clone + PartialEq + 'static>(props: &RadioGroupProps<T>) -> Html {
+    let option_children = props
+        .options
+        .iter()
+        .map(|(value, label)| {
+            let checked = props.value.as_ref().map(|x| value == x).unwrap_or_default();
+            let value = value.clone();
 
-    fn update(&mut self, _: Self::Message) -> ShouldRender {
-        true
-    }
+            html! {
+                <Radio
+                    value={"".to_string()}
+                    label={html!(label)}
+                    checked={checked}
+                    onchange={props.onchange.reform(move |_| value.clone())}
+                    inline={props.inline}
+                    disabled={props.disabled}
+                    large={props.large}
+                />
+            }
+        })
+        .collect::<Html>();
 
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        if self.props != props {
-            self.props = props;
-            true
-        } else {
-            false
-        }
-    }
-
-    fn view(&self) -> Html {
-        let option_children = self
-            .props
-            .options
-            .iter()
-            .map(|(value, label)| {
-                let checked = self
-                    .props
-                    .value
-                    .as_ref()
-                    .map(|x| value == x)
-                    .unwrap_or_default();
-                let value = value.clone();
-
-                html! {
-                    <Radio
-                        value="".to_string()
-                        label=html!(label)
-                        checked=checked
-                        onchange=self.props.onchange.reform(move |_| value.clone())
-                        inline=self.props.inline
-                        disabled=self.props.disabled
-                        large=self.props.large
-                    />
+    html! {
+        <div
+            class={classes!(
+                "bp3-radio-group",
+                props.class.clone(),
+            )}
+        >
+            {
+                if let Some(label) = props.label.clone() {
+                    label
+                } else {
+                    html!()
                 }
-            })
-            .collect::<Html>();
-
-        html! {
-            <div
-                class=classes!(
-                    "bp3-radio-group",
-                    self.props.class.clone(),
-                )
-            >
-                {
-                    if let Some(label) = self.props.label.clone() {
-                        label
-                    } else {
-                        html!()
-                    }
-                }
-                {option_children}
-            </div>
-        }
+            }
+            {option_children}
+        </div>
     }
 }

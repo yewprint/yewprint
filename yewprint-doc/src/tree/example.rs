@@ -17,7 +17,7 @@ impl Component for Example {
     type Message = Msg;
     type Properties = ();
 
-    fn create(_props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         let mut tree = TreeBuilder::new().build();
         let root_id = tree
             .insert(
@@ -71,7 +71,7 @@ impl Component for Example {
                 icon: Some(IconName::Tag),
                 icon_intent: Some(Intent::Primary),
                 label: "Outer file".into(),
-                secondary_label: Some(html!(<Icon icon=IconName::EyeOpen />)),
+                secondary_label: Some(html!(<Icon icon={IconName::EyeOpen} />)),
                 data: 3,
                 ..Default::default()
             }),
@@ -81,12 +81,12 @@ impl Component for Example {
 
         Self {
             tree: tree.into(),
-            callback_expand_node: link.callback(|(node_id, _)| Msg::ExpandNode(node_id)),
-            callback_select_node: link.callback(|(node_id, _)| Msg::SelectNode(node_id)),
+            callback_expand_node: ctx.link().callback(|(node_id, _)| Msg::ExpandNode(node_id)),
+            callback_select_node: ctx.link().callback(|(node_id, _)| Msg::SelectNode(node_id)),
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             Msg::ExpandNode(node_id) => {
                 let mut tree = self.tree.borrow_mut();
@@ -109,17 +109,13 @@ impl Component for Example {
         true
     }
 
-    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
-        true
-    }
-
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         html! {
             <Tree<i32>
-                tree=self.tree.clone()
-                on_collapse=Some(self.callback_expand_node.clone())
-                on_expand=Some(self.callback_expand_node.clone())
-                onclick=Some(self.callback_select_node.clone())
+                tree={self.tree.clone()}
+                on_collapse={Some(self.callback_expand_node.clone())}
+                on_expand={Some(self.callback_expand_node.clone())}
+                onclick={Some(self.callback_select_node.clone())}
             />
         }
     }

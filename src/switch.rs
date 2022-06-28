@@ -1,9 +1,5 @@
 use yew::prelude::*;
 
-pub struct Switch {
-    props: SwitchProps,
-}
-
 #[derive(Clone, PartialEq, Properties)]
 pub struct SwitchProps {
     #[prop_or_default]
@@ -28,85 +24,64 @@ pub struct SwitchProps {
     pub align_right: bool,
 }
 
-impl Component for Switch {
-    type Message = ();
-    type Properties = SwitchProps;
-
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        Self { props }
-    }
-
-    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
-        true
-    }
-
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        if self.props != props {
-            self.props = props;
-            true
-        } else {
-            false
-        }
-    }
-
-    fn view(&self) -> Html {
-        let display_label = {
-            if self.props.inner_label.is_some() || self.props.inner_label_checked.is_some() {
-                let inner_label = self.props.inner_label.as_deref().unwrap_or_default();
-                let inner_label_checked = self.props.inner_label_checked.as_ref();
-                html! {
-                    <>
-                        <div class=classes!("bp3-control-indicator-child")>
-                            <div class=classes!("bp3-switch-inner-text")>
-                                {
-                                    if let Some(label_checked) = inner_label_checked {
-                                        label_checked.clone()
-                                    } else {
-                                        inner_label.to_string()
-                                    }
+#[function_component(Switch)]
+pub fn switch(props: &SwitchProps) -> Html {
+    let display_label = {
+        if props.inner_label.is_some() || props.inner_label_checked.is_some() {
+            let inner_label = props.inner_label.as_deref().unwrap_or_default();
+            let inner_label_checked = props.inner_label_checked.as_ref();
+            html! {
+                <>
+                    <div class={classes!("bp3-control-indicator-child")}>
+                        <div class={classes!("bp3-switch-inner-text")}>
+                            {
+                                if let Some(label_checked) = inner_label_checked {
+                                    label_checked.clone()
+                                } else {
+                                    inner_label.to_string()
                                 }
-                            </div>
+                            }
                         </div>
-                        <div class=classes!("bp3-control-indicator-child")>
-                            <div class=classes!("bp3-switch-inner-text")>
-                                {inner_label.to_string()}
-                            </div>
+                    </div>
+                    <div class={classes!("bp3-control-indicator-child")}>
+                        <div class={classes!("bp3-switch-inner-text")}>
+                            {inner_label.to_string()}
                         </div>
-                    </>
-                }
-            } else {
-                Html::default()
+                    </div>
+                </>
             }
-        };
-        html! {
-            <label
-                class=classes!(
-                    "bp3-control",
-                    "bp3-switch",
-                    self.props.disabled.then(|| "bp3-disabled"),
-                    self.props.inline.then(|| "bp3-inline"),
-                    self.props.large.then(|| "bp3-large"),
-                    self.props.class.clone(),
-                    if self.props.align_right {
-                        "bp3-align-right"
-                    } else {
-                        "bp3-align-left"
-                    },
-                )
-            >
-            <input
-                type="checkbox"
-                checked={self.props.checked}
-                onclick={self.props.onclick.clone()}
-                disabled=self.props.disabled
-            />
-            <span
-                class=classes!("bp3-control-indicator")
-            >
-                {display_label}
-            </span>
-            {self.props.label.clone()}
-            </label>
+        } else {
+            Html::default()
         }
+    };
+    html! {
+        <label
+            class={classes!(
+                "bp3-control",
+                "bp3-switch",
+                props.disabled.then(|| "bp3-disabled"),
+                props.inline.then(|| "bp3-inline"),
+                props.large.then(|| "bp3-large"),
+                props.class.clone(),
+                if props.align_right {
+                    "bp3-align-right"
+                } else {
+                    "bp3-align-left"
+                },
+            )}
+        >
+        <input
+            type="checkbox"
+            checked={props.checked}
+            onclick={props.onclick.clone()}
+            disabled={props.disabled}
+        />
+        <span
+            class={classes!("bp3-control-indicator")}
+        >
+            {display_label}
+        </span>
+        {props.label.clone()}
+        </label>
     }
 }

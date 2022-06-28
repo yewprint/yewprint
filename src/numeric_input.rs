@@ -1,7 +1,9 @@
 use crate::{Button, ButtonGroup, ControlGroup, IconName, InputGroup, Intent};
 use std::fmt::Display;
+use std::marker::PhantomData;
 use std::ops::{Add, Bound, RangeBounds, Sub};
 use std::str::FromStr;
+use web_sys::HtmlInputElement;
 use yew::html::IntoPropValue;
 use yew::prelude::*;
 
@@ -16,9 +18,8 @@ where
         + PartialOrd
         + 'static,
 {
-    props: NumericInputProps<T>,
-    link: ComponentLink<Self>,
     input: String,
+    phantom: PhantomData<T>,
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -84,42 +85,46 @@ where
     type Message = Msg;
     type Properties = NumericInputProps<T>;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(_ctx: &Context<Self>) -> Self {
         Self {
-            props,
-            link,
             input: Default::default(),
+            phantom: PhantomData,
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
+        let mut update_value = |new_value| {
+            let new_value = ctx.props().bounds.clamp(new_value, ctx.props().increment);
+
+            if new_value != ctx.props().value {
+                self.input = new_value.to_string();
+                ctx.props().onchange.emit(new_value);
+                true
+            } else {
+                false
+            }
+        };
+
         match msg {
             Msg::InputUpdate(new_value) => {
                 if let Ok(new_value) = new_value.trim().parse::<T>() {
-                    self.update_value(new_value)
+                    update_value(new_value)
                 } else {
                     false
                 }
             }
-            Msg::Up => self.update_value(self.props.value + self.props.increment),
-            Msg::Down => self.update_value(self.props.value - self.props.increment),
+            Msg::Up => update_value(ctx.props().value + ctx.props().increment),
+            Msg::Down => update_value(ctx.props().value - ctx.props().increment),
             Msg::Noop => false,
         }
     }
 
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        if self.props != props {
-            if self.props.value != props.value {
-                self.input = props.value.to_string();
-            }
-            self.props = props;
-            true
-        } else {
-            false
-        }
+    fn changed(&mut self, ctx: &Context<Self>) -> bool {
+        self.input = ctx.props().value.to_string();
+        true
     }
 
-    fn view(&self) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         let NumericInputProps {
             value,
             increment,
@@ -127,8 +132,9 @@ where
             disable_buttons,
             buttons_on_the_left,
             ..
-        } = self.props;
-        let bounds = &self.props.bounds;
+        } = *ctx.props();
+
+        let bounds = &ctx.props().bounds;
         let button_up_disabled = disabled || bounds.clamp(value + increment, increment) == value;
         let button_down_disabled = disabled || bounds.clamp(value - increment, increment) == value;
 
@@ -136,16 +142,16 @@ where
             html!()
         } else {
             html! {
-                <ButtonGroup vertical=true class=classes!("bp3-fixed")>
+                <ButtonGroup vertical=true class={classes!("bp3-fixed")}>
                     <Button
-                        icon=IconName::ChevronUp
-                        disabled=button_up_disabled
-                        onclick=self.link.callback(|_| Msg::Up)
+                        icon={IconName::ChevronUp}
+                        disabled={button_up_disabled}
+                        onclick={ctx.link().callback(|_| Msg::Up)}
                     />
                     <Button
-                        icon=IconName::ChevronDown
-                        disabled=button_down_disabled
-                        onclick=self.link.callback(|_| Msg::Down)
+                        icon={IconName::ChevronDown}
+                        disabled={button_down_disabled}
+                        onclick={ctx.link().callback(|_| Msg::Down)}
                     />
                 </ButtonGroup>
             }
@@ -153,15 +159,18 @@ where
 
         let input_group = html! {
             <InputGroup
-                placeholder=self.props.placeholder.clone()
-                large=self.props.large
-                disabled=self.props.disabled
-                left_icon=self.props.left_icon
-                left_element=self.props.left_element.clone()
-                right_element=self.props.right_element.clone()
-                value=self.input.clone()
-                oninput=self.link.callback(|e: InputData| Msg::InputUpdate(e.value))
-                onkeydown=self.link.callback(|e: KeyboardEvent| {
+                placeholder={ctx.props().placeholder.clone()}
+                large={ctx.props().large}
+                disabled={ctx.props().disabled}
+                left_icon={ctx.props().left_icon}
+                left_element={ctx.props().left_element.clone()}
+                right_element={ctx.props().right_element.clone()}
+                value={self.input.clone()}
+                oninput={ctx.link().callback(|e: InputEvent| {
+                    let value = e.target_unchecked_into::<HtmlInputElement>().value();
+                    Msg::InputUpdate(value)
+                })}
+                onkeydown={ctx.link().callback(|e: KeyboardEvent| {
                     if e.key() == "ArrowUp" {
                         Msg::Up
                     } else if e.key() == "ArrowDown" {
@@ -169,16 +178,16 @@ where
                     } else {
                         Msg::Noop
                     }
-                })
+                })}
             />
         };
 
         if buttons_on_the_left {
             html! {
                 <ControlGroup
-                    class=classes!("bp3-numeric-input")
-                    fill=self.props.fill
-                    large=self.props.large
+                    class={classes!("bp3-numeric-input")}
+                    fill={ctx.props().fill}
+                    large={ctx.props().large}
                 >
                     {buttons}
                     {input_group}
@@ -187,38 +196,14 @@ where
         } else {
             html! {
                 <ControlGroup
-                    class=classes!("bp3-numeric-input")
-                    fill=self.props.fill
-                    large=self.props.large
+                    class={classes!("bp3-numeric-input")}
+                    fill={ctx.props().fill}
+                    large={ctx.props().large}
                 >
                     {input_group}
                     {buttons}
                 </ControlGroup>
             }
-        }
-    }
-}
-
-impl<T> NumericInput<T>
-where
-    T: Add<Output = T>
-        + Sub<Output = T>
-        + Copy
-        + Display
-        + FromStr
-        + PartialEq
-        + PartialOrd
-        + 'static,
-{
-    fn update_value(&mut self, new_value: T) -> ShouldRender {
-        let new_value = self.props.bounds.clamp(new_value, self.props.increment);
-
-        if new_value != self.props.value {
-            self.input = new_value.to_string();
-            self.props.onchange.emit(new_value);
-            true
-        } else {
-            false
         }
     }
 }

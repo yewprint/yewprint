@@ -14,9 +14,9 @@ impl Component for SpinnerDoc {
     type Message = ExampleProps;
     type Properties = ();
 
-    fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         SpinnerDoc {
-            callback: link.callback(|x| x),
+            callback: ctx.link().callback(|x| x),
             state: ExampleProps {
                 intent: None,
                 size: 50,
@@ -24,16 +24,12 @@ impl Component for SpinnerDoc {
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         self.state = msg;
         true
     }
 
-    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
-        true
-    }
-
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         let example_props = self.state.clone();
         let source = crate::include_raw_html!(
             concat!(env!("OUT_DIR"), "/", file!(), ".html"),
@@ -42,19 +38,19 @@ impl Component for SpinnerDoc {
 
         html! {
             <div>
-                <H1 class=classes!("docs-title")>{"Spinner"}</H1>
+                <H1 class={classes!("docs-title")}>{"Spinner"}</H1>
                 <SourceCodeUrl />
                 <div>
                     <ExampleContainer
-                        source=source
-                        props=Some(html! {
+                        source={source}
+                        props={Some(html! {
                             <SpinnerProps
                                 callback={self.callback.clone()}
-                                props=example_props.clone()
+                                example_props={example_props.clone()}
                             />
-                        })
+                        })}
                     >
-                        <Example with example_props />
+                        <Example ..example_props />
                     </ExampleContainer>
                 </div>
             </div>
@@ -64,7 +60,7 @@ impl Component for SpinnerDoc {
 
 crate::build_example_prop_component! {
     SpinnerProps for ExampleProps =>
-    fn view(&self) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         html! {
             <div>
                 <H5>{"Props"}</H5>
@@ -78,10 +74,10 @@ crate::build_example_prop_component! {
                             (Some(Intent::Warning), "Warning".to_string()),
                             (Some(Intent::Danger), "Danger".to_string()),
                         ]}
-                        onchange=self.update_props(|props, intent| ExampleProps {
+                        onchange={self.update_props(ctx.props(), |props, intent| ExampleProps {
                             intent,
                             ..props
-                        })
+                        })}
                     />
                     <p
                         style="margin-top: 5px;"
@@ -89,7 +85,7 @@ crate::build_example_prop_component! {
                         {"Select Size:"}
                     </p>
                     <Slider<u32>
-                        selected=self.props.size
+                        selected={ctx.props().example_props.size}
                         values={vec![
                             (10, Some("10".into())),
                             (20, None),
@@ -102,10 +98,10 @@ crate::build_example_prop_component! {
                             (90, None),
                             (100, Some("100".into())),
                         ]}
-                        onchange=self.update_props(|props, size| ExampleProps {
+                        onchange={self.update_props(ctx.props(), |props, size| ExampleProps {
                             size,
                             ..props
-                        })
+                        })}
                     />
                 </div>
             </div>

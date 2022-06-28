@@ -1,7 +1,7 @@
-use std::time::Duration;
+use gloo::timers::callback::Timeout;
+use std::{convert::TryInto, time::Duration};
 use web_sys::Element;
 use yew::prelude::*;
-use yew::services::*;
 
 pub struct Collapse {
     height: Height,
@@ -11,10 +11,7 @@ pub struct Collapse {
     height_when_open: Option<String>,
     animation_state: AnimationState,
     contents_ref: NodeRef,
-    callback_delayed_state_change: Callback<()>,
-    handle_delayed_state_change: Option<Box<dyn Task>>,
-    props: CollapseProps,
-    link: ComponentLink<Self>,
+    handle_delayed_state_change: Option<Timeout>,
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -52,77 +49,83 @@ impl Component for Collapse {
     type Message = ();
     type Properties = CollapseProps;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         Collapse {
-            height: if props.is_open {
+            height: if ctx.props().is_open {
                 Height::Auto
             } else {
                 Height::Zero
             },
             overflow_visible: false,
             translated: false,
-            render_children: props.is_open || props.keep_children_mounted,
+            render_children: ctx.props().is_open || ctx.props().keep_children_mounted,
             height_when_open: None,
-            animation_state: if props.is_open {
+            animation_state: if ctx.props().is_open {
                 AnimationState::Open
             } else {
                 AnimationState::Closed
             },
             contents_ref: NodeRef::default(),
-            callback_delayed_state_change: link.callback(|_| ()),
             handle_delayed_state_change: None,
-            props,
-            link,
         }
     }
 
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        if self.props != props {
-            if props.is_open {
-                match self.animation_state {
-                    AnimationState::Open | AnimationState::Opening => {}
-                    _ => {
-                        self.animation_state = AnimationState::OpenStart;
-                        self.render_children = true;
-                        self.translated = false;
-                    }
-                }
-            } else {
-                match self.animation_state {
-                    AnimationState::Closed | AnimationState::Closing => {}
-                    _ => {
-                        self.animation_state = AnimationState::ClosingStart;
-                        self.height = Height::Full;
-                        self.translated = true;
-                    }
+    fn changed(&mut self, ctx: &Context<Self>) -> bool {
+        if ctx.props().is_open {
+            match self.animation_state {
+                AnimationState::Open | AnimationState::Opening => {}
+                _ => {
+                    self.animation_state = AnimationState::OpenStart;
+                    self.render_children = true;
+                    self.translated = false;
                 }
             }
-
-            self.props = props;
-            true
         } else {
-            false
+            match self.animation_state {
+                AnimationState::Closed | AnimationState::Closing => {}
+                _ => {
+                    self.animation_state = AnimationState::ClosingStart;
+                    self.height = Height::Full;
+                    self.translated = true;
+                }
+            }
         }
+
+        true
     }
 
-    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, ctx: &Context<Self>, _msg: Self::Message) -> bool {
         match self.animation_state {
             AnimationState::OpenStart => {
+                let link = ctx.link().clone();
                 self.animation_state = AnimationState::Opening;
                 self.height = Height::Full;
-                self.handle_delayed_state_change = Some(Box::new(TimeoutService::spawn(
-                    self.props.transition_duration,
-                    self.callback_delayed_state_change.clone(),
-                )));
+                self.handle_delayed_state_change = Some(Timeout::new(
+                    ctx.props()
+                        .transition_duration
+                        .as_millis()
+                        .try_into()
+                        .unwrap(),
+                    move || {
+                        link.send_message(());
+                    },
+                ));
                 true
             }
             AnimationState::ClosingStart => {
+                let link = ctx.link().clone();
                 self.animation_state = AnimationState::Closing;
                 self.height = Height::Zero;
-                self.handle_delayed_state_change = Some(Box::new(TimeoutService::spawn(
-                    self.props.transition_duration,
-                    self.callback_delayed_state_change.clone(),
-                )));
+                self.handle_delayed_state_change = Some(Timeout::new(
+                    ctx.props()
+                        .transition_duration
+                        .as_millis()
+                        .try_into()
+                        .unwrap(),
+                    move || {
+                        link.send_message(());
+                    },
+                ));
                 true
             }
             AnimationState::Opening => {
@@ -132,7 +135,7 @@ impl Component for Collapse {
             }
             AnimationState::Closing => {
                 self.animation_state = AnimationState::Closed;
-                if !self.props.keep_children_mounted {
+                if !ctx.props().keep_children_mounted {
                     self.render_children = false;
                 }
                 true
@@ -141,19 +144,19 @@ impl Component for Collapse {
         }
     }
 
-    fn rendered(&mut self, _first_render: bool) {
+    fn rendered(&mut self, ctx: &Context<Self>, _first_render: bool) {
         if self.render_children {
             let client_height = self.contents_ref.cast::<Element>().unwrap().client_height();
             self.height_when_open = Some(format!("{}px", client_height));
         }
 
         match self.animation_state {
-            AnimationState::OpenStart | AnimationState::ClosingStart => self.link.send_message(()),
+            AnimationState::OpenStart | AnimationState::ClosingStart => ctx.link().send_message(()),
             _ => {}
         }
     }
 
-    fn view(&self) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         let mut container_style = String::with_capacity(30);
         match (self.height, self.height_when_open.as_ref()) {
             (Height::Zero, _) => container_style.push_str("height: 0px; "),
@@ -179,19 +182,19 @@ impl Component for Collapse {
         }
 
         html! {
-            <div class=classes!("bp3-collapse") style={container_style}>
+            <div class={classes!("bp3-collapse")} style={container_style}>
                 <div
-                    class=classes!(
+                    class={classes!(
                         "bp3-collapse-body",
-                        self.props.class.clone(),
-                    )
+                        ctx.props().class.clone(),
+                    )}
                     style={content_style}
                     aria-hidden={(!self.render_children).then(|| "true")}
                     ref={self.contents_ref.clone()}
                 >
                     {
                         if self.render_children {
-                            self.props.children.clone()
+                            ctx.props().children.clone()
                         } else {
                             Default::default()
                         }

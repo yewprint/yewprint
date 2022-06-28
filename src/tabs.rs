@@ -1,12 +1,13 @@
 use std::collections::{hash_map::DefaultHasher, HashMap};
 use std::hash::{Hash, Hasher};
+use std::marker::PhantomData;
 use web_sys::HtmlElement;
 use yew::prelude::*;
 
 pub struct Tabs<T: Clone + PartialEq + Hash + 'static> {
-    props: TabsProps<T>,
     tab_refs: HashMap<u64, NodeRef>,
     indicator_ref: NodeRef,
+    phantom: PhantomData<T>,
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -34,8 +35,9 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
     type Message = ();
     type Properties = TabsProps<T>;
 
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        let tab_refs = props
+    fn create(ctx: &Context<Self>) -> Self {
+        let tab_refs = ctx
+            .props()
             .tabs
             .iter()
             .map(|x| {
@@ -46,62 +48,53 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
             })
             .collect::<HashMap<_, _>>();
 
-        Tabs {
-            props,
+        Self {
             tab_refs,
             indicator_ref: Default::default(),
+            phantom: PhantomData,
         }
     }
 
-    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, _ctx: &Context<Self>, _msg: Self::Message) -> bool {
         true
     }
 
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        if self.props != props {
-            self.props = props;
-            true
-        } else {
-            false
-        }
-    }
-
-    fn view(&self) -> Html {
-        let tabs = self
-            .props
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        let tabs = ctx
+            .props()
             .tabs
             .iter()
             .map(|x| {
                 let mut hasher = DefaultHasher::new();
                 x.id.hash(&mut hasher);
                 let id = hasher.finish();
-                let title_id = format!("bp3-tab-title_{}_{}", self.props.id, id);
-                let panel_id = format!("bp3-tab-panel_{}_{}", self.props.id, id);
-                let selected = self.props.selected_tab_id == x.id;
+                let title_id = format!("bp3-tab-title_{}_{}", ctx.props().id, id);
+                let panel_id = format!("bp3-tab-panel_{}_{}", ctx.props().id, id);
+                let selected = ctx.props().selected_tab_id == x.id;
                 (x, id, title_id, panel_id, selected)
             })
             .collect::<Vec<_>>();
 
         html! {
             <div
-                class=classes!(
+                class={classes!(
                     "bp3-tabs",
-                    self.props.vertical.then(|| "bp3-vertical"),
-                    self.props.class.clone(),
-                )
+                    ctx.props().vertical.then(|| "bp3-vertical"),
+                    ctx.props().class.clone(),
+                )}
             >
                 <div
-                    class=classes!(
+                    class={classes!(
                         "bp3-tab-list",
-                        self.props.large.then(|| "bp3-large"),
-                    )
+                        ctx.props().large.then(|| "bp3-large"),
+                    )}
                 >
                     {
-                        if self.props.animate {
+                        if ctx.props().animate {
                             html! {
                                 <div
                                     class="bp3-tab-indicator-wrapper"
-                                    ref=self.indicator_ref.clone()
+                                    ref={self.indicator_ref.clone()}
                                 >
                                     <div class="bp3-tab-indicator" />
                                 </div>
@@ -115,27 +108,27 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
                             .iter()
                             .map(|(props, id, title_id, panel_id, selected)| html! {
                                 <div
-                                    class=classes!(
+                                    class={classes!(
                                         "bp3-tab",
                                         props.title_class.clone(),
-                                    )
-                                    aria-disabled=props.disabled.then(|| "true")
-                                    aria-expanded=selected.to_string()
-                                    aria-selected=selected.to_string()
+                                    )}
+                                    aria-disabled={props.disabled.then(|| "true")}
+                                    aria-expanded={selected.to_string()}
+                                    aria-selected={selected.to_string()}
                                     role="tab"
                                     tabIndex={(!props.disabled).then(|| "0")}
-                                    id=title_id.to_string()
-                                    aria-controls=panel_id.to_string()
-                                    data-tab-id=id.to_string()
+                                    id={title_id.to_string()}
+                                    aria-controls={panel_id.to_string()}
+                                    data-tab-id={id.to_string()}
                                     onclick={(!props.disabled).then(|| {
                                         let tab_id = props.id.clone();
-                                        self
-                                            .props
+                                        ctx
+                                            .props()
                                             .onchange
                                             .reform(move |_| tab_id.clone())
                                     })}
-                                    key=*id
-                                    ref=self.tab_refs[id].clone()
+                                    key={*id}
+                                    ref={self.tab_refs[id].clone()}
                                 >
                                     { props.title.clone() }
                                 </div>
@@ -147,19 +140,19 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
                     tabs
                         .iter()
                         .filter(|(_, _, _, _, selected)| {
-                            !self.props.render_active_panel_only || *selected
+                            !ctx.props().render_active_panel_only || *selected
                         })
                         .map(|(props, id, title_id, panel_id, selected)| html! {
                             <div
-                                class=classes!(
+                                class={classes!(
                                     "bp3-tab-panel",
                                     selected.then(|| props.panel_class.clone()),
-                                )
-                                aria-labelledby=title_id.to_string()
-                                aria-hidden=(!selected).then(|| "true")
+                                )}
+                                aria-labelledby={title_id.to_string()}
+                                aria-hidden={(!selected).then(|| "true")}
                                 role="tabpanel"
-                                id=panel_id.to_string()
-                                key=*id
+                                id={panel_id.to_string()}
+                                key={*id}
                             >
                                 { props.panel.clone() }
                             </div>
@@ -170,10 +163,10 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
         }
     }
 
-    fn rendered(&mut self, _first_render: bool) {
-        if self.props.animate {
+    fn rendered(&mut self, ctx: &Context<Self>, _first_render: bool) {
+        if ctx.props().animate {
             let mut hasher = DefaultHasher::new();
-            self.props.selected_tab_id.hash(&mut hasher);
+            ctx.props().selected_tab_id.hash(&mut hasher);
             let id = hasher.finish();
             let indicator = self.indicator_ref.cast::<HtmlElement>().unwrap();
 

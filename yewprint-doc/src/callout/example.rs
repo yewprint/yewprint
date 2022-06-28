@@ -1,10 +1,5 @@
-use std::borrow::Cow;
 use yew::prelude::*;
 use yewprint::{Callout, Intent};
-
-pub struct Example {
-    props: ExampleProps,
-}
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct ExampleProps {
@@ -13,36 +8,15 @@ pub struct ExampleProps {
     pub show_title: bool,
 }
 
-impl Component for Example {
-    type Message = ();
-    type Properties = ExampleProps;
-
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        Example { props }
-    }
-
-    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
-        true
-    }
-
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        if self.props != props {
-            self.props = props;
-            true
-        } else {
-            false
-        }
-    }
-
-    fn view(&self) -> Html {
-        html! {
-            <Callout
-                title=self.props.show_title.then(|| Cow::Borrowed("Visually important content"))
-                without_icon=!self.props.show_icon
-                intent=self.props.intent
-            >
-                <p>{"The Callout element's background reflects its intent, if any."}</p>
-            </Callout>
-        }
+#[function_component(Example)]
+pub fn example(props: &ExampleProps) -> Html {
+    html! {
+        <Callout
+            title={props.show_title.then(|| "Visually important content")}
+            without_icon={!props.show_icon}
+            intent={props.intent}
+        >
+            <p>{"The Callout element's background reflects its intent, if any."}</p>
+        </Callout>
     }
 }

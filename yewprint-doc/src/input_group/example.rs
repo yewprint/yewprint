@@ -1,9 +1,9 @@
+use gloo::dialogs::alert;
+use web_sys::HtmlInputElement;
 use yew::prelude::*;
 use yewprint::{Button, IconName, InputGroup, Tag};
 
 pub struct Example {
-    link: ComponentLink<Self>,
-    props: ExampleProps,
     histogram_value: String,
     password_value: String,
     password_strength: Html,
@@ -29,22 +29,12 @@ pub enum Msg {
     Noop,
 }
 
-macro_rules! alert {
-    ($($arg:tt)*) => {
-        yew::services::DialogService::alert(&format!(
-            $($arg)*
-        ))
-    };
-}
-
 impl Component for Example {
     type Message = Msg;
     type Properties = ExampleProps;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(_ctx: &Context<Self>) -> Self {
         Example {
-            props,
-            link,
             histogram_value: Default::default(),
             password_value: Default::default(),
             password_strength: Default::default(),
@@ -52,10 +42,10 @@ impl Component for Example {
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> bool {
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             Msg::AddHistogramEntry => {
-                alert!("You sent: {}", self.histogram_value);
+                alert(&format!("You sent: {}", self.histogram_value));
                 self.histogram_value = Default::default();
                 true
             }
@@ -64,7 +54,7 @@ impl Component for Example {
                 true
             }
             Msg::AddPasswordEntry => {
-                alert!("You sent: {}", self.password_value);
+                alert(&format!("You sent: {}", self.password_value));
                 self.password_value = Default::default();
                 true
             }
@@ -81,7 +71,7 @@ impl Component for Example {
                 true
             }
             Msg::AddTagsEntry => {
-                alert!("You sent: {}", self.tags_value);
+                alert(&format!("You sent: {}", self.tags_value));
                 self.tags_value = Default::default();
                 true
             }
@@ -93,74 +83,76 @@ impl Component for Example {
         }
     }
 
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        if self.props != props {
-            self.props = props;
-            true
-        } else {
-            false
-        }
-    }
-
-    fn view(&self) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         html! {
             <>
                 <InputGroup
-                    fill=self.props.fill
-                    large=self.props.large
-                    small=self.props.small
-                    round=self.props.round
-                    disabled=self.props.disabled
-                    left_icon=IconName::Filter
+                    fill={ctx.props().fill}
+                    large={ctx.props().large}
+                    small={ctx.props().small}
+                    round={ctx.props().round}
+                    disabled={ctx.props().disabled}
+                    left_icon={IconName::Filter}
                     placeholder={"Filter histogram..."}
-                    value=self.histogram_value.clone()
-                    oninput=self.link.callback(|e: InputData| Msg::UpdateHistogram(e.value))
-                    onkeydown=self.link.callback(|e: KeyboardEvent| {
+                    value={self.histogram_value.clone()}
+                    oninput={ctx.link().callback(|e: InputEvent| {
+                        let value = e.target_unchecked_into::<HtmlInputElement>().value();
+                        Msg::UpdateHistogram(value)
+                    })}
+                    onkeydown={ctx.link().callback(|e: KeyboardEvent| {
                         if e.key() == "Enter" { Msg::AddHistogramEntry } else { Msg::Noop }
-                    })
+                    })}
                 />
                 <InputGroup
-                    fill=self.props.fill
-                    large=self.props.large
-                    small=self.props.small
-                    round=self.props.round
-                    disabled=self.props.disabled
-                    left_element=self.password_strength.clone()
+                    fill={ctx.props().fill}
+                    large={ctx.props().large}
+                    small={ctx.props().small}
+                    round={ctx.props().round}
+                    disabled={ctx.props().disabled}
+                    left_element={self.password_strength.clone()}
                     placeholder={"Enter your password..."}
-                    value=self.password_value.clone()
-                    oninput=self.link.callback(|e: InputData| Msg::UpdatePassword(e.value))
-                    onkeydown=self.link.callback(|e: KeyboardEvent| {
+                    value={self.password_value.clone()}
+                    oninput={ctx.link().callback(|e: InputEvent| {
+                        let value = e.target_unchecked_into::<HtmlInputElement>().value();
+                        Msg::UpdatePassword(value)
+                    })}
+                    onkeydown={ctx.link().callback(|e: KeyboardEvent| {
                         if e.key() == "Enter" { Msg::AddPasswordEntry } else { Msg::Noop }
-                    })
-                    right_element=html! {
+                    })}
+                    right_element={{ html! {
                         <Button
-                            icon=IconName::Lock
-                            minimal=true
-                            disabled=self.props.disabled
+                            icon={IconName::Lock}
+                            minimal={true}
+                            disabled={ctx.props().disabled}
                         />
-                    }
+                    }}}
                 />
                 <InputGroup
-                    fill=self.props.fill
-                    large=self.props.large
-                    small=self.props.small
-                    round=self.props.round
-                    disabled=self.props.disabled
-                    left_icon=IconName::Tag
+                    fill={ctx.props().fill}
+                    large={ctx.props().large}
+                    small={ctx.props().small}
+                    round={ctx.props().round}
+                    disabled={ctx.props().disabled}
+                    left_icon={IconName::Tag}
                     placeholder={"Find tags"}
-                    value=self.tags_value.clone()
-                    oninput=self.link.callback(|e: InputData| Msg::UpdateTags(e.value))
-                    onkeydown=self.link.callback(|e: KeyboardEvent| {
+                    value={self.tags_value.clone()}
+                    oninput={ctx.link().callback(|e: InputEvent| {
+                        let value = e.target_unchecked_into::<HtmlInputElement>().value();
+                        Msg::UpdateTags(value)
+                    })}
+                    onkeydown={ctx.link().callback(|e: KeyboardEvent| {
                         if e.key() == "Enter" { Msg::AddTagsEntry } else { Msg::Noop }
-                    })
-                    right_element=html! {
-                        <Tag
-                            minimal=true
-                            round=self.props.round
-                        >
-                            {{10000 / 1.max(self.tags_value.len().pow(2))}}
-                        </Tag>
-                    }
+                    })}
+                    right_element={{
+                        html!{
+                            <Tag
+                                minimal={true}
+                                round={ctx.props().round}
+                            >
+                                { (10000 / 1.max(self.tags_value.len().pow(2))).to_string() }
+                            </Tag>
+                        }
+                    }}
                 />
             </>
         }

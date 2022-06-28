@@ -14,9 +14,9 @@ impl Component for PanelStackDoc {
     type Message = ExampleProps;
     type Properties = ();
 
-    fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         PanelStackDoc {
-            callback: link.callback(|x| x),
+            callback: ctx.link().callback(|x| x),
             state: ExampleProps {
                 animate: true,
                 vertical: false,
@@ -24,16 +24,12 @@ impl Component for PanelStackDoc {
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         self.state = msg;
         true
     }
 
-    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
-        true
-    }
-
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         let example_props = self.state.clone();
         let source = crate::include_raw_html!(
             concat!(env!("OUT_DIR"), "/", file!(), ".html"),
@@ -42,14 +38,14 @@ impl Component for PanelStackDoc {
 
         html! {
             <div>
-                <H1 class=classes!("docs-title")>{"PanelStack"}</H1>
+                <H1 class={classes!("docs-title")}>{"PanelStack"}</H1>
                 <SourceCodeUrl />
                 <div>
                     <ExampleContainer
-                        source=source
-                        props=None
+                        source={source}
+                        props={None}
                     >
-                        <Example with example_props />
+                        <Example ..example_props />
                     </ExampleContainer>
                 </div>
             </div>

@@ -14,9 +14,9 @@ impl Component for ButtonDoc {
     type Message = ExampleProps;
     type Properties = ();
 
-    fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         ButtonDoc {
-            callback: link.callback(|x| x),
+            callback: ctx.link().callback(|x| x),
             state: ExampleProps {
                 minimal: false,
                 fill: false,
@@ -30,37 +30,35 @@ impl Component for ButtonDoc {
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         self.state = msg;
         true
     }
 
-    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
-        true
-    }
-
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         let example_props = self.state.clone();
         let source = crate::include_raw_html!(
             concat!(env!("OUT_DIR"), "/", file!(), ".html"),
             "bp3-code-block"
         );
 
+        let props_component = html! {
+            <ButtonProps
+                callback={self.callback.clone()}
+                example_props={example_props.clone()}
+            />
+        };
+
         html! {
             <div>
-                <H1 class=classes!("docs-title")>{"Button"}</H1>
+                <H1 class={classes!("docs-title")}>{"Button"}</H1>
                 <SourceCodeUrl />
                 <div>
                     <ExampleContainer
-                        source=source
-                        props=Some(html! {
-                            <ButtonProps
-                                callback={self.callback.clone()}
-                                props=example_props.clone()
-                            />
-                        })
+                        source={source}
+                        props={Some(props_component)}
                     >
-                        <Example with example_props />
+                        <Example ..example_props />
                     </ExampleContainer>
                 </div>
             </div>
@@ -70,77 +68,77 @@ impl Component for ButtonDoc {
 
 crate::build_example_prop_component! {
     ButtonProps for ExampleProps =>
-    fn view(&self) -> Html {
-        html! {
-            <div>
-                <H5>{"Props"}</H5>
-                <Switch
-                    onclick=self.update_props(|props, _| ExampleProps {
-                        minimal: !props.minimal,
-                        ..props
-                    })
-                    checked=self.props.minimal
-                    label=html!("Minimal")
-                />
-                <Switch
-                    onclick=self.update_props(|props, _| ExampleProps {
-                        fill: !props.fill,
-                        ..props
-                    })
-                    checked=self.props.fill
-                    label=html!("Fill")
-                />
-                <Switch
-                    onclick=self.update_props(|props, _| ExampleProps {
-                        small: !props.small,
-                        ..props
-                    })
-                    checked=self.props.small
-                    label=html!("Small")
-                />
-                <Switch
-                    onclick=self.update_props(|props, _| ExampleProps {
-                        outlined: !props.outlined,
-                        ..props
-                    })
-                    checked=self.props.outlined
-                    label=html!("Outlined")
-                />
-                <Switch
-                    onclick=self.update_props(|props, _| ExampleProps {
-                        loading: !props.loading,
-                        ..props
-                    })
-                    checked=self.props.loading
-                    label=html!("Loading")
-                />
-                <Switch
-                    onclick=self.update_props(|props, _| ExampleProps {
-                        large: !props.large,
-                        ..props
-                    })
-                    checked=self.props.large
-                    label=html!("Large")
-                />
-                <Switch
-                    onclick=self.update_props(|props, _| ExampleProps {
-                        active: !props.active,
-                        ..props
-                    })
-                    checked=self.props.active
-                    label=html!("Active")
-                />
-                <Switch
-                    onclick=self.update_props(|props, _| ExampleProps {
-                        disabled: !props.disabled,
-                        ..props
-                    })
-                    checked=self.props.disabled
-                    label=html!("Disabled")
-                />
-            </div>
+        fn view(&self, ctx: &Context<Self>) -> Html {
+            html! {
+                <div>
+                    <H5>{"Props"}</H5>
+                    <Switch
+                        onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
+                            minimal: !props.minimal,
+                            ..props
+                        })}
+                        checked={ctx.props().example_props.minimal}
+                        label={html!("Minimal")}
+                    />
+                    <Switch
+                        onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
+                            fill: !props.fill,
+                            ..props
+                        })}
+                        checked={ctx.props().example_props.fill}
+                        label={html!("Fill")}
+                    />
+                    <Switch
+                        onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
+                            small: !props.small,
+                            ..props
+                        })}
+                        checked={ctx.props().example_props.small}
+                        label={html!("Small")}
+                    />
+                    <Switch
+                        onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
+                            outlined: !props.outlined,
+                            ..props
+                        })}
+                        checked={ctx.props().example_props.outlined}
+                        label={html!("Outlined")}
+                    />
+                    <Switch
+                        onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
+                            loading: !props.loading,
+                            ..props
+                        })}
+                        checked={ctx.props().example_props.loading}
+                        label={html!("Loading")}
+                    />
+                    <Switch
+                        onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
+                            large: !props.large,
+                            ..props
+                        })}
+                        checked={ctx.props().example_props.large}
+                        label={html!("Large")}
+                    />
+                    <Switch
+                        onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
+                            active: !props.active,
+                            ..props
+                        })}
+                        checked={ctx.props().example_props.active}
+                        label={html!("Active")}
+                    />
+                    <Switch
+                        onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
+                            disabled: !props.disabled,
+                            ..props
+                        })}
+                        checked={ctx.props().example_props.disabled}
+                        label={html!("Disabled")}
+                    />
+                </div>
+            }
         }
-    }
 }
 
 crate::build_source_code_component!();

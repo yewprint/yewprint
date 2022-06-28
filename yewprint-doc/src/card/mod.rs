@@ -14,9 +14,9 @@ impl Component for CardDoc {
     type Message = ExampleProps;
     type Properties = ();
 
-    fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         CardDoc {
-            callback: link.callback(|x| x),
+            callback: ctx.link().callback(|x| x),
             state: ExampleProps {
                 elevation: Elevation::Level0,
                 interactive: false,
@@ -24,16 +24,12 @@ impl Component for CardDoc {
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         self.state = msg;
         true
     }
 
-    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
-        true
-    }
-
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         let example_props = self.state.clone();
         let source = crate::include_raw_html!(
             concat!(env!("OUT_DIR"), "/", file!(), ".html"),
@@ -42,18 +38,18 @@ impl Component for CardDoc {
 
         html! {
             <div>
-                <H1 class=classes!("docs-title")>{"Card"}</H1>
+                <H1 class={classes!("docs-title")}>{"Card"}</H1>
                 <SourceCodeUrl />
                 <ExampleContainer
-                    source=source
-                    props=Some(html! {
+                    source={source}
+                    props={Some(html! {
                         <CardProps
                             callback={self.callback.clone()}
-                            props=example_props.clone()
+                            example_props={example_props.clone()}
                         />
-                    })
+                    })}
                 >
-                    <Example with example_props />
+                    <Example ..example_props />
                 </ExampleContainer>
             </div>
         }
@@ -62,18 +58,20 @@ impl Component for CardDoc {
 
 crate::build_example_prop_component! {
     CardProps for ExampleProps =>
-        fn view(&self) -> Html {
+        fn view(&self, ctx: &Context<Self>) -> Html {
+            let props = ctx.props();
+
             html! {
                 <div>
                     <H5>{"Props"}</H5>
                     <div>
                         <Switch
-                            onclick=self.update_props(|props, _| ExampleProps {
+                            onclick={self.update_props(props, |props, _| ExampleProps {
                                 interactive: !props.interactive,
                                 ..props
-                            })
-                            checked=self.props.interactive
-                            label=html!("Toggle interaction")
+                            })}
+                            checked={ctx.props().example_props.interactive}
+                            label={html!("Toggle interaction")}
                         />
                         <p>{"Elevation:"}</p>
                         <HtmlSelect<Elevation>
@@ -84,11 +82,11 @@ crate::build_example_prop_component! {
                                 (Elevation::Level3, "Level 3".to_string()),
                                 (Elevation::Level4, "Level 4".to_string()),
                             ]}
-                            value=self.props.elevation
-                            onchange=self.update_props(|props, elevation| ExampleProps {
+                            value={ctx.props().example_props.elevation}
+                            onchange={self.update_props(props, |props, elevation| ExampleProps {
                                 elevation,
                                 ..props
-                            })
+                            })}
                         />
                     </div>
                 </div>

@@ -11,19 +11,15 @@ impl Component for MenuDoc {
     type Message = ();
     type Properties = ();
 
-    fn create(_: Self::Properties, _link: ComponentLink<Self>) -> Self {
+    fn create(_ctx: &Context<Self>) -> Self {
         MenuDoc
     }
 
-    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, _ctx: &Context<Self>, _msg: Self::Message) -> bool {
         true
     }
 
-    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
-        true
-    }
-
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         let source = crate::include_raw_html!(
             concat!(env!("OUT_DIR"), "/", file!(), ".html"),
             "bp3-code-block"
@@ -31,9 +27,9 @@ impl Component for MenuDoc {
 
         html! {
             <div>
-                <H1 class=classes!("docs-title")>{"Menu"}</H1>
+                <H1 class={classes!("docs-title")}>{"Menu"}</H1>
                 <SourceCodeUrl />
-                <ExampleContainer source=source>
+                <ExampleContainer source={source}>
                     <Example />
                 </ExampleContainer>
             </div>

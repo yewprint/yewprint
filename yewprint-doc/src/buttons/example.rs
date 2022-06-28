@@ -2,9 +2,7 @@ use yew::prelude::*;
 use yewprint::Button;
 
 pub struct Example {
-    link: ComponentLink<Self>,
     counter: i64,
-    props: ExampleProps,
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -27,45 +25,32 @@ impl Component for Example {
     type Message = Msg;
     type Properties = ExampleProps;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
-        Example {
-            counter: 0,
-            link,
-            props,
-        }
+    fn create(_ctx: &Context<Self>) -> Self {
+        Example { counter: 0 }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             Msg::AddOne => self.counter += 1,
         }
         true
     }
 
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        if self.props != props {
-            self.props = props;
-            true
-        } else {
-            false
-        }
-    }
-
-    fn view(&self) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         html! {
             <div>
                 <p>{"Counter: "}{self.counter}</p>
                 <div>
                     <Button
-                        onclick=self.link.callback(|_| Msg::AddOne)
-                        minimal=self.props.minimal
-                        fill=self.props.fill
-                        small=self.props.small
-                        outlined=self.props.outlined
-                        loading=self.props.loading
-                        large=self.props.large
-                        active=self.props.active
-                        disabled=self.props.disabled
+                        onclick={ctx.link().callback(|_| Msg::AddOne)}
+                        minimal={ctx.props().minimal}
+                        fill={ctx.props().fill}
+                        small={ctx.props().small}
+                        outlined={ctx.props().outlined}
+                        loading={ctx.props().loading}
+                        large={ctx.props().large}
+                        active={ctx.props().active}
+                        disabled={ctx.props().disabled}
                     >
                         {"Add 1"}
                     </Button>

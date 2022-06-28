@@ -2,8 +2,6 @@ use yew::prelude::*;
 use yewprint::{Tab, Tabs};
 
 pub struct Example {
-    link: ComponentLink<Self>,
-    props: ExampleProps,
     selected: Civilization,
 }
 
@@ -17,15 +15,13 @@ impl Component for Example {
     type Message = Civilization;
     type Properties = ExampleProps;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(_ctx: &Context<Self>) -> Self {
         Example {
-            link,
-            props,
             selected: Civilization::Minoan,
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         if self.selected != msg {
             self.selected = msg;
             true
@@ -34,25 +30,16 @@ impl Component for Example {
         }
     }
 
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        if self.props != props {
-            self.props = props;
-            true
-        } else {
-            false
-        }
-    }
-
-    fn view(&self) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         html! {
             <div>
                 <Tabs<Civilization>
                     id="civilizations"
-                    animate=self.props.animate
-                    vertical=self.props.vertical
-                    selected_tab_id=self.selected
-                    onchange=self.link.callback(|x| x)
-                    tabs=vec![
+                    animate={ctx.props().animate}
+                    vertical={ctx.props().vertical}
+                    selected_tab_id={self.selected}
+                    onchange={ctx.link().callback(|x| x)}
+                    tabs={vec![
                         Tab {
                             disabled: false,
                             id: Civilization::Sumer,
@@ -133,7 +120,7 @@ impl Component for Example {
                             panel_class: Classes::default(),
                             title_class: Classes::default(),
                         },
-                    ]
+                    ]}
                 />
             </div>
         }

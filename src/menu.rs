@@ -1,10 +1,5 @@
 use crate::{Icon, IconName, Intent, H6};
-use std::borrow::Cow;
 use yew::prelude::*;
-
-pub struct Menu {
-    props: MenuProps,
-}
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct MenuProps {
@@ -17,45 +12,20 @@ pub struct MenuProps {
     pub children: html::Children,
 }
 
-impl Component for Menu {
-    type Message = ();
-    type Properties = MenuProps;
-
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        Menu { props }
+#[function_component(Menu)]
+pub fn menu(props: &MenuProps) -> Html {
+    html! {
+        <ul
+            class={classes!(
+                "bp3-menu",
+                props.large.then(|| "bp3-large"),
+                props.class.clone(),
+            )}
+            ref={props.r#ref.clone()}
+        >
+            {props.children.clone()}
+        </ul>
     }
-
-    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
-        true
-    }
-
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        if self.props != props {
-            self.props = props;
-            true
-        } else {
-            false
-        }
-    }
-
-    fn view(&self) -> Html {
-        html! {
-            <ul
-                class=classes!(
-                    "bp3-menu",
-                    self.props.large.then(|| "bp3-large"),
-                    self.props.class.clone(),
-                )
-                ref={self.props.r#ref.clone()}
-            >
-                {self.props.children.clone()}
-            </ul>
-        }
-    }
-}
-
-pub struct MenuItem {
-    props: MenuItemProps,
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -71,7 +41,7 @@ pub struct MenuItemProps {
     #[prop_or_default]
     pub disabled: bool,
     #[prop_or_default]
-    pub href: Option<Cow<'static, str>>,
+    pub href: Option<String>,
     #[prop_or_default]
     pub label: Option<yew::virtual_dom::VNode>,
     #[prop_or_default]
@@ -89,83 +59,58 @@ pub struct MenuItemProps {
     // TODO: pub children: html::Children,
 }
 
-impl Component for MenuItem {
-    type Message = ();
-    type Properties = MenuItemProps;
-
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        MenuItem { props }
-    }
-
-    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
-        true
-    }
-
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        if self.props != props {
-            self.props = props;
-            true
-        } else {
-            false
-        }
-    }
-
-    fn view(&self) -> Html {
-        html! {
-            <li>
-                <a
-                    class=classes!(
-                        "bp3-menu-item",
-                        self.props.active.then(|| "bp3-active"),
-                        self.props.disabled.then(|| "bp3-disabled"),
-                        self.props.intent
-                            .or_else(|| self.props.active.then(|| Intent::Primary)),
-                        self.props.class.clone(),
-                    )
-                    href={(!self.props.disabled).then(|| self.props.href.clone())}.flatten()
-                    tabIndex={(!self.props.disabled).then(|| "0")}
-                    onclick={(!self.props.disabled).then(|| self.props.onclick.clone())}
-                >
-                    {
-                        if let Some(icon_name) = self.props.icon {
-                            html! {
-                                <Icon icon={icon_name} />
-                            }
-                        } else if let Some(html) = self.props.icon_html.clone() {
-                            html
-                        } else {
-                            html! {
-                                <Icon icon=IconName::Blank />
-                            }
+#[function_component(MenuItem)]
+pub fn menu_item(props: &MenuItemProps) -> Html {
+    html! {
+        <li>
+            <a
+                class={classes!(
+                    "bp3-menu-item",
+                    props.active.then(|| "bp3-active"),
+                    props.disabled.then(|| "bp3-disabled"),
+                    props.intent
+                        .or_else(|| props.active.then(|| Intent::Primary)),
+                    props.class.clone(),
+                )}
+                href={(!props.disabled).then(|| props.href.clone()).flatten()}
+                tabIndex={(!props.disabled).then(|| "0")}
+                onclick={(!props.disabled).then(|| props.onclick.clone())}
+            >
+                {
+                    if let Some(icon_name) = props.icon {
+                        html! {
+                            <Icon icon={icon_name} />
+                        }
+                    } else if let Some(html) = props.icon_html.clone() {
+                        html
+                    } else {
+                        html! {
+                            <Icon icon={IconName::Blank} />
                         }
                     }
-                    <div class=classes!("bp3-text", "bp3-fill", self.props.text_class.clone())>
-                        {self.props.text.clone()}
-                    </div>
-                    {
-                        if let Some(label) = self.props.label.clone() {
-                            html! {
-                                <span
-                                    class=classes!(
-                                        "bp3-menu-item-label",
-                                        self.props.label_class.clone())
-                                >
-                                    {label}
-                                </span>
-                            }
-                        } else {
-                            html!()
+                }
+                <div class={classes!("bp3-text", "bp3-fill", props.text_class.clone())}>
+                    {props.text.clone()}
+                </div>
+                {
+                    if let Some(label) = props.label.clone() {
+                        html! {
+                            <span
+                                class={classes!(
+                                    "bp3-menu-item-label",
+                                    props.label_class.clone())}
+                            >
+                                {label}
+                            </span>
                         }
+                    } else {
+                        html!()
                     }
+                }
 
-                </a>
-            </li>
-        }
+            </a>
+        </li>
     }
-}
-
-pub struct MenuDivider {
-    props: MenuDividerProps,
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -174,42 +119,21 @@ pub struct MenuDividerProps {
     pub title: Option<yew::virtual_dom::VNode>,
 }
 
-impl Component for MenuDivider {
-    type Message = ();
-    type Properties = MenuDividerProps;
-
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        Self { props }
-    }
-
-    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
-        true
-    }
-
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        if self.props != props {
-            self.props = props;
-            true
-        } else {
-            false
-        }
-    }
-
-    fn view(&self) -> Html {
-        html! {
-            if let Some(title) = self.props.title.clone() {
-                html! {
-                    <li
-                        class=classes!("bp3-menu-header")
-                    >
-                        <H6>{title}</H6>
-                    </li>
-                }
-            } else {
-                html! {
-                    <li class=classes!("bp3-menu-divider") />
-                }
+#[function_component(MenuDivider)]
+pub fn menu_divider(props: &MenuDividerProps) -> Html {
+    html! {
+        {if let Some(title) = props.title.clone() {
+            html! {
+                <li
+                    class={classes!("bp3-menu-header")}
+                >
+                    <H6>{title}</H6>
+                </li>
             }
-        }
+        } else {
+            html! {
+                <li class={classes!("bp3-menu-divider")} />
+            }
+        }}
     }
 }

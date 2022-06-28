@@ -1,10 +1,6 @@
 use yew::prelude::*;
 use yewprint::{Label, Switch};
 
-pub struct Example {
-    props: ExampleProps,
-}
-
 #[derive(Clone, PartialEq, Properties)]
 pub struct ExampleProps {
     pub disabled: bool,
@@ -13,63 +9,41 @@ pub struct ExampleProps {
     pub align_right: bool,
 }
 
-impl Component for Example {
-    type Message = ();
-    type Properties = ExampleProps;
-
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        Example { props }
-    }
-
-    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
-        true
-    }
-
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        if self.props != props {
-            self.props = props;
-            true
-        } else {
-            false
-        }
-    }
-
-    fn view(&self) -> Html {
-        html! {
-            <div>
-                <Label>{"Privacy settings"}</Label>
-                <Switch
-                    disabled=self.props.disabled
-                    inline=self.props.inline
-                    large=self.props.large
-                    label=html!{<strong>{"Enabled"}</strong>}
-                    align_right=self.props.align_right
-                />
-                <Switch
-                    disabled=self.props.disabled
-                    inline=self.props.inline
-                    large=self.props.large
-                    label=html!{<em>{"Public"}</em>}
-                    align_right=self.props.align_right
-                />
-                <Switch
-                    disabled=self.props.disabled
-                    inline=self.props.inline
-                    large=self.props.large
-                    checked=true
-                    label=html!{<u>{"Cooperative"}</u>}
-                    align_right=self.props.align_right
-                />
-                <Switch
-                    disabled=self.props.disabled
-                    inline=self.props.inline
-                    large=self.props.large
-                    label=html!{"Containing Text"}
-                    inner_label_checked={"on".to_string()}
-                    inner_label={"off".to_string()}
-                    align_right=self.props.align_right
-                />
-            </div>
-        }
+#[function_component(Example)]
+pub fn example(props: &ExampleProps) -> Html {
+    html! {
+        <div>
+            <Label>{"Privacy settings"}</Label>
+            <Switch
+                disabled={props.disabled}
+                inline={props.inline}
+                large={props.large}
+                align_right={props.align_right}
+                label={html!("Enabled")}
+            />
+            <Switch
+                disabled={props.disabled}
+                inline={props.inline}
+                large={props.large}
+                align_right={props.align_right}
+                label={html!(<em>{"Public"}</em>)}
+            />
+            <Switch
+                disabled={props.disabled}
+                inline={props.inline}
+                large={props.large}
+                align_right={props.align_right}
+                label={html!(<strong>{"Cooperative"}</strong>)}
+            />
+            <Switch
+                disabled={props.disabled}
+                inline={props.inline}
+                large={props.large}
+                align_right={props.align_right}
+                label={html!(<u>{"Containing Text"}</u>)}
+                inner_label_checked={"on".to_string()}
+                inner_label={"off".to_string()}
+            />
+        </div>
     }
 }

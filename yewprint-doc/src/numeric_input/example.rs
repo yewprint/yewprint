@@ -1,10 +1,7 @@
-use std::borrow::Cow;
 use yew::prelude::*;
 use yewprint::{Button, Callout, IconName, Intent, NumericInput};
 
 pub struct Example {
-    props: ExampleProps,
-    link: ComponentLink<Self>,
     value: i32,
     value_two: i32,
 }
@@ -29,16 +26,14 @@ impl Component for Example {
     type Message = Msg;
     type Properties = ExampleProps;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(_ctx: &Context<Self>) -> Self {
         Example {
-            props,
-            link,
             value: 0,
             value_two: 0,
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             Msg::Reset => {
                 self.value = 4;
@@ -54,52 +49,43 @@ impl Component for Example {
         true
     }
 
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        if self.props != props {
-            self.props = props;
-            true
-        } else {
-            false
-        }
-    }
-
-    fn view(&self) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         html! {
             <>
             <NumericInput<i32>
-                disabled=self.props.disabled
-                fill=self.props.large
-                value=self.value
+                disabled={ctx.props().disabled}
+                fill={ctx.props().large}
+                value={self.value}
                 bounds={-105..}
                 increment=10
-                placeholder=String::from("Greater or equal to -105...")
-                onchange=self.link.callback(|x| Msg::UpdateValue(x))
-                disable_buttons=self.props.disable_buttons
-                buttons_on_the_left=self.props.buttons_on_the_left
-                left_icon=self.props.left_icon.then(|| IconName::Dollar)
+                placeholder={String::from("Greater or equal to -105...")}
+                onchange={ctx.link().callback(|x| Msg::UpdateValue(x))}
+                disable_buttons={ctx.props().disable_buttons}
+                buttons_on_the_left={ctx.props().buttons_on_the_left}
+                left_icon={ctx.props().left_icon.then(|| IconName::Dollar)}
             />
             <NumericInput<i32>
-                disabled=self.props.disabled
-                fill=self.props.fill
-                large=self.props.large
-                value=self.value_two
+                disabled={ctx.props().disabled}
+                fill={ctx.props().fill}
+                large={ctx.props().large}
+                value={self.value_two}
                 bounds={-10..=10}
                 increment=1
-                placeholder=String::from("Integer between -10 and 10")
-                onchange=self.link.callback(|x| Msg::UpdateValueTwo(x))
-                disable_buttons=self.props.disable_buttons
-                buttons_on_the_left=self.props.buttons_on_the_left
-                left_icon=self.props.left_icon.then(|| IconName::Dollar)
+                placeholder={String::from("Integer between -10 and 10")}
+                onchange={ctx.link().callback(|x| Msg::UpdateValueTwo(x))}
+                disable_buttons={ctx.props().disable_buttons}
+                buttons_on_the_left={ctx.props().buttons_on_the_left}
+                left_icon={ctx.props().left_icon.then(|| IconName::Dollar)}
             />
             <Button
-                icon=IconName::Refresh
-                onclick=self.link.callback(|_| Msg::Reset)
+                icon={IconName::Refresh}
+                onclick={ctx.link().callback(|_| Msg::Reset)}
             >
                 {"Reset at 4"}
             </Button>
             <Callout
-                title=Cow::Borrowed("Selected values")
-                intent=Intent::Primary
+                title={"Selected values"}
+                intent={Intent::Primary}
             >
                 <ul>
                     <li>{self.value}</li>

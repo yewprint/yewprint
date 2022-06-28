@@ -3,11 +3,9 @@ use yew::prelude::*;
 use yewprint::{Intent, Slider, Tag};
 
 pub struct Example {
-    props: ExampleProps,
     float: f64,
     integer: i32,
     log_level: Option<LogLevel>,
-    link: ComponentLink<Self>,
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -27,17 +25,15 @@ impl Component for Example {
     type Message = Msg;
     type Properties = ExampleProps;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(_ctx: &Context<Self>) -> Self {
         Example {
-            props,
             float: 1.2,
             integer: 30,
             log_level: None,
-            link,
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             Msg::FloatUpdate(value) => {
                 self.float = value;
@@ -53,16 +49,7 @@ impl Component for Example {
         true
     }
 
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        if self.props != props {
-            self.props = props;
-            true
-        } else {
-            false
-        }
-    }
-
-    fn view(&self) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         let percentage_labels = (0..=100)
             .step_by(1)
             .map(|x| (x, (x % 10 == 0).then(|| format!("{}%", x).into())))
@@ -74,8 +61,8 @@ impl Component for Example {
                     style="display: flex; align-items: flex-start; width: 100%"
                 >
                     <Slider<f64>
-                        selected=self.float
-                        values=vec![
+                        selected={self.float}
+                        values={vec![
                             (0.0, Some("0".into())),
                             (0.1, None),
                             (0.2, None),
@@ -87,43 +74,43 @@ impl Component for Example {
                             (0.8, None),
                             (0.9, None),
                             (1.0, Some("1".into())),
-                        ]
-                        intent=self.props.intent
-                        onchange=self.link.callback(|x| Msg::FloatUpdate(x))
+                        ]}
+                        intent={ctx.props().intent}
+                        onchange={ctx.link().callback(|x| Msg::FloatUpdate(x))}
                     />
                     <Tag
-                        style=Cow::Borrowed("width: 32px; margin-left: 16px")
+                        style={"width: 32px; margin-left: 16px"}
                         minimal=true
-                        intent=self.props.intent
+                        intent={ctx.props().intent}
                     >
                         {format!("{:.1}", self.float)}
                     </Tag>
                 </div>
                 <Slider<i32>
-                    values=percentage_labels
-                    selected=self.integer
-                    intent=self.props.intent
-                    value_label=Cow::Owned(format!("{}%", self.integer))
-                    onchange=self.link.callback(|x| Msg::IntegerUpdate(x))
+                    values={percentage_labels}
+                    selected={self.integer}
+                    intent={ctx.props().intent}
+                    value_label={Cow::Owned(format!("{}%", self.integer))}
+                    onchange={ctx.link().callback(|x| Msg::IntegerUpdate(x))}
                 />
                 <Slider<LogLevel>
-                    values=vec![
+                    values={vec![
                         (LogLevel::Off, Some("OFF".into())),
                         (LogLevel::Error, Some("ERROR".into())),
                         (LogLevel::Warn, Some("WARN".into())),
                         (LogLevel::Info, Some("INFO".into())),
                         (LogLevel::Debug, Some("DEBUG".into())),
                         (LogLevel::Trace, Some("TRACE".into())),
-                    ]
-                    intent=self.props.intent
-                    selected=self.log_level.clone()
-                    onchange=self.link.callback(|x| Msg::LogLevelUpdate(x))
+                    ]}
+                    intent={ctx.props().intent}
+                    selected={self.log_level.clone()}
+                    onchange={ctx.link().callback(|x| Msg::LogLevelUpdate(x))}
                 />
                 <Slider<()>
-                    values=vec![((), Some("Neo".into()))]
-                    intent=self.props.intent
-                    selected=()
-                    onchange=self.link.callback(|_| Msg::Noop)
+                    values={vec![((), Some("Neo".into()))]}
+                    intent={ctx.props().intent}
+                    selected={()}
+                    onchange={ctx.link().callback(|_| Msg::Noop)}
                 />
             </>
         }

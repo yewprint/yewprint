@@ -14,9 +14,9 @@ impl Component for ProgressBarDoc {
     type Message = ExampleProps;
     type Properties = ();
 
-    fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         ProgressBarDoc {
-            callback: link.callback(|x| x),
+            callback: ctx.link().callback(|x| x),
             state: ExampleProps {
                 intent: None,
                 animate: false,
@@ -25,16 +25,12 @@ impl Component for ProgressBarDoc {
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         self.state = msg;
         true
     }
 
-    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
-        true
-    }
-
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         let example_props = self.state.clone();
         let source = crate::include_raw_html!(
             concat!(env!("OUT_DIR"), "/", file!(), ".html"),
@@ -43,18 +39,18 @@ impl Component for ProgressBarDoc {
 
         html! {
             <div>
-                <H1 class=classes!("docs-title")>{"ProgressBar"}</H1>
+                <H1 class={classes!("docs-title")}>{"ProgressBar"}</H1>
                 <SourceCodeUrl />
                 <ExampleContainer
-                    source=source
-                    props=Some(html! {
+                    source={source}
+                    props={Some(html! {
                         <ProgressBarProps
                             callback={self.callback.clone()}
-                            props=example_props.clone()
+                            example_props={example_props.clone()}
                         />
-                    })
+                    })}
                 >
-                    <Example with example_props />
+                    <Example ..example_props />
                 </ExampleContainer>
             </div>
         }
@@ -63,26 +59,26 @@ impl Component for ProgressBarDoc {
 
 crate::build_example_prop_component! {
     ProgressBarProps for ExampleProps =>
-        fn view(&self) -> Html {
+        fn view(&self, ctx: &Context<Self>) -> Html {
             html! {
                 <div>
                     <H5>{"Props"}</H5>
                     <div>
                         <Switch
-                            onclick=self.update_props(|props, _| ExampleProps {
+                            onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
                                 stripes: !props.stripes,
                                 ..props
-                            })
-                            checked=self.props.stripes
-                            label=html!("Stripes")
+                            })}
+                            checked={ctx.props().example_props.stripes}
+                            label={html!("Stripes")}
                         />
                         <Switch
-                            onclick=self.update_props(|props, _| ExampleProps {
+                            onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
                                 animate: !props.animate,
                                 ..props
-                            })
-                            checked=self.props.animate
-                            label=html!("Animate")
+                            })}
+                            checked={ctx.props().example_props.animate}
+                            label={html!("Animate")}
                         />
                         <p>{"Select intent:"}</p>
                         <HtmlSelect<Option<Intent>>
@@ -93,10 +89,10 @@ crate::build_example_prop_component! {
                                 (Some(Intent::Warning), "Warning".to_string()),
                                 (Some(Intent::Danger), "Danger".to_string()),
                             ]}
-                            onchange=self.update_props(|props, intent| ExampleProps {
+                            onchange={self.update_props(ctx.props(), |props, intent| ExampleProps {
                                 intent,
                                 ..props
-                            })
+                            })}
                         />
                     </div>
                 </div>

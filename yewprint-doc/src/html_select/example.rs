@@ -2,8 +2,6 @@ use yew::prelude::*;
 use yewprint::{HtmlSelect, Text};
 
 pub struct Example {
-    props: ExampleProps,
-    link: ComponentLink<Self>,
     log_level: LogLevel,
 }
 
@@ -19,29 +17,18 @@ impl Component for Example {
     type Message = LogLevel;
     type Properties = ExampleProps;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(_ctx: &Context<Self>) -> Self {
         Example {
-            props,
-            link,
             log_level: LogLevel::Info,
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         self.log_level = msg;
         true
     }
 
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        if self.props != props {
-            self.props = props;
-            true
-        } else {
-            false
-        }
-    }
-
-    fn view(&self) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         html! {
             <div style="width: 400px; text-align: center;">
                 <HtmlSelect<LogLevel>
@@ -53,13 +40,13 @@ impl Component for Example {
                         (LogLevel::Error, "ERROR".to_string()),
                         (LogLevel::Off, "OFF".to_string()),
                     ]}
-                    minimal=self.props.minimal
-                    fill=self.props.fill
-                    disabled=self.props.disabled
-                    large=self.props.large
-                    value=Some(self.log_level)
-                    onchange=self.link.callback(|x| x)
-                    title=format!("Selected: {:?}", self.log_level)
+                    minimal={ctx.props().minimal}
+                    fill={ctx.props().fill}
+                    disabled={ctx.props().disabled}
+                    large={ctx.props().large}
+                    value={Some(self.log_level)}
+                    onchange={ctx.link().callback(|x| x)}
+                    title={format!("Selected: {:?}", self.log_level)}
                 />
                 <Text>{format!("Selected: {:?}", self.log_level)}</Text>
             </div>

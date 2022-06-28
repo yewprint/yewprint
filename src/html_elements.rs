@@ -1,40 +1,36 @@
 use yew::prelude::*;
-use yewtil::{Pure, PureComponent};
+
+#[derive(Properties, PartialEq)]
+pub struct ChildrenOnlyProps {
+    #[prop_or_default]
+    pub class: Classes,
+    #[prop_or_default]
+    pub children: html::Children,
+}
 
 macro_rules! build_component {
-    ($name:ident, $props_name:ident, $tag:tt, $class:literal) => {
-        pub type $name = Pure<$props_name>;
-
-        #[derive(Debug, Clone, PartialEq, Properties)]
-        pub struct $props_name {
-            #[prop_or_default]
-            pub class: Classes,
-            #[prop_or_default]
-            pub children: html::Children,
-        }
-
-        impl PureComponent for $props_name {
-            fn render(&self) -> Html {
-                html! {
-                    <$tag class=classes!($class, self.class.clone())>
-                        {self.children.clone()}
-                    </$tag>
-                }
+    ($name:ident, $tag:tt, $class:literal) => {
+        #[function_component($name)]
+        pub fn $tag(props: &ChildrenOnlyProps) -> Html {
+            html! {
+                <$tag class={classes!($class, props.class.clone())}>
+                    { props.children.clone() }
+                </$tag>
             }
         }
     };
 }
 
-build_component!(H1, H1Props, h1, "bp3-heading");
-build_component!(H2, H2Props, h2, "bp3-heading");
-build_component!(H3, H3Props, h3, "bp3-heading");
-build_component!(H4, H4Props, h4, "bp3-heading");
-build_component!(H5, H5Props, h5, "bp3-heading");
-build_component!(H6, H6Props, h6, "bp3-heading");
+build_component!(H1, h1, "bp3-heading");
+build_component!(H2, h2, "bp3-heading");
+build_component!(H3, h3, "bp3-heading");
+build_component!(H4, h4, "bp3-heading");
+build_component!(H5, h5, "bp3-heading");
+build_component!(H6, h6, "bp3-heading");
 
-build_component!(Blockquote, BlockquoteProps, blockquote, "bp3-blockquote");
-build_component!(Code, CodeProps, code, "bp3-code");
-build_component!(Label, LabelProps, label, "bp3-label");
-build_component!(Pre, PreProps, pre, "bp3-pre");
-build_component!(Ol, OlProps, ol, "bp3-ol");
-build_component!(Ul, UlProps, ul, "bp3-ul");
+build_component!(Blockquote, blockquote, "bp3-blockquote");
+build_component!(Code, code, "bp3-code");
+build_component!(Label, label, "bp3-label");
+build_component!(Pre, pre, "bp3-pre");
+build_component!(Ol, ol, "bp3-ol");
+build_component!(Ul, ul, "bp3-ul");

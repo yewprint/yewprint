@@ -1,19 +1,19 @@
 use crate::Intent;
 use std::borrow::Cow;
+use std::marker::PhantomData;
 use wasm_bindgen::closure::Closure;
 use wasm_bindgen::JsCast;
 use web_sys::Element;
 use yew::prelude::*;
 
 pub struct Slider<T: Clone + PartialEq + 'static> {
-    props: SliderProps<T>,
     mouse_move: Closure<dyn FnMut(MouseEvent)>,
     mouse_up: Closure<dyn FnMut(MouseEvent)>,
-    link: ComponentLink<Self>,
     handle_ref: NodeRef,
     track_ref: NodeRef,
     is_moving: bool,
     focus_handle: bool,
+    phantom: PhantomData<T>,
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -42,35 +42,34 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
     type Message = Msg;
     type Properties = SliderProps<T>;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         let mouse_move = {
-            let link = link.clone();
+            let link = ctx.link().clone();
             Closure::wrap(Box::new(move |event: web_sys::MouseEvent| {
                 link.send_message(Msg::Mouse(event));
             }) as Box<dyn FnMut(_)>)
         };
         let mouse_up = {
-            let link = link.clone();
+            let link = ctx.link().clone();
             Closure::wrap(Box::new(move |_event: web_sys::MouseEvent| {
                 link.send_message(Msg::StopChange);
             }) as Box<dyn FnMut(_)>)
         };
         Self {
-            props,
             mouse_move,
             mouse_up,
-            link,
             handle_ref: NodeRef::default(),
             track_ref: NodeRef::default(),
             is_moving: false,
             focus_handle: false,
+            phantom: PhantomData,
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
-            Msg::StartChange if self.props.values.len() > 1 => {
-                let document = yew::utils::document();
+            Msg::StartChange if ctx.props().values.len() > 1 => {
+                let document = gloo::utils::document();
                 let event_target: &web_sys::EventTarget = document.as_ref();
                 self.is_moving = true;
                 event_target
@@ -89,23 +88,23 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                 true
             }
             Msg::StartChange => false,
-            Msg::Mouse(event) if self.props.values.len() > 1 => {
+            Msg::Mouse(event) if ctx.props().values.len() > 1 => {
                 if event.buttons() == crate::MOUSE_EVENT_BUTTONS_PRIMARY {
                     let track_rect = self.track_ref.cast::<Element>().expect("no track ref");
                     let tick_size = (track_rect.client_width() as f64)
-                        / self.props.values.len().saturating_sub(1) as f64;
+                        / ctx.props().values.len().saturating_sub(1) as f64;
                     let pixel_delta =
                         (event.client_x() as f64) - track_rect.get_bounding_client_rect().left();
 
                     let position = (pixel_delta / tick_size).round() as usize;
 
                     let (value, _) =
-                        self.props.values.get(position).unwrap_or_else(|| {
-                            self.props.values.last().expect("No value in the vec")
+                        ctx.props().values.get(position).unwrap_or_else(|| {
+                            ctx.props().values.last().expect("No value in the vec")
                         });
 
-                    if Some(value) != self.props.selected.as_ref() {
-                        self.props.onchange.emit(value.clone());
+                    if Some(value) != ctx.props().selected.as_ref() {
+                        ctx.props().onchange.emit(value.clone());
                     }
 
                     true
@@ -115,7 +114,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
             }
             Msg::Mouse(_) => false,
             Msg::StopChange => {
-                let document = yew::utils::document();
+                let document = gloo::utils::document();
                 let event_target: &web_sys::EventTarget = document.as_ref();
                 self.is_moving = false;
                 event_target
@@ -132,43 +131,43 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     .expect("No event listener to remove");
                 true
             }
-            Msg::Keyboard(event) if self.props.values.len() > 1 => match event.key().as_str() {
+            Msg::Keyboard(event) if ctx.props().values.len() > 1 => match event.key().as_str() {
                 "ArrowDown" | "ArrowLeft" => {
                     self.focus_handle = true;
                     event.prevent_default();
-                    let index = self
-                        .props
+                    let index = ctx
+                        .props()
                         .values
                         .iter()
-                        .position(|(value, _)| Some(value) == self.props.selected.as_ref())
+                        .position(|(value, _)| Some(value) == ctx.props().selected.as_ref())
                         .map(|i| i.saturating_sub(1))
                         .unwrap_or(0);
-                    let (value, _) = self.props.values[index].clone();
-                    self.props.onchange.emit(value);
+                    let (value, _) = ctx.props().values[index].clone();
+                    ctx.props().onchange.emit(value);
                     true
                 }
                 "ArrowUp" | "ArrowRight" => {
                     self.focus_handle = true;
                     event.prevent_default();
-                    let index = self
-                        .props
+                    let index = ctx
+                        .props()
                         .values
                         .iter()
-                        .position(|(value, _)| Some(value) == self.props.selected.as_ref())
+                        .position(|(value, _)| Some(value) == ctx.props().selected.as_ref())
                         .map(|i| i.saturating_add(1))
                         .unwrap_or(0);
-                    let (value, _) = self
-                        .props
+                    let (value, _) = ctx
+                        .props()
                         .values
                         .get(index)
                         .unwrap_or_else(|| {
-                            self.props.values.last().expect(
+                            ctx.props().values.last().expect(
                                 "Already check, \
-                                    there are at least 2 values in self.props.options; qed",
+                                    there are at least 2 values in ctx.props().options; qed",
                             )
                         })
                         .clone();
-                    self.props.onchange.emit(value);
+                    ctx.props().onchange.emit(value);
                     true
                 }
                 _ => false,
@@ -177,23 +176,14 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
         }
     }
 
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        if self.props != props {
-            self.props = props;
-            true
-        } else {
-            false
-        }
-    }
-
-    fn view(&self) -> Html {
-        let value_index = self
-            .props
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        let value_index = ctx
+            .props()
             .values
             .iter()
-            .position(|(value, _)| Some(value) == self.props.selected.as_ref());
-        let labels = if self.props.values.len() > 1 {
-            self.props
+            .position(|(value, _)| Some(value) == ctx.props().selected.as_ref());
+        let labels = if ctx.props().values.len() > 1 {
+            ctx.props()
                 .values
                 .iter()
                 .enumerate()
@@ -201,11 +191,11 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     label.clone().map(|x| {
                         html! {
                             <div
-                                class=classes!("bp3-slider-label")
-                                style=format!(
+                                class={classes!("bp3-slider-label")}
+                                style={format!(
                                     "left: {}%;", (i as f64) * 100.0
-                                        / ((self.props.values.len() as f64) - 1.0)
-                                )
+                                        / ((ctx.props().values.len() as f64) - 1.0)
+                                )}
                             >
                                 {x}
                             </div>
@@ -213,11 +203,11 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     })
                 })
                 .collect::<Html>()
-        } else if let Some((_, Some(label))) = self.props.values.first() {
+        } else if let Some((_, Some(label))) = ctx.props().values.first() {
             html! {
                 <div
-                    class=classes!("bp3-slider-label")
-                    style="left: 50%;"
+                    class={classes!("bp3-slider-label")}
+                    style={"left: 50%;"}
                 >
                     {label}
                 </div>
@@ -225,9 +215,9 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
         } else {
             html!()
         };
-        let value_label = self.props.value_label.clone().map(|x| {
+        let value_label = ctx.props().value_label.clone().map(|x| {
             html! {
-                <span class=classes!("bp3-slider-label")>
+                <span class={classes!("bp3-slider-label")}>
                     {x}
                 </span>
             }
@@ -235,12 +225,12 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
 
         html! {
             <div
-                class=classes!(
+                class={classes!(
                     "bp3-slider",
-                    self.props.vertical.then(|| "bp3-vertical"),
-                )
-                onmousedown=(self.props.values.len() > 1).then(
-                    || self.link.batch_callback(
+                    ctx.props().vertical.then(|| "bp3-vertical"),
+                )}
+                onmousedown={(ctx.props().values.len() > 1).then(
+                    || ctx.link().batch_callback(
                         |event: MouseEvent| {
                             if event.buttons() ==
                                 crate::MOUSE_EVENT_BUTTONS_PRIMARY
@@ -251,19 +241,19 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                             }
                         }
                     )
-                )
+                )}
             >
                 <div
-                    class=classes!("bp3-slider-track")
+                    class={classes!("bp3-slider-track")}
                     ref={self.track_ref.clone()}
                 >
                     {
-                        if value_index.is_none() && !self.props.values.is_empty() {
+                        if value_index.is_none() && !ctx.props().values.is_empty() {
                             html! {
                                 <div
-                                    class=classes!("bp3-slider-progress")
+                                    class={classes!("bp3-slider-progress")}
                                     style="top: 0px;"
-                                    onkeydown=self.link.callback(|event| Msg::Keyboard(event))
+                                    onkeydown={ctx.link().callback(|event| Msg::Keyboard(event))}
                                     tabindex=0
                                 >
                                 </div>
@@ -271,7 +261,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                         } else {
                             html! {
                                 <div
-                                    class=classes!("bp3-slider-progress")
+                                    class={classes!("bp3-slider-progress")}
                                     style="top: 0px;"
                                 >
                                 </div>
@@ -280,18 +270,18 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                     }
                     {
                         match value_index {
-                            Some(index) if self.props.values.len() > 1
-                                && self.props.intent.is_some() => {
+                            Some(index) if ctx.props().values.len() > 1
+                                && ctx.props().intent.is_some() => {
                                 html! {
                                     <div
-                                        class=classes!("bp3-slider-progress", self.props.intent)
-                                        style=format!(
+                                        class={classes!("bp3-slider-progress", ctx.props().intent)}
+                                        style={format!(
                                             "left: 0%; right: {}%; top: 0px;",
                                             100.0 - (
                                                 100.0 * (index as f64)
-                                                / (self.props.values.len() as f64 - 1.0)
+                                                / (ctx.props().values.len() as f64 - 1.0)
                                             )
-                                        )
+                                        )}
                                     >
                                     </div>
                                 }
@@ -300,34 +290,34 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                         }
                     }
                 </div>
-                <div class=classes!("bp3-slider-axis")>
+                <div class={classes!("bp3-slider-axis")}>
                     {labels}
                 </div>
                 {
                     match value_index {
-                        Some(index) if self.props.values.len() > 1 =>
+                        Some(index) if ctx.props().values.len() > 1 =>
                             {
                             html! {
                                 <span
-                                    class=classes!(
+                                    class={classes!(
                                         "bp3-slider-handle",
                                         self.is_moving.then(|| "bp3-active"),
-                                    )
+                                    )}
                                     ref={self.handle_ref.clone()}
-                                    style=format!(
+                                    style={format!(
                                         "left: calc({}% - 8px);",
                                         100.0 * (index as f64)
-                                            / (self.props.values.len() as f64 - 1.0),
-                                    )
-                                    onmousedown=self.link.batch_callback(
+                                            / (ctx.props().values.len() as f64 - 1.0),
+                                    )}
+                                    onmousedown={ctx.link().batch_callback(
                                     |event: MouseEvent| {
                                         if event.buttons() == crate::MOUSE_EVENT_BUTTONS_PRIMARY {
                                             vec![Msg::StartChange]
                                         } else {
                                             vec![]
                                         }
-                                    })
-                                    onkeydown=self.link.callback(|event| Msg::Keyboard(event))
+                                    })}
+                                    onkeydown={ctx.link().callback(|event| Msg::Keyboard(event))}
                                     tabindex=0
                                 >
                                     {value_label.clone().unwrap_or_default()}
@@ -337,10 +327,10 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                         Some(_) => {
                             html! {
                                 <span
-                                    class=classes!(
+                                    class={classes!(
                                         "bp3-slider-handle",
                                         self.is_moving.then(|| "bp3-active"),
-                                    )
+                                    )}
                                     ref={self.handle_ref.clone()}
                                     style="left: calc(50% - 8px);"
                                 >
@@ -355,7 +345,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
         }
     }
 
-    fn rendered(&mut self, _: bool) {
+    fn rendered(&mut self, _ctx: &Context<Self>, _: bool) {
         if self.focus_handle {
             if let Some(element) = self.handle_ref.cast::<web_sys::HtmlElement>() {
                 let _ = element.focus();
