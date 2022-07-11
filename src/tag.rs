@@ -1,5 +1,6 @@
 use crate::{if_html, Icon, IconName, Intent, Text};
 use yew::prelude::*;
+use yew::virtual_dom::AttrValue;
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct TagProps {
@@ -31,11 +32,11 @@ pub struct TagProps {
     #[prop_or_default]
     pub round: bool,
     #[prop_or_default]
-    pub title: Option<&'static str>,
+    pub title: Option<AttrValue>,
     #[prop_or_default]
     pub class: Classes,
     #[prop_or_default]
-    pub style: Option<&'static str>,
+    pub style: Option<AttrValue>,
 }
 
 #[function_component(Tag)]
@@ -71,14 +72,14 @@ pub fn tag(props: &TagProps) -> Html {
                 props.round.then(|| "bp3-round"),
                 props.class.clone(),
             )}
-            style={props.style}
+            style={props.style.clone()}
             onclick={props.onclick.clone()}
         >
             {icon}
             <Text
                 class={classes!("bp3-fill")}
                 ellipsize={!props.multiline}
-                title={props.title}
+                title={props.title.clone()}
                 inline=true
             >
                 {props.children.clone()}

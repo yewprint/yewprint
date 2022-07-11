@@ -1,4 +1,5 @@
 use yew::prelude::*;
+use yew::virtual_dom::AttrValue;
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct ButtonGroupProps {
@@ -11,7 +12,7 @@ pub struct ButtonGroupProps {
     #[prop_or_default]
     pub large: bool,
     #[prop_or_default]
-    pub style: Option<&'static str>,
+    pub style: Option<AttrValue>,
     #[prop_or_default]
     pub children: html::Children,
     #[prop_or_default]
@@ -30,7 +31,7 @@ pub fn button_group(props: &ButtonGroupProps) -> Html {
                 props.vertical.then(|| "bp3-vertical"),
                 props.class.clone(),
             )}
-            style={props.style}
+            style={props.style.clone()}
         >
             {props.children.clone()}
         </div>
