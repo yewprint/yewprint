@@ -30,7 +30,7 @@ pub struct ButtonProps {
     #[prop_or_default]
     pub class: Classes,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Option<&'static str>,
     #[prop_or_default]
     pub children: html::Children,
 }
@@ -52,7 +52,7 @@ pub fn button(props: &ButtonProps) -> Html {
                 props.intent,
                 props.class.clone(),
             )}
-            style={props.style.clone()}
+            style={props.style}
             onclick={(!props.disabled).then(|| props.onclick.clone())}
         >
             {

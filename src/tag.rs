@@ -31,11 +31,11 @@ pub struct TagProps {
     #[prop_or_default]
     pub round: bool,
     #[prop_or_default]
-    pub title: Option<String>,
+    pub title: Option<&'static str>,
     #[prop_or_default]
     pub class: Classes,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Option<&'static str>,
 }
 
 #[function_component(Tag)]
@@ -71,14 +71,14 @@ pub fn tag(props: &TagProps) -> Html {
                 props.round.then(|| "bp3-round"),
                 props.class.clone(),
             )}
-            style={props.style.clone()}
+            style={props.style}
             onclick={props.onclick.clone()}
         >
             {icon}
             <Text
                 class={classes!("bp3-fill")}
                 ellipsize={!props.multiline}
-                title={props.title.clone()}
+                title={props.title}
                 inline=true
             >
                 {props.children.clone()}

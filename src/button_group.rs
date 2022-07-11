@@ -11,7 +11,7 @@ pub struct ButtonGroupProps {
     #[prop_or_default]
     pub large: bool,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Option<&'static str>,
     #[prop_or_default]
     pub children: html::Children,
     #[prop_or_default]
@@ -30,7 +30,7 @@ pub fn button_group(props: &ButtonGroupProps) -> Html {
                 props.vertical.then(|| "bp3-vertical"),
                 props.class.clone(),
             )}
-            style={props.style.clone()}
+            style={props.style}
         >
             {props.children.clone()}
         </div>

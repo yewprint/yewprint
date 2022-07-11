@@ -176,7 +176,8 @@ impl Component for Collapse {
         if !self.translated {
             content_style.push_str("transform: translateY(0px); ");
         } else if let Some(ref height_when_open) = self.height_when_open {
-            content_style.push_str(&format!("transform: translateY(-{}); ", height_when_open));
+            content_style
+                .push_str(format!("transform: translateY(-{})", height_when_open).as_str());
         } else {
             unreachable!("height_when_open was undefined while translated is set");
         }
