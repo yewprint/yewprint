@@ -1924,8 +1924,6 @@ dependencies = [
 [[package]]
 name = "xtask-wasm"
 version = "0.1.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3a078921c435f7181ac151ebd655c5c6ec4456f37b16aa52a3ad242ccee8016c"
 dependencies = [
  "fs_extra",
  "lazy_static",

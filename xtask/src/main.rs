@@ -5,7 +5,7 @@ use std::{
 };
 use xtask_wasm::{
     anyhow::{Context, Result},
-    clap,
+    clap, DistResult,
 };
 
 #[derive(clap::Parser)]
@@ -26,28 +26,28 @@ fn main() -> Result<()> {
     let cli: Cli = clap::Parser::parse();
 
     match cli {
-        Cli::Dist(arg) => {
+        Cli::Dist(dist) => {
             log::info!("Generating package...");
 
             download_css(false)?;
 
-            let result = arg
+            let DistResult { dist_dir, .. } = dist
                 .static_dir_path("yewprint-doc/static")
                 .run("yewprint-doc")?;
 
-            fs::copy(
-                "yewprint-doc/src/logo.svg",
-                result.dist_dir.join("favicon.svg"),
-            )?;
+            fs::copy("yewprint-doc/src/logo.svg", dist_dir.join("favicon.svg"))?;
         }
-        Cli::Watch(arg) => {
+        Cli::Watch(watch) => {
             let mut command = process::Command::new("cargo");
             command.args(["xtask", "dist"]);
 
-            arg.run(command)?;
+            watch.run(command)?;
         }
-        Cli::Start(arg) => {
-            arg.arg("dist").start(xtask_wasm::default_dist_dir(false))?;
+        Cli::Start(dev_server) => {
+            dev_server
+                .arg("dist")
+                .not_found("index.html")
+                .start(xtask_wasm::default_dist_dir(false))?;
         }
         Cli::UpdateCSS => download_css(true)?,
     }

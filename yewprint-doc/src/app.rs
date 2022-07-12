@@ -41,7 +41,7 @@ pub struct App {
 
 pub enum Msg {
     ToggleLight,
-    GoToMenu(DocMenu),
+    GoToMenu(MouseEvent, DocMenu),
 }
 
 impl Component for App {
@@ -60,7 +60,8 @@ impl Component for App {
     fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             Msg::ToggleLight => self.dark_theme ^= true,
-            Msg::GoToMenu(doc_menu) => {
+            Msg::GoToMenu(event, doc_menu) => {
+                event.prevent_default();
                 if let Some(history) = ctx.link().history() {
                     history.push(doc_menu);
                 } else {
@@ -98,146 +99,146 @@ impl Component for App {
                 />
                 <MenuItem
                     text={html!("Button")}
-                    href="#button"
+                    href="/button"
                     onclick={ctx.link()
-                        .callback(|_| Msg::GoToMenu(DocMenu::Button))}
+                        .callback(|e| Msg::GoToMenu(e, DocMenu::Button))}
                 />
                 <MenuItem
                     text={html!("ButtonGroup")}
-                    href="#button-group"
+                    href="/button-group"
                     onclick={ctx.link()
-                        .callback(|_| Msg::GoToMenu(DocMenu::ButtonGroup))}
+                        .callback(|e| Msg::GoToMenu(e, DocMenu::ButtonGroup))}
                 />
                 <MenuItem
                     text={html!("Callout")}
-                    href="#callout"
+                    href="/callout"
                     onclick={ctx.link()
-                        .callback(|_| Msg::GoToMenu(DocMenu::Callout))}
+                        .callback(|e| Msg::GoToMenu(e, DocMenu::Callout))}
                 />
                 <MenuItem
                     text={html!("Card")}
-                    href="#card"
+                    href="/card"
                     onclick={ctx.link()
-                        .callback(|_| Msg::GoToMenu(DocMenu::Card))}
+                        .callback(|e| Msg::GoToMenu(e, DocMenu::Card))}
                 />
                 <MenuItem
                     text={html!("Checkbox")}
-                    href="#progress-bar"
+                    href="/progress-bar"
                     onclick={ctx.link()
-                        .callback(|_| Msg::GoToMenu(DocMenu::Checkbox))}
+                        .callback(|e| Msg::GoToMenu(e, DocMenu::Checkbox))}
                 />
                 <MenuItem
                     text={html!("Collapse")}
-                    href="#collapse"
+                    href="/collapse"
                     onclick={ctx.link()
-                        .callback(|_| Msg::GoToMenu(DocMenu::Collapse))}
+                        .callback(|e| Msg::GoToMenu(e, DocMenu::Collapse))}
                 />
                 <MenuItem
                     text={html!("ControlGroup")}
-                    href="#control-group"
+                    href="/control-group"
                     onclick={ctx.link()
-                        .callback(|_| Msg::GoToMenu(DocMenu::ControlGroup))}
+                        .callback(|e| Msg::GoToMenu(e, DocMenu::ControlGroup))}
                     />
                 <MenuItem
                     text={html!("Divider")}
-                    href="#divider"
+                    href="/divider"
                     onclick={ctx.link()
-                        .callback(|_| Msg::GoToMenu(DocMenu::Divider))}
+                        .callback(|e| Msg::GoToMenu(e, DocMenu::Divider))}
                 />
                 <MenuItem
                     text={html!("HtmlSelect")}
-                    href="#html-select"
+                    href="/html-select"
                     onclick={ctx.link()
-                        .callback(|_| Msg::GoToMenu(DocMenu::HtmlSelect))}
+                        .callback(|e| Msg::GoToMenu(e, DocMenu::HtmlSelect))}
                 />
                 <MenuItem
                     text={html!("Icon")}
-                    href="#icon"
+                    href="/icon"
                     onclick={ctx.link()
-                        .callback(|_| Msg::GoToMenu(DocMenu::Icon))}
+                        .callback(|e| Msg::GoToMenu(e, DocMenu::Icon))}
                 />
                 <MenuItem
                     text={html!("InputGroup")}
-                    href="#input-group"
+                    href="/input-group"
                     onclick={ctx.link()
-                        .callback(|_| Msg::GoToMenu(DocMenu::InputGroup))}
+                        .callback(|e| Msg::GoToMenu(e, DocMenu::InputGroup))}
                 />
                 <MenuItem
                     text={html!("Menu")}
-                    href="#menu"
+                    href="/menu"
                     onclick={ctx.link()
-                        .callback(|_| Msg::GoToMenu(DocMenu::Menu))}
+                        .callback(|e| Msg::GoToMenu(e, DocMenu::Menu))}
                 />
                 <MenuItem
                     text={html!("NumericInput")}
-                    href="#numeric-input"
+                    href="/numeric-input"
                     onclick={ctx.link()
-                        .callback(|_| Msg::GoToMenu(DocMenu::NumericInput))}
+                        .callback(|e| Msg::GoToMenu(e, DocMenu::NumericInput))}
                 />
                 <MenuItem
                     text={html!("PanelStack")}
-                    href="#panel-stack"
+                    href="/panel-stack"
                     onclick={ctx.link()
-                        .callback(|_| Msg::GoToMenu(DocMenu::PanelStack))}
+                        .callback(|e| Msg::GoToMenu(e, DocMenu::PanelStack))}
                 />
                 <MenuItem
                     text={html!("ProgressBar")}
-                    href="#progress-bar"
+                    href="/progress-bar"
                     onclick={ctx.link()
-                        .callback(|_| Msg::GoToMenu(DocMenu::ProgressBar))}
+                        .callback(|e| Msg::GoToMenu(e, DocMenu::ProgressBar))}
                 />
                 <MenuItem
                     text={html!("Radio")}
-                    href="#radio"
+                    href="/radio"
                     onclick={ctx.link()
-                        .callback(|_| Msg::GoToMenu(DocMenu::Radio))}
+                        .callback(|e| Msg::GoToMenu(e, DocMenu::Radio))}
                 />
                 <MenuItem
                     text={html!("Slider")}
-                    href="#slider"
-                    onclick={ctx.link().callback(|_| Msg::GoToMenu(DocMenu::Slider))}
+                    href="/slider"
+                    onclick={ctx.link().callback(|e| Msg::GoToMenu(e, DocMenu::Slider))}
                 />
                 <MenuItem
                     text={html!("Spinner")}
-                    href="#spinner"
+                    href="/spinner"
                     onclick={ctx.link()
-                        .callback(|_| Msg::GoToMenu(DocMenu::Spinner))}
+                        .callback(|e| Msg::GoToMenu(e, DocMenu::Spinner))}
                 />
                 <MenuItem
                     text={html!("Switch")}
-                    href="#switch"
+                    href="/switch"
                     onclick={ctx.link()
-                        .callback(|_| Msg::GoToMenu(DocMenu::Switch))}
+                        .callback(|e| Msg::GoToMenu(e, DocMenu::Switch))}
                 />
                 <MenuItem
                     text={html!("Tabs")}
-                    href="#tabs"
+                    href="/tabs"
                     onclick={ctx.link()
-                        .callback(|_| Msg::GoToMenu(DocMenu::Tabs))}
+                        .callback(|e| Msg::GoToMenu(e, DocMenu::Tabs))}
                 />
                 <MenuItem
                     text={html!("Tag")}
-                    href="#tag"
+                    href="/tag"
                     onclick={ctx.link()
-                        .callback(|_| Msg::GoToMenu(DocMenu::Tag))}
+                        .callback(|e| Msg::GoToMenu(e, DocMenu::Tag))}
                 />
                 <MenuItem
                     text={html!("Text")}
-                    href="#text"
+                    href="/text"
                     onclick={ctx.link()
-                        .callback(|_| Msg::GoToMenu(DocMenu::Text))}
+                        .callback(|e| Msg::GoToMenu(e, DocMenu::Text))}
                 />
                 <MenuItem
                     text={html!("TextArea")}
-                    href="#text-area"
+                    href="/text-area"
                     onclick={ctx.link()
-                        .callback(|_| Msg::GoToMenu(DocMenu::TextArea))}
+                        .callback(|e| Msg::GoToMenu(e, DocMenu::TextArea))}
                 />
                 <MenuItem
                     text={html!("Tree")}
-                    href="#tree"
+                    href="/tree"
                     onclick={ctx.link()
-                        .callback(|_| Msg::GoToMenu(DocMenu::Tree))}
+                        .callback(|e| Msg::GoToMenu(e, DocMenu::Tree))}
                 />
                 // NOTE: thanks to keep this list of <MenuItem> sorted
                 //       alphabetically (except for the light switch)
@@ -323,54 +324,55 @@ fn switch(route: &DocMenu) -> Html {
 
 #[derive(PartialEq, Clone, Routable)]
 pub enum DocMenu {
-    #[at("/#button-group")]
+    #[at("/button-group")]
     ButtonGroup,
-    #[at("/#button")]
+    #[at("/button")]
     Button,
-    #[at("/#callout")]
+    #[at("/callout")]
     Callout,
-    #[at("/#card")]
+    #[at("/card")]
     Card,
-    #[at("/#checkbox")]
+    #[at("/checkbox")]
     Checkbox,
-    #[at("/#collapse")]
+    #[at("/collapse")]
     Collapse,
-    #[at("/#control-group")]
+    #[at("/control-group")]
     ControlGroup,
-    #[at("/#html-select")]
+    #[at("/html-select")]
     HtmlSelect,
-    #[at("/#divider")]
+    #[at("/divider")]
     Divider,
-    #[at("/#icon")]
+    #[at("/icon")]
     Icon,
-    #[at("/#input-group")]
+    #[at("/input-group")]
     InputGroup,
-    #[at("/#menu")]
+    #[at("/menu")]
     Menu,
-    #[at("/#numeric-input")]
+    #[at("/numeric-input")]
     NumericInput,
-    #[at("/#panel-stack")]
+    #[at("/panel-stack")]
     PanelStack,
-    #[at("/#progress-bar")]
+    #[at("/progress-bar")]
     ProgressBar,
-    #[at("/#radio")]
+    #[at("/radio")]
     Radio,
-    #[at("/#slider")]
+    #[at("/slider")]
     Slider,
-    #[at("/#spinner")]
+    #[at("/spinner")]
     Spinner,
-    #[at("/#switch")]
+    #[at("/switch")]
     Switch,
-    #[at("/#tabs")]
+    #[at("/tabs")]
     Tabs,
-    #[at("/#tag")]
+    #[at("/tag")]
     Tag,
-    #[at("/#text-area")]
+    #[at("/text-area")]
     TextArea,
-    #[at("/#text")]
+    #[at("/text")]
     Text,
-    #[at("/#tree")]
+    #[at("/tree")]
     Tree,
+    #[not_found]
     #[at("/")]
     Home,
 }
