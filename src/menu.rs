@@ -1,5 +1,6 @@
 use crate::{Icon, IconName, Intent, H6};
 use yew::prelude::*;
+use yew::virtual_dom::AttrValue;
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct MenuProps {
@@ -41,7 +42,7 @@ pub struct MenuItemProps {
     #[prop_or_default]
     pub disabled: bool,
     #[prop_or_default]
-    pub href: Option<String>,
+    pub href: Option<AttrValue>,
     #[prop_or_default]
     pub label: Option<yew::virtual_dom::VNode>,
     #[prop_or_default]

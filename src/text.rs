@@ -1,4 +1,5 @@
 use yew::prelude::*;
+use yew::virtual_dom::AttrValue;
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct TextProps {
@@ -12,9 +13,9 @@ pub struct TextProps {
     #[prop_or_default]
     pub inline: bool,
     #[prop_or_default]
-    pub title: Option<String>,
+    pub title: Option<AttrValue>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Option<AttrValue>,
 }
 
 #[function_component(Text)]

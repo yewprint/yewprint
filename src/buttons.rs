@@ -1,5 +1,6 @@
 use crate::{Icon, IconName, Intent, Spinner, ICON_SIZE_LARGE};
 use yew::prelude::*;
+use yew::virtual_dom::AttrValue;
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct ButtonProps {
@@ -24,13 +25,13 @@ pub struct ButtonProps {
     #[prop_or_default]
     pub intent: Option<Intent>,
     #[prop_or_default]
-    pub title: String,
+    pub title: Option<AttrValue>,
     #[prop_or_default]
     pub onclick: Callback<MouseEvent>,
     #[prop_or_default]
     pub class: Classes,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Option<AttrValue>,
     #[prop_or_default]
     pub children: html::Children,
 }

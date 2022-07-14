@@ -1,6 +1,7 @@
 use crate::icon::ICON_SIZE_LARGE;
 use crate::{Icon, IconName, Intent};
 use yew::prelude::*;
+use yew::virtual_dom::AttrValue;
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct CalloutProps {
@@ -13,7 +14,7 @@ pub struct CalloutProps {
     #[prop_or_default]
     pub intent: Option<Intent>,
     #[prop_or_default]
-    pub title: Option<String>,
+    pub title: Option<AttrValue>,
     pub children: html::Children,
 }
 
