@@ -2034,7 +2034,6 @@ dependencies = [
  "regex",
  "wasm-bindgen",
  "web-sys",
- "xtask-wasm",
  "yew",
 ]
 
