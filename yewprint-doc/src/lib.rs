@@ -2,7 +2,7 @@
     clippy::redundant_closure,
     clippy::needless_update,
     dead_code,
-    clippy::derive_partial_eq_without_eq,
+    clippy::derive_partial_eq_without_eq
 )]
 
 mod app;
