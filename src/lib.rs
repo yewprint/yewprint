@@ -78,7 +78,7 @@ const MOUSE_EVENT_BUTTONS_FOURTH: u16 = 8;
 #[allow(dead_code)]
 const MOUSE_EVENT_BUTTONS_FIFTH: u16 = 16;
 
-#[derive(Debug, Copy, Clone, PartialEq, Hash)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum Intent {
     Primary,
     Success,
