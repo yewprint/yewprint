@@ -4,12 +4,13 @@ use crate::{Icon, IconName};
 use web_sys::HtmlSelectElement;
 use yew::prelude::*;
 
+#[derive(Debug)]
 pub struct HtmlSelect<T: Clone + PartialEq + 'static> {
     select_element: NodeRef,
     phantom: PhantomData<T>,
 }
 
-#[derive(Clone, PartialEq, Properties)]
+#[derive(Debug, Clone, PartialEq, Properties)]
 pub struct HtmlSelectProps<T: Clone + PartialEq + 'static> {
     #[prop_or_default]
     pub fill: bool,

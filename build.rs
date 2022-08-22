@@ -46,7 +46,7 @@ fn main() {
 
     let mut keys: Vec<_> = keys.iter().collect();
     keys.sort();
-    src.push_str("#[derive(Debug, Copy, Clone, PartialEq)]\npub enum IconName {\n");
+    src.push_str("#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]\npub enum IconName {\n");
     for icon in keys {
         src.push_str(icon);
         src.push_str(",\n");
