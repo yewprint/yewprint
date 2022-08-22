@@ -2,7 +2,8 @@
     clippy::redundant_closure,
     clippy::needless_update,
     clippy::inconsistent_struct_constructor,
-    clippy::type_complexity
+    clippy::type_complexity,
+    clippy::derive_partial_eq_without_eq
 )]
 
 mod button_group;
@@ -96,7 +97,7 @@ macro_rules! if_html {
     };
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Hash)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum Intent {
     Primary,
     Success,

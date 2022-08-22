@@ -5,6 +5,7 @@ use std::str::FromStr;
 use yew::html::IntoPropValue;
 use yew::prelude::*;
 
+#[derive(Debug)]
 pub struct NumericInput<T>
 where
     T: Add<Output = T>
@@ -21,7 +22,7 @@ where
     input: String,
 }
 
-#[derive(Clone, PartialEq, Properties)]
+#[derive(Debug, Clone, PartialEq, Properties)]
 pub struct NumericInputProps<T>
 where
     T: Add<Output = T>
@@ -223,7 +224,7 @@ where
     }
 }
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct NumericInputRangeBounds<T> {
     pub start: Bound<T>,
     pub end: Bound<T>,

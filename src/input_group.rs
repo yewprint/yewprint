@@ -3,6 +3,7 @@ use yew::prelude::*;
 
 const MIN_HORIZONTAL_PADDING: i32 = 10;
 
+#[derive(Debug)]
 pub struct InputGroup {
     props: InputGroupProps,
     link: ComponentLink<Self>,
@@ -12,7 +13,7 @@ pub struct InputGroup {
     right_element_width: Option<i32>,
 }
 
-#[derive(Copy, Clone, PartialEq, Debug, Hash)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum TextInputType {
     Text,
     Password,
@@ -51,7 +52,7 @@ impl Default for TextInputType {
     }
 }
 
-#[derive(Clone, PartialEq, Properties)]
+#[derive(Debug, Clone, PartialEq, Properties)]
 pub struct InputGroupProps {
     #[prop_or_default]
     pub disabled: bool,

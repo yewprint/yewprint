@@ -5,10 +5,12 @@ pub struct Example {
     props: ExampleProps,
     link: ComponentLink<Self>,
     log_level: LogLevel,
+    reset: usize,
 }
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct ExampleProps {
+    pub reset: usize,
     pub minimal: bool,
     pub fill: bool,
     pub disabled: bool,
@@ -24,6 +26,7 @@ impl Component for Example {
             props,
             link,
             log_level: LogLevel::Info,
+            reset: 0,
         }
     }
 
@@ -35,6 +38,10 @@ impl Component for Example {
     fn change(&mut self, props: Self::Properties) -> ShouldRender {
         if self.props != props {
             self.props = props;
+            if self.reset != self.props.reset {
+                self.reset = self.props.reset;
+                self.log_level = LogLevel::Info;
+            }
             true
         } else {
             false
@@ -67,7 +74,7 @@ impl Component for Example {
     }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum LogLevel {
     Trace,
     Debug,

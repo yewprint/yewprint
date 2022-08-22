@@ -1,12 +1,16 @@
 use crate::{Icon, IconName};
+use std::convert::TryInto;
+use web_sys::HtmlSelectElement;
 use yew::prelude::*;
 
+#[derive(Debug)]
 pub struct HtmlSelect<T: Clone + PartialEq + 'static> {
+    select_element: NodeRef,
     props: HtmlSelectProps<T>,
     link: ComponentLink<Self>,
 }
 
-#[derive(Clone, PartialEq, Properties)]
+#[derive(Debug, Clone, PartialEq, Properties)]
 pub struct HtmlSelectProps<T: Clone + PartialEq + 'static> {
     #[prop_or_default]
     pub fill: bool,
@@ -34,7 +38,11 @@ impl<T: Clone + PartialEq + 'static> Component for HtmlSelect<T> {
     type Properties = HtmlSelectProps<T>;
 
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
-        Self { props, link }
+        Self {
+            select_element: NodeRef::default(),
+            props,
+            link,
+        }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
@@ -51,9 +59,20 @@ impl<T: Clone + PartialEq + 'static> Component for HtmlSelect<T> {
         false
     }
 
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        if self.props != props {
+    fn change(&mut self, props: Self::Properties) -> bool {
+        if props != self.props {
             self.props = props;
+            if let Some(value) = self.props.value.as_ref() {
+                if let Some(select) = self.select_element.cast::<HtmlSelectElement>() {
+                    if let Some(i) = self.props.options.iter().position(|(x, _)| x == value) {
+                        if let Ok(i) = i.try_into() {
+                            if select.selected_index() != i {
+                                select.set_selected_index(i);
+                            }
+                        }
+                    }
+                }
+            }
             true
         } else {
             false
@@ -74,7 +93,7 @@ impl<T: Clone + PartialEq + 'static> Component for HtmlSelect<T> {
                     .unwrap_or_default();
 
                 html! {
-                    <option selected=selected>
+                    <option selected={selected}>
                         {label}
                     </option>
                 }
@@ -97,6 +116,7 @@ impl<T: Clone + PartialEq + 'static> Component for HtmlSelect<T> {
                     onchange={self.link.callback(|x| x)}
                     title={self.props.title.clone()}
                     value={"".to_string()}
+                    ref={self.select_element.clone()}
                 >
                     {option_children}
                 </select>
