@@ -1,7 +1,7 @@
 use yew::prelude::*;
 use yewprint::{Checkbox, Label};
 
-#[derive(Clone, PartialEq, Eq, Properties)]
+#[derive(Clone, PartialEq, Properties)]
 pub struct ExampleProps {
     pub disabled: bool,
     pub inline: bool,

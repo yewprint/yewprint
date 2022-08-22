@@ -1,7 +1,7 @@
 use yew::prelude::*;
 use yewprint::{Callout, Intent};
 
-#[derive(Clone, PartialEq, Eq, Properties)]
+#[derive(Clone, PartialEq, Properties)]
 pub struct ExampleProps {
     pub intent: Option<Intent>,
     pub show_icon: bool,

@@ -5,7 +5,7 @@ pub struct Example {
     selected: Civilization,
 }
 
-#[derive(Clone, PartialEq, Eq, Properties)]
+#[derive(Clone, PartialEq, Properties)]
 pub struct ExampleProps {
     pub animate: bool,
     pub vertical: bool,
@@ -127,7 +127,7 @@ impl Component for Example {
     }
 }
 
-#[derive(Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum Civilization {
     Sumer,
     Minoan,

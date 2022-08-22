@@ -5,7 +5,7 @@ pub struct Example {
     selected_value: Lunch,
 }
 
-#[derive(Clone, PartialEq, Eq, Properties)]
+#[derive(Clone, PartialEq, Properties)]
 pub struct ExampleProps {
     pub disabled: bool,
     pub inline: bool,

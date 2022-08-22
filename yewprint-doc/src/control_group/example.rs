@@ -1,7 +1,7 @@
 use yew::prelude::*;
 use yewprint::{Button, ControlGroup, HtmlSelect, IconName, InputGroup};
 
-#[derive(Clone, PartialEq, Eq, Properties)]
+#[derive(Clone, PartialEq, Properties)]
 pub struct ExampleProps {
     pub fill: bool,
     pub vertical: bool,

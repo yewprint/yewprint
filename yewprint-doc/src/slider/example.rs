@@ -8,7 +8,7 @@ pub struct Example {
     log_level: Option<LogLevel>,
 }
 
-#[derive(Clone, PartialEq, Eq, Properties)]
+#[derive(Clone, PartialEq, Properties)]
 pub struct ExampleProps {
     pub vertical: bool,
     pub intent: Option<Intent>,
@@ -117,7 +117,7 @@ impl Component for Example {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum LogLevel {
     Trace,
     Debug,

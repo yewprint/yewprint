@@ -6,7 +6,7 @@ pub struct Example {
     value_two: i32,
 }
 
-#[derive(Clone, PartialEq, Eq, Properties)]
+#[derive(Clone, PartialEq, Properties)]
 pub struct ExampleProps {
     pub fill: bool,
     pub disabled: bool,
