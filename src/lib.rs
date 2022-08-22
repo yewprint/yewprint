@@ -78,24 +78,6 @@ const MOUSE_EVENT_BUTTONS_FOURTH: u16 = 8;
 #[allow(dead_code)]
 const MOUSE_EVENT_BUTTONS_FIFTH: u16 = 16;
 
-#[macro_export]
-macro_rules! if_html {
-    (let $pat:pat = $cond:expr => $($body:tt)+) => {
-        if let $pat = $cond {
-            html!($($body)+)
-        } else {
-            html!()
-        }
-    };
-    ($cond:expr => $($body:tt)+) => {
-        if $cond {
-            html($(body)+)
-        } else {
-            html!()
-        }
-    };
-}
-
 #[derive(Debug, Copy, Clone, PartialEq, Hash)]
 pub enum Intent {
     Primary,
