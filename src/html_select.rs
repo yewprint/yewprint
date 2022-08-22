@@ -63,7 +63,6 @@ impl<T: Clone + PartialEq + 'static> Component for HtmlSelect<T> {
                 if let Some(i) = ctx.props().options.iter().position(|(x, _)| x == value) {
                     if let Ok(i) = i.try_into() {
                         if select.selected_index() != i {
-                            gloo::console::log!("update");
                             select.set_selected_index(i);
                         }
                     }
