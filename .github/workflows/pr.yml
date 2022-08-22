@@ -13,9 +13,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: Swatinem/rust-cache@v1
-    - run: cargo test --workspace --all-features --verbose
       with:
         cache-on-failure: true
+    - run: cargo test --workspace --all-features --verbose
     - uses: actions/checkout@v2
     - run: rustup install --profile default nightly
     # NOTE: we use nightly here to enable the options error_on_line_overflow and
