@@ -5,6 +5,7 @@ use web_sys::HtmlSelectElement;
 use yew::prelude::*;
 
 pub struct HtmlSelect<T: Clone + PartialEq + 'static> {
+    select_element: NodeRef,
     phantom: PhantomData<T>,
 }
 
@@ -37,6 +38,7 @@ impl<T: Clone + PartialEq + 'static> Component for HtmlSelect<T> {
 
     fn create(_ctx: &Context<Self>) -> Self {
         Self {
+            select_element: NodeRef::default(),
             phantom: PhantomData,
         }
     }
@@ -53,6 +55,17 @@ impl<T: Clone + PartialEq + 'static> Component for HtmlSelect<T> {
             ctx.props().onchange.emit(variant);
         }
         false
+    }
+
+    fn changed(&mut self, ctx: &Context<Self>) -> bool {
+        if let Some(value) = ctx.props().value.as_ref() {
+            if let Some(select) = self.select_element.cast::<HtmlSelectElement>() {
+                if let Some(i) = ctx.props().options.iter().position(|(x, _)| x == value) {
+                    select.set_selected_index(i.try_into().unwrap());
+                }
+            }
+        }
+        true
     }
 
     fn view(&self, ctx: &Context<Self>) -> Html {
@@ -92,6 +105,7 @@ impl<T: Clone + PartialEq + 'static> Component for HtmlSelect<T> {
                     onchange={ctx.link().callback(|x| x)}
                     title={ctx.props().title.clone()}
                     value={"".to_string()}
+                    ref={self.select_element.clone()}
                 >
                     {option_children}
                 </select>
