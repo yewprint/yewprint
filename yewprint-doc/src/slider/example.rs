@@ -103,7 +103,7 @@ impl Component for Example {
                         (LogLevel::Trace, Some("TRACE".into())),
                     ]}
                     intent={ctx.props().intent}
-                    selected={self.log_level.clone()}
+                    selected={self.log_level}
                     onchange={ctx.link().callback(|x| Msg::LogLevelUpdate(x))}
                 />
                 <Slider<()>
