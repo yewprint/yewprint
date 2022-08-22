@@ -1,7 +1,7 @@
 use yew::prelude::*;
 use yewprint::Text;
 
-#[derive(Clone, PartialEq, Properties)]
+#[derive(Clone, PartialEq, Eq, Properties)]
 pub struct ExampleProps {
     pub ellipsize: bool,
     pub text: String,

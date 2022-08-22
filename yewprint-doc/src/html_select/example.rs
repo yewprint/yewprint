@@ -6,7 +6,7 @@ pub struct Example {
     reset: usize,
 }
 
-#[derive(Clone, PartialEq, Properties)]
+#[derive(Clone, PartialEq, Eq, Properties)]
 pub struct ExampleProps {
     pub reset: usize,
     pub minimal: bool,

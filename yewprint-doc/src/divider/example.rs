@@ -1,7 +1,7 @@
 use yew::prelude::*;
 use yewprint::{Button, ButtonGroup, Divider};
 
-#[derive(Clone, PartialEq, Properties)]
+#[derive(Clone, PartialEq, Eq, Properties)]
 pub struct ExampleProps {
     pub vertical: bool,
 }

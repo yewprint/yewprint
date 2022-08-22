@@ -1,7 +1,7 @@
 use yew::prelude::*;
 use yewprint::{Card, Elevation};
 
-#[derive(Clone, PartialEq, Properties)]
+#[derive(Clone, PartialEq, Eq, Properties)]
 pub struct ExampleProps {
     pub elevation: Elevation,
     pub interactive: bool,

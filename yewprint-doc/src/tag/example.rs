@@ -5,7 +5,7 @@ pub struct Example {
     tags: Vec<String>,
 }
 
-#[derive(Clone, PartialEq, Properties)]
+#[derive(Clone, PartialEq, Eq, Properties)]
 pub struct ExampleProps {
     pub initial_tags: Vec<String>,
     pub active: bool,

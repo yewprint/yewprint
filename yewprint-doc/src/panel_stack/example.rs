@@ -5,7 +5,7 @@ pub struct Example {
     state: PanelStackState,
 }
 
-#[derive(Clone, PartialEq, Properties)]
+#[derive(Clone, PartialEq, Eq, Properties)]
 pub struct ExampleProps {
     pub animate: bool,
     pub vertical: bool,

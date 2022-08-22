@@ -10,7 +10,7 @@ pub struct Example {
     tags_value: String,
 }
 
-#[derive(Clone, PartialEq, Properties)]
+#[derive(Clone, PartialEq, Eq, Properties)]
 pub struct ExampleProps {
     pub disabled: bool,
     pub fill: bool,

@@ -1,7 +1,7 @@
 use yew::prelude::*;
 use yewprint::{Intent, Spinner};
 
-#[derive(Clone, PartialEq, Properties)]
+#[derive(Clone, PartialEq, Eq, Properties)]
 pub struct ExampleProps {
     pub intent: Option<Intent>,
     pub size: u32,

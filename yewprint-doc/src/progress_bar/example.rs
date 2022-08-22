@@ -1,7 +1,7 @@
 use yew::prelude::*;
 use yewprint::{Intent, ProgressBar};
 
-#[derive(Clone, PartialEq, Properties)]
+#[derive(Clone, PartialEq, Eq, Properties)]
 pub struct ExampleProps {
     pub intent: Option<Intent>,
     pub animate: bool,

@@ -5,7 +5,7 @@ pub struct Example {
     counter: i64,
 }
 
-#[derive(Clone, PartialEq, Properties)]
+#[derive(Clone, PartialEq, Eq, Properties)]
 pub struct ExampleProps {
     pub minimal: bool,
     pub fill: bool,
