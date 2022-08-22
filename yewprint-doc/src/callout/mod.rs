@@ -65,7 +65,7 @@ crate::build_example_prop_component! {
                     <H5>{"Props"}</H5>
                     <div>
                         <Switch
-                            onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
+                            onclick={self.update_props(ctx, |props, _| ExampleProps {
                                 show_icon: !props.show_icon,
                                 ..props
                             })}
@@ -73,7 +73,7 @@ crate::build_example_prop_component! {
                             label={html!("Show/hide icon")}
                         />
                         <Switch
-                            onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
+                            onclick={self.update_props(ctx, |props, _| ExampleProps {
                                 show_title: !props.show_title,
                                 ..props
                             })}
@@ -89,7 +89,7 @@ crate::build_example_prop_component! {
                                 (Some(Intent::Warning), "Warning".to_string()),
                                 (Some(Intent::Danger), "Danger".to_string()),
                             ]}
-                            onchange={self.update_props(ctx.props(), |props, intent| ExampleProps {
+                            onchange={self.update_props(ctx, |props, intent| ExampleProps {
                                 intent,
                                 ..props
                             })}

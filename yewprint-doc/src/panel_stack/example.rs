@@ -11,7 +11,7 @@ pub struct ExampleProps {
     pub vertical: bool,
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
 pub enum ExampleMessage {
     OpenPanel2,
     ClosePanel,

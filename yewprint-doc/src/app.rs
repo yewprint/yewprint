@@ -322,7 +322,7 @@ fn switch(route: &DocMenu) -> Html {
     }
 }
 
-#[derive(PartialEq, Clone, Routable)]
+#[derive(PartialEq, Eq, Hash, Clone, Copy, Routable)]
 pub enum DocMenu {
     #[at("/button-group")]
     ButtonGroup,

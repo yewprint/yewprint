@@ -66,7 +66,7 @@ crate::build_example_prop_component! {
             <div>
                 <H5>{"Props"}</H5>
                 <Switch
-                    onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
+                    onclick={self.update_props(ctx, |props, _| ExampleProps {
                         disabled: !props.disabled,
                         ..props
                     })}
@@ -74,7 +74,7 @@ crate::build_example_prop_component! {
                     label={html!("Disabled")}
                 />
                 <Switch
-                    onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
+                    onclick={self.update_props(ctx, |props, _| ExampleProps {
                         inline: !props.inline,
                         ..props
                     })}
@@ -82,7 +82,7 @@ crate::build_example_prop_component! {
                     label={html!("Inline")}
                 />
                 <Switch
-                    onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
+                    onclick={self.update_props(ctx, |props, _| ExampleProps {
                         large: !props.large,
                         ..props
                     })}
@@ -90,7 +90,7 @@ crate::build_example_prop_component! {
                     label={html!("Large")}
                 />
                 <Switch
-                    onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
+                    onclick={self.update_props(ctx, |props, _| ExampleProps {
                         align_right: !props.align_right,
                         ..props
                     })}

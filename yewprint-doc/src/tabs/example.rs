@@ -127,7 +127,7 @@ impl Component for Example {
     }
 }
 
-#[derive(Clone, Copy, PartialEq, Hash)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum Civilization {
     Sumer,
     Minoan,

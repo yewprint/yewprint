@@ -1,4 +1,4 @@
-use crate::{if_html, Icon, IconName, Intent, Text};
+use crate::{Icon, IconName, Intent, Text};
 use yew::prelude::*;
 use yew::virtual_dom::AttrValue;
 
@@ -41,14 +41,20 @@ pub struct TagProps {
 
 #[function_component(Tag)]
 pub fn tag(props: &TagProps) -> Html {
-    let icon = if_html!(let Some(icon) = props.icon => <Icon icon={icon} />);
+    let icon = props.icon.map(|icon| {
+        html! {
+            <Icon icon={icon} />
+        }
+    });
 
-    let right_icon =
-        if_html!(let Some(right_icon) = props.right_icon => <Icon icon={right_icon} />);
+    let right_icon = props.right_icon.map(|icon| {
+        html! {
+            <Icon icon={icon} />
+        }
+    });
 
-    let remove_button = if_html! {
-        let Some(callback) = props.onremove.clone() =>
-        html!(
+    let remove_button = props.onremove.clone().map(|callback| {
+        html! {
             <button
                 class={classes!("bp3-tag-remove")}
                 onclick={callback}
@@ -56,8 +62,8 @@ pub fn tag(props: &TagProps) -> Html {
             >
                 <Icon icon={IconName::SmallCross} />
             </button>
-        )
-    };
+        }
+    });
 
     html! {
         <span
@@ -75,7 +81,7 @@ pub fn tag(props: &TagProps) -> Html {
             style={props.style.clone()}
             onclick={props.onclick.clone()}
         >
-            {icon}
+            {icon.unwrap_or_default()}
             <Text
                 class={classes!("bp3-fill")}
                 ellipsize={!props.multiline}
@@ -84,8 +90,8 @@ pub fn tag(props: &TagProps) -> Html {
             >
                 {props.children.clone()}
             </Text>
-            {right_icon}
-            {remove_button}
+            {right_icon.unwrap_or_default()}
+            {remove_button.unwrap_or_default()}
         </span>
     }
 }

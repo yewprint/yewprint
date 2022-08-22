@@ -84,90 +84,88 @@ impl Component for TagDoc {
 crate::build_example_prop_component! {
     TagProps for ExampleProps =>
         fn view(&self, ctx: &Context<Self>) -> Html {
-            let props = ctx.props();
-
             html! {
                 <div>
                     <H5>{"Props"}</H5>
                     <div>
                         <Switch
-                            onclick={self.update_props(props, |props, _| ExampleProps {
+                            onclick={self.update_props(ctx, |props, _| ExampleProps {
                                 active: !props.active,
                                 ..props
                             })}
-                            checked={props.example_props.active}
+                            checked={ctx.props().example_props.active}
                             label={html!("Active")}
                         />
                         <Switch
-                            onclick={self.update_props(props, |props, _| ExampleProps {
+                            onclick={self.update_props(ctx, |props, _| ExampleProps {
                                 fill: !props.fill,
                                 ..props
                             })}
-                            checked={props.example_props.fill}
+                            checked={ctx.props().example_props.fill}
                             label={html!("Fill")}
                         />
                         <Switch
-                            onclick={self.update_props(props, |props, _| ExampleProps {
+                            onclick={self.update_props(ctx, |props, _| ExampleProps {
                                 interactive: !props.interactive,
                                 ..props
                             })}
-                            checked={props.example_props.interactive}
+                            checked={ctx.props().example_props.interactive}
                             label={html!("Interactive")}
                         />
                         <Switch
-                            onclick={self.update_props(props, |props, _| ExampleProps {
+                            onclick={self.update_props(ctx, |props, _| ExampleProps {
                                 large: !props.large,
                                 ..props
                             })}
-                            checked={props.example_props.large}
+                            checked={ctx.props().example_props.large}
                             label={html!("Large")}
                         />
                         <Switch
-                            onclick={self.update_props(props, |props, _| ExampleProps {
+                            onclick={self.update_props(ctx, |props, _| ExampleProps {
                                 minimal: !props.minimal,
                                 ..props
                             })}
-                            checked={props.example_props.minimal}
+                            checked={ctx.props().example_props.minimal}
                             label={html!("Minimal")}
                         />
                         <Switch
-                            onclick={self.update_props(props, |props, _| ExampleProps {
+                            onclick={self.update_props(ctx, |props, _| ExampleProps {
                                 multiline: !props.multiline,
                                 ..props
                             })}
-                            checked={props.example_props.multiline}
+                            checked={ctx.props().example_props.multiline}
                             label={html!("Multiline")}
                         />
                         <Switch
-                            onclick={self.update_props(props, |props, _| ExampleProps {
+                            onclick={self.update_props(ctx, |props, _| ExampleProps {
                                 round: !props.round,
                                 ..props
                             })}
-                            checked={props.example_props.round}
+                            checked={ctx.props().example_props.round}
                             label={html!("Round")}
                         />
                         <Switch
-                            onclick={self.update_props(props, |props, _| ExampleProps {
+                            onclick={self.update_props(ctx, |props, _| ExampleProps {
                                 removable: !props.removable,
                                 ..props
                             })}
-                            checked={props.example_props.removable}
+                            checked={ctx.props().example_props.removable}
                             label={html!("Removable")}
                         />
                         <Switch
-                            onclick={self.update_props(props, |props, _| ExampleProps {
+                            onclick={self.update_props(ctx, |props, _| ExampleProps {
                                 icon: !props.icon,
                                 ..props
                             })}
-                            checked={props.example_props.icon}
+                            checked={ctx.props().example_props.icon}
                             label={html!("Icon")}
                         />
                         <Switch
-                            onclick={self.update_props(props, |props, _| ExampleProps {
+                            onclick={self.update_props(ctx, |props, _| ExampleProps {
                                 right_icon: !props.right_icon,
                                 ..props
                             })}
-                            checked={props.example_props.right_icon}
+                            checked={ctx.props().example_props.right_icon}
                             label={html!("Right icon")}
                         />
                         <p>{"Select intent:"}</p>
@@ -182,14 +180,14 @@ crate::build_example_prop_component! {
                                     (Some(Intent::Warning), "Warning".to_string()),
                                     (Some(Intent::Danger), "Danger".to_string()),
                                 ]}
-                                onchange={self.update_props(props, |props, intent| ExampleProps {
+                                onchange={self.update_props(ctx, |props, intent| ExampleProps {
                                     intent,
                                     ..props
                                 })}
                             />
                             <Button
                                 icon={IconName::Refresh}
-                                onclick={self.update_props(props, |props, _| ExampleProps {
+                                onclick={self.update_props(ctx, |props, _| ExampleProps {
                                     reset_tags: props.reset_tags + 1,
                                     ..props.clone()
                                 })}
