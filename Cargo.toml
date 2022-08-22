@@ -1,6 +1,6 @@
 [package]
 name = "yewprint"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["Cecile Tonglet <cecile.tonglet@cecton.com>"]
 edition = "2021"
 license = "MIT OR Apache-2.0"
