@@ -1926,7 +1926,7 @@ dependencies = [
 
 [[package]]
 name = "yewprint"
-version = "0.1.1"
+version = "0.1.2"
 dependencies = [
  "heck 0.3.3",
  "id_tree",
