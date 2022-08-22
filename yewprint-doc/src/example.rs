@@ -100,10 +100,10 @@ macro_rules! build_example_prop_component {
             /// re-rendered.
             fn update_props<T>(
                 &self,
-                props: &Self,
+                ctx: &Context<Self>,
                 updater: impl Fn($prop_component, T) -> $prop_component + 'static,
             ) -> Callback<T> {
-                let example_props = props.example_props.clone();
+                let example_props = ctx.props().example_props.clone();
                 self.callback
                     .clone()
                     .reform(move |event| updater(example_props.clone(), event))

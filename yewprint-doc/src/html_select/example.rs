@@ -3,10 +3,12 @@ use yewprint::{HtmlSelect, Text};
 
 pub struct Example {
     log_level: LogLevel,
+    reset: usize,
 }
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct ExampleProps {
+    pub reset: usize,
     pub minimal: bool,
     pub fill: bool,
     pub disabled: bool,
@@ -20,11 +22,20 @@ impl Component for Example {
     fn create(_ctx: &Context<Self>) -> Self {
         Example {
             log_level: LogLevel::Info,
+            reset: 0,
         }
     }
 
     fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         self.log_level = msg;
+        true
+    }
+
+    fn changed(&mut self, ctx: &Context<Self>) -> bool {
+        if self.reset != ctx.props().reset {
+            self.reset = ctx.props().reset;
+            self.log_level = LogLevel::Info;
+        }
         true
     }
 
@@ -44,7 +55,7 @@ impl Component for Example {
                     fill={ctx.props().fill}
                     disabled={ctx.props().disabled}
                     large={ctx.props().large}
-                    value={Some(self.log_level)}
+                    value={self.log_level}
                     onchange={ctx.link().callback(|x| x)}
                     title={format!("Selected: {:?}", self.log_level)}
                 />

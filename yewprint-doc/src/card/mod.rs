@@ -59,14 +59,12 @@ impl Component for CardDoc {
 crate::build_example_prop_component! {
     CardProps for ExampleProps =>
         fn view(&self, ctx: &Context<Self>) -> Html {
-            let props = ctx.props();
-
             html! {
                 <div>
                     <H5>{"Props"}</H5>
                     <div>
                         <Switch
-                            onclick={self.update_props(props, |props, _| ExampleProps {
+                            onclick={self.update_props(ctx, |props, _| ExampleProps {
                                 interactive: !props.interactive,
                                 ..props
                             })}
@@ -83,7 +81,7 @@ crate::build_example_prop_component! {
                                 (Elevation::Level4, "Level 4".to_string()),
                             ]}
                             value={ctx.props().example_props.elevation}
-                            onchange={self.update_props(props, |props, elevation| ExampleProps {
+                            onchange={self.update_props(ctx, |props, elevation| ExampleProps {
                                 elevation,
                                 ..props
                             })}

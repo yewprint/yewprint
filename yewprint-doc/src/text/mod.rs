@@ -66,7 +66,7 @@ crate::build_example_prop_component! {
                 <div>
                     <H5>{"Props"}</H5>
                     <Switch
-                        onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
+                        onclick={self.update_props(ctx, |props, _| ExampleProps {
                             ellipsize: !props.ellipsize,
                             ..props
                         })}
@@ -75,7 +75,7 @@ crate::build_example_prop_component! {
                     />
                     <input
                         class="bp3-input"
-                        onchange={self.update_props(ctx.props(), |props, e: Event| {
+                        onchange={self.update_props(ctx, |props, e: Event| {
                                 if let Some(input) = e.target_dyn_into::<HtmlInputElement>() {
                                     ExampleProps {
                                         text: input.value(),
