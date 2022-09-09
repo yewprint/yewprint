@@ -65,7 +65,7 @@ crate::build_example_prop_component! {
                     <H5>{"Props"}</H5>
                     <div>
                         <Switch
-                            onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
+                            onclick={self.update_props(ctx, |props, _| ExampleProps {
                                 stripes: !props.stripes,
                                 ..props
                             })}
@@ -73,7 +73,7 @@ crate::build_example_prop_component! {
                             label={html!("Stripes")}
                         />
                         <Switch
-                            onclick={self.update_props(ctx.props(), |props, _| ExampleProps {
+                            onclick={self.update_props(ctx, |props, _| ExampleProps {
                                 animate: !props.animate,
                                 ..props
                             })}
@@ -91,6 +91,7 @@ crate::build_example_prop_component! {
                             ]}
                             value={self.example_props.intent}
                             onchange={self.update_props(ctx.props(), |props, intent| ExampleProps {
+
                                 intent,
                                 ..props
                             })}

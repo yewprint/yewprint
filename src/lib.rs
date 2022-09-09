@@ -2,7 +2,8 @@
     clippy::redundant_closure,
     clippy::needless_update,
     clippy::inconsistent_struct_constructor,
-    clippy::type_complexity
+    clippy::type_complexity,
+    clippy::derive_partial_eq_without_eq
 )]
 
 mod button_group;
@@ -78,25 +79,7 @@ const MOUSE_EVENT_BUTTONS_FOURTH: u16 = 8;
 #[allow(dead_code)]
 const MOUSE_EVENT_BUTTONS_FIFTH: u16 = 16;
 
-#[macro_export]
-macro_rules! if_html {
-    (let $pat:pat = $cond:expr => $($body:tt)+) => {
-        if let $pat = $cond {
-            html!($($body)+)
-        } else {
-            html!()
-        }
-    };
-    ($cond:expr => $($body:tt)+) => {
-        if $cond {
-            html($(body)+)
-        } else {
-            html!()
-        }
-    };
-}
-
-#[derive(Debug, Copy, Clone, PartialEq, Hash)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum Intent {
     Primary,
     Success,
