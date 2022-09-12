@@ -91,7 +91,6 @@ crate::build_example_prop_component! {
                             ]}
                             value={self.example_props.intent}
                             onchange={self.update_props(ctx, |props, intent| ExampleProps {
-
                                 intent,
                                 ..props
                             })}
