@@ -2,8 +2,9 @@ mod example;
 
 use crate::ExampleContainer;
 use example::*;
+use std::borrow::Cow;
 use yew::prelude::*;
-use yewprint::{HtmlSelect, Intent, H1, H5};
+use yewprint::{HtmlSelect, Intent, Slider, H1, H5};
 
 pub struct IconDoc {
     callback: Callback<ExampleProps>,
@@ -17,7 +18,10 @@ impl Component for IconDoc {
     fn create(ctx: &Context<Self>) -> Self {
         IconDoc {
             callback: ctx.link().callback(|x| x),
-            state: ExampleProps { intent: None },
+            state: ExampleProps {
+                intent: None,
+                icon_size: 16,
+            },
         }
     }
 
@@ -45,8 +49,8 @@ impl Component for IconDoc {
                             example_props={example_props.clone()}
                         />
                     })}
-                    >
-                    <Example ..example_props />
+                >
+                        <Example ..example_props />
                 </ExampleContainer>
             </div>
         }
@@ -56,6 +60,11 @@ impl Component for IconDoc {
 crate::build_example_prop_component! {
     IconProps for ExampleProps =>
         fn view(&self, ctx: &Context<Self>) -> Html {
+            let option_labels = (0..=100)
+            .step_by(1)
+            .map(|x| (x, (x % 20 == 0).then(|| format!("{}", x).into())))
+            .collect::<Vec<_>>();
+
             html! {
                 <div>
                     <H5>{"Props"}</H5>
@@ -74,7 +83,23 @@ crate::build_example_prop_component! {
                                 intent,
                                 ..props
                             })}
-                            />
+                        />
+                        <p
+                            style="margin-top: 5px;"
+                        >
+                            {"Select icon size"}
+                        </p>
+                        <Slider<i32>
+                            selected={ctx.props().example_props.icon_size}
+                            values={option_labels}
+                            onchange={self.update_props(ctx, |props, icon_size| ExampleProps {
+                                icon_size,
+                                ..props
+                            })}
+                            value_label={
+                                Cow::Owned(format!("{}", ctx.props().example_props.icon_size))
+                            }
+                        />
                     </div>
                 </div>
             }
