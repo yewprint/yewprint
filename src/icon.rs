@@ -18,9 +18,7 @@ impl FromStr for IconName {
 
         let s = s.to_lowercase();
 
-        let it = enum_iterator::all::<IconName>().collect::<Vec<_>>();
-
-        for x in it {
+        for x in IconName::iter() {
             if format!("{:?}", x).to_lowercase() == s.to_lowercase() {
                 res = Ok(x)
             }

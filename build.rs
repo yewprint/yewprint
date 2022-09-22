@@ -47,13 +47,25 @@ fn main() {
     let mut keys: Vec<_> = keys.iter().collect();
     keys.sort();
     src.push_str(
-        "#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash, enum_iterator::Sequence)]\n\
+        "#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]\n\
          pub enum IconName {\n",
     );
-    for icon in keys {
+    for icon in &keys {
         src.push_str(icon);
         src.push_str(",\n");
     }
+    src.push_str("}\n\n");
+
+    src.push_str("impl IconName {\n");
+    src.push_str("fn iter() -> Vec<Self> {\n");
+    src.push_str("vec![\n");
+    for icon in keys {
+        src.push_str("IconName::");
+        src.push_str(icon);
+        src.push_str(",\n");
+    }
+    src.push_str("]\n");
+    src.push_str("}\n");
     src.push_str("}\n\n");
 
     fs::write(&dest_path, src).unwrap();
