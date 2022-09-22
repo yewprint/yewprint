@@ -1,4 +1,5 @@
 use crate::Intent;
+use core::str::FromStr;
 use yew::prelude::*;
 
 include!(concat!(env!("OUT_DIR"), "/icon_svg_paths.rs"));
@@ -6,6 +7,26 @@ include!(concat!(env!("OUT_DIR"), "/icon_svg_paths.rs"));
 impl Default for IconName {
     fn default() -> Self {
         IconName::Blank
+    }
+}
+
+impl FromStr for IconName {
+    type Err = String;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        let mut res: Result<Self, Self::Err> = Err(format!("cannot parse {} as IconName", s));
+
+        let s = s.to_lowercase();
+
+        let it = enum_iterator::all::<IconName>().collect::<Vec<_>>();
+
+        for x in it {
+            if format!("{:?}", x).to_lowercase() == s.to_lowercase() {
+                res = Ok(x)
+            }
+        }
+
+        res
     }
 }
 

@@ -3,6 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use std::borrow::Cow;
+use web_sys::HtmlInputElement;
 use yew::prelude::*;
 use yewprint::{HtmlSelect, Intent, Slider, H1, H5};
 
@@ -19,6 +20,7 @@ impl Component for IconDoc {
         IconDoc {
             callback: ctx.link().callback(|x| x),
             state: ExampleProps {
+                icon_name: "Print".to_string(),
                 intent: None,
                 icon_size: 16,
             },
@@ -69,7 +71,30 @@ crate::build_example_prop_component! {
                 <div>
                     <H5>{"Props"}</H5>
                     <div>
-                        <p>{"Select intent:"}</p>
+                        <p>{"Icon:"}</p>
+                        <input
+                            class="bp3-input"
+                            onchange={self.update_props(ctx, |props, e: Event| {
+                                if let Some(input) = e.target_dyn_into::<HtmlInputElement>() {
+                                    ExampleProps {
+                                        icon_name: input.value(),
+                                        ..props
+                                    }
+                                } else {
+                                    ExampleProps {
+                                        icon_name: "Blank".to_string(),
+                                        ..props
+                                    }
+                                }
+                            })}
+                            type="text"
+                            value={ctx.props().example_props.icon_name.clone()}
+                        />
+                        <p
+                            style="margin-top: 5px;"
+                        >
+                            {"Select intent:"}
+                        </p>
                         <HtmlSelect<Option<Intent>>
                             options={vec![
                                 (None, "None".to_string()),
