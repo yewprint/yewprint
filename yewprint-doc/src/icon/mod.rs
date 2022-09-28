@@ -5,7 +5,7 @@ use example::*;
 use std::borrow::Cow;
 use web_sys::HtmlInputElement;
 use yew::prelude::*;
-use yewprint::{HtmlSelect, Intent, Slider, H1, H5};
+use yewprint::{HtmlSelect, Icon, IconName, InputGroup, Intent, Slider, H1, H5};
 
 pub struct IconDoc {
     callback: Callback<ExampleProps>,
@@ -39,6 +39,19 @@ impl Component for IconDoc {
             "bp3-code-block"
         );
 
+        let icon_list = IconName::iter()
+            .into_iter()
+            .map(|x| {
+                html! {
+                    <div>
+                        <Icon
+                            icon={x}
+                        />
+                    </div>
+                }
+            })
+            .collect::<Vec<_>>();
+
         html! {
             <div>
                 <H1 class={classes!("docs-title")}>{"Icon"}</H1>
@@ -54,6 +67,15 @@ impl Component for IconDoc {
                 >
                         <Example ..example_props />
                 </ExampleContainer>
+                <div>
+                    <InputGroup
+                        fill={true}
+                        round={true}
+                        left_icon={IconName::Search}
+                        placeholder={"Search for icons..."}
+                    />
+                    {icon_list}
+                </div>
             </div>
         }
     }
