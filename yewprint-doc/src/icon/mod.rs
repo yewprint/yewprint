@@ -40,7 +40,6 @@ impl Component for IconDoc {
         );
 
         let icon_list = IconName::iter()
-            .into_iter()
             .map(|x| {
                 html! {
                     <div>
