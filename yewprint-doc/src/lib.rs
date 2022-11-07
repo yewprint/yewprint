@@ -65,7 +65,7 @@ macro_rules! build_source_code_component {
             pub fn generate_url() -> String {
                 use std::path::Path;
 
-                let branch = env!("GIT_BRANCH");
+                let branch = "HEAD";
                 let component_name = Path::new(file!())
                     .parent()
                     .unwrap()
