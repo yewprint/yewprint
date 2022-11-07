@@ -57,8 +57,8 @@ fn main() {
     src.push_str("}\n\n");
 
     src.push_str("impl IconName {\n");
-    src.push_str("pub fn iter() -> impl Iterator<Item=Self>{\n");
-    src.push_str("vec![\n");
+    src.push_str("pub fn iter() -> impl Iterator<Item=Self> {\n");
+    src.push_str("[\n");
     for icon in keys {
         src.push_str("IconName::");
         src.push_str(icon);

@@ -16,8 +16,6 @@ impl FromStr for IconName {
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let mut res: Result<Self, Self::Err> = Err(format!("cannot parse {} as IconName", s));
 
-        let s = s.to_lowercase();
-
         for x in IconName::iter() {
             if format!("{:?}", x).to_lowercase() == s.to_lowercase() {
                 res = Ok(x)
