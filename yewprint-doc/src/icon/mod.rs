@@ -10,29 +10,40 @@ use yewprint::{HtmlSelect, Icon, IconName, InputGroup, Intent, Slider, Text, H1,
 pub struct IconDoc {
     callback: Callback<ExampleProps>,
     state: ExampleProps,
+    search_icon: String,
+}
+
+#[derive(Clone)]
+pub enum IconDocMsg {
+    Example(ExampleProps),
+    SearchIcon(String),
 }
 
 impl Component for IconDoc {
-    type Message = ExampleProps;
+    type Message = IconDocMsg;
     type Properties = ();
 
     fn create(ctx: &Context<Self>) -> Self {
         IconDoc {
-            callback: ctx.link().callback(|x| x),
+            callback: ctx.link().callback(|x| IconDocMsg::Example(x)),
             state: ExampleProps {
                 icon_name: "Print".to_string(),
                 intent: None,
                 icon_size: 16,
             },
+            search_icon: Default::default(),
         }
     }
 
     fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
-        self.state = msg;
+        match msg {
+            IconDocMsg::Example(x) => self.state = x,
+            IconDocMsg::SearchIcon(x) => self.search_icon = x,
+        }
         true
     }
 
-    fn view(&self, _ctx: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         let example_props = self.state.clone();
         let source = crate::include_raw_html!(
             concat!(env!("OUT_DIR"), "/", file!(), ".html"),
@@ -40,15 +51,23 @@ impl Component for IconDoc {
         );
 
         let icon_list = IconName::iter()
-            .map(|x| {
-                html! {
-                    <div class={classes!("docs-icon-list-item")}>
-                        <Icon
-                            icon={x}
-                            icon_size=20
-                        />
-                        <Text>{format!("{:?}", x)}</Text>
-                    </div>
+            .filter_map(|x| {
+                let icon_name = format!("{:?}", x);
+                if icon_name
+                    .to_lowercase()
+                    .contains(&self.search_icon.to_lowercase())
+                {
+                    Some(html! {
+                        <div class={classes!("docs-icon-list-item")}>
+                            <Icon
+                                icon={x}
+                                icon_size=20
+                            />
+                            <Text>{icon_name}</Text>
+                        </div>
+                    })
+                } else {
+                    None
                 }
             })
             .collect::<Vec<_>>();
@@ -75,6 +94,11 @@ impl Component for IconDoc {
                         round={true}
                         left_icon={IconName::Search}
                         placeholder={"Search for icons..."}
+                        value={self.search_icon.clone()}
+                        oninput={ctx.link().callback(|e: InputEvent| {
+                            let value = e.target_unchecked_into::<HtmlInputElement>().value();
+                            IconDocMsg::SearchIcon(value)
+                        })}
                     />
                 </div>
                 <div class={classes!("docs-icon-list")}>
