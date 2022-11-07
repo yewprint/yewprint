@@ -190,7 +190,7 @@ impl Component for Collapse {
                 <div
                     class={classes!("bp3-collapse-body")}
                     style={content_style}
-                    aria-hidden={(!self.render_children).then(|| "true")}
+                    aria-hidden={(!self.render_children).then_some("true")}
                     ref={self.contents_ref.clone()}
                 >
                     {

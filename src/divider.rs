@@ -16,7 +16,7 @@ pub fn view(props: &DividerProps) -> Html {
         <span
             class={classes!(
                 "bp3-divider",
-                props.vertical.then(|| "bp3-vertical"),
+                props.vertical.then_some("bp3-vertical"),
                 props.class.clone(),
             )}
         />

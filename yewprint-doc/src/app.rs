@@ -279,7 +279,7 @@ impl Component for App {
         };
 
         html! {
-            <div class={classes!("docs-root", self.dark_theme.then(|| "bp3-dark"))}>
+            <div class={classes!("docs-root", self.dark_theme.then_some("bp3-dark"))}>
                 <div class={classes!("docs-app")}>
                     {{ navigation }}
                     <main class={classes!("docs-content-wrapper")} role="main">

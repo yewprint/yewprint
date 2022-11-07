@@ -79,14 +79,14 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
             <div
                 class={classes!(
                     "bp3-tabs",
-                    ctx.props().vertical.then(|| "bp3-vertical"),
+                    ctx.props().vertical.then_some("bp3-vertical"),
                     ctx.props().class.clone(),
                 )}
             >
                 <div
                     class={classes!(
                         "bp3-tab-list",
-                        ctx.props().large.then(|| "bp3-large"),
+                        ctx.props().large.then_some("bp3-large"),
                     )}
                 >
                     {
@@ -112,11 +112,11 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
                                         "bp3-tab",
                                         props.title_class.clone(),
                                     )}
-                                    aria-disabled={props.disabled.then(|| "true")}
+                                    aria-disabled={props.disabled.then_some("true")}
                                     aria-expanded={selected.to_string()}
                                     aria-selected={selected.to_string()}
                                     role="tab"
-                                    tabIndex={(!props.disabled).then(|| "0")}
+                                    tabIndex={(!props.disabled).then_some("0")}
                                     id={title_id.to_string()}
                                     aria-controls={panel_id.to_string()}
                                     data-tab-id={id.to_string()}
@@ -149,7 +149,7 @@ impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
                                     selected.then(|| props.panel_class.clone()),
                                 )}
                                 aria-labelledby={title_id.to_string()}
-                                aria-hidden={(!selected).then(|| "true")}
+                                aria-hidden={(!selected).then_some("true")}
                                 role="tabpanel"
                                 id={panel_id.to_string()}
                                 key={*id}

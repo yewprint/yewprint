@@ -227,7 +227,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
             <div
                 class={classes!(
                     "bp3-slider",
-                    ctx.props().vertical.then(|| "bp3-vertical"),
+                    ctx.props().vertical.then_some("bp3-vertical"),
                 )}
                 onmousedown={(ctx.props().values.len() > 1).then(
                     || ctx.link().batch_callback(
@@ -301,7 +301,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                                 <span
                                     class={classes!(
                                         "bp3-slider-handle",
-                                        self.is_moving.then(|| "bp3-active"),
+                                        self.is_moving.then_some("bp3-active"),
                                     )}
                                     ref={self.handle_ref.clone()}
                                     style={format!(
@@ -329,7 +329,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                                 <span
                                     class={classes!(
                                         "bp3-slider-handle",
-                                        self.is_moving.then(|| "bp3-active"),
+                                        self.is_moving.then_some("bp3-active"),
                                     )}
                                     ref={self.handle_ref.clone()}
                                     style="left: calc(50% - 8px);"

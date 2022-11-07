@@ -58,7 +58,7 @@ pub fn tag(props: &TagProps) -> Html {
             <button
                 class={classes!("bp3-tag-remove")}
                 onclick={callback}
-                tabindex={props.interactive.then(|| "0")}
+                tabindex={props.interactive.then_some("0")}
             >
                 <Icon icon={IconName::SmallCross} />
             </button>
@@ -70,12 +70,12 @@ pub fn tag(props: &TagProps) -> Html {
             class={classes!(
                 "bp3-tag",
                 props.intent,
-                props.active.then(|| "bp3-active"),
-                props.fill.then(|| "bp3-fill"),
-                props.interactive.then(|| "bp3-interactive"),
-                props.large.then(|| "bp3-large"),
-                props.minimal.then(|| "bp3-minimal"),
-                props.round.then(|| "bp3-round"),
+                props.active.then_some("bp3-active"),
+                props.fill.then_some("bp3-fill"),
+                props.interactive.then_some("bp3-interactive"),
+                props.large.then_some("bp3-large"),
+                props.minimal.then_some("bp3-minimal"),
+                props.round.then_some("bp3-round"),
                 props.class.clone(),
             )}
             style={props.style.clone()}

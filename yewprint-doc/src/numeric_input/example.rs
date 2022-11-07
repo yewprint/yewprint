@@ -62,7 +62,7 @@ impl Component for Example {
                 onchange={ctx.link().callback(|x| Msg::UpdateValue(x))}
                 disable_buttons={ctx.props().disable_buttons}
                 buttons_on_the_left={ctx.props().buttons_on_the_left}
-                left_icon={ctx.props().left_icon.then(|| IconName::Dollar)}
+                left_icon={ctx.props().left_icon.then_some(IconName::Dollar)}
             />
             <NumericInput<i32>
                 disabled={ctx.props().disabled}
@@ -75,7 +75,7 @@ impl Component for Example {
                 onchange={ctx.link().callback(|x| Msg::UpdateValueTwo(x))}
                 disable_buttons={ctx.props().disable_buttons}
                 buttons_on_the_left={ctx.props().buttons_on_the_left}
-                left_icon={ctx.props().left_icon.then(|| IconName::Dollar)}
+                left_icon={ctx.props().left_icon.then_some(IconName::Dollar)}
             />
             <Button
                 icon={IconName::Refresh}

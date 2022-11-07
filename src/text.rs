@@ -24,7 +24,7 @@ pub fn text(props: &TextProps) -> Html {
         <@{if props.inline { "span" } else { "div"}}
             class={classes!(
                 props.class.clone(),
-                props.ellipsize.then (|| "bp3-text-overflow-ellipsis"),
+                props.ellipsize.then_some("bp3-text-overflow-ellipsis"),
             )}
             style={props.style.clone()}
             title={props.title.clone()}

@@ -25,10 +25,10 @@ pub fn button_group(props: &ButtonGroupProps) -> Html {
         <div
             class={classes!(
                 "bp3-button-group",
-                props.minimal.then(|| "bp3-minimal"),
-                props.fill.then(|| "bp3-fill"),
-                props.large.then(|| "bp3-large"),
-                props.vertical.then(|| "bp3-vertical"),
+                props.minimal.then_some("bp3-minimal"),
+                props.fill.then_some("bp3-fill"),
+                props.large.then_some("bp3-large"),
+                props.vertical.then_some("bp3-vertical"),
                 props.class.clone(),
             )}
             style={props.style.clone()}
