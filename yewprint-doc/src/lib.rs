@@ -2,7 +2,9 @@
     clippy::redundant_closure,
     clippy::needless_update,
     dead_code,
-    clippy::derive_partial_eq_without_eq
+    clippy::derive_partial_eq_without_eq,
+    // Shadows lints linked to this issue: https://github.com/yewstack/yew/issues/2931
+    clippy::let_unit_value
 )]
 
 mod app;
