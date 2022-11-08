@@ -50,27 +50,24 @@ impl Component for IconDoc {
             "bp3-code-block"
         );
 
-        let icon_list = IconName::iter()
-            .filter_map(|x| {
-                let icon_name = format!("{:?}", x);
-                if icon_name
-                    .to_lowercase()
-                    .contains(&self.search_icon.to_lowercase())
-                {
-                    Some(html! {
-                        <div class={classes!("docs-icon-list-item")}>
-                            <Icon
-                                icon={x}
-                                icon_size=20
-                            />
-                            <Text>{icon_name}</Text>
-                        </div>
-                    })
-                } else {
-                    None
-                }
-            })
-            .collect::<Vec<_>>();
+        let mut icon_list = Vec::new();
+        for icon in *IconName::ALL {
+            let icon_name = format!("{:?}", icon);
+            if icon_name
+                .to_lowercase()
+                .contains(&self.search_icon.to_lowercase())
+            {
+                icon_list.push(html! {
+                    <div class={classes!("docs-icon-list-item")}>
+                        <Icon
+                            icon={icon}
+                            icon_size=20
+                        />
+                        <Text>{icon_name}</Text>
+                    </div>
+                })
+            }
+        }
 
         html! {
             <div>
