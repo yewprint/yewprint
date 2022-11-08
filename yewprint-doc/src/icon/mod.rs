@@ -51,7 +51,7 @@ impl Component for IconDoc {
         );
 
         let mut icon_list = Vec::new();
-        for icon in *IconName::ALL {
+        for icon in IconName::ALL {
             let icon_name = format!("{:?}", icon);
             if icon_name
                 .to_lowercase()
@@ -60,7 +60,7 @@ impl Component for IconDoc {
                 icon_list.push(html! {
                     <div class={classes!("docs-icon-list-item")}>
                         <Icon
-                            icon={icon}
+                            icon={*icon}
                             icon_size=20
                         />
                         <Text>{icon_name}</Text>

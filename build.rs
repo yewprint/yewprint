@@ -46,7 +46,6 @@ fn main() {
 
     let mut keys: Vec<_> = keys.iter().collect();
     keys.sort();
-    src.push_str("use once_cell::unsync::Lazy;\n");
     src.push_str(
         "#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]\n\
          pub enum IconName {\n",
@@ -58,15 +57,13 @@ fn main() {
     src.push_str("}\n\n");
 
     src.push_str("impl IconName {\n");
-    src.push_str("pub const ALL: Lazy<[IconName; 499]> = Lazy::new(|| {\n");
-    src.push_str("[\n");
+    src.push_str("pub const ALL: &[IconName] = &[\n");
     for icon in keys {
         src.push_str("IconName::");
         src.push_str(icon);
         src.push_str(",\n");
     }
-    src.push_str("]\n");
-    src.push_str("});\n");
+    src.push_str("];\n");
     src.push('}');
 
     fs::write(&dest_path, src).unwrap();
