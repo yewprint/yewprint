@@ -2,6 +2,7 @@ mod example;
 
 use crate::ExampleContainer;
 use example::*;
+use once_cell::sync::Lazy;
 use std::borrow::Cow;
 use web_sys::HtmlInputElement;
 use yew::prelude::*;
@@ -18,6 +19,13 @@ pub enum IconDocMsg {
     Example(ExampleProps),
     SearchIcon(String),
 }
+
+static ICON_LIST: Lazy<Vec<(String, IconName)>> = Lazy::new(|| {
+    IconName::ALL
+        .iter()
+        .map(|x| (format!("{:?}", x), *x))
+        .collect::<Vec<_>>()
+});
 
 impl Component for IconDoc {
     type Message = IconDocMsg;
@@ -50,24 +58,22 @@ impl Component for IconDoc {
             "bp3-code-block"
         );
 
-        let mut icon_list = Vec::new();
-        for icon in IconName::ALL {
-            let icon_name = format!("{:?}", icon);
-            if icon_name
-                .to_lowercase()
-                .contains(&self.search_icon.to_lowercase())
-            {
-                icon_list.push(html! {
-                    <div class={classes!("docs-icon-list-item")}>
-                        <Icon
-                            icon={*icon}
-                            icon_size=20
-                        />
-                        <Text>{icon_name}</Text>
-                    </div>
-                })
-            }
-        }
+        let icon_list = ICON_LIST
+            .iter()
+            .filter_map(|(name, icon)| {
+                name.to_lowercase()
+                    .contains(&self.search_icon.to_lowercase())
+                    .then_some(html! {
+                        <div class={classes!("docs-icon-list-item")}>
+                            <Icon
+                                icon={*icon}
+                                icon_size=20
+                            />
+                            <Text>{name}</Text>
+                        </div>
+                    })
+            })
+            .collect::<Html>();
 
         html! {
             <div>

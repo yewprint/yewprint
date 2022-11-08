@@ -20,7 +20,6 @@ tree = ["id_tree"]
 [dependencies]
 gloo = "0.6"
 id_tree = { version = "1.7", optional = true }
-once_cell = "1.16"
 wasm-bindgen = "0.2"
 web-sys = { version = "0.3", features = ["DomRect", "Element", "Event", "HtmlSelectElement"] }
 # yew = { git = "https://github.com/yewstack/yew", branch = "master" }
