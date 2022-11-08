@@ -23,7 +23,7 @@ pub enum IconDocMsg {
 static ICON_LIST: Lazy<Vec<(String, IconName)>> = Lazy::new(|| {
     IconName::ALL
         .iter()
-        .map(|x| (format!("{:?}", x), *x))
+        .map(|x| (format!("{:?}", x).to_lowercase(), *x))
         .collect::<Vec<_>>()
 });
 
@@ -61,8 +61,7 @@ impl Component for IconDoc {
         let icon_list = ICON_LIST
             .iter()
             .filter_map(|(name, icon)| {
-                name.to_lowercase()
-                    .contains(&self.search_icon.to_lowercase())
+                name.contains(&self.search_icon.to_lowercase())
                     .then_some(html! {
                         <div class={classes!("docs-icon-list-item")}>
                             <Icon
