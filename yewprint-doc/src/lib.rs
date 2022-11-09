@@ -120,6 +120,7 @@ macro_rules! build_source_code_component {
             #[test]
             fn check_url() {
                 let url = SourceCodeUrl::generate_url();
+                assert_eq("bla", url);
                 let response = ureq::get(&url).call().expect("can send request");
 
                 assert_eq!(response.status(), 200)
