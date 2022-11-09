@@ -23,9 +23,21 @@ pub enum IconDocMsg {
 static ICON_LIST: Lazy<Vec<(String, IconName)>> = Lazy::new(|| {
     IconName::ALL
         .iter()
-        .map(|x| (format!("{:?}", x).to_lowercase(), *x))
+        .map(|x| (format!("{:?}", x), *x))
         .collect::<Vec<_>>()
 });
+
+fn get_icon_from_name(name: &str) -> IconName {
+    let mut res = IconName::Blank;
+
+    for (icon_name, icon) in ICON_LIST.iter() {
+        if name.to_lowercase() == *icon_name.to_lowercase() {
+            res = *icon;
+        }
+    }
+
+    res
+}
 
 impl Component for IconDoc {
     type Message = IconDocMsg;
@@ -35,7 +47,7 @@ impl Component for IconDoc {
         IconDoc {
             callback: ctx.link().callback(|x| IconDocMsg::Example(x)),
             state: ExampleProps {
-                icon_name: "Print".to_string(),
+                icon_name: IconName::Print,
                 intent: None,
                 icon_size: 16,
             },
@@ -61,7 +73,8 @@ impl Component for IconDoc {
         let icon_list = ICON_LIST
             .iter()
             .filter_map(|(name, icon)| {
-                name.contains(&self.search_icon.to_lowercase())
+                name.to_lowercase()
+                    .contains(&self.search_icon.to_lowercase())
                     .then_some(html! {
                         <div class={classes!("docs-icon-list-item")}>
                             <Icon
@@ -129,18 +142,18 @@ crate::build_example_prop_component! {
                             onchange={self.update_props(ctx, |props, e: Event| {
                                 if let Some(input) = e.target_dyn_into::<HtmlInputElement>() {
                                     ExampleProps {
-                                        icon_name: input.value(),
+                                        icon_name: get_icon_from_name(&input.value()),
                                         ..props
                                     }
                                 } else {
                                     ExampleProps {
-                                        icon_name: "Blank".to_string(),
+                                        icon_name: IconName::Blank,
                                         ..props
                                     }
                                 }
                             })}
                             type="text"
-                            value={ctx.props().example_props.icon_name.clone()}
+                            value={format!("{:?}", ctx.props().example_props.icon_name.clone())}
                         />
                         <p
                             style="margin-top: 5px;"
