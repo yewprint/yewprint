@@ -3,12 +3,6 @@ use yew::prelude::*;
 
 include!(concat!(env!("OUT_DIR"), "/icon_svg_paths.rs"));
 
-impl Default for IconName {
-    fn default() -> Self {
-        IconName::Blank
-    }
-}
-
 pub const ICON_SIZE_STANDARD: i32 = 16;
 pub const ICON_SIZE_LARGE: i32 = 20;
 

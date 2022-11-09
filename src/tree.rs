@@ -328,7 +328,7 @@ impl Component for TreeNode {
                     }
                     <Icon
                         class={classes!("bp3-tree-node-icon")}
-                        icon={ctx.props().icon.unwrap_or_default()}
+                        icon={ctx.props().icon.unwrap_or(IconName::Blank)}
                         color={ctx.props().icon_color.clone()}
                         intent={ctx.props().icon_intent}
                     />
