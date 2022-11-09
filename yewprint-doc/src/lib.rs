@@ -67,7 +67,6 @@ macro_rules! build_source_code_component {
             pub fn generate_url() -> String {
                 use std::path::Path;
 
-                let branch = env!("GIT_BRANCH");
                 let component_name = Path::new(file!())
                     .parent()
                     .unwrap()
@@ -77,9 +76,8 @@ macro_rules! build_source_code_component {
                     .unwrap();
 
                 format!(
-                    "https://github.com/yewprint/yewprint/blob/{}\
-                        /src/{}.rs",
-                    branch, component_name,
+                    "https://github.com/yewprint/yewprint/blob/HEAD/src/{}.rs",
+                    component_name,
                 )
             }
         }
@@ -120,7 +118,6 @@ macro_rules! build_source_code_component {
             #[test]
             fn check_url() {
                 let url = SourceCodeUrl::generate_url();
-                assert_eq!("bla", url);
                 let response = ureq::get(&url).call().expect("can send request");
 
                 assert_eq!(response.status(), 200)
