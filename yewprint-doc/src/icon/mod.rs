@@ -29,12 +29,12 @@ static ICON_LIST: Lazy<Vec<(String, IconName)>> = Lazy::new(|| {
 
 fn get_icon_from_name(name: &str) -> IconName {
     for (icon_name, icon) in ICON_LIST.iter() {
-        if name.to_lowercase() == *icon_name.to_lowercase() {
+        if name == icon_name.to_lowercase() {
             return *icon;
         }
     }
 
-    IconName::default()
+    Default::default()
 }
 
 impl Component for IconDoc {
