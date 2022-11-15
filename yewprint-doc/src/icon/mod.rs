@@ -23,20 +23,18 @@ pub enum IconDocMsg {
 static ICON_LIST: Lazy<Vec<(String, IconName)>> = Lazy::new(|| {
     IconName::ALL
         .iter()
-        .map(|x| (format!("{:?}", x), *x))
+        .map(|x| (format!("{:?}", x).to_lowercase(), *x))
         .collect::<Vec<_>>()
 });
 
 fn get_icon_from_name(name: &str) -> IconName {
-    let mut res = IconName::Blank;
-
     for (icon_name, icon) in ICON_LIST.iter() {
         if name.to_lowercase() == *icon_name.to_lowercase() {
-            res = *icon;
+            return *icon;
         }
     }
 
-    res
+    IconName::default()
 }
 
 impl Component for IconDoc {
@@ -73,15 +71,14 @@ impl Component for IconDoc {
         let icon_list = ICON_LIST
             .iter()
             .filter_map(|(name, icon)| {
-                name.to_lowercase()
-                    .contains(&self.search_icon.to_lowercase())
+                name.contains(&self.search_icon.to_lowercase())
                     .then_some(html! {
                         <div class={classes!("docs-icon-list-item")}>
                             <Icon
                                 icon={*icon}
                                 icon_size=20
                             />
-                            <Text>{name}</Text>
+                            <Text>{format!("{:?}", icon)}</Text>
                         </div>
                     })
             })
@@ -104,9 +101,9 @@ impl Component for IconDoc {
                 </ExampleContainer>
                 <div class={classes!("docs-icon-search")}>
                     <InputGroup
-                        large={true}
-                        fill={true}
-                        round={true}
+                        large=true
+                        fill=true
+                        round=true
                         left_icon={IconName::Search}
                         placeholder={"Search for icons..."}
                         value={self.search_icon.clone()}
@@ -140,20 +137,18 @@ crate::build_example_prop_component! {
                         <input
                             class="bp3-input"
                             onchange={self.update_props(ctx, |props, e: Event| {
-                                if let Some(input) = e.target_dyn_into::<HtmlInputElement>() {
+                                let icon = get_icon_from_name(
+                                    &e.target_dyn_into::<HtmlInputElement>()
+                                        .map(|x| x.value())
+                                        .unwrap_or_default()
+                                );
                                     ExampleProps {
-                                        icon_name: get_icon_from_name(&input.value()),
+                                        icon_name: icon,
                                         ..props
                                     }
-                                } else {
-                                    ExampleProps {
-                                        icon_name: IconName::Blank,
-                                        ..props
-                                    }
-                                }
                             })}
                             type="text"
-                            value={format!("{:?}", ctx.props().example_props.icon_name.clone())}
+                            value={format!("{:?}", ctx.props().example_props.icon_name)}
                         />
                         <p
                             style="margin-top: 5px;"
