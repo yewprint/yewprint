@@ -11,7 +11,7 @@ use yewprint::{HtmlSelect, Icon, IconName, InputGroup, Intent, Slider, Text, H1,
 pub struct IconDoc {
     callback: Callback<ExampleProps>,
     state: ExampleProps,
-    search_icon: String,
+    search_string: String,
 }
 
 #[derive(Clone)]
@@ -27,14 +27,14 @@ static ICON_LIST: Lazy<Vec<(String, IconName)>> = Lazy::new(|| {
         .collect::<Vec<_>>()
 });
 
-fn get_icon_from_name(name: &str) -> IconName {
+fn get_icon_from_name(name: &str) -> Option<IconName> {
     for (icon_name, icon) in ICON_LIST.iter() {
-        if name == icon_name.to_lowercase() {
-            return *icon;
+        if name == icon_name {
+            return Some(*icon);
         }
     }
 
-    Default::default()
+    None
 }
 
 impl Component for IconDoc {
@@ -49,14 +49,14 @@ impl Component for IconDoc {
                 intent: None,
                 icon_size: 16,
             },
-            search_icon: Default::default(),
+            search_string: Default::default(),
         }
     }
 
     fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             IconDocMsg::Example(x) => self.state = x,
-            IconDocMsg::SearchIcon(x) => self.search_icon = x,
+            IconDocMsg::SearchIcon(x) => self.search_string = x,
         }
         true
     }
@@ -68,11 +68,12 @@ impl Component for IconDoc {
             "bp3-code-block"
         );
 
+        let search_string = self.search_string.to_lowercase();
         let icon_list = ICON_LIST
             .iter()
             .filter_map(|(name, icon)| {
-                name.contains(&self.search_icon.to_lowercase())
-                    .then_some(html! {
+                name.contains(&search_string).then(|| {
+                    html! {
                         <div class={classes!("docs-icon-list-item")}>
                             <Icon
                                 icon={*icon}
@@ -80,7 +81,8 @@ impl Component for IconDoc {
                             />
                             <Text>{format!("{:?}", icon)}</Text>
                         </div>
-                    })
+                    }
+                })
             })
             .collect::<Html>();
 
@@ -89,7 +91,7 @@ impl Component for IconDoc {
                 <H1 class={classes!("docs-title")}>{"Icon"}</H1>
                 <SourceCodeUrl />
                 <ExampleContainer
-                    source={source}
+                    {source}
                     props={Some(html! {
                         <IconProps
                             callback={self.callback.clone()}
@@ -105,8 +107,8 @@ impl Component for IconDoc {
                         fill=true
                         round=true
                         left_icon={IconName::Search}
-                        placeholder={"Search for icons..."}
-                        value={self.search_icon.clone()}
+                        placeholder="Search for icons..."
+                        value={self.search_string.clone()}
                         oninput={ctx.link().callback(|e: InputEvent| {
                             let value = e.target_unchecked_into::<HtmlInputElement>().value();
                             IconDocMsg::SearchIcon(value)
@@ -137,15 +139,15 @@ crate::build_example_prop_component! {
                         <input
                             class="bp3-input"
                             onchange={self.update_props(ctx, |props, e: Event| {
-                                let icon = get_icon_from_name(
-                                    &e.target_dyn_into::<HtmlInputElement>()
-                                        .map(|x| x.value())
-                                        .unwrap_or_default()
-                                );
-                                    ExampleProps {
-                                        icon_name: icon,
-                                        ..props
-                                    }
+                                let icon = e.target_dyn_into::<HtmlInputElement>()
+                                    .map(|x| x.value().to_lowercase())
+                                    .as_deref()
+                                    .and_then(|x| get_icon_from_name(x));
+
+                                ExampleProps {
+                                    icon_name: icon.unwrap_or_default(),
+                                    ..props
+                                }
                             })}
                             type="text"
                             value={format!("{:?}", ctx.props().example_props.icon_name)}
