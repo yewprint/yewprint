@@ -24,12 +24,13 @@ static ICON_LIST: Lazy<Vec<(String, IconName)>> = Lazy::new(|| {
     IconName::ALL
         .iter()
         .map(|x| (format!("{:?}", x).to_lowercase(), *x))
-        .collect::<Vec<_>>()
+        .collect()
 });
 
 fn get_icon_from_name(name: &str) -> Option<IconName> {
+    let name = name.to_lowercase();
     for (icon_name, icon) in ICON_LIST.iter() {
-        if name == icon_name {
+        if &name == icon_name {
             return Some(*icon);
         }
     }
@@ -139,13 +140,13 @@ crate::build_example_prop_component! {
                         <input
                             class="bp3-input"
                             onchange={self.update_props(ctx, |props, e: Event| {
-                                let icon = e.target_dyn_into::<HtmlInputElement>()
-                                    .map(|x| x.value().to_lowercase())
+                                let icon_name = e.target_dyn_into::<HtmlInputElement>()
+                                    .map(|x| x.value())
                                     .as_deref()
                                     .and_then(|x| get_icon_from_name(x));
 
                                 ExampleProps {
-                                    icon_name: icon.unwrap_or_default(),
+                                    icon_name: icon_name.unwrap_or_default(),
                                     ..props
                                 }
                             })}
