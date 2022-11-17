@@ -29,13 +29,13 @@ static ICON_LIST: Lazy<Vec<(String, IconName)>> = Lazy::new(|| {
 
 fn get_icon_from_name(name: &str) -> Option<IconName> {
     let name = name.to_lowercase();
-    for (icon_name, icon) in ICON_LIST.iter() {
+    ICON_LIST.iter().find_map(|(icon_name, icon)| {
         if &name == icon_name {
-            return Some(*icon);
+            Some(*icon)
+        } else {
+            None
         }
-    }
-
-    None
+    })
 }
 
 impl Component for IconDoc {
@@ -128,7 +128,6 @@ crate::build_example_prop_component! {
     IconProps for ExampleProps =>
         fn view(&self, ctx: &Context<Self>) -> Html {
             let option_labels = (0..=100)
-            .step_by(1)
             .map(|x| (x, (x % 20 == 0).then(|| format!("{}", x).into())))
             .collect::<Vec<_>>();
 
