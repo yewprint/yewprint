@@ -27,15 +27,11 @@ static ICON_LIST: Lazy<Vec<(String, IconName)>> = Lazy::new(|| {
         .collect()
 });
 
-fn get_icon_from_name(name: &str) -> Option<IconName> {
+fn get_icons_from_name(name: &str) -> impl Iterator<Item = IconName> {
     let name = name.to_lowercase();
-    ICON_LIST.iter().find_map(|(icon_name, icon)| {
-        if &name == icon_name {
-            Some(*icon)
-        } else {
-            None
-        }
-    })
+    ICON_LIST
+        .iter()
+        .filter_map(move |(icon_name, icon)| icon_name.contains(&name).then_some(*icon))
 }
 
 impl Component for IconDoc {
@@ -69,21 +65,17 @@ impl Component for IconDoc {
             "bp3-code-block"
         );
 
-        let search_string = self.search_string.to_lowercase();
-        let icon_list = ICON_LIST
-            .iter()
-            .filter_map(|(name, icon)| {
-                name.contains(&search_string).then(|| {
-                    html! {
-                        <div class={classes!("docs-icon-list-item")}>
-                            <Icon
-                                icon={*icon}
-                                icon_size=20
-                            />
-                            <Text>{format!("{:?}", icon)}</Text>
-                        </div>
-                    }
-                })
+        let icon_list = get_icons_from_name(&self.search_string.to_lowercase())
+            .map(|x| {
+                html! {
+                    <div class={classes!("docs-icon-list-item")}>
+                        <Icon
+                            icon={x}
+                            icon_size=20
+                        />
+                        <Text>{format!("{:?}", x)}</Text>
+                    </div>
+                }
             })
             .collect::<Html>();
 
@@ -142,7 +134,7 @@ crate::build_example_prop_component! {
                                 let icon_name = e.target_dyn_into::<HtmlInputElement>()
                                     .map(|x| x.value())
                                     .as_deref()
-                                    .and_then(|x| get_icon_from_name(x));
+                                    .and_then(|x| get_icons_from_name(x).next());
 
                                 ExampleProps {
                                     icon_name: icon_name.unwrap_or_default(),
