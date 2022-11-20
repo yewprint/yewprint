@@ -27,13 +27,6 @@ static ICON_LIST: Lazy<Vec<(String, IconName)>> = Lazy::new(|| {
         .collect()
 });
 
-fn get_icons_from_name(name: &str) -> impl Iterator<Item = IconName> {
-    let name = name.to_lowercase();
-    ICON_LIST
-        .iter()
-        .filter_map(move |(icon_name, icon)| icon_name.contains(&name).then_some(*icon))
-}
-
 impl Component for IconDoc {
     type Message = IconDocMsg;
     type Properties = ();
@@ -65,17 +58,21 @@ impl Component for IconDoc {
             "bp3-code-block"
         );
 
-        let icon_list = get_icons_from_name(&self.search_string.to_lowercase())
-            .map(|x| {
-                html! {
-                    <div class={classes!("docs-icon-list-item")}>
-                        <Icon
-                            icon={x}
-                            icon_size=20
-                        />
-                        <Text>{format!("{:?}", x)}</Text>
-                    </div>
-                }
+        let search_string = &self.search_string.to_lowercase();
+        let icon_list = ICON_LIST
+            .iter()
+            .filter_map(|(icon_name, icon)| {
+                icon_name.contains(search_string).then_some(*icon).map(|x| {
+                    html! {
+                        <div class={classes!("docs-icon-list-item")}>
+                            <Icon
+                                icon={x}
+                                icon_size=20
+                            />
+                            <Text>{format!("{:?}", x)}</Text>
+                        </div>
+                    }
+                })
             })
             .collect::<Html>();
 
@@ -92,7 +89,7 @@ impl Component for IconDoc {
                         />
                     })}
                 >
-                        <Example ..example_props />
+                    <Example ..example_props />
                 </ExampleContainer>
                 <div class={classes!("docs-icon-search")}>
                     <InputGroup
@@ -120,8 +117,8 @@ crate::build_example_prop_component! {
     IconProps for ExampleProps =>
         fn view(&self, ctx: &Context<Self>) -> Html {
             let option_labels = (0..=100)
-            .map(|x| (x, (x % 20 == 0).then(|| format!("{}", x).into())))
-            .collect::<Vec<_>>();
+                .map(|x| (x, (x % 20 == 0).then(|| format!("{}", x).into())))
+                .collect::<Vec<_>>();
 
             html! {
                 <div>
@@ -132,9 +129,15 @@ crate::build_example_prop_component! {
                             class="bp3-input"
                             onchange={self.update_props(ctx, |props, e: Event| {
                                 let icon_name = e.target_dyn_into::<HtmlInputElement>()
-                                    .map(|x| x.value())
+                                    .map(|x| x.value().to_lowercase())
                                     .as_deref()
-                                    .and_then(|x| get_icons_from_name(x).next());
+                                    .and_then(|x| {
+                                        ICON_LIST
+                                            .iter()
+                                            .find_map(move |(icon_name, icon)| {
+                                                (icon_name == x).then_some(*icon)
+                                            })
+                                    });
 
                                 ExampleProps {
                                     icon_name: icon_name.unwrap_or_default(),
