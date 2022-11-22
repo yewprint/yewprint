@@ -46,12 +46,25 @@ fn main() {
 
     let mut keys: Vec<_> = keys.iter().collect();
     keys.sort();
-    src.push_str("#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]\npub enum IconName {\n");
-    for icon in keys {
+    src.push_str(
+        "#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]\n\
+         pub enum IconName {\n",
+    );
+    for icon in &keys {
         src.push_str(icon);
         src.push_str(",\n");
     }
     src.push_str("}\n\n");
+
+    src.push_str("impl IconName {\n");
+    src.push_str("pub const ALL: &[IconName] = &[\n");
+    for icon in keys {
+        src.push_str("IconName::");
+        src.push_str(icon);
+        src.push_str(",\n");
+    }
+    src.push_str("];\n");
+    src.push('}');
 
     fs::write(&dest_path, src).unwrap();
     println!("cargo:rerun-if-changed=build.rs");

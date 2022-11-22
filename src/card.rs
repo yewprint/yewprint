@@ -21,7 +21,7 @@ pub fn card(props: &CardProps) -> Html {
             "bp3-card",
             props.class.clone(),
             props.elevation,
-            props.interactive.then(|| "bp3-interactive"),
+            props.interactive.then_some("bp3-interactive"),
         )}
         onclick={props.onclick.clone()}>
             {props.children.clone()}

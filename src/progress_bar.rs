@@ -30,8 +30,8 @@ pub fn progress_bar(props: &ProgressBarProps) -> Html {
             class={classes!(
                 "bp3-progress-bar",
                 props.intent,
-                (!props.animate).then(|| "bp3-no-animation"),
-                (!props.stripes).then(|| "bp3-no-stripes"),
+                (!props.animate).then_some("bp3-no-animation"),
+                (!props.stripes).then_some("bp3-no-stripes"),
                 props.class.clone(),
             )}
         >

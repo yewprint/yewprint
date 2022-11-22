@@ -27,9 +27,9 @@ pub fn text_area(props: &TextAreaProps) -> Html {
         "bp3-input",
         props.intent,
         props.class.clone(),
-        props.fill.then(|| "bp3-fill"),
-        props.small.then(|| "bp3-small"),
-        props.large.then(|| "bp3-large"),
+        props.fill.then_some("bp3-fill"),
+        props.small.then_some("bp3-small"),
+        props.large.then_some("bp3-large"),
     );
     html! {
         <textarea

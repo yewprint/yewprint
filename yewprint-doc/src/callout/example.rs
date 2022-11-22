@@ -12,7 +12,7 @@ pub struct ExampleProps {
 pub fn example(props: &ExampleProps) -> Html {
     html! {
         <Callout
-            title={props.show_title.then(|| "Visually important content")}
+            title={props.show_title.then_some("Visually important content")}
             without_icon={!props.show_icon}
             intent={props.intent}
         >

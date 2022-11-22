@@ -20,8 +20,8 @@ pub fn control_group(props: &ControlGroupProps) -> Html {
         <div
             class={classes!(
                 "bp3-control-group",
-                props.fill.then(|| "bp3-fill"),
-                props.vertical.then(|| "bp3-vertical"),
+                props.fill.then_some("bp3-fill"),
+                props.vertical.then_some("bp3-vertical"),
                 props.class.clone(),
             )}
         >

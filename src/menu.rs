@@ -19,7 +19,7 @@ pub fn menu(props: &MenuProps) -> Html {
         <ul
             class={classes!(
                 "bp3-menu",
-                props.large.then(|| "bp3-large"),
+                props.large.then_some("bp3-large"),
                 props.class.clone(),
             )}
             ref={props.r#ref.clone()}
@@ -67,14 +67,14 @@ pub fn menu_item(props: &MenuItemProps) -> Html {
             <a
                 class={classes!(
                     "bp3-menu-item",
-                    props.active.then(|| "bp3-active"),
-                    props.disabled.then(|| "bp3-disabled"),
+                    props.active.then_some("bp3-active"),
+                    props.disabled.then_some("bp3-disabled"),
                     props.intent
-                        .or_else(|| props.active.then(|| Intent::Primary)),
+                        .or_else(|| props.active.then_some(Intent::Primary)),
                     props.class.clone(),
                 )}
                 href={(!props.disabled).then(|| props.href.clone()).flatten()}
-                tabIndex={(!props.disabled).then(|| "0")}
+                tabIndex={(!props.disabled).then_some("0")}
                 onclick={(!props.disabled).then(|| props.onclick.clone())}
             >
                 {

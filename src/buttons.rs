@@ -42,19 +42,19 @@ pub fn button(props: &ButtonProps) -> Html {
         <button
             class={classes!(
                 "bp3-button",
-                props.fill.then(|| "bp3-fill"),
-                props.minimal.then(|| "bp3-minimal"),
-                props.small.then(|| "bp3-small"),
-                props.outlined.then(|| "bp3-outlined"),
-                props.loading.then(|| "bp3-loading"),
-                props.large.then(|| "bp3-large"),
-                (props.active && !props.disabled).then(|| "bp3-active"),
-                props.disabled.then(|| "bp3-disabled"),
+                props.fill.then_some("bp3-fill"),
+                props.minimal.then_some("bp3-minimal"),
+                props.small.then_some("bp3-small"),
+                props.outlined.then_some("bp3-outlined"),
+                props.loading.then_some("bp3-loading"),
+                props.large.then_some("bp3-large"),
+                (props.active && !props.disabled).then_some("bp3-active"),
+                props.disabled.then_some("bp3-disabled"),
                 props.intent,
                 props.class.clone(),
             )}
             style={props.style.clone()}
-            onclick={(!props.disabled).then(|| props.onclick.clone())}
+            onclick={(!props.disabled).then_some(props.onclick.clone())}
         >
             {
                 props

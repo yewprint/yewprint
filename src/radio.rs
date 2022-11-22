@@ -27,9 +27,9 @@ pub fn radio(props: &RadioProps) -> Html {
             class={classes!(
                 "bp3-control",
                 "bp3-radio",
-                props.disabled.then(|| "bp3-disabled"),
-                props.inline.then(|| "bp3-inline"),
-                props.large.then(|| "bp3-large"),
+                props.disabled.then_some("bp3-disabled"),
+                props.inline.then_some("bp3-inline"),
+                props.large.then_some("bp3-large"),
             )}
         >
             <input

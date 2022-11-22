@@ -2,7 +2,9 @@
     clippy::redundant_closure,
     clippy::needless_update,
     dead_code,
-    clippy::derive_partial_eq_without_eq
+    clippy::derive_partial_eq_without_eq,
+    // Shadows lints linked to this issue: https://github.com/yewstack/yew/issues/2931
+    clippy::let_unit_value
 )]
 
 mod app;
@@ -65,7 +67,6 @@ macro_rules! build_source_code_component {
             pub fn generate_url() -> String {
                 use std::path::Path;
 
-                let branch = env!("GIT_BRANCH");
                 let component_name = Path::new(file!())
                     .parent()
                     .unwrap()
@@ -75,9 +76,8 @@ macro_rules! build_source_code_component {
                     .unwrap();
 
                 format!(
-                    "https://github.com/yewprint/yewprint/blob/{}\
-                        /src/{}.rs",
-                    branch, component_name,
+                    "https://github.com/yewprint/yewprint/blob/HEAD/src/{}.rs",
+                    component_name,
                 )
             }
         }

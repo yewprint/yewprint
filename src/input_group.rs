@@ -119,11 +119,11 @@ impl Component for InputGroup {
             <div
                 class={classes!(
                     "bp3-input-group",
-                    ctx.props().disabled.then(|| "bp3-disabled"),
-                    ctx.props().fill.then(|| "bp3-fill"),
-                    ctx.props().large.then(|| "bp3-large"),
-                    ctx.props().small.then(|| "bp3-small"),
-                    ctx.props().round.then(|| "bp3-round"),
+                    ctx.props().disabled.then_some("bp3-disabled"),
+                    ctx.props().fill.then_some("bp3-fill"),
+                    ctx.props().large.then_some("bp3-large"),
+                    ctx.props().small.then_some("bp3-small"),
+                    ctx.props().round.then_some("bp3-round"),
                     ctx.props().placeholder.clone(),
                     ctx.props().class.clone(),
                 )}

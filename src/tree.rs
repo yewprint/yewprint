@@ -297,7 +297,7 @@ impl Component for TreeNode {
         html! {
             <li class={classes!(
                 "bp3-tree-node",
-                ctx.props().is_selected.then(|| "bp3-tree-node-selected")
+                ctx.props().is_selected.then_some("bp3-tree-node-selected")
             )}>
                 <div
                     class="bp3-tree-node-content"
@@ -328,7 +328,7 @@ impl Component for TreeNode {
                     }
                     <Icon
                         class={classes!("bp3-tree-node-icon")}
-                        icon={ctx.props().icon.unwrap_or_default()}
+                        icon={ctx.props().icon.unwrap_or(IconName::Blank)}
                         color={ctx.props().icon_color.clone()}
                         intent={ctx.props().icon_intent}
                     />
