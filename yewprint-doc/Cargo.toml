@@ -25,7 +25,7 @@ web-sys = { version = "0.3", features = ["Window", "MediaQueryList", "Event", "H
 #
 # Unfortunately, `wee_alloc` requires nightly Rust when targeting wasm for now.
 wee_alloc = { version = "0.4.5", optional = true }
-yew = "0.20"
+yew = { version = "0.20", features = ["csr"] }
 yew-router = "0.16"
 yewprint = { path = ".." }
 

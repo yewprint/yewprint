@@ -136,7 +136,8 @@ static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 pub fn run_app() -> Result<(), wasm_bindgen::JsValue> {
     #[cfg(feature = "console_error_panic_hook")]
     console_error_panic_hook::set_once();
-    yew::start_app::<app::AppRoot>();
+
+    yew::Renderer::<app::AppRoot>::new().render();
 
     Ok(())
 }
