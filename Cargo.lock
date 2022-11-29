@@ -415,12 +415,31 @@ dependencies = [
  "gloo-events",
  "gloo-file",
  "gloo-history",
- "gloo-net",
+ "gloo-net 0.1.0",
  "gloo-render",
  "gloo-storage",
  "gloo-timers",
  "gloo-utils",
- "gloo-worker",
+ "gloo-worker 0.1.0",
+]
+
+[[package]]
+name = "gloo"
+version = "0.8.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3a4bef6b277b3ab073253d4bca60761240cf8d6998f4bd142211957b69a61b20"
+dependencies = [
+ "gloo-console",
+ "gloo-dialogs",
+ "gloo-events",
+ "gloo-file",
+ "gloo-history",
+ "gloo-net 0.2.5",
+ "gloo-render",
+ "gloo-storage",
+ "gloo-timers",
+ "gloo-utils",
+ "gloo-worker 0.2.1",
 ]
 
 [[package]]
@@ -505,6 +524,26 @@ dependencies = [
 ]
 
 [[package]]
+name = "gloo-net"
+version = "0.2.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9050ff8617e950288d7bf7f300707639fdeda5ca0d0ecf380cff448cfd52f4a6"
+dependencies = [
+ "futures-channel",
+ "futures-core",
+ "futures-sink",
+ "gloo-utils",
+ "js-sys",
+ "pin-project",
+ "serde",
+ "serde_json",
+ "thiserror",
+ "wasm-bindgen",
+ "wasm-bindgen-futures",
+ "web-sys",
+]
+
+[[package]]
 name = "gloo-render"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -543,11 +582,13 @@ dependencies = [
 
 [[package]]
 name = "gloo-utils"
-version = "0.1.3"
+version = "0.1.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5c0bbef55e98d946adbd89f3c65a497cf9adb995a73b99573f30180e8813ab21"
+checksum = "a8e8fc851e9c7b9852508bc6e3f690f452f474417e8545ec9857b7f7377036b5"
 dependencies = [
  "js-sys",
+ "serde",
+ "serde_json",
  "wasm-bindgen",
  "web-sys",
 ]
@@ -566,6 +607,23 @@ dependencies = [
  "serde",
  "slab",
  "wasm-bindgen",
+ "web-sys",
+]
+
+[[package]]
+name = "gloo-worker"
+version = "0.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "13471584da78061a28306d1359dd0178d8d6fc1c7c80e5e35d27260346e0516a"
+dependencies = [
+ "anymap2",
+ "bincode",
+ "gloo-console",
+ "gloo-utils",
+ "js-sys",
+ "serde",
+ "wasm-bindgen",
+ "wasm-bindgen-futures",
  "web-sys",
 ]
 
@@ -2056,8 +2114,8 @@ dependencies = [
 name = "yewprint"
 version = "0.3.1"
 dependencies = [
- "gloo 0.6.1",
- "heck 0.3.3",
+ "gloo 0.8.0",
+ "heck 0.4.0",
  "id_tree",
  "regex",
  "wasm-bindgen",

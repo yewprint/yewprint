@@ -7,7 +7,7 @@
 //! After that you can extract the file following this path:
 //! package/lib/esnext/generated/iconSvgPaths.js
 
-use heck::CamelCase;
+use heck::ToUpperCamelCase;
 use regex::Regex;
 use std::collections::HashSet;
 use std::env;
@@ -29,7 +29,7 @@ fn main() {
         src.push_str(&map[1]);
         src.push_str("(icon: IconName) -> &'static [&'static str] { match icon {\n");
         for item in re_item.captures_iter(&map[2]) {
-            let key = item[1].to_camel_case();
+            let key = item[1].to_upper_camel_case();
             src.push_str("IconName::");
             src.push_str(&key);
             src.push_str(" => &");
