@@ -70,7 +70,7 @@ impl Component for Collapse {
         }
     }
 
-    fn changed(&mut self, ctx: &Context<Self>) -> bool {
+    fn changed(&mut self, ctx: &Context<Self>, _old_props: &Self::Properties) -> bool {
         if ctx.props().is_open {
             match self.animation_state {
                 AnimationState::Open | AnimationState::Opening => {}

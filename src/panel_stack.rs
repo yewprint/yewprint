@@ -204,7 +204,7 @@ impl Component for PanelStack {
         }
     }
 
-    fn changed(&mut self, ctx: &Context<Self>) -> bool {
+    fn changed(&mut self, ctx: &Context<Self>, _old_props: &Self::Properties) -> bool {
         self.action_to_perform = ctx.props().state.action;
         true
     }
@@ -302,7 +302,7 @@ impl Component for Panel {
         }
     }
 
-    fn changed(&mut self, ctx: &Context<Self>) -> bool {
+    fn changed(&mut self, ctx: &Context<Self>, _old_props: &Self::Properties) -> bool {
         self.animation = ctx.props().animation;
         true
     }

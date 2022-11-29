@@ -58,7 +58,7 @@ impl<T: Clone + PartialEq + 'static> Component for HtmlSelect<T> {
         false
     }
 
-    fn changed(&mut self, ctx: &Context<Self>) -> bool {
+    fn changed(&mut self, ctx: &Context<Self>, _old_props: &Self::Properties) -> bool {
         if let Some(value) = ctx.props().value.as_ref() {
             if let Some(select) = self.select_element.cast::<HtmlSelectElement>() {
                 if let Some(i) = ctx.props().options.iter().position(|(x, _)| x == value) {

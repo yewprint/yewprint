@@ -31,7 +31,7 @@ impl Component for Example {
         true
     }
 
-    fn changed(&mut self, ctx: &Context<Self>) -> bool {
+    fn changed(&mut self, ctx: &Context<Self>, _old_props: &Self::Properties) -> bool {
         if self.reset != ctx.props().reset {
             self.reset = ctx.props().reset;
             self.log_level = LogLevel::Info;

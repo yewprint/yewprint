@@ -51,7 +51,7 @@ impl Component for Example {
         true
     }
 
-    fn changed(&mut self, ctx: &Context<Self>) -> bool {
+    fn changed(&mut self, ctx: &Context<Self>, _old_props: &Self::Properties) -> bool {
         if ctx.props().reset_tags != ctx.props().reset_tags {
             self.tags = ctx.props().initial_tags.clone();
         }
