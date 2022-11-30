@@ -293,8 +293,8 @@ impl Component for Panel {
         html! {
             <div class={classes} style={style}>
                 <div class="bp3-panel-stack-header">
-                    <span>{back_button.unwrap_or_default()}</span>
-                    {ctx.props().title.clone().unwrap_or_default()}
+                    <span>{back_button}</span>
+                    {ctx.props().title.clone()}
                     <span/>
                 </div>
                 {for ctx.props().children.iter()}

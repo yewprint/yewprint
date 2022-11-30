@@ -34,11 +34,11 @@ pub fn radio(props: &RadioProps) -> Html {
         >
             <input
                 type="radio"
-                onchange={props.onchange.clone().unwrap_or_default()}
+                onchange={props.onchange.clone()}
                 disabled={props.disabled}
-                value={props.value.clone().unwrap_or_default()}
+                value={props.value.clone()}
                 checked={props.checked.unwrap_or(false)}
-                name={props.name.clone().unwrap_or_default()}
+                name={props.name.clone()}
             />
             <span
                 class={classes!("bp3-control-indicator")}

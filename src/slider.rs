@@ -320,7 +320,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                                     onkeydown={ctx.link().callback(|event| Msg::Keyboard(event))}
                                     tabindex=0
                                 >
-                                    {value_label.clone().unwrap_or_default()}
+                                    {value_label.clone()}
                                 </span>
                             }
                         }
@@ -334,7 +334,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                                     ref={self.handle_ref.clone()}
                                     style="left: calc(50% - 8px);"
                                 >
-                                    {value_label.clone().unwrap_or_default()}
+                                    {value_label.clone()}
                                 </span>
                             }
                         }

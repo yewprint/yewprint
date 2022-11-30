@@ -81,7 +81,7 @@ pub fn tag(props: &TagProps) -> Html {
             style={props.style.clone()}
             onclick={props.onclick.clone()}
         >
-            {icon.unwrap_or_default()}
+            {icon}
             <Text
                 class={classes!("bp3-fill")}
                 ellipsize={!props.multiline}
@@ -90,8 +90,8 @@ pub fn tag(props: &TagProps) -> Html {
             >
                 {props.children.clone()}
             </Text>
-            {right_icon.unwrap_or_default()}
-            {remove_button.unwrap_or_default()}
+            {right_icon}
+            {remove_button}
         </span>
     }
 }
