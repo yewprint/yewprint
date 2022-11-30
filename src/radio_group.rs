@@ -11,7 +11,7 @@ pub struct RadioGroupProps<T: Clone + PartialEq + 'static> {
     pub inline: bool,
     #[prop_or_default]
     pub large: bool,
-    pub options: Vec<(T, String)>,
+    pub options: Vec<(T, AttrValue)>,
     #[prop_or_default]
     pub value: Option<T>,
     #[prop_or_default]

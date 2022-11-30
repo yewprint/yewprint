@@ -17,9 +17,9 @@ pub struct SwitchProps {
     #[prop_or_default]
     pub class: Classes,
     #[prop_or_default]
-    pub inner_label_checked: Option<String>,
+    pub inner_label_checked: Option<AttrValue>,
     #[prop_or_default]
-    pub inner_label: Option<String>,
+    pub inner_label: Option<AttrValue>,
     #[prop_or_default]
     pub align_right: bool,
 }
@@ -38,7 +38,7 @@ pub fn switch(props: &SwitchProps) -> Html {
                                 if let Some(label_checked) = inner_label_checked {
                                     label_checked.clone()
                                 } else {
-                                    inner_label.to_string()
+                                    inner_label.to_string().into()
                                 }
                             }
                         </div>

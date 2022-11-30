@@ -42,9 +42,9 @@ where
     #[prop_or_default]
     pub large: bool,
     #[prop_or_default]
-    pub class: String,
+    pub class: AttrValue,
     #[prop_or_default]
-    pub placeholder: String,
+    pub placeholder: AttrValue,
     #[prop_or_default]
     pub left_icon: Option<IconName>,
     #[prop_or_default]

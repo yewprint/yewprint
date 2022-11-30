@@ -83,11 +83,11 @@ crate::build_example_prop_component! {
                         <p>{"Select intent:"}</p>
                         <HtmlSelect<Option<Intent>>
                             options={vec![
-                                (None, "None".to_string()),
-                                (Some(Intent::Primary), "Primary".to_string()),
-                                (Some(Intent::Success), "Success".to_string()),
-                                (Some(Intent::Warning), "Warning".to_string()),
-                                (Some(Intent::Danger), "Danger".to_string()),
+                                (None, "None".into()),
+                                (Some(Intent::Primary), "Primary".into()),
+                                (Some(Intent::Success), "Success".into()),
+                                (Some(Intent::Warning), "Warning".into()),
+                                (Some(Intent::Danger), "Danger".into()),
                             ]}
                             value={self.example_props.intent}
                             onchange={self.update_props(ctx, |props, intent| ExampleProps {

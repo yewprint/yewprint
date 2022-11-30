@@ -18,9 +18,9 @@ pub struct IconProps {
     #[prop_or_default]
     pub class: Classes,
     #[prop_or_default]
-    pub title: Option<String>,
+    pub title: Option<AttrValue>,
     #[prop_or_default]
-    pub color: Option<String>,
+    pub color: Option<AttrValue>,
     #[prop_or_default]
     pub intent: Option<Intent>,
     #[prop_or(16)]
@@ -41,7 +41,7 @@ pub fn icon(props: &IconProps) -> Html {
     } else {
         ICON_SIZE_STANDARD
     };
-    let icon_string = format!("{:?}", props.icon);
+    let icon_string: AttrValue = format!("{:?}", props.icon).into();
 
     html! {
         <span

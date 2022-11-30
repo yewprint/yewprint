@@ -11,13 +11,13 @@ use yewprint::{HtmlSelect, Icon, IconName, InputGroup, Intent, Slider, Text, H1,
 pub struct IconDoc {
     callback: Callback<ExampleProps>,
     state: ExampleProps,
-    search_string: String,
+    search_string: AttrValue,
 }
 
 #[derive(Clone)]
 pub enum IconDocMsg {
     Example(ExampleProps),
-    SearchIcon(String),
+    SearchIcon(AttrValue),
 }
 
 static ICON_LIST: Lazy<Vec<(String, IconName)>> = Lazy::new(|| {
@@ -58,21 +58,24 @@ impl Component for IconDoc {
             "bp3-code-block"
         );
 
-        let search_string = &self.search_string.to_lowercase();
+        let search_string = self.search_string.to_lowercase();
         let icon_list = ICON_LIST
             .iter()
             .filter_map(|(icon_name, icon)| {
-                icon_name.contains(search_string).then_some(*icon).map(|x| {
-                    html! {
-                        <div class={classes!("docs-icon-list-item")}>
-                            <Icon
-                                icon={x}
-                                icon_size=20
-                            />
-                            <Text>{format!("{:?}", x)}</Text>
-                        </div>
-                    }
-                })
+                icon_name
+                    .contains(&search_string)
+                    .then_some(*icon)
+                    .map(|x| {
+                        html! {
+                            <div class={classes!("docs-icon-list-item")}>
+                                <Icon
+                                    icon={x}
+                                    icon_size=20
+                                />
+                                <Text>{format!("{:?}", x)}</Text>
+                            </div>
+                        }
+                    })
             })
             .collect::<Html>();
 
@@ -101,7 +104,7 @@ impl Component for IconDoc {
                         value={self.search_string.clone()}
                         oninput={ctx.link().callback(|e: InputEvent| {
                             let value = e.target_unchecked_into::<HtmlInputElement>().value();
-                            IconDocMsg::SearchIcon(value)
+                            IconDocMsg::SearchIcon(value.into())
                         })}
                     />
                 </div>
@@ -154,11 +157,11 @@ crate::build_example_prop_component! {
                         </p>
                         <HtmlSelect<Option<Intent>>
                             options={vec![
-                                (None, "None".to_string()),
-                                (Some(Intent::Primary), "Primary".to_string()),
-                                (Some(Intent::Success), "Success".to_string()),
-                                (Some(Intent::Warning), "Warning".to_string()),
-                                (Some(Intent::Danger), "Danger".to_string()),
+                                (None, "None".into()),
+                                (Some(Intent::Primary), "Primary".into()),
+                                (Some(Intent::Success), "Success".into()),
+                                (Some(Intent::Warning), "Warning".into()),
+                                (Some(Intent::Danger), "Danger".into()),
                             ]}
                             value={self.example_props.intent}
                             onchange={self.update_props(ctx, |props, intent| ExampleProps {

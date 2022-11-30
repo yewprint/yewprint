@@ -44,12 +44,12 @@ impl Component for Example {
             <div style="width: 400px; text-align: center;">
                 <HtmlSelect<LogLevel>
                     options={vec![
-                        (LogLevel::Trace, "TRACE".to_string()),
-                        (LogLevel::Debug, "DEBUG".to_string()),
-                        (LogLevel::Info, "INFO".to_string()),
-                        (LogLevel::Warn, "WARN".to_string()),
-                        (LogLevel::Error, "ERROR".to_string()),
-                        (LogLevel::Off, "OFF".to_string()),
+                        (LogLevel::Trace, "TRACE".into()),
+                        (LogLevel::Debug, "DEBUG".into()),
+                        (LogLevel::Info, "INFO".into()),
+                        (LogLevel::Warn, "WARN".into()),
+                        (LogLevel::Error, "ERROR".into()),
+                        (LogLevel::Off, "OFF".into()),
                     ]}
                     minimal={ctx.props().minimal}
                     fill={ctx.props().fill}

@@ -2,12 +2,12 @@ use yew::prelude::*;
 use yewprint::{IconName, Intent, Tag};
 
 pub struct Example {
-    tags: Vec<String>,
+    tags: Vec<AttrValue>,
 }
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct ExampleProps {
-    pub initial_tags: Vec<String>,
+    pub initial_tags: Vec<AttrValue>,
     pub active: bool,
     pub fill: bool,
     pub icon: bool,
@@ -23,7 +23,7 @@ pub struct ExampleProps {
 }
 
 pub enum ExampleMsg {
-    Remove(String),
+    Remove(AttrValue),
     Click,
 }
 

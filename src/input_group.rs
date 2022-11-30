@@ -63,7 +63,7 @@ pub struct InputGroupProps {
     #[prop_or_default]
     pub round: bool,
     #[prop_or_default]
-    pub placeholder: String,
+    pub placeholder: AttrValue,
     #[prop_or_default]
     pub left_icon: Option<IconName>,
     #[prop_or_default]
@@ -79,7 +79,7 @@ pub struct InputGroupProps {
     #[prop_or_default]
     pub onkeydown: Callback<KeyboardEvent>,
     #[prop_or_default]
-    pub value: String,
+    pub value: AttrValue,
     #[prop_or_default]
     pub class: Classes,
     #[prop_or_default]
@@ -124,7 +124,7 @@ impl Component for InputGroup {
                     ctx.props().large.then_some("bp3-large"),
                     ctx.props().small.then_some("bp3-small"),
                     ctx.props().round.then_some("bp3-round"),
-                    ctx.props().placeholder.clone(),
+                    ctx.props().placeholder.to_string(),
                     ctx.props().class.clone(),
                 )}
             >

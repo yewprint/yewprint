@@ -62,9 +62,9 @@ impl Component for Example {
                             </Label>
                         ))}
                         options={vec![
-                            (Lunch::Soup, "Soup".to_string()),
-                            (Lunch::Salad, "Salad".to_string()),
-                            (Lunch::Sandwich, "Sandwich".to_string()),
+                            (Lunch::Soup, "Soup".into()),
+                            (Lunch::Salad, "Salad".into()),
+                            (Lunch::Sandwich, "Sandwich".into()),
                         ]}
                         value={self.selected_value}
                         onchange={ctx.link().callback(|v| Msg::ValueUpdate(v))}

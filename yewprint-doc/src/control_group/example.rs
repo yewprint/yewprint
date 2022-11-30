@@ -16,11 +16,11 @@ pub fn example(props: &ExampleProps) -> Html {
         >
             <HtmlSelect<Option<Sorting>>
                 options={vec![
-                    (None, "Filter".to_string()),
-                    (Some(Sorting::NameAscending), "Name - ascending".to_string()),
-                    (Some(Sorting::NameDescending), "Name - descending".to_string()),
-                    (Some(Sorting::PriceAscending), "Price - ascending".to_string()),
-                    (Some(Sorting::PriceDescending), "Price - descending".to_string()),
+                    (None, "Filter".into()),
+                    (Some(Sorting::NameAscending), "Name - ascending".into()),
+                    (Some(Sorting::NameDescending), "Name - descending".into()),
+                    (Some(Sorting::PriceAscending), "Price - ascending".into()),
+                    (Some(Sorting::PriceDescending), "Price - descending".into()),
                 ]}
             />
             <InputGroup placeholder="Find filters..." />

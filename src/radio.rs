@@ -11,13 +11,13 @@ pub struct RadioProps {
     #[prop_or_default]
     pub checked: Option<bool>,
     #[prop_or_default]
-    pub name: Option<String>,
+    pub name: Option<AttrValue>,
     #[prop_or_default]
     pub onchange: Option<Callback<Event>>,
     #[prop_or_default]
     pub label: yew::virtual_dom::VNode,
     #[prop_or_default]
-    pub value: Option<String>,
+    pub value: Option<AttrValue>,
 }
 
 #[function_component(Radio)]
