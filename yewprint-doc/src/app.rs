@@ -62,8 +62,8 @@ impl Component for App {
             Msg::ToggleLight => self.dark_theme ^= true,
             Msg::GoToMenu(event, doc_menu) => {
                 event.prevent_default();
-                if let Some(history) = ctx.link().history() {
-                    history.push(doc_menu);
+                if let Some(navigator) = ctx.link().navigator() {
+                    navigator.push(&doc_menu);
                 } else {
                     gloo::console::warn!("Could not get history from Context");
                 }
@@ -284,7 +284,7 @@ impl Component for App {
                     {{ navigation }}
                     <main class={classes!("docs-content-wrapper")} role="main">
                         <div class={classes!("docs-page")}>
-                                <Switch<DocMenu> render={Switch::render(switch)} />
+                                <Switch<DocMenu> render={switch} />
                         </div>
                     </main>
                 </div>
@@ -293,7 +293,7 @@ impl Component for App {
     }
 }
 
-fn switch(route: &DocMenu) -> Html {
+fn switch(route: DocMenu) -> Html {
     match route {
         DocMenu::Button | DocMenu::Home => html! (<ButtonDoc />),
         DocMenu::ButtonGroup => html! (<ButtonGroupDoc />),
