@@ -33,7 +33,7 @@ pub fn radio_group<T: Clone + PartialEq + 'static>(props: &RadioGroupProps<T>) -
 
             html! {
                 <Radio
-                    value={"".to_string()}
+                    value={String::new()}
                     label={html!(label)}
                     checked={checked}
                     onchange={props.onchange.reform(move |_| value.clone())}

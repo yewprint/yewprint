@@ -106,10 +106,10 @@ impl<T: Clone + PartialEq + 'static> Component for HtmlSelect<T> {
                 )}
             >
                 <select
+                    value={String::new()}
                     disabled={ctx.props().disabled}
                     onchange={ctx.link().callback(|x| x)}
                     title={ctx.props().title.clone()}
-                    value={"".to_string()}
                     ref={self.select_element.clone()}
                 >
                     {option_children}
