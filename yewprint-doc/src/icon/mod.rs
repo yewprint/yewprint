@@ -2,8 +2,10 @@ mod example;
 
 use crate::ExampleContainer;
 use example::*;
+use implicit_clone::sync::IArray;
 use once_cell::sync::Lazy;
 use std::borrow::Cow;
+use std::sync::Arc;
 use web_sys::HtmlInputElement;
 use yew::prelude::*;
 use yewprint::{HtmlSelect, Icon, IconName, InputGroup, Intent, Slider, Text, H1, H5};
@@ -156,13 +158,13 @@ crate::build_example_prop_component! {
                             {"Select intent:"}
                         </p>
                         <HtmlSelect<Option<Intent>>
-                            options={vec![
+                            options={IArray::<(Option<Intent>, AttrValue)>::Rc(Arc::new([
                                 (None, "None".into()),
                                 (Some(Intent::Primary), "Primary".into()),
                                 (Some(Intent::Success), "Success".into()),
                                 (Some(Intent::Warning), "Warning".into()),
                                 (Some(Intent::Danger), "Danger".into()),
-                            ]}
+                            ]))}
                             value={self.example_props.intent}
                             onchange={self.update_props(ctx, |props, intent| ExampleProps {
                                 intent,

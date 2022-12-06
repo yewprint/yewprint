@@ -1,3 +1,4 @@
+use implicit_clone::{sync::IArray, ImplicitClone};
 use std::marker::PhantomData;
 
 use crate::{Icon, IconName};
@@ -11,7 +12,7 @@ pub struct HtmlSelect<T: Clone + PartialEq + 'static> {
 }
 
 #[derive(Debug, Clone, PartialEq, Properties)]
-pub struct HtmlSelectProps<T: Clone + PartialEq + 'static> {
+pub struct HtmlSelectProps<T: Clone + ImplicitClone + PartialEq + 'static> {
     #[prop_or_default]
     pub fill: bool,
     #[prop_or_default]
@@ -28,12 +29,12 @@ pub struct HtmlSelectProps<T: Clone + PartialEq + 'static> {
     pub onchange: Callback<T>,
     #[prop_or_default]
     pub value: Option<T>,
-    pub options: Vec<(T, AttrValue)>,
+    pub options: IArray<(T, AttrValue)>,
     #[prop_or_default]
     pub class: Classes,
 }
 
-impl<T: Clone + PartialEq + 'static> Component for HtmlSelect<T> {
+impl<T: Clone + ImplicitClone + PartialEq + 'static> Component for HtmlSelect<T> {
     type Message = Event;
     type Properties = HtmlSelectProps<T>;
 
@@ -61,7 +62,7 @@ impl<T: Clone + PartialEq + 'static> Component for HtmlSelect<T> {
     fn changed(&mut self, ctx: &Context<Self>, _old_props: &Self::Properties) -> bool {
         if let Some(value) = ctx.props().value.as_ref() {
             if let Some(select) = self.select_element.cast::<HtmlSelectElement>() {
-                if let Some(i) = ctx.props().options.iter().position(|(x, _)| x == value) {
+                if let Some(i) = ctx.props().options.iter().position(|(x, _)| &x == value) {
                     if let Ok(i) = i.try_into() {
                         if select.selected_index() != i {
                             select.set_selected_index(i);
@@ -83,7 +84,7 @@ impl<T: Clone + PartialEq + 'static> Component for HtmlSelect<T> {
                     .props()
                     .value
                     .as_ref()
-                    .map(|x| value == x)
+                    .map(|x| &value == x)
                     .unwrap_or_default();
 
                 html! {

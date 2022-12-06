@@ -746,9 +746,9 @@ dependencies = [
 
 [[package]]
 name = "implicit-clone"
-version = "0.3.2"
+version = "0.3.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a937e630d3907d421944abd8edb5288936f1fde83aaaf1a8c6c89bb4222f0677"
+checksum = "8ed3d0c3243fa161bebc5b312ba0e060f93a61c49c37dfe4c3dccc4854fc719f"
 dependencies = [
  "indexmap",
 ]
@@ -2329,6 +2329,7 @@ dependencies = [
  "gloo",
  "heck 0.4.0",
  "id_tree",
+ "implicit-clone",
  "regex",
  "wasm-bindgen",
  "web-sys",
@@ -2354,6 +2355,7 @@ dependencies = [
  "build-data",
  "console_error_panic_hook",
  "gloo",
+ "implicit-clone",
  "once_cell",
  "syntect",
  "ureq",

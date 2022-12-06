@@ -1,3 +1,5 @@
+use implicit_clone::{sync::IArray, ImplicitClone};
+use std::sync::Arc;
 use yew::prelude::*;
 use yewprint::{HtmlSelect, Text};
 
@@ -43,14 +45,14 @@ impl Component for Example {
         html! {
             <div style="width: 400px; text-align: center;">
                 <HtmlSelect<LogLevel>
-                    options={vec![
+                    options={IArray::<(LogLevel, AttrValue)>::Rc(Arc::new([
                         (LogLevel::Trace, "TRACE".into()),
                         (LogLevel::Debug, "DEBUG".into()),
                         (LogLevel::Info, "INFO".into()),
                         (LogLevel::Warn, "WARN".into()),
                         (LogLevel::Error, "ERROR".into()),
                         (LogLevel::Off, "OFF".into()),
-                    ]}
+                    ]))}
                     minimal={ctx.props().minimal}
                     fill={ctx.props().fill}
                     disabled={ctx.props().disabled}
@@ -74,3 +76,5 @@ pub enum LogLevel {
     Error,
     Off,
 }
+
+impl ImplicitClone for LogLevel {}

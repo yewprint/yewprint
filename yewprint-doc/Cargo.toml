@@ -16,6 +16,7 @@ crate-type = ["cdylib"]
 # code size when deploying.
 console_error_panic_hook = { version = "0.1.7", optional = true }
 gloo = "0.8"
+implicit-clone = "0.3.3"
 once_cell = "1.16"
 wasm-bindgen = "0.2"
 web-sys = { version = "0.3", features = ["Window", "MediaQueryList", "Event", "HtmlInputElement"] }
