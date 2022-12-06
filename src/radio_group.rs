@@ -1,8 +1,9 @@
 use crate::Radio;
+use implicit_clone::{sync::IArray, ImplicitClone};
 use yew::prelude::*;
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct RadioGroupProps<T: Clone + PartialEq + 'static> {
+pub struct RadioGroupProps<T: Clone + PartialEq + ImplicitClone + 'static> {
     #[prop_or_default]
     pub label: Option<yew::virtual_dom::VNode>,
     #[prop_or_default]
@@ -11,7 +12,7 @@ pub struct RadioGroupProps<T: Clone + PartialEq + 'static> {
     pub inline: bool,
     #[prop_or_default]
     pub large: bool,
-    pub options: Vec<(T, AttrValue)>,
+    pub options: IArray<(T, AttrValue)>,
     #[prop_or_default]
     pub value: Option<T>,
     #[prop_or_default]
@@ -23,13 +24,18 @@ pub struct RadioGroupProps<T: Clone + PartialEq + 'static> {
 // impl<T: Clone + PartialEq + 'static> Component for RadioGroup<T> {
 
 #[function_component(RadioGroup)]
-pub fn radio_group<T: Clone + PartialEq + 'static>(props: &RadioGroupProps<T>) -> Html {
+pub fn radio_group<T: Clone + PartialEq + ImplicitClone + 'static>(
+    props: &RadioGroupProps<T>,
+) -> Html {
     let option_children = props
         .options
         .iter()
         .map(|(value, label)| {
-            let checked = props.value.as_ref().map(|x| value == x).unwrap_or_default();
-            let value = value.clone();
+            let checked = props
+                .value
+                .as_ref()
+                .map(|x| &value == x)
+                .unwrap_or_default();
 
             html! {
                 <Radio

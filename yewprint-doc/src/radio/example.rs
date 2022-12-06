@@ -1,3 +1,5 @@
+use implicit_clone::{sync::IArray, ImplicitClone};
+use std::sync::Arc;
 use yew::prelude::*;
 use yewprint::{Label, Radio, RadioGroup};
 
@@ -61,11 +63,11 @@ impl Component for Example {
                                 {"Determine Lunch"}
                             </Label>
                         ))}
-                        options={vec![
+                        options={IArray::<(Lunch, AttrValue)>::Rc(Arc::new([
                             (Lunch::Soup, "Soup".into()),
                             (Lunch::Salad, "Salad".into()),
                             (Lunch::Sandwich, "Sandwich".into()),
-                        ]}
+                        ]))}
                         value={self.selected_value}
                         onchange={ctx.link().callback(|v| Msg::ValueUpdate(v))}
                         inline={ctx.props().inline}
@@ -84,3 +86,5 @@ pub enum Lunch {
     Salad,
     Sandwich,
 }
+
+impl ImplicitClone for Lunch {}
