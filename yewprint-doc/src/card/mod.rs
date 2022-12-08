@@ -2,8 +2,8 @@ mod example;
 
 use crate::ExampleContainer;
 use example::*;
-use implicit_clone::sync::IArray;
-use std::sync::Arc;
+use implicit_clone::unsync::IArray;
+use std::rc::Rc;
 use yew::prelude::*;
 use yewprint::{Elevation, HtmlSelect, Switch, H1, H5};
 
@@ -75,7 +75,7 @@ crate::build_example_prop_component! {
                         />
                         <p>{"Elevation:"}</p>
                         <HtmlSelect<Elevation>
-                            options={IArray::<(Elevation, AttrValue)>::Rc(Arc::new([
+                            options={IArray::<(Elevation, AttrValue)>::Rc(Rc::new([
                                 (Elevation::Level0, "Level 0".into()),
                                 (Elevation::Level1, "Level 1".into()),
                                 (Elevation::Level2, "Level 2".into()),

@@ -1,4 +1,4 @@
-use implicit_clone::{sync::IArray, ImplicitClone};
+use implicit_clone::{unsync::IArray, ImplicitClone};
 use std::marker::PhantomData;
 
 use crate::{Icon, IconName};

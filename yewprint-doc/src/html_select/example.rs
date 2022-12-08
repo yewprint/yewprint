@@ -1,5 +1,5 @@
-use implicit_clone::{sync::IArray, ImplicitClone};
-use std::sync::Arc;
+use implicit_clone::{unsync::IArray, ImplicitClone};
+use std::rc::Rc;
 use yew::prelude::*;
 use yewprint::{HtmlSelect, Text};
 
@@ -45,7 +45,7 @@ impl Component for Example {
         html! {
             <div style="width: 400px; text-align: center;">
                 <HtmlSelect<LogLevel>
-                    options={IArray::<(LogLevel, AttrValue)>::Rc(Arc::new([
+                    options={IArray::<(LogLevel, AttrValue)>::Rc(Rc::new([
                         (LogLevel::Trace, "TRACE".into()),
                         (LogLevel::Debug, "DEBUG".into()),
                         (LogLevel::Info, "INFO".into()),

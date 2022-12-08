@@ -1,5 +1,5 @@
 use crate::Radio;
-use implicit_clone::{sync::IArray, ImplicitClone};
+use implicit_clone::{unsync::IArray, ImplicitClone};
 use yew::prelude::*;
 
 #[derive(Clone, PartialEq, Properties)]

@@ -1,5 +1,5 @@
-use implicit_clone::{sync::IArray, ImplicitClone};
-use std::sync::Arc;
+use implicit_clone::{unsync::IArray, ImplicitClone};
+use std::rc::Rc;
 use yew::prelude::*;
 use yewprint::{Button, ControlGroup, HtmlSelect, IconName, InputGroup};
 
@@ -17,7 +17,7 @@ pub fn example(props: &ExampleProps) -> Html {
             vertical={props.vertical}
         >
             <HtmlSelect<Option<Sorting>>
-                options={IArray::<(Option<Sorting>, AttrValue)>::Rc(Arc::new([
+                options={IArray::<(Option<Sorting>, AttrValue)>::Rc(Rc::new([
                     (None, "Filter".into()),
                     (Some(Sorting::NameAscending), "Name - ascending".into()),
                     (Some(Sorting::NameDescending), "Name - descending".into()),
