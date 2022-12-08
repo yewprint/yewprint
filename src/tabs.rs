@@ -1,17 +1,18 @@
+use implicit_clone::{unsync::IArray, ImplicitClone};
 use std::collections::{hash_map::DefaultHasher, HashMap};
 use std::hash::{Hash, Hasher};
 use std::marker::PhantomData;
 use web_sys::HtmlElement;
 use yew::prelude::*;
 
-pub struct Tabs<T: Clone + PartialEq + Hash + 'static> {
+pub struct Tabs<T: ImplicitClone + PartialEq + Hash + 'static> {
     tab_refs: HashMap<u64, NodeRef>,
     indicator_ref: NodeRef,
     phantom: PhantomData<T>,
 }
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct TabsProps<T: Clone + PartialEq> {
+pub struct TabsProps<T: ImplicitClone + PartialEq + 'static> {
     #[prop_or_default]
     pub animate: bool,
     #[prop_or_default]
@@ -28,10 +29,10 @@ pub struct TabsProps<T: Clone + PartialEq> {
     pub onchange: Callback<T>,
     #[prop_or_default]
     pub class: Classes,
-    pub tabs: Vec<Tab<T>>,
+    pub tabs: IArray<Tab<T>>,
 }
 
-impl<T: Clone + PartialEq + Hash + 'static> Component for Tabs<T> {
+impl<T: ImplicitClone + PartialEq + Hash + 'static> Component for Tabs<T> {
     type Message = ();
     type Properties = TabsProps<T>;
 
@@ -194,3 +195,5 @@ pub struct Tab<T> {
     pub title_class: Classes,
     pub panel_class: Classes,
 }
+
+impl<T: ImplicitClone> ImplicitClone for Tab<T> {}
