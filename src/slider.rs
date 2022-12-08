@@ -1,12 +1,15 @@
 use crate::Intent;
-use std::borrow::Cow;
+use implicit_clone::{
+    unsync::{IArray, IString},
+    ImplicitClone,
+};
 use std::marker::PhantomData;
 use wasm_bindgen::closure::Closure;
 use wasm_bindgen::JsCast;
 use web_sys::Element;
 use yew::prelude::*;
 
-pub struct Slider<T: Clone + PartialEq + 'static> {
+pub struct Slider<T: ImplicitClone + PartialEq + 'static> {
     mouse_move: Closure<dyn FnMut(MouseEvent)>,
     mouse_up: Closure<dyn FnMut(MouseEvent)>,
     handle_ref: NodeRef,
@@ -17,7 +20,7 @@ pub struct Slider<T: Clone + PartialEq + 'static> {
 }
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct SliderProps<T: Clone + PartialEq + 'static> {
+pub struct SliderProps<T: ImplicitClone + PartialEq + 'static> {
     #[prop_or_default]
     pub class: Classes,
     #[prop_or_default]
@@ -25,9 +28,9 @@ pub struct SliderProps<T: Clone + PartialEq + 'static> {
     #[prop_or_default]
     pub intent: Option<Intent>,
     #[prop_or_default]
-    pub value_label: Option<Cow<'static, str>>,
+    pub value_label: Option<IString>,
     pub onchange: Callback<T>,
-    pub values: Vec<(T, Option<Cow<'static, str>>)>,
+    pub values: IArray<(T, Option<IString>)>,
     pub selected: Option<T>,
 }
 
@@ -38,7 +41,7 @@ pub enum Msg {
     Keyboard(KeyboardEvent),
 }
 
-impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
+impl<T: ImplicitClone + PartialEq + 'static> Component for Slider<T> {
     type Message = Msg;
     type Properties = SliderProps<T>;
 
@@ -98,13 +101,16 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
 
                     let position = (pixel_delta / tick_size).round() as usize;
 
-                    let (value, _) =
-                        ctx.props().values.get(position).unwrap_or_else(|| {
-                            ctx.props().values.last().expect("No value in the vec")
-                        });
+                    let (value, _) = ctx.props().values.get(position).unwrap_or_else(|| {
+                        ctx.props()
+                            .values
+                            .last()
+                            .cloned()
+                            .expect("No value in the array")
+                    });
 
-                    if Some(value) != ctx.props().selected.as_ref() {
-                        ctx.props().onchange.emit(value.clone());
+                    if Some(&value) != ctx.props().selected.as_ref() {
+                        ctx.props().onchange.emit(value);
                     }
 
                     true
@@ -139,7 +145,7 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                         .props()
                         .values
                         .iter()
-                        .position(|(value, _)| Some(value) == ctx.props().selected.as_ref())
+                        .position(|(value, _)| Some(value) == ctx.props().selected)
                         .map(|i| i.saturating_sub(1))
                         .unwrap_or(0);
                     let (value, _) = ctx.props().values[index].clone();
@@ -153,20 +159,16 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
                         .props()
                         .values
                         .iter()
-                        .position(|(value, _)| Some(value) == ctx.props().selected.as_ref())
+                        .position(|(value, _)| Some(value) == ctx.props().selected)
                         .map(|i| i.saturating_add(1))
                         .unwrap_or(0);
-                    let (value, _) = ctx
-                        .props()
-                        .values
-                        .get(index)
-                        .unwrap_or_else(|| {
-                            ctx.props().values.last().expect(
-                                "Already check, \
+                    let (value, _) = ctx.props().values.get(index).unwrap_or_else(|| {
+                        let (value, label) = ctx.props().values.last().expect(
+                            "Already check, \
                                     there are at least 2 values in ctx.props().options; qed",
-                            )
-                        })
-                        .clone();
+                        );
+                        (value.clone(), label.clone())
+                    });
                     ctx.props().onchange.emit(value);
                     true
                 }
@@ -181,14 +183,14 @@ impl<T: Clone + PartialEq + 'static> Component for Slider<T> {
             .props()
             .values
             .iter()
-            .position(|(value, _)| Some(value) == ctx.props().selected.as_ref());
+            .position(|(value, _)| Some(value) == ctx.props().selected);
         let labels = if ctx.props().values.len() > 1 {
             ctx.props()
                 .values
                 .iter()
                 .enumerate()
                 .filter_map(|(i, (_, label))| {
-                    label.clone().map(|x| {
+                    label.map(|x| {
                         html! {
                             <div
                                 class={classes!("bp3-slider-label")}

@@ -2,9 +2,9 @@ mod example;
 
 use crate::ExampleContainer;
 use example::*;
-use implicit_clone::unsync::IArray;
+use implicit_clone::unsync::{IArray, IString};
 use once_cell::sync::Lazy;
-use std::{borrow::Cow, rc::Rc};
+use std::rc::Rc;
 use web_sys::HtmlInputElement;
 use yew::prelude::*;
 use yewprint::{HtmlSelect, Icon, IconName, InputGroup, Intent, Slider, Text, H1, H5};
@@ -121,8 +121,8 @@ crate::build_example_prop_component! {
     IconProps for ExampleProps =>
         fn view(&self, ctx: &Context<Self>) -> Html {
             let option_labels = (0..=100)
-                .map(|x| (x, (x % 20 == 0).then(|| format!("{}", x).into())))
-                .collect::<Vec<_>>();
+                .map(|x| (x, (x % 20 == 0).then(|| IString::from(format!("{}", x)))))
+                .collect::<IArray<_>>();
 
             html! {
                 <div>
@@ -183,7 +183,7 @@ crate::build_example_prop_component! {
                                 ..props
                             })}
                             value_label={
-                                Cow::Owned(format!("{}", ctx.props().example_props.icon_size))
+                                IString::from(format!("{}", ctx.props().example_props.icon_size))
                             }
                         />
                     </div>

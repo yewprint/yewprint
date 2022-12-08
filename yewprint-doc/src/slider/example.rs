@@ -1,4 +1,8 @@
-use std::borrow::Cow;
+use implicit_clone::{
+    unsync::{IArray, IString},
+    ImplicitClone,
+};
+use std::rc::Rc;
 use yew::prelude::*;
 use yewprint::{Intent, Slider, Tag};
 
@@ -52,8 +56,8 @@ impl Component for Example {
     fn view(&self, ctx: &Context<Self>) -> Html {
         let percentage_labels = (0..=100)
             .step_by(1)
-            .map(|x| (x, (x % 10 == 0).then(|| format!("{}%", x).into())))
-            .collect::<Vec<_>>();
+            .map(|x| (x, (x % 10 == 0).then(|| IString::from(format!("{}%", x)))))
+            .collect::<IArray<_>>();
 
         html! {
             <>
@@ -62,7 +66,7 @@ impl Component for Example {
                 >
                     <Slider<f64>
                         selected={self.float}
-                        values={vec![
+                        values={IArray::<(f64, Option<IString>)>::Rc(Rc::new([
                             (0.0, Some("0".into())),
                             (0.1, None),
                             (0.2, None),
@@ -74,7 +78,7 @@ impl Component for Example {
                             (0.8, None),
                             (0.9, None),
                             (1.0, Some("1".into())),
-                        ]}
+                        ]))}
                         intent={ctx.props().intent}
                         onchange={ctx.link().callback(|x| Msg::FloatUpdate(x))}
                     />
@@ -90,24 +94,26 @@ impl Component for Example {
                     values={percentage_labels}
                     selected={self.integer}
                     intent={ctx.props().intent}
-                    value_label={Cow::Owned(format!("{}%", self.integer))}
+                    value_label={IString::from(format!("{}%", self.integer))}
                     onchange={ctx.link().callback(|x| Msg::IntegerUpdate(x))}
                 />
                 <Slider<LogLevel>
-                    values={vec![
+                    values={IArray::<(LogLevel, Option<IString>)>::Rc(Rc::new([
                         (LogLevel::Off, Some("OFF".into())),
                         (LogLevel::Error, Some("ERROR".into())),
                         (LogLevel::Warn, Some("WARN".into())),
                         (LogLevel::Info, Some("INFO".into())),
                         (LogLevel::Debug, Some("DEBUG".into())),
                         (LogLevel::Trace, Some("TRACE".into())),
-                    ]}
+                    ]))}
                     intent={ctx.props().intent}
                     selected={self.log_level}
                     onchange={ctx.link().callback(|x| Msg::LogLevelUpdate(x))}
                 />
                 <Slider<()>
-                    values={vec![((), Some("Neo".into()))]}
+                    values={IArray::<((), Option<IString>)>::Rc(Rc::new([
+                        ((), Some("Neo".into()))
+                    ]))}
                     intent={ctx.props().intent}
                     selected={()}
                     onchange={ctx.link().callback(|_| Msg::Noop)}
@@ -126,3 +132,5 @@ pub enum LogLevel {
     Error,
     Off,
 }
+
+impl ImplicitClone for LogLevel {}
