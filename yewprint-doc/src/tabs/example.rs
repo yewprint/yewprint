@@ -1,5 +1,4 @@
 use implicit_clone::{unsync::IArray, ImplicitClone};
-use std::rc::Rc;
 use yew::prelude::*;
 use yewprint::{Tab, Tabs};
 
@@ -41,7 +40,7 @@ impl Component for Example {
                     vertical={ctx.props().vertical}
                     selected_tab_id={self.selected}
                     onchange={ctx.link().callback(|x| x)}
-                    tabs={IArray::<Tab<Civilization>>::Rc(Rc::new([
+                    tabs={[
                         Tab {
                             disabled: false,
                             id: Civilization::Sumer,
@@ -122,7 +121,7 @@ impl Component for Example {
                             panel_class: Classes::default(),
                             title_class: Classes::default(),
                         },
-                    ]))}
+                    ].into_iter().collect::<IArray<_>>()}
                 />
             </div>
         }

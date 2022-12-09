@@ -4,10 +4,10 @@ use yew::prelude::*;
 use yewprint::{Button, IconName, InputGroup, Tag};
 
 pub struct Example {
-    histogram_value: AttrValue,
-    password_value: AttrValue,
+    histogram_value: String,
+    password_value: String,
     password_strength: Html,
-    tags_value: AttrValue,
+    tags_value: String,
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -21,11 +21,11 @@ pub struct ExampleProps {
 
 pub enum Msg {
     AddHistogramEntry,
-    UpdateHistogram(AttrValue),
+    UpdateHistogram(String),
     AddPasswordEntry,
-    UpdatePassword(AttrValue),
+    UpdatePassword(String),
     AddTagsEntry,
-    UpdateTags(AttrValue),
+    UpdateTags(String),
     Noop,
 }
 

@@ -1,5 +1,4 @@
 use implicit_clone::{unsync::IArray, ImplicitClone};
-use std::rc::Rc;
 use yew::prelude::*;
 use yewprint::{Button, ControlGroup, HtmlSelect, IconName, InputGroup};
 
@@ -17,13 +16,13 @@ pub fn example(props: &ExampleProps) -> Html {
             vertical={props.vertical}
         >
             <HtmlSelect<Option<Sorting>>
-                options={IArray::<(Option<Sorting>, AttrValue)>::Rc(Rc::new([
+                options={[
                     (None, "Filter".into()),
                     (Some(Sorting::NameAscending), "Name - ascending".into()),
                     (Some(Sorting::NameDescending), "Name - descending".into()),
                     (Some(Sorting::PriceAscending), "Price - ascending".into()),
                     (Some(Sorting::PriceDescending), "Price - descending".into()),
-                ]))}
+                ].into_iter().collect::<IArray<_>>()}
             />
             <InputGroup placeholder="Find filters..." />
             <Button icon={IconName::ArrowRight} />

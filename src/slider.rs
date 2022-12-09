@@ -1,8 +1,5 @@
 use crate::Intent;
-use implicit_clone::{
-    unsync::{IArray, IString},
-    ImplicitClone,
-};
+use implicit_clone::{unsync::IArray, ImplicitClone};
 use std::marker::PhantomData;
 use wasm_bindgen::closure::Closure;
 use wasm_bindgen::JsCast;
@@ -28,9 +25,9 @@ pub struct SliderProps<T: ImplicitClone + PartialEq + 'static> {
     #[prop_or_default]
     pub intent: Option<Intent>,
     #[prop_or_default]
-    pub value_label: Option<IString>,
+    pub value_label: Option<AttrValue>,
     pub onchange: Callback<T>,
-    pub values: IArray<(T, Option<IString>)>,
+    pub values: IArray<(T, Option<AttrValue>)>,
     pub selected: Option<T>,
 }
 

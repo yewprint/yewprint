@@ -1,5 +1,4 @@
 use implicit_clone::{unsync::IArray, ImplicitClone};
-use std::rc::Rc;
 use yew::prelude::*;
 use yewprint::{Label, Radio, RadioGroup};
 
@@ -63,11 +62,11 @@ impl Component for Example {
                                 {"Determine Lunch"}
                             </Label>
                         ))}
-                        options={IArray::<(Lunch, AttrValue)>::Rc(Rc::new([
+                        options={[
                             (Lunch::Soup, "Soup".into()),
                             (Lunch::Salad, "Salad".into()),
                             (Lunch::Sandwich, "Sandwich".into()),
-                        ]))}
+                        ].into_iter().collect::<IArray<_>>()}
                         value={self.selected_value}
                         onchange={ctx.link().callback(|v| Msg::ValueUpdate(v))}
                         inline={ctx.props().inline}

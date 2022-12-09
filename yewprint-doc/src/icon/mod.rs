@@ -2,9 +2,8 @@ mod example;
 
 use crate::ExampleContainer;
 use example::*;
-use implicit_clone::unsync::{IArray, IString};
+use implicit_clone::unsync::IArray;
 use once_cell::sync::Lazy;
-use std::rc::Rc;
 use web_sys::HtmlInputElement;
 use yew::prelude::*;
 use yewprint::{HtmlSelect, Icon, IconName, InputGroup, Intent, Slider, Text, H1, H5};
@@ -12,13 +11,13 @@ use yewprint::{HtmlSelect, Icon, IconName, InputGroup, Intent, Slider, Text, H1,
 pub struct IconDoc {
     callback: Callback<ExampleProps>,
     state: ExampleProps,
-    search_string: AttrValue,
+    search_string: String,
 }
 
 #[derive(Clone)]
 pub enum IconDocMsg {
     Example(ExampleProps),
-    SearchIcon(AttrValue),
+    SearchIcon(String),
 }
 
 static ICON_LIST: Lazy<Vec<(String, IconName)>> = Lazy::new(|| {
@@ -66,14 +65,14 @@ impl Component for IconDoc {
                 icon_name
                     .contains(&search_string)
                     .then_some(*icon)
-                    .map(|x| {
+                    .map(|icon| {
                         html! {
                             <div class={classes!("docs-icon-list-item")}>
                                 <Icon
-                                    icon={x}
+                                    {icon}
                                     icon_size=20
                                 />
-                                <Text>{format!("{:?}", x)}</Text>
+                                <Text>{format!("{:?}", icon)}</Text>
                             </div>
                         }
                     })
@@ -121,7 +120,7 @@ crate::build_example_prop_component! {
     IconProps for ExampleProps =>
         fn view(&self, ctx: &Context<Self>) -> Html {
             let option_labels = (0..=100)
-                .map(|x| (x, (x % 20 == 0).then(|| IString::from(format!("{}", x)))))
+                .map(|x| (x, (x % 20 == 0).then(|| format!("{}", x).into())))
                 .collect::<IArray<_>>();
 
             html! {
@@ -157,13 +156,13 @@ crate::build_example_prop_component! {
                             {"Select intent:"}
                         </p>
                         <HtmlSelect<Option<Intent>>
-                            options={IArray::<(Option<Intent>, AttrValue)>::Rc(Rc::new([
+                            options={[
                                 (None, "None".into()),
                                 (Some(Intent::Primary), "Primary".into()),
                                 (Some(Intent::Success), "Success".into()),
                                 (Some(Intent::Warning), "Warning".into()),
                                 (Some(Intent::Danger), "Danger".into()),
-                            ]))}
+                            ].into_iter().collect::<IArray<_>>()}
                             value={self.example_props.intent}
                             onchange={self.update_props(ctx, |props, intent| ExampleProps {
                                 intent,
@@ -183,7 +182,7 @@ crate::build_example_prop_component! {
                                 ..props
                             })}
                             value_label={
-                                IString::from(format!("{}", ctx.props().example_props.icon_size))
+                                format!("{}", ctx.props().example_props.icon_size)
                             }
                         />
                     </div>

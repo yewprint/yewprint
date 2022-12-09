@@ -3,7 +3,6 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use implicit_clone::unsync::IArray;
-use std::rc::Rc;
 use yew::prelude::*;
 use yewprint::{Button, ButtonGroup, HtmlSelect, IconName, Intent, Switch, H1, H5};
 
@@ -12,8 +11,8 @@ pub struct TagDoc {
     state: ExampleProps,
 }
 
-fn initial_tags() -> Vec<AttrValue> {
-    vec![
+fn initial_tags() -> IArray<AttrValue> {
+    [
         "Landscape".into(),
         "Bird".into(),
         "City".into(),
@@ -24,6 +23,8 @@ fn initial_tags() -> Vec<AttrValue> {
         too. Coming back to where you started is not the same as never leaving."
             .into(),
     ]
+    .into_iter()
+    .collect::<IArray<_>>()
 }
 
 impl Component for TagDoc {
@@ -175,13 +176,13 @@ crate::build_example_prop_component! {
                             vertical=true
                         >
                             <HtmlSelect<Option<Intent>>
-                                options={IArray::<(Option<Intent>, AttrValue)>::Rc(Rc::new([
+                                options={[
                                     (None, "None".into()),
                                     (Some(Intent::Primary), "Primary".into()),
                                     (Some(Intent::Success), "Success".into()),
                                     (Some(Intent::Warning), "Warning".into()),
                                     (Some(Intent::Danger), "Danger".into()),
-                                ]))}
+                                ].into_iter().collect::<IArray<_>>()}
                                 onchange={self.update_props(ctx, |props, intent| ExampleProps {
                                     intent,
                                     ..props
