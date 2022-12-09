@@ -41,7 +41,7 @@ pub fn icon(props: &IconProps) -> Html {
     } else {
         ICON_SIZE_STANDARD
     };
-    let icon_string: AttrValue = format!("{:?}", props.icon).into();
+    let icon_string = format!("{:?}", props.icon);
 
     html! {
         <span
@@ -55,7 +55,7 @@ pub fn icon(props: &IconProps) -> Html {
                 height={props.icon_size.to_string()}
                 viewBox={format!("0 0 {x} {x}", x=pixel_grid_size)}
             >
-                <desc>{props.title.clone().unwrap_or(icon_string)}</desc>
+                <desc>{props.title.clone().unwrap_or_else(|| icon_string.into())}</desc>
                 {
                     paths.iter()
                         .map(|x| html! {

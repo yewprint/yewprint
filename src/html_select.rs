@@ -12,7 +12,7 @@ pub struct HtmlSelect<T: Clone + PartialEq + 'static> {
 }
 
 #[derive(Debug, Clone, PartialEq, Properties)]
-pub struct HtmlSelectProps<T: Clone + ImplicitClone + PartialEq + 'static> {
+pub struct HtmlSelectProps<T: ImplicitClone + PartialEq + 'static> {
     #[prop_or_default]
     pub fill: bool,
     #[prop_or_default]
@@ -34,7 +34,7 @@ pub struct HtmlSelectProps<T: Clone + ImplicitClone + PartialEq + 'static> {
     pub class: Classes,
 }
 
-impl<T: Clone + ImplicitClone + PartialEq + 'static> Component for HtmlSelect<T> {
+impl<T: ImplicitClone + PartialEq + 'static> Component for HtmlSelect<T> {
     type Message = Event;
     type Properties = HtmlSelectProps<T>;
 

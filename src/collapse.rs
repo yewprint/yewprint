@@ -8,7 +8,7 @@ pub struct Collapse {
     translated: bool,
     overflow_visible: bool,
     render_children: bool,
-    height_when_open: Option<AttrValue>,
+    height_when_open: Option<String>,
     animation_state: AnimationState,
     contents_ref: NodeRef,
     handle_delayed_state_change: Option<Timeout>,
@@ -147,7 +147,7 @@ impl Component for Collapse {
     fn rendered(&mut self, ctx: &Context<Self>, _first_render: bool) {
         if self.render_children {
             let client_height = self.contents_ref.cast::<Element>().unwrap().client_height();
-            self.height_when_open = Some(format!("{}px", client_height).into());
+            self.height_when_open = Some(format!("{}px", client_height));
         }
 
         match self.animation_state {

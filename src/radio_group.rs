@@ -3,7 +3,7 @@ use implicit_clone::{unsync::IArray, ImplicitClone};
 use yew::prelude::*;
 
 #[derive(Clone, PartialEq, Properties)]
-pub struct RadioGroupProps<T: Clone + PartialEq + ImplicitClone + 'static> {
+pub struct RadioGroupProps<T: ImplicitClone + PartialEq + 'static> {
     #[prop_or_default]
     pub label: Option<yew::virtual_dom::VNode>,
     #[prop_or_default]
@@ -24,9 +24,7 @@ pub struct RadioGroupProps<T: Clone + PartialEq + ImplicitClone + 'static> {
 // impl<T: Clone + PartialEq + 'static> Component for RadioGroup<T> {
 
 #[function_component(RadioGroup)]
-pub fn radio_group<T: Clone + PartialEq + ImplicitClone + 'static>(
-    props: &RadioGroupProps<T>,
-) -> Html {
+pub fn radio_group<T: ImplicitClone + PartialEq + 'static>(props: &RadioGroupProps<T>) -> Html {
     let option_children = props
         .options
         .iter()

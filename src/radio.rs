@@ -36,8 +36,10 @@ pub fn radio(props: &RadioProps) -> Html {
                 type="radio"
                 onchange={props.onchange.clone()}
                 disabled={props.disabled}
+                // Clone because `into_prop_value()` take ownership of `self`
                 value={props.value.clone()}
                 checked={props.checked.unwrap_or(false)}
+                // Clone because `into_prop_value()` take ownership of `self`
                 name={props.name.clone()}
             />
             <span
