@@ -28,24 +28,24 @@ pub struct SwitchProps {
 pub fn switch(props: &SwitchProps) -> Html {
     let display_label = {
         if props.inner_label.is_some() || props.inner_label_checked.is_some() {
-            let inner_label = props.inner_label.as_deref().unwrap_or_default();
-            let inner_label_checked = props.inner_label_checked.as_ref();
+            let inner_label = props.inner_label.clone().unwrap_or_default();
+            let inner_label_checked = props.inner_label_checked.clone();
             html! {
                 <>
                     <div class={classes!("bp3-control-indicator-child")}>
                         <div class={classes!("bp3-switch-inner-text")}>
                             {
-                                if let Some(label_checked) = inner_label_checked {
-                                    label_checked.clone()
+                                if let Some(label_checked) = inner_label_checked.clone() {
+                                    label_checked
                                 } else {
-                                    inner_label.to_string().into()
+                                    inner_label.clone()
                                 }
                             }
                         </div>
                     </div>
                     <div class={classes!("bp3-control-indicator-child")}>
                         <div class={classes!("bp3-switch-inner-text")}>
-                            {inner_label.to_string()}
+                            {inner_label}
                         </div>
                     </div>
                 </>
