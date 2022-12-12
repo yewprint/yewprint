@@ -124,7 +124,6 @@ impl Component for InputGroup {
                     ctx.props().large.then_some("bp3-large"),
                     ctx.props().small.then_some("bp3-small"),
                     ctx.props().round.then_some("bp3-round"),
-                    ctx.props().placeholder.clone(),
                     ctx.props().class.clone(),
                 )}
             >
