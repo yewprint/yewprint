@@ -36,11 +36,9 @@ pub fn radio(props: &RadioProps) -> Html {
                 type="radio"
                 onchange={props.onchange.clone()}
                 disabled={props.disabled}
-                // Clone because `into_prop_value()` take ownership of `self`
-                value={props.value.clone()}
+                value={&props.value}
                 checked={props.checked.unwrap_or(false)}
-                // Clone because `into_prop_value()` take ownership of `self`
-                name={props.name.clone()}
+                name={&props.name}
             />
             <span
                 class={classes!("bp3-control-indicator")}
