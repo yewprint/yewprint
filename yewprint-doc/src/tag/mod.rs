@@ -2,7 +2,7 @@ mod example;
 
 use crate::ExampleContainer;
 use example::*;
-use implicit_clone::unsync::IArray;
+use implicit_clone::unsync::{IArray, IString};
 use yew::prelude::*;
 use yewprint::{Button, ButtonGroup, HtmlSelect, IconName, Intent, Switch, H1, H5};
 
@@ -176,13 +176,13 @@ crate::build_example_prop_component! {
                             vertical=true
                         >
                             <HtmlSelect<Option<Intent>>
-                                options={[
-                                    (None, "None".into()),
-                                    (Some(Intent::Primary), "Primary".into()),
-                                    (Some(Intent::Success), "Success".into()),
-                                    (Some(Intent::Warning), "Warning".into()),
-                                    (Some(Intent::Danger), "Danger".into()),
-                                ].into_iter().collect::<IArray<_>>()}
+                                options={IArray::Static(&[
+                                    (None, IString::Static("None")),
+                                    (Some(Intent::Primary), IString::Static("Primary")),
+                                    (Some(Intent::Success), IString::Static("Success")),
+                                    (Some(Intent::Warning), IString::Static("Warning")),
+                                    (Some(Intent::Danger), IString::Static("Danger")),
+                                ])}
                                 onchange={self.update_props(ctx, |props, intent| ExampleProps {
                                     intent,
                                     ..props
