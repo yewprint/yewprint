@@ -123,7 +123,7 @@ impl Component for InputGroup {
             input_ref,
         } = &ctx.props();
 
-        let input_style = match (self.left_element_width, self.right_element_width) {
+        let style = match (self.left_element_width, self.right_element_width) {
             (Some(left), None) => format!("padding-left:{}px", left.max(MIN_HORIZONTAL_PADDING)),
             (None, Some(right)) => format!("padding-right:{}px", right.max(MIN_HORIZONTAL_PADDING)),
             (Some(left), Some(right)) => format!(
@@ -170,11 +170,11 @@ impl Component for InputGroup {
                     type={input_type.as_str()}
                     placeholder={placeholder.clone()}
                     disabled={*disabled}
-                    oninput={oninput.clone()}
-                    onkeyup={onkeyup.clone()}
-                    onkeydown={onkeydown.clone()}
-                    value={value.clone()}
-                    style={input_style}
+                    {oninput}
+                    {onkeyup}
+                    {onkeydown}
+                    {value}
+                    {style}
                 />
                 {
                     if let Some(right_element) = right_element.clone() {
