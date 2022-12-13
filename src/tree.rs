@@ -70,8 +70,8 @@ pub struct NodeData<T> {
     pub icon_intent: Option<Intent>,
     pub is_expanded: bool,
     pub is_selected: bool,
-    pub label: yew::virtual_dom::VNode,
-    pub secondary_label: Option<yew::virtual_dom::VNode>,
+    pub label: Html,
+    pub secondary_label: Option<Html>,
     pub data: T,
 }
 
@@ -153,7 +153,7 @@ impl<T: 'static + Clone + PartialEq> Tree<T> {
         ctx: &Context<Self>,
         node_id: &NodeId,
         depth: u32,
-    ) -> yew::virtual_dom::VNode {
+    ) -> Html {
         let tree = ctx.props().tree.borrow();
         let node = tree.get(node_id).unwrap();
         let children = node.children();
@@ -219,8 +219,8 @@ struct TreeNodeProps {
     icon_intent: Option<Intent>,
     is_expanded: bool,
     is_selected: bool,
-    label: yew::virtual_dom::VNode,
-    secondary_label: Option<yew::virtual_dom::VNode>,
+    label: Html,
+    secondary_label: Option<Html>,
     on_collapse: Option<Callback<(NodeId, MouseEvent)>>,
     on_expand: Option<Callback<(NodeId, MouseEvent)>>,
     onclick: Option<Callback<(NodeId, MouseEvent)>>,

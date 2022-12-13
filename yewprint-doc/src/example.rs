@@ -11,10 +11,10 @@ pub enum Msg {
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct ExampleContainerProps {
-    pub source: yew::virtual_dom::VNode,
+    pub source: Html,
     pub children: html::Children,
     #[prop_or_default]
-    pub props: Option<yew::virtual_dom::VNode>,
+    pub props: Option<Html>,
 }
 
 impl Component for ExampleContainer {

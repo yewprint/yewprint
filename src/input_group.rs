@@ -67,9 +67,9 @@ pub struct InputGroupProps {
     #[prop_or_default]
     pub left_icon: Option<IconName>,
     #[prop_or_default]
-    pub left_element: Option<yew::virtual_dom::VNode>,
+    pub left_element: Option<Html>,
     #[prop_or_default]
-    pub right_element: Option<yew::virtual_dom::VNode>,
+    pub right_element: Option<Html>,
     #[prop_or_default]
     pub input_type: TextInputType,
     #[prop_or_default]

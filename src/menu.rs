@@ -32,7 +32,7 @@ pub fn menu(props: &MenuProps) -> Html {
 #[derive(Clone, PartialEq, Properties)]
 pub struct MenuItemProps {
     #[prop_or_default]
-    pub text: yew::virtual_dom::VNode,
+    pub text: Html,
     #[prop_or_default]
     pub text_class: Classes,
     #[prop_or_default]
@@ -132,7 +132,7 @@ pub fn menu_item(
 #[derive(Clone, PartialEq, Properties)]
 pub struct MenuDividerProps {
     #[prop_or_default]
-    pub title: Option<yew::virtual_dom::VNode>,
+    pub title: Option<Html>,
 }
 
 #[function_component(MenuDivider)]
