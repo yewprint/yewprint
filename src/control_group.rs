@@ -9,23 +9,32 @@ pub struct ControlGroupProps {
     #[prop_or_default]
     pub large: bool,
     #[prop_or_default]
-    pub children: html::Children,
+    pub children: Children,
     #[prop_or_default]
     pub class: Classes,
 }
 
 #[function_component(ControlGroup)]
-pub fn control_group(props: &ControlGroupProps) -> Html {
+pub fn control_group(
+    ControlGroupProps {
+        fill,
+        vertical,
+        large,
+        class,
+        children,
+    }: &ControlGroupProps,
+) -> Html {
     html! {
         <div
             class={classes!(
                 "bp3-control-group",
-                props.fill.then_some("bp3-fill"),
-                props.vertical.then_some("bp3-vertical"),
-                props.class.clone(),
+                fill.then_some("bp3-fill"),
+                vertical.then_some("bp3-vertical"),
+                large.then_some("bp3-large"),
+                class.clone(),
             )}
         >
-            {props.children.clone()}
+            {children.clone()}
         </div>
     }
 }

@@ -19,17 +19,26 @@ pub struct TextProps {
 }
 
 #[function_component(Text)]
-pub fn text(props: &TextProps) -> Html {
+pub fn text(
+    TextProps {
+        ellipsize,
+        children,
+        class,
+        inline,
+        title,
+        style,
+    }: &TextProps,
+) -> Html {
     html! {
-        <@{if props.inline { "span" } else { "div"}}
+        <@{if *inline { "span" } else { "div"}}
             class={classes!(
-                props.class.clone(),
-                props.ellipsize.then_some("bp3-text-overflow-ellipsis"),
+                ellipsize.then_some("bp3-text-overflow-ellipsis"),
+                class.clone(),
             )}
-            style={props.style.clone()}
-            title={props.title.clone()}
+            {style}
+            {title}
         >
-            {props.children.clone()}
+            {children.clone()}
         </@>
     }
 }

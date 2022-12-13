@@ -2,8 +2,9 @@ mod example;
 
 use crate::ExampleContainer;
 use example::*;
+use implicit_clone::unsync::IArray;
 use yew::prelude::*;
-use yewprint::{Switch, H1, H5};
+use yewprint::{HtmlSelect, Intent, Switch, H1, H5};
 
 pub struct ButtonDoc {
     callback: Callback<ExampleProps>,
@@ -26,6 +27,7 @@ impl Component for ButtonDoc {
                 large: false,
                 active: false,
                 disabled: false,
+                intent: None,
             },
         }
     }
@@ -135,6 +137,19 @@ crate::build_example_prop_component! {
                         })}
                         checked={ctx.props().example_props.disabled}
                         label={html!("Disabled")}
+                    />
+                    <HtmlSelect<Option<Intent>>
+                        options={[
+                            (None, "None".into()),
+                            (Some(Intent::Primary), "Primary".into()),
+                            (Some(Intent::Success), "Success".into()),
+                            (Some(Intent::Warning), "Warning".into()),
+                            (Some(Intent::Danger), "Danger".into()),
+                        ].into_iter().collect::<IArray<_>>()}
+                        onchange={self.update_props(ctx, |props, intent| ExampleProps {
+                            intent,
+                            ..props
+                        })}
                     />
                 </div>
             }

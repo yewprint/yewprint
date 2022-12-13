@@ -9,11 +9,11 @@ pub struct ExampleProps {
 }
 
 #[function_component(Example)]
-pub fn example(props: &ExampleProps) -> Html {
+pub fn example(ExampleProps { fill, vertical }: &ExampleProps) -> Html {
     html! {
         <ControlGroup
-            fill={props.fill}
-            vertical={props.vertical}
+            {fill}
+            {vertical}
         >
             <HtmlSelect<Option<Sorting>>
                 options={[

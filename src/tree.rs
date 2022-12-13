@@ -18,7 +18,7 @@ pub struct TreeData<T> {
 
 impl<T> PartialEq for TreeData<T> {
     fn eq(&self, other: &Self) -> bool {
-        self.version == other.version
+        Rc::ptr_eq(&self.tree, &other.tree) && self.version == other.version
     }
 }
 

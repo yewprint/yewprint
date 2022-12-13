@@ -7,10 +7,9 @@ pub struct TextAreaProps {
     pub class: Classes,
     #[prop_or_default]
     pub fill: bool,
+    //TODO pub grow_vertically: bool,
     #[prop_or_default]
-    pub grow_vertically: bool,
-    #[prop_or_default]
-    pub input_ref: NodeRef,
+    pub r#ref: NodeRef,
     #[prop_or_default]
     pub intent: Option<Intent>,
     #[prop_or_default]
@@ -18,23 +17,33 @@ pub struct TextAreaProps {
     #[prop_or_default]
     pub small: bool,
     #[prop_or_default]
-    pub onchange: Option<Callback<Event>>,
+    pub onchange: Callback<Event>,
 }
 
 #[function_component(TextArea)]
-pub fn text_area(props: &TextAreaProps) -> Html {
-    let classes = classes!(
-        "bp3-input",
-        props.intent,
-        props.class.clone(),
-        props.fill.then_some("bp3-fill"),
-        props.small.then_some("bp3-small"),
-        props.large.then_some("bp3-large"),
-    );
+pub fn text_area(
+    TextAreaProps {
+        class,
+        fill,
+        r#ref,
+        intent,
+        large,
+        small,
+        onchange,
+    }: &TextAreaProps,
+) -> Html {
     html! {
         <textarea
-            class={classes}
-            onchange={props.onchange.clone()}
+            class={classes!(
+                "bp3-input",
+                intent,
+                fill.then_some("bp3-fill"),
+                small.then_some("bp3-small"),
+                large.then_some("bp3-large"),
+                class.clone(),
+            )}
+            ref={r#ref}
+            {onchange}
         />
     }
 }

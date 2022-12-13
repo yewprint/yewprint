@@ -5,7 +5,7 @@ use yew::prelude::*;
 #[derive(Clone, PartialEq, Properties)]
 pub struct RadioGroupProps<T: ImplicitClone + PartialEq + 'static> {
     #[prop_or_default]
-    pub label: Option<yew::virtual_dom::VNode>,
+    pub label: Option<Html>,
     #[prop_or_default]
     pub disabled: bool,
     #[prop_or_default]
@@ -21,29 +21,33 @@ pub struct RadioGroupProps<T: ImplicitClone + PartialEq + 'static> {
     pub class: Classes,
 }
 
-// impl<T: Clone + PartialEq + 'static> Component for RadioGroup<T> {
-
 #[function_component(RadioGroup)]
-pub fn radio_group<T: ImplicitClone + PartialEq + 'static>(props: &RadioGroupProps<T>) -> Html {
-    let option_children = props
-        .options
+pub fn radio_group<T: ImplicitClone + PartialEq + 'static>(
+    RadioGroupProps {
+        label,
+        disabled,
+        inline,
+        large,
+        options,
+        value,
+        onchange,
+        class,
+    }: &RadioGroupProps<T>,
+) -> Html {
+    let option_children = options
         .iter()
-        .map(|(value, label)| {
-            let checked = props
-                .value
-                .as_ref()
-                .map(|x| &value == x)
-                .unwrap_or_default();
+        .map(|(this_value, label)| {
+            let checked = value.as_ref().map(|x| &this_value == x).unwrap_or_default();
 
             html! {
                 <Radio
                     value={String::new()}
                     label={html!(label)}
-                    checked={checked}
-                    onchange={props.onchange.reform(move |_| value.clone())}
-                    inline={props.inline}
-                    disabled={props.disabled}
-                    large={props.large}
+                    {checked}
+                    onchange={onchange.reform(move |_| this_value.clone())}
+                    {inline}
+                    {disabled}
+                    {large}
                 />
             }
         })
@@ -53,16 +57,10 @@ pub fn radio_group<T: ImplicitClone + PartialEq + 'static>(props: &RadioGroupPro
         <div
             class={classes!(
                 "bp3-radio-group",
-                props.class.clone(),
+                class.clone(),
             )}
         >
-            {
-                if let Some(label) = props.label.clone() {
-                    label
-                } else {
-                    html!()
-                }
-            }
+            {label.clone()}
             {option_children}
         </div>
     }

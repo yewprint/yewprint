@@ -22,8 +22,6 @@ pub struct HtmlSelectProps<T: ImplicitClone + PartialEq + 'static> {
     #[prop_or_default]
     pub disabled: bool,
     #[prop_or_default]
-    pub icon: Option<IconName>,
-    #[prop_or_default]
     pub title: Option<AttrValue>,
     #[prop_or_default]
     pub onchange: Callback<T>,
@@ -75,20 +73,25 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for HtmlSelect<T> {
     }
 
     fn view(&self, ctx: &Context<Self>) -> Html {
-        let option_children = ctx
-            .props()
-            .options
+        let Self::Properties {
+            fill,
+            minimal,
+            large,
+            disabled,
+            title,
+            onchange: _,
+            value,
+            options,
+            class,
+        } = &ctx.props();
+
+        let option_children = options
             .iter()
-            .map(|(value, label)| {
-                let selected = ctx
-                    .props()
-                    .value
-                    .as_ref()
-                    .map(|x| &value == x)
-                    .unwrap_or_default();
+            .map(|(this_value, label)| {
+                let selected = value.as_ref().map(|x| &this_value == x).unwrap_or_default();
 
                 html! {
-                    <option selected={selected}>
+                    <option {selected}>
                         {label}
                     </option>
                 }
@@ -99,18 +102,18 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for HtmlSelect<T> {
             <div
                 class={classes!(
                     "bp3-html-select",
-                    ctx.props().minimal.then_some("bp3-minimal"),
-                    ctx.props().large.then_some("bp3-large"),
-                    ctx.props().fill.then_some("bp3-fill"),
-                    ctx.props().disabled.then_some("bp3-disabled"),
-                    ctx.props().class.clone(),
+                    minimal.then_some("bp3-minimal"),
+                    large.then_some("bp3-large"),
+                    fill.then_some("bp3-fill"),
+                    disabled.then_some("bp3-disabled"),
+                    class.clone(),
                 )}
             >
                 <select
                     value={String::new()}
-                    disabled={ctx.props().disabled}
+                    disabled={*disabled}
                     onchange={ctx.link().callback(|x| x)}
-                    title={ctx.props().title.clone()}
+                    {title}
                     ref={self.select_element.clone()}
                 >
                     {option_children}

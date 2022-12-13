@@ -15,16 +15,26 @@ pub struct CardProps {
 }
 
 #[function_component(Card)]
-pub fn card(props: &CardProps) -> Html {
+pub fn card(
+    CardProps {
+        class,
+        elevation,
+        onclick,
+        interactive,
+        children,
+    }: &CardProps,
+) -> Html {
     html! {
-        <div class={classes!(
-            "bp3-card",
-            props.class.clone(),
-            props.elevation,
-            props.interactive.then_some("bp3-interactive"),
-        )}
-        onclick={props.onclick.clone()}>
-            {props.children.clone()}
+        <div
+            class={classes!(
+                "bp3-card",
+                elevation,
+                interactive.then_some("bp3-interactive"),
+                class.clone(),
+            )}
+            {onclick}
+        >
+            {children.clone()}
         </div>
     }
 }

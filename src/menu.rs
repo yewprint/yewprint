@@ -44,7 +44,7 @@ pub struct MenuItemProps {
     #[prop_or_default]
     pub href: Option<AttrValue>,
     #[prop_or_default]
-    pub label: Option<yew::virtual_dom::VNode>,
+    pub label: Option<Html>,
     #[prop_or_default]
     pub label_class: Classes,
     // TODO: pub multiline: bool, (requires <Text>)
@@ -61,28 +61,43 @@ pub struct MenuItemProps {
 }
 
 #[function_component(MenuItem)]
-pub fn menu_item(props: &MenuItemProps) -> Html {
+pub fn menu_item(
+    MenuItemProps {
+        text,
+        text_class,
+        active,
+        class,
+        disabled,
+        href,
+        label,
+        label_class,
+        intent,
+        icon,
+        icon_html,
+        onclick,
+    }: &MenuItemProps,
+) -> Html {
     html! {
         <li>
             <a
                 class={classes!(
                     "bp3-menu-item",
-                    props.active.then_some("bp3-active"),
-                    props.disabled.then_some("bp3-disabled"),
-                    props.intent
-                        .or_else(|| props.active.then_some(Intent::Primary)),
-                    props.class.clone(),
+                    active.then_some("bp3-active"),
+                    disabled.then_some("bp3-disabled"),
+                    intent
+                        .or_else(|| active.then_some(Intent::Primary)),
+                    class.clone(),
                 )}
-                href={(!props.disabled).then(|| props.href.clone()).flatten()}
-                tabIndex={(!props.disabled).then_some("0")}
-                onclick={(!props.disabled).then(|| props.onclick.clone())}
+                href={(!disabled).then(|| href.clone()).flatten()}
+                tabIndex={(!disabled).then_some("0")}
+                onclick={(!disabled).then(|| onclick.clone())}
             >
                 {
-                    if let Some(icon_name) = props.icon {
+                    if let Some(icon_name) = icon {
                         html! {
                             <Icon icon={icon_name} />
                         }
-                    } else if let Some(html) = props.icon_html.clone() {
+                    } else if let Some(html) = icon_html.clone() {
                         html
                     } else {
                         html! {
@@ -90,16 +105,16 @@ pub fn menu_item(props: &MenuItemProps) -> Html {
                         }
                     }
                 }
-                <div class={classes!("bp3-text", "bp3-fill", props.text_class.clone())}>
-                    {props.text.clone()}
+                <div class={classes!("bp3-text", "bp3-fill", text_class.clone())}>
+                    {text.clone()}
                 </div>
                 {
-                    if let Some(label) = props.label.clone() {
+                    if let Some(label) = label.clone() {
                         html! {
                             <span
                                 class={classes!(
                                     "bp3-menu-item-label",
-                                    props.label_class.clone())}
+                                    label_class.clone())}
                             >
                                 {label}
                             </span>

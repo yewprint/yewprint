@@ -1,5 +1,6 @@
 use crate::{Button, IconName};
 use gloo::timers::callback::Timeout;
+use implicit_clone::ImplicitClone;
 use std::cell::RefCell;
 use std::fmt;
 use std::rc::Rc;
@@ -41,6 +42,8 @@ pub struct PanelStackState {
     version: usize,
     action: Option<StateAction>,
 }
+
+impl ImplicitClone for PanelStackState {}
 
 impl PanelStackState {
     pub fn new(content: Html) -> PanelBuilder<fn(Option<Html>, Html) -> Self, Html, Self> {

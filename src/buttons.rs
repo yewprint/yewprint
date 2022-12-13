@@ -38,54 +38,60 @@ pub struct ButtonProps {
 
 #[function_component(Button)]
 pub fn button(props: &ButtonProps) -> Html {
+    let ButtonProps {
+        fill,
+        minimal,
+        small,
+        outlined,
+        loading,
+        large,
+        active,
+        disabled,
+        icon,
+        intent,
+        title,
+        onclick,
+        class,
+        style,
+        children,
+    } = props;
+
     html! {
         <button
             class={classes!(
                 "bp3-button",
-                props.fill.then_some("bp3-fill"),
-                props.minimal.then_some("bp3-minimal"),
-                props.small.then_some("bp3-small"),
-                props.outlined.then_some("bp3-outlined"),
-                props.loading.then_some("bp3-loading"),
-                props.large.then_some("bp3-large"),
-                (props.active && !props.disabled).then_some("bp3-active"),
-                props.disabled.then_some("bp3-disabled"),
-                props.intent,
-                props.class.clone(),
+                fill.then_some("bp3-fill"),
+                minimal.then_some("bp3-minimal"),
+                small.then_some("bp3-small"),
+                outlined.then_some("bp3-outlined"),
+                loading.then_some("bp3-loading"),
+                large.then_some("bp3-large"),
+                (*active && !disabled).then_some("bp3-active"),
+                disabled.then_some("bp3-disabled"),
+                intent,
+                class.clone(),
             )}
-            style={props.style.clone()}
-            onclick={(!props.disabled).then_some(props.onclick.clone())}
+            {style}
+            {title}
+            onclick={(!disabled).then_some(onclick.clone())}
         >
             {
-                props
-                    .loading
+                loading
                     .then(|| html! {
                         <Spinner
                             class={classes!("bp3-button-spinner")}
                             size={ICON_SIZE_LARGE as f32}
                         />
                     })
-                    .unwrap_or_default()
             }
+            {icon.map(|icon| html!(<Icon {icon} />))}
             {
-                if let Some(icon) = props.icon {
-                    html! {
-                        <Icon icon={icon} />
-                    }
-                } else {
-                    html!()
-                }
-            }
-            {
-                if props.children.is_empty() {
-                    html! ()
-                } else {
-                    html! {
+                (!children.is_empty())
+                    .then(|| html! {
                         <span class="bp3-button-text">
-                            {for props.children.iter()}
+                            {for children.iter()}
                         </span>
-                    }
-                }
+                    })
             }
         </button>
     }

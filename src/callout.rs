@@ -19,12 +19,21 @@ pub struct CalloutProps {
 }
 
 #[function_component(Callout)]
-pub fn callout(props: &CalloutProps) -> Html {
-    let icon = if props.without_icon {
+pub fn callout(
+    CalloutProps {
+        class,
+        without_icon,
+        icon,
+        intent,
+        title,
+        children,
+    }: &CalloutProps,
+) -> Html {
+    let icon = if *without_icon {
         None
     } else {
-        props.icon.or_else(|| {
-            props.intent.map(|intent| match intent {
+        icon.or_else(|| {
+            intent.map(|intent| match intent {
                 Intent::Primary => IconName::InfoSign,
                 Intent::Success => IconName::Tick,
                 Intent::Warning => IconName::WarningSign,
@@ -32,25 +41,27 @@ pub fn callout(props: &CalloutProps) -> Html {
             })
         })
     };
-    let classes = classes!(
-        props.class.clone(),
-        "bp3-callout",
-        icon.map(|_| "bp3-callout-icon"),
-        props.intent,
-    );
+
     html! {
-        <div class={classes}>
+        <div
+            class={classes!(
+                "bp3-callout",
+                icon.map(|_| "bp3-callout-icon"),
+                intent,
+                class.clone(),
+            )}
+        >
             {
                 icon.iter()
-                    .map(|name| html!{<Icon icon={*name} icon_size={ICON_SIZE_LARGE}/>})
+                    .map(|icon| html!{<Icon {icon} icon_size={ICON_SIZE_LARGE}/>})
                     .collect::<Html>()
             }
             {
-                props.title.iter()
+                title.iter()
                     .map(|title| html!{<h4 class={"bp3-heading"}>{title}</h4>})
                     .collect::<Html>()
             }
-            { props.children.clone() }
+            {children.clone()}
         </div>
     }
 }

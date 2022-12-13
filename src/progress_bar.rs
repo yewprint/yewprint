@@ -16,26 +16,35 @@ pub struct ProgressBarProps {
 }
 
 #[function_component(ProgressBar)]
-pub fn progress_bar(props: &ProgressBarProps) -> Html {
-    let width = if let Some(value) = props.value {
+pub fn progress_bar(
+    ProgressBarProps {
+        animate,
+        stripes,
+        value,
+        intent,
+        class,
+    }: &ProgressBarProps,
+) -> Html {
+    let style = if let Some(value) = value {
         // NOTE: nightly, issue #44095 for f32::clamp
         // let percent = ((1000. * value).ceil() / 10.).clamp(0.,100.);
         let percent = ((1000. * value).ceil() / 10.).max(0.).min(100.);
-        format!("width: {}%;", percent)
+        AttrValue::from(format!("width: {}%;", percent))
     } else {
         "".into()
     };
+
     html! {
         <div
             class={classes!(
                 "bp3-progress-bar",
-                props.intent,
-                (!props.animate).then_some("bp3-no-animation"),
-                (!props.stripes).then_some("bp3-no-stripes"),
-                props.class.clone(),
+                intent,
+                (!animate).then_some("bp3-no-animation"),
+                (!stripes).then_some("bp3-no-stripes"),
+                class.clone(),
             )}
         >
-            <div class={classes!("bp3-progress-meter")} style={{width}}/>
+            <div class={classes!("bp3-progress-meter")} {style}/>
         </div>
     }
 }

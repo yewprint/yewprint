@@ -14,6 +14,7 @@ pub struct ExampleProps {
     pub disable_buttons: bool,
     pub buttons_on_the_left: bool,
     pub left_icon: bool,
+    pub intent: Option<Intent>,
 }
 
 pub enum Msg {
@@ -50,32 +51,45 @@ impl Component for Example {
     }
 
     fn view(&self, ctx: &Context<Self>) -> Html {
+        let Self::Properties {
+            fill,
+            disabled,
+            large,
+            disable_buttons,
+            buttons_on_the_left,
+            left_icon,
+            intent,
+        } = &ctx.props();
+
         html! {
             <>
             <NumericInput<i32>
-                disabled={ctx.props().disabled}
-                fill={ctx.props().large}
+                {disabled}
+                {fill}
+                {large}
                 value={self.value}
                 bounds={-105..}
                 increment=10
                 placeholder={String::from("Greater or equal to -105...")}
                 onchange={ctx.link().callback(|x| Msg::UpdateValue(x))}
-                disable_buttons={ctx.props().disable_buttons}
-                buttons_on_the_left={ctx.props().buttons_on_the_left}
-                left_icon={ctx.props().left_icon.then_some(IconName::Dollar)}
+                {disable_buttons}
+                {buttons_on_the_left}
+                left_icon={left_icon.then_some(IconName::Dollar)}
+                {intent}
             />
             <NumericInput<i32>
-                disabled={ctx.props().disabled}
-                fill={ctx.props().fill}
-                large={ctx.props().large}
+                {disabled}
+                {fill}
+                {large}
                 value={self.value_two}
                 bounds={-10..=10}
                 increment=1
                 placeholder={String::from("Integer between -10 and 10")}
                 onchange={ctx.link().callback(|x| Msg::UpdateValueTwo(x))}
-                disable_buttons={ctx.props().disable_buttons}
-                buttons_on_the_left={ctx.props().buttons_on_the_left}
-                left_icon={ctx.props().left_icon.then_some(IconName::Dollar)}
+                {disable_buttons}
+                {buttons_on_the_left}
+                left_icon={left_icon.then_some(IconName::Dollar)}
+                {intent}
             />
             <Button
                 icon={IconName::Refresh}
@@ -84,8 +98,8 @@ impl Component for Example {
                 {"Reset at 4"}
             </Button>
             <Callout
-                title={"Selected values"}
-                intent={Intent::Primary}
+                title="Selected values"
+                {intent}
             >
                 <ul>
                     <li>{self.value}</li>

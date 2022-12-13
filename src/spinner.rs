@@ -35,12 +35,13 @@ pub fn spinner(props: &SpinnerProps) -> Html {
             view_box_x, view_box_x, view_box_width, view_box_width,
         )
     };
-    let spinner_track = format!(
+    let spinner_track = AttrValue::from(format!(
         "M 50,50 m 0,-{R:.0} a {R:.0},{R:.0} 0 1 1 0,{R2:.0} a {R:.0},{R:.0} 0 1 1 0,-{R2:.0}",
-        R = R,
         R2 = R * 2.0,
-    );
+    ));
     let stroke_offset = PATH_LENGTH - PATH_LENGTH * props.value.clamp(0.0, 1.0);
+    let width = AttrValue::from(format!("{size}"));
+    let height = width.clone();
 
     html! {
         <div
@@ -54,18 +55,18 @@ pub fn spinner(props: &SpinnerProps) -> Html {
                 class={classes!("bp3-spinner-animation")}
             >
                 <svg
-                    width={size.to_string()}
-                    height={size.to_string()}
+                    {width}
+                    {height}
                     stroke-width={stroke_width.to_string()}
-                    viewBox={view_box}
+                    {view_box}
                 >
                     <path
                         class={classes!("bp3-spinner-track")}
-                        d={spinner_track.clone()}
+                        d={&spinner_track}
                     />
                     <path
                         class={classes!("bp3-spinner-head")}
-                        d={spinner_track}
+                        d={&spinner_track}
                         pathLength={PATH_LENGTH.to_string()}
                         stroke-dasharray={format!("{} {}", PATH_LENGTH, PATH_LENGTH)}
                         stroke-dashoffset={stroke_offset.to_string()}
