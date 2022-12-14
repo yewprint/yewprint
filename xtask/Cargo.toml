@@ -3,10 +3,10 @@ name = "xtask"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
 env_logger = "0.10"
+heck = "0.4"
 log = "0.4"
+regex = { version = "1", default-features = false, features = ["std", "unicode-perl"] }
 xtask-wasm = "0.1.9"
 yewprint-css = { path = "../yewprint-css" }

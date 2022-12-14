@@ -1,3 +1,5 @@
+mod icons;
+
 use std::{
     fs,
     path::{Path, PathBuf},
@@ -14,7 +16,9 @@ enum Cli {
     Watch(xtask_wasm::Watch),
     Start(xtask_wasm::DevServer),
     /// Update Blueprint CSS and docs-theme CSS.
-    UpdateCSS,
+    UpdateCss,
+    /// Update Blueprint icons.
+    UpdateIcons,
 }
 
 fn main() -> Result<()> {
@@ -28,8 +32,6 @@ fn main() -> Result<()> {
     match cli {
         Cli::Dist(dist) => {
             log::info!("Generating package...");
-
-            download_css(false)?;
 
             let DistResult { dist_dir, .. } = dist
                 .static_dir_path("yewprint-doc/static")
@@ -49,7 +51,8 @@ fn main() -> Result<()> {
                 .not_found("index.html")
                 .start(xtask_wasm::default_dist_dir(false))?;
         }
-        Cli::UpdateCSS => download_css(true)?,
+        Cli::UpdateCss => download_css(true)?,
+        Cli::UpdateIcons => icons::generate_icons()?,
     }
 
     Ok(())
@@ -57,7 +60,7 @@ fn main() -> Result<()> {
 
 fn download_css(force: bool) -> Result<()> {
     let static_path = PathBuf::from("yewprint-doc/static");
-    let css_path = static_path.join("blueprint.css");
+    let css_path = PathBuf::from("yewprint-css/src/blueprint.css");
 
     if force || !css_path.exists() {
         yewprint_css::download_css(&css_path)?;

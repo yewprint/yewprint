@@ -9,7 +9,7 @@ repository = "https://github.com/yewprint/yewprint"
 homepage = "https://github.com/yewprint/yewprint"
 documentation = "https://docs.rs/yewprint"
 readme = "README.md"
-include = ["src/**/*.rs", "README.md", "LICENSE.Apache-2.0", "LICENSE.MIT", "iconSvgPaths.js", "build.rs"]
+include = ["src/**/*.rs", "README.md", "LICENSE.Apache-2.0", "LICENSE.MIT"]
 keywords = ["blueprint", "yew", "ui"]
 categories = ["gui"]
 
@@ -24,10 +24,6 @@ implicit-clone = "0.3.5"
 wasm-bindgen = "0.2"
 web-sys = { version = "0.3", features = ["DomRect", "Element", "Event", "HtmlSelectElement"] }
 yew = "0.20"
-
-[build-dependencies]
-heck = "0.4"
-regex = { version = "1", default-features = false, features = ["std", "unicode-perl"] }
 
 [workspace]
 members = ["yewprint-css", "yewprint-doc", "xtask"]

@@ -4,6 +4,8 @@ use std::path::Path;
 
 const LATEST_BLUEPRINT_WORKING_VERSION: &str = "3.54.0";
 
+pub const BLUEPRINT_CSS: &str = include_str!("blueprint.css");
+
 /// Download the CSS of Blueprint to a provided destination path.
 pub fn download_css(dest: impl AsRef<Path>) -> Result<()> {
     let version = download_from_npm_package(

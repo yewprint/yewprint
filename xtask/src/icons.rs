@@ -1,22 +1,25 @@
-//! This build script parses the svg paths located in iconSvgPaths.js
-//! to generate the IconName enum and all the icons.
-//!
-//! If the js file need an update, you can download a npm archive at this url:
-//! https://registry.npmjs.org/@blueprintjs/icons/-/icons-3.19.0.tgz
-//!
-//! After that you can extract the file following this path:
-//! package/lib/esnext/generated/iconSvgPaths.js
-
 use heck::ToUpperCamelCase;
 use regex::Regex;
 use std::collections::HashSet;
-use std::env;
 use std::fs;
 use std::path::Path;
+use xtask_wasm::anyhow::{ensure, Context, Result};
 
-fn main() {
-    let icon_svg_paths = fs::read_to_string("iconSvgPaths.js").expect("cannot read file");
-    let out_dir = env::var_os("OUT_DIR").unwrap();
+const LATEST_BLUEPRINT_WORKING_VERSION: &str = "3.33.0";
+
+pub(crate) fn generate_icons() -> Result<()> {
+    let js_file = Path::new("target/iconSvgPaths.js");
+    let version = yewprint_css::download_from_npm_package(
+        "@blueprintjs/icons",
+        LATEST_BLUEPRINT_WORKING_VERSION,
+        Path::new("package/lib/esnext/generated/iconSvgPaths.js"),
+        js_file,
+    )
+    .context("while downloading icons of @blueprintjs/icons")?;
+    log::info!("Blueprint icons updated to: {}", version);
+
+    let icon_svg_paths = fs::read_to_string(js_file).context("cannot read file")?;
+    let out_dir = Path::new("src");
     let dest_path = Path::new(&out_dir).join("icon_svg_paths.rs");
 
     let mut src = String::new();
@@ -40,9 +43,7 @@ fn main() {
         src.push_str(" }}\n\n");
     }
 
-    if keys.is_empty() {
-        panic!("failed parse icons");
-    }
+    ensure!(!keys.is_empty(), "failed parse icons");
 
     let mut keys: Vec<_> = keys.iter().collect();
     keys.sort();
@@ -66,6 +67,7 @@ fn main() {
     src.push_str("];\n");
     src.push('}');
 
-    fs::write(&dest_path, src).unwrap();
-    println!("cargo:rerun-if-changed=build.rs");
+    fs::write(&dest_path, src).context("could not write into file")?;
+
+    Ok(())
 }
