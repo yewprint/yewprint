@@ -55,7 +55,7 @@ fn main() -> Result<()> {
 
 fn download_css(force: bool) -> Result<()> {
     let static_path = PathBuf::from("yewprint-doc/static");
-    let css_path = static_path.join("blueprint.css");
+    let css_path = PathBuf::from("yewprint-css/src/blueprint.css");
 
     if force || !css_path.exists() {
         yewprint_css::download_css(&css_path)?;
