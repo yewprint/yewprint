@@ -33,7 +33,7 @@ pub struct ButtonProps {
     #[prop_or_default]
     pub style: Option<AttrValue>,
     #[prop_or_default]
-    pub children: html::Children,
+    pub children: Children,
 }
 
 #[function_component(Button)]

@@ -5,7 +5,7 @@ pub struct ChildrenOnlyProps {
     #[prop_or_default]
     pub class: Classes,
     #[prop_or_default]
-    pub children: html::Children,
+    pub children: Children,
 }
 
 macro_rules! build_component {

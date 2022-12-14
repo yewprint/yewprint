@@ -10,7 +10,7 @@ pub struct MenuProps {
     pub class: Classes,
     #[prop_or_default]
     pub r#ref: NodeRef,
-    pub children: html::Children,
+    pub children: Children,
 }
 
 #[function_component(Menu)]
@@ -57,7 +57,7 @@ pub struct MenuItemProps {
     pub icon_html: Option<Html>,
     #[prop_or_default]
     pub onclick: Callback<MouseEvent>,
-    // TODO: pub children: html::Children,
+    // TODO: pub children: Children,
 }
 
 #[function_component(MenuItem)]

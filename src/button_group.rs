@@ -14,7 +14,7 @@ pub struct ButtonGroupProps {
     #[prop_or_default]
     pub style: Option<AttrValue>,
     #[prop_or_default]
-    pub children: html::Children,
+    pub children: Children,
     #[prop_or_default]
     pub class: Classes,
 }

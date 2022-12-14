@@ -148,12 +148,7 @@ impl<T: Clone + PartialEq + 'static> Component for Tree<T> {
 
 // FIXME: The 'static bound here is probably wrong. Fix this at the end of PR.
 impl<T: 'static + Clone + PartialEq> Tree<T> {
-    fn render_children(
-        &self,
-        ctx: &Context<Self>,
-        node_id: &NodeId,
-        depth: u32,
-    ) -> Html {
+    fn render_children(&self, ctx: &Context<Self>, node_id: &NodeId, depth: u32) -> Html {
         let tree = ctx.props().tree.borrow();
         let node = tree.get(node_id).unwrap();
         let children = node.children();
@@ -224,7 +219,7 @@ struct TreeNodeProps {
     on_collapse: Option<Callback<(NodeId, MouseEvent)>>,
     on_expand: Option<Callback<(NodeId, MouseEvent)>>,
     onclick: Option<Callback<(NodeId, MouseEvent)>>,
-    children: html::Children,
+    children: yew::Children,
     depth: u32,
 }
 

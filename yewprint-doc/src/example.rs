@@ -12,7 +12,7 @@ pub enum Msg {
 #[derive(Clone, PartialEq, Properties)]
 pub struct ExampleContainerProps {
     pub source: Html,
-    pub children: html::Children,
+    pub children: Children,
     #[prop_or_default]
     pub props: Option<Html>,
 }

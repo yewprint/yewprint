@@ -11,7 +11,9 @@ pub struct CardProps {
     pub onclick: Callback<MouseEvent>,
     #[prop_or(false)]
     pub interactive: bool,
-    pub children: html::Children,
+    #[prop_or_default]
+    pub style: AttrValue,
+    pub children: Children,
 }
 
 #[function_component(Card)]
@@ -21,6 +23,7 @@ pub fn card(
         elevation,
         onclick,
         interactive,
+        style,
         children,
     }: &CardProps,
 ) -> Html {
@@ -33,6 +36,7 @@ pub fn card(
                 class.clone(),
             )}
             {onclick}
+            {style}
         >
             {children.clone()}
         </div>

@@ -19,7 +19,7 @@ pub struct CollapseProps {
     #[prop_or_default]
     pub is_open: bool,
     #[prop_or_default]
-    pub children: html::Children,
+    pub children: Children,
     #[prop_or_default]
     pub keep_children_mounted: bool,
     #[prop_or(Duration::from_millis(200))]

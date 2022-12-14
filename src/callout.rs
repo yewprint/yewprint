@@ -15,7 +15,7 @@ pub struct CalloutProps {
     pub intent: Option<Intent>,
     #[prop_or_default]
     pub title: Option<AttrValue>,
-    pub children: html::Children,
+    pub children: Children,
 }
 
 #[function_component(Callout)]
