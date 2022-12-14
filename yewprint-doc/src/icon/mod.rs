@@ -2,8 +2,8 @@ mod example;
 
 use crate::ExampleContainer;
 use example::*;
+use implicit_clone::unsync::IArray;
 use once_cell::sync::Lazy;
-use std::borrow::Cow;
 use web_sys::HtmlInputElement;
 use yew::prelude::*;
 use yewprint::{HtmlSelect, Icon, IconName, InputGroup, Intent, Slider, Text, H1, H5};
@@ -58,21 +58,24 @@ impl Component for IconDoc {
             "bp3-code-block"
         );
 
-        let search_string = &self.search_string.to_lowercase();
+        let search_string = self.search_string.to_lowercase();
         let icon_list = ICON_LIST
             .iter()
             .filter_map(|(icon_name, icon)| {
-                icon_name.contains(search_string).then_some(*icon).map(|x| {
-                    html! {
-                        <div class={classes!("docs-icon-list-item")}>
-                            <Icon
-                                icon={x}
-                                icon_size=20
-                            />
-                            <Text>{format!("{:?}", x)}</Text>
-                        </div>
-                    }
-                })
+                icon_name
+                    .contains(&search_string)
+                    .then_some(*icon)
+                    .map(|icon| {
+                        html! {
+                            <div class={classes!("docs-icon-list-item")}>
+                                <Icon
+                                    {icon}
+                                    icon_size=20
+                                />
+                                <Text>{format!("{:?}", icon)}</Text>
+                            </div>
+                        }
+                    })
             })
             .collect::<Html>();
 
@@ -101,7 +104,7 @@ impl Component for IconDoc {
                         value={self.search_string.clone()}
                         oninput={ctx.link().callback(|e: InputEvent| {
                             let value = e.target_unchecked_into::<HtmlInputElement>().value();
-                            IconDocMsg::SearchIcon(value)
+                            IconDocMsg::SearchIcon(value.into())
                         })}
                     />
                 </div>
@@ -118,7 +121,7 @@ crate::build_example_prop_component! {
         fn view(&self, ctx: &Context<Self>) -> Html {
             let option_labels = (0..=100)
                 .map(|x| (x, (x % 20 == 0).then(|| format!("{}", x).into())))
-                .collect::<Vec<_>>();
+                .collect::<IArray<_>>();
 
             html! {
                 <div>
@@ -153,13 +156,13 @@ crate::build_example_prop_component! {
                             {"Select intent:"}
                         </p>
                         <HtmlSelect<Option<Intent>>
-                            options={vec![
-                                (None, "None".to_string()),
-                                (Some(Intent::Primary), "Primary".to_string()),
-                                (Some(Intent::Success), "Success".to_string()),
-                                (Some(Intent::Warning), "Warning".to_string()),
-                                (Some(Intent::Danger), "Danger".to_string()),
-                            ]}
+                            options={[
+                                (None, "None".into()),
+                                (Some(Intent::Primary), "Primary".into()),
+                                (Some(Intent::Success), "Success".into()),
+                                (Some(Intent::Warning), "Warning".into()),
+                                (Some(Intent::Danger), "Danger".into()),
+                            ].into_iter().collect::<IArray<_>>()}
                             value={self.example_props.intent}
                             onchange={self.update_props(ctx, |props, intent| ExampleProps {
                                 intent,
@@ -179,7 +182,7 @@ crate::build_example_prop_component! {
                                 ..props
                             })}
                             value_label={
-                                Cow::Owned(format!("{}", ctx.props().example_props.icon_size))
+                                format!("{}", ctx.props().example_props.icon_size)
                             }
                         />
                     </div>

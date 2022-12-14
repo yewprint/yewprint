@@ -8,43 +8,58 @@ pub struct RadioProps {
     pub inline: bool,
     #[prop_or_default]
     pub large: bool,
+    #[prop_or(false)]
+    pub checked: bool,
     #[prop_or_default]
-    pub checked: Option<bool>,
+    pub name: Option<AttrValue>,
     #[prop_or_default]
-    pub name: Option<String>,
+    pub onchange: Callback<Event>,
     #[prop_or_default]
-    pub onchange: Option<Callback<Event>>,
+    pub label: Html,
     #[prop_or_default]
-    pub label: yew::virtual_dom::VNode,
+    pub value: Option<AttrValue>,
     #[prop_or_default]
-    pub value: Option<String>,
+    pub class: Classes,
 }
 
 #[function_component(Radio)]
-pub fn radio(props: &RadioProps) -> Html {
+pub fn radio(
+    RadioProps {
+        disabled,
+        inline,
+        large,
+        checked,
+        name,
+        onchange,
+        label,
+        value,
+        class,
+    }: &RadioProps,
+) -> Html {
     html! {
         <label
             class={classes!(
                 "bp3-control",
                 "bp3-radio",
-                props.disabled.then_some("bp3-disabled"),
-                props.inline.then_some("bp3-inline"),
-                props.large.then_some("bp3-large"),
+                disabled.then_some("bp3-disabled"),
+                inline.then_some("bp3-inline"),
+                large.then_some("bp3-large"),
+                class.clone(),
             )}
         >
             <input
                 type="radio"
-                onchange={props.onchange.clone().unwrap_or_default()}
-                disabled={props.disabled}
-                value={props.value.clone().unwrap_or_default()}
-                checked={props.checked.unwrap_or(false)}
-                name={props.name.clone().unwrap_or_default()}
+                {onchange}
+                disabled={*disabled}
+                {value}
+                checked={*checked}
+                {name}
             />
             <span
                 class={classes!("bp3-control-indicator")}
             >
             </span>
-            {props.label.clone()}
+            {label.clone()}
         </label>
     }
 }

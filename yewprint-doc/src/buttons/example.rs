@@ -1,5 +1,5 @@
 use yew::prelude::*;
-use yewprint::Button;
+use yewprint::{Button, Intent};
 
 pub struct Example {
     counter: i64,
@@ -15,6 +15,7 @@ pub struct ExampleProps {
     pub large: bool,
     pub active: bool,
     pub disabled: bool,
+    pub intent: Option<Intent>,
 }
 
 pub enum Msg {
@@ -37,20 +38,33 @@ impl Component for Example {
     }
 
     fn view(&self, ctx: &Context<Self>) -> Html {
+        let Self::Properties {
+            minimal,
+            fill,
+            small,
+            outlined,
+            loading,
+            large,
+            active,
+            disabled,
+            intent,
+        } = &ctx.props();
+
         html! {
             <div>
                 <p>{"Counter: "}{self.counter}</p>
                 <div>
                     <Button
                         onclick={ctx.link().callback(|_| Msg::AddOne)}
-                        minimal={ctx.props().minimal}
-                        fill={ctx.props().fill}
-                        small={ctx.props().small}
-                        outlined={ctx.props().outlined}
-                        loading={ctx.props().loading}
-                        large={ctx.props().large}
-                        active={ctx.props().active}
-                        disabled={ctx.props().disabled}
+                        {minimal}
+                        {fill}
+                        {small}
+                        {outlined}
+                        {loading}
+                        {large}
+                        {active}
+                        {disabled}
+                        {intent}
                     >
                         {"Add 1"}
                     </Button>

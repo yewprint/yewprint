@@ -2,6 +2,7 @@ mod example;
 
 use crate::ExampleContainer;
 use example::*;
+use implicit_clone::unsync::IArray;
 use yew::prelude::*;
 use yewprint::{HtmlSelect, Intent, Slider, H1, H5};
 
@@ -67,17 +68,18 @@ crate::build_example_prop_component! {
                 <div>
                     <p>{"Select intent:"}</p>
                     <HtmlSelect<Option<Intent>>
-                        options={vec![
-                            (None, "None".to_string()),
-                            (Some(Intent::Primary), "Primary".to_string()),
-                            (Some(Intent::Success), "Success".to_string()),
-                            (Some(Intent::Warning), "Warning".to_string()),
-                            (Some(Intent::Danger), "Danger".to_string()),
-                        ]}
+                        options={[
+                            (None, "None".into()),
+                            (Some(Intent::Primary), "Primary".into()),
+                            (Some(Intent::Success), "Success".into()),
+                            (Some(Intent::Warning), "Warning".into()),
+                            (Some(Intent::Danger), "Danger".into()),
+                        ].into_iter().collect::<IArray<_>>()}
                         onchange={self.update_props(ctx, |props, intent| ExampleProps {
                             intent,
                             ..props
                         })}
+                        value={ctx.props().example_props.intent}
                     />
                     <p
                         style="margin-top: 5px;"
@@ -86,7 +88,7 @@ crate::build_example_prop_component! {
                     </p>
                     <Slider<u32>
                         selected={ctx.props().example_props.size}
-                        values={vec![
+                        values={[
                             (10, Some("10".into())),
                             (20, None),
                             (30, None),
@@ -97,7 +99,7 @@ crate::build_example_prop_component! {
                             (80, None),
                             (90, None),
                             (100, Some("100".into())),
-                        ]}
+                        ].into_iter().collect::<IArray<_>>()}
                         onchange={self.update_props(ctx, |props, size| ExampleProps {
                             size,
                             ..props

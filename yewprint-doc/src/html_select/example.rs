@@ -1,3 +1,4 @@
+use implicit_clone::{unsync::IArray, ImplicitClone};
 use yew::prelude::*;
 use yewprint::{HtmlSelect, Text};
 
@@ -31,7 +32,7 @@ impl Component for Example {
         true
     }
 
-    fn changed(&mut self, ctx: &Context<Self>) -> bool {
+    fn changed(&mut self, ctx: &Context<Self>, _old_props: &Self::Properties) -> bool {
         if self.reset != ctx.props().reset {
             self.reset = ctx.props().reset;
             self.log_level = LogLevel::Info;
@@ -43,14 +44,14 @@ impl Component for Example {
         html! {
             <div style="width: 400px; text-align: center;">
                 <HtmlSelect<LogLevel>
-                    options={vec![
-                        (LogLevel::Trace, "TRACE".to_string()),
-                        (LogLevel::Debug, "DEBUG".to_string()),
-                        (LogLevel::Info, "INFO".to_string()),
-                        (LogLevel::Warn, "WARN".to_string()),
-                        (LogLevel::Error, "ERROR".to_string()),
-                        (LogLevel::Off, "OFF".to_string()),
-                    ]}
+                    options={[
+                        (LogLevel::Trace, "TRACE".into()),
+                        (LogLevel::Debug, "DEBUG".into()),
+                        (LogLevel::Info, "INFO".into()),
+                        (LogLevel::Warn, "WARN".into()),
+                        (LogLevel::Error, "ERROR".into()),
+                        (LogLevel::Off, "OFF".into()),
+                    ].into_iter().collect::<IArray<_>>()}
                     minimal={ctx.props().minimal}
                     fill={ctx.props().fill}
                     disabled={ctx.props().disabled}
@@ -74,3 +75,5 @@ pub enum LogLevel {
     Error,
     Off,
 }
+
+impl ImplicitClone for LogLevel {}

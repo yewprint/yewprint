@@ -97,7 +97,7 @@ impl Component for Example {
                     value={self.histogram_value.clone()}
                     oninput={ctx.link().callback(|e: InputEvent| {
                         let value = e.target_unchecked_into::<HtmlInputElement>().value();
-                        Msg::UpdateHistogram(value)
+                        Msg::UpdateHistogram(value.into())
                     })}
                     onkeydown={ctx.link().callback(|e: KeyboardEvent| {
                         if e.key() == "Enter" { Msg::AddHistogramEntry } else { Msg::Noop }
@@ -114,7 +114,7 @@ impl Component for Example {
                     value={self.password_value.clone()}
                     oninput={ctx.link().callback(|e: InputEvent| {
                         let value = e.target_unchecked_into::<HtmlInputElement>().value();
-                        Msg::UpdatePassword(value)
+                        Msg::UpdatePassword(value.into())
                     })}
                     onkeydown={ctx.link().callback(|e: KeyboardEvent| {
                         if e.key() == "Enter" { Msg::AddPasswordEntry } else { Msg::Noop }
@@ -138,7 +138,7 @@ impl Component for Example {
                     value={self.tags_value.clone()}
                     oninput={ctx.link().callback(|e: InputEvent| {
                         let value = e.target_unchecked_into::<HtmlInputElement>().value();
-                        Msg::UpdateTags(value)
+                        Msg::UpdateTags(value.into())
                     })}
                     onkeydown={ctx.link().callback(|e: KeyboardEvent| {
                         if e.key() == "Enter" { Msg::AddTagsEntry } else { Msg::Noop }

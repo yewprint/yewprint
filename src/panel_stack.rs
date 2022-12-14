@@ -1,5 +1,6 @@
 use crate::{Button, IconName};
 use gloo::timers::callback::Timeout;
+use implicit_clone::ImplicitClone;
 use std::cell::RefCell;
 use std::fmt;
 use std::rc::Rc;
@@ -41,6 +42,8 @@ pub struct PanelStackState {
     version: usize,
     action: Option<StateAction>,
 }
+
+impl ImplicitClone for PanelStackState {}
 
 impl PanelStackState {
     pub fn new(content: Html) -> PanelBuilder<fn(Option<Html>, Html) -> Self, Html, Self> {
@@ -204,7 +207,7 @@ impl Component for PanelStack {
         }
     }
 
-    fn changed(&mut self, ctx: &Context<Self>) -> bool {
+    fn changed(&mut self, ctx: &Context<Self>, _old_props: &Self::Properties) -> bool {
         self.action_to_perform = ctx.props().state.action;
         true
     }
@@ -293,8 +296,8 @@ impl Component for Panel {
         html! {
             <div class={classes} style={style}>
                 <div class="bp3-panel-stack-header">
-                    <span>{back_button.unwrap_or_default()}</span>
-                    {ctx.props().title.clone().unwrap_or_default()}
+                    <span>{back_button}</span>
+                    {ctx.props().title.clone()}
                     <span/>
                 </div>
                 {for ctx.props().children.iter()}
@@ -302,7 +305,7 @@ impl Component for Panel {
         }
     }
 
-    fn changed(&mut self, ctx: &Context<Self>) -> bool {
+    fn changed(&mut self, ctx: &Context<Self>, _old_props: &Self::Properties) -> bool {
         self.animation = ctx.props().animation;
         true
     }

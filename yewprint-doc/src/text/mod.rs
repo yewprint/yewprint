@@ -20,7 +20,7 @@ impl Component for TextDoc {
             callback: ctx.link().callback(|x| x),
             state: ExampleProps {
                 ellipsize: false,
-                text: String::from("Hello, world!"),
+                text: "Hello, world!".into(),
             },
         }
     }
@@ -78,12 +78,12 @@ crate::build_example_prop_component! {
                         onchange={self.update_props(ctx, |props, e: Event| {
                                 if let Some(input) = e.target_dyn_into::<HtmlInputElement>() {
                                     ExampleProps {
-                                        text: input.value(),
+                                        text: input.value().into(),
                                         ..props
                                     }
                                 } else {
                                     ExampleProps {
-                                        text: "Hello, world!".to_string(),
+                                        text: "Hello, world!".into(),
                                         ..props
                                     }
                                 }

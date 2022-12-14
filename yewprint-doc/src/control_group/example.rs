@@ -1,3 +1,4 @@
+use implicit_clone::{unsync::IArray, ImplicitClone};
 use yew::prelude::*;
 use yewprint::{Button, ControlGroup, HtmlSelect, IconName, InputGroup};
 
@@ -8,20 +9,20 @@ pub struct ExampleProps {
 }
 
 #[function_component(Example)]
-pub fn example(props: &ExampleProps) -> Html {
+pub fn example(ExampleProps { fill, vertical }: &ExampleProps) -> Html {
     html! {
         <ControlGroup
-            fill={props.fill}
-            vertical={props.vertical}
+            {fill}
+            {vertical}
         >
             <HtmlSelect<Option<Sorting>>
-                options={vec![
-                    (None, "Filter".to_string()),
-                    (Some(Sorting::NameAscending), "Name - ascending".to_string()),
-                    (Some(Sorting::NameDescending), "Name - descending".to_string()),
-                    (Some(Sorting::PriceAscending), "Price - ascending".to_string()),
-                    (Some(Sorting::PriceDescending), "Price - descending".to_string()),
-                ]}
+                options={[
+                    (None, "Filter".into()),
+                    (Some(Sorting::NameAscending), "Name - ascending".into()),
+                    (Some(Sorting::NameDescending), "Name - descending".into()),
+                    (Some(Sorting::PriceAscending), "Price - ascending".into()),
+                    (Some(Sorting::PriceDescending), "Price - descending".into()),
+                ].into_iter().collect::<IArray<_>>()}
             />
             <InputGroup placeholder="Find filters..." />
             <Button icon={IconName::ArrowRight} />
@@ -36,3 +37,5 @@ pub enum Sorting {
     PriceAscending,
     PriceDescending,
 }
+
+impl ImplicitClone for Sorting {}

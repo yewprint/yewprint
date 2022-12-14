@@ -4,7 +4,7 @@ use yewprint::Text;
 #[derive(Clone, PartialEq, Properties)]
 pub struct ExampleProps {
     pub ellipsize: bool,
-    pub text: String,
+    pub text: AttrValue,
 }
 
 #[function_component(Example)]

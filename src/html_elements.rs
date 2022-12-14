@@ -5,16 +5,16 @@ pub struct ChildrenOnlyProps {
     #[prop_or_default]
     pub class: Classes,
     #[prop_or_default]
-    pub children: html::Children,
+    pub children: Children,
 }
 
 macro_rules! build_component {
     ($name:ident, $tag:tt, $class:literal) => {
         #[function_component($name)]
-        pub fn $tag(props: &ChildrenOnlyProps) -> Html {
+        pub fn $tag(ChildrenOnlyProps { class, children }: &ChildrenOnlyProps) -> Html {
             html! {
-                <$tag class={classes!($class, props.class.clone())}>
-                    { props.children.clone() }
+                <$tag class={classes!($class, class.clone())}>
+                    {children.clone()}
                 </$tag>
             }
         }

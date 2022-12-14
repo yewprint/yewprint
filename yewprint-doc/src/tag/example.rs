@@ -1,3 +1,4 @@
+use implicit_clone::unsync::IArray;
 use yew::prelude::*;
 use yewprint::{IconName, Intent, Tag};
 
@@ -7,7 +8,7 @@ pub struct Example {
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct ExampleProps {
-    pub initial_tags: Vec<String>,
+    pub initial_tags: IArray<AttrValue>,
     pub active: bool,
     pub fill: bool,
     pub icon: bool,
@@ -32,7 +33,12 @@ impl Component for Example {
     type Properties = ExampleProps;
 
     fn create(ctx: &Context<Self>) -> Self {
-        let tags = ctx.props().initial_tags.clone();
+        let tags = ctx
+            .props()
+            .initial_tags
+            .iter()
+            .map(|x| x.to_string())
+            .collect::<Vec<_>>();
         Example { tags }
     }
 
@@ -51,9 +57,14 @@ impl Component for Example {
         true
     }
 
-    fn changed(&mut self, ctx: &Context<Self>) -> bool {
+    fn changed(&mut self, ctx: &Context<Self>, _old_props: &Self::Properties) -> bool {
         if ctx.props().reset_tags != ctx.props().reset_tags {
-            self.tags = ctx.props().initial_tags.clone();
+            self.tags = ctx
+                .props()
+                .initial_tags
+                .iter()
+                .map(|x| x.to_string())
+                .collect::<Vec<_>>();
         }
         true
     }

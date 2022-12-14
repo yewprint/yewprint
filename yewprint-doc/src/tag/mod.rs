@@ -2,6 +2,7 @@ mod example;
 
 use crate::ExampleContainer;
 use example::*;
+use implicit_clone::unsync::{IArray, IString};
 use yew::prelude::*;
 use yewprint::{Button, ButtonGroup, HtmlSelect, IconName, Intent, Switch, H1, H5};
 
@@ -10,8 +11,8 @@ pub struct TagDoc {
     state: ExampleProps,
 }
 
-fn initial_tags() -> Vec<String> {
-    vec![
+fn initial_tags() -> IArray<AttrValue> {
+    [
         "Landscape".into(),
         "Bird".into(),
         "City".into(),
@@ -22,6 +23,8 @@ fn initial_tags() -> Vec<String> {
         too. Coming back to where you started is not the same as never leaving."
             .into(),
     ]
+    .into_iter()
+    .collect::<IArray<_>>()
 }
 
 impl Component for TagDoc {
@@ -173,17 +176,18 @@ crate::build_example_prop_component! {
                             vertical=true
                         >
                             <HtmlSelect<Option<Intent>>
-                                options={vec![
-                                    (None, "None".to_string()),
-                                    (Some(Intent::Primary), "Primary".to_string()),
-                                    (Some(Intent::Success), "Success".to_string()),
-                                    (Some(Intent::Warning), "Warning".to_string()),
-                                    (Some(Intent::Danger), "Danger".to_string()),
-                                ]}
+                                options={IArray::Static(&[
+                                    (None, IString::Static("None")),
+                                    (Some(Intent::Primary), IString::Static("Primary")),
+                                    (Some(Intent::Success), IString::Static("Success")),
+                                    (Some(Intent::Warning), IString::Static("Warning")),
+                                    (Some(Intent::Danger), IString::Static("Danger")),
+                                ])}
                                 onchange={self.update_props(ctx, |props, intent| ExampleProps {
                                     intent,
                                     ..props
                                 })}
+                                value={ctx.props().example_props.intent}
                             />
                             <Button
                                 icon={IconName::Refresh}

@@ -19,7 +19,7 @@ pub struct CollapseProps {
     #[prop_or_default]
     pub is_open: bool,
     #[prop_or_default]
-    pub children: html::Children,
+    pub children: Children,
     #[prop_or_default]
     pub keep_children_mounted: bool,
     #[prop_or(Duration::from_millis(200))]
@@ -70,7 +70,7 @@ impl Component for Collapse {
         }
     }
 
-    fn changed(&mut self, ctx: &Context<Self>) -> bool {
+    fn changed(&mut self, ctx: &Context<Self>, _old_props: &Self::Properties) -> bool {
         if ctx.props().is_open {
             match self.animation_state {
                 AnimationState::Open | AnimationState::Opening => {}

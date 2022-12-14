@@ -19,4 +19,4 @@ flate2 = "1"
 log = "0.4"
 serde = { version = "1", features = ["derive"] }
 tar = "0.4"
-ureq = { version = "2.4", features = ["json"] }
+ureq = { version = "2.5", features = ["json"] }

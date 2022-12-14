@@ -14,26 +14,36 @@ pub struct ButtonGroupProps {
     #[prop_or_default]
     pub style: Option<AttrValue>,
     #[prop_or_default]
-    pub children: html::Children,
+    pub children: Children,
     #[prop_or_default]
     pub class: Classes,
 }
 
 #[function_component(ButtonGroup)]
 pub fn button_group(props: &ButtonGroupProps) -> Html {
+    let ButtonGroupProps {
+        minimal,
+        vertical,
+        fill,
+        large,
+        style,
+        children,
+        class,
+    } = props;
+
     html! {
         <div
             class={classes!(
                 "bp3-button-group",
-                props.minimal.then_some("bp3-minimal"),
-                props.fill.then_some("bp3-fill"),
-                props.large.then_some("bp3-large"),
-                props.vertical.then_some("bp3-vertical"),
-                props.class.clone(),
+                minimal.then_some("bp3-minimal"),
+                fill.then_some("bp3-fill"),
+                large.then_some("bp3-large"),
+                vertical.then_some("bp3-vertical"),
+                class.clone(),
             )}
-            style={props.style.clone()}
+            {style}
         >
-            {props.children.clone()}
+            {children.clone()}
         </div>
     }
 }

@@ -42,7 +42,7 @@ pub use logo::*;
 #[macro_export]
 macro_rules! include_raw_html {
     ($file:expr $(, $class:expr)?) => {{
-        yew::virtual_dom::VNode::VRef(web_sys::Node::from({
+        Html::VRef(web_sys::Node::from({
             let div = web_sys::window()
                 .unwrap()
                 .document()
@@ -136,7 +136,8 @@ static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 pub fn run_app() -> Result<(), wasm_bindgen::JsValue> {
     #[cfg(feature = "console_error_panic_hook")]
     console_error_panic_hook::set_once();
-    yew::start_app::<app::AppRoot>();
+
+    yew::Renderer::<app::AppRoot>::new().render();
 
     Ok(())
 }

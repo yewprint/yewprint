@@ -63,13 +63,13 @@ pub struct InputGroupProps {
     #[prop_or_default]
     pub round: bool,
     #[prop_or_default]
-    pub placeholder: String,
+    pub placeholder: AttrValue,
     #[prop_or_default]
     pub left_icon: Option<IconName>,
     #[prop_or_default]
-    pub left_element: Option<yew::virtual_dom::VNode>,
+    pub left_element: Option<Html>,
     #[prop_or_default]
-    pub right_element: Option<yew::virtual_dom::VNode>,
+    pub right_element: Option<Html>,
     #[prop_or_default]
     pub input_type: TextInputType,
     #[prop_or_default]
@@ -79,7 +79,7 @@ pub struct InputGroupProps {
     #[prop_or_default]
     pub onkeydown: Callback<KeyboardEvent>,
     #[prop_or_default]
-    pub value: String,
+    pub value: AttrValue,
     #[prop_or_default]
     pub class: Classes,
     #[prop_or_default]
@@ -104,7 +104,26 @@ impl Component for InputGroup {
     }
 
     fn view(&self, ctx: &Context<Self>) -> Html {
-        let input_style = match (self.left_element_width, self.right_element_width) {
+        let Self::Properties {
+            disabled,
+            fill,
+            large,
+            small,
+            round,
+            placeholder,
+            left_icon,
+            left_element,
+            right_element,
+            input_type,
+            oninput,
+            onkeyup,
+            onkeydown,
+            value,
+            class,
+            input_ref,
+        } = &ctx.props();
+
+        let style = match (self.left_element_width, self.right_element_width) {
             (Some(left), None) => format!("padding-left:{}px", left.max(MIN_HORIZONTAL_PADDING)),
             (None, Some(right)) => format!("padding-right:{}px", right.max(MIN_HORIZONTAL_PADDING)),
             (Some(left), Some(right)) => format!(
@@ -119,16 +138,16 @@ impl Component for InputGroup {
             <div
                 class={classes!(
                     "bp3-input-group",
-                    ctx.props().disabled.then_some("bp3-disabled"),
-                    ctx.props().fill.then_some("bp3-fill"),
-                    ctx.props().large.then_some("bp3-large"),
-                    ctx.props().small.then_some("bp3-small"),
-                    ctx.props().round.then_some("bp3-round"),
-                    ctx.props().class.clone(),
+                    disabled.then_some("bp3-disabled"),
+                    fill.then_some("bp3-fill"),
+                    large.then_some("bp3-large"),
+                    small.then_some("bp3-small"),
+                    round.then_some("bp3-round"),
+                    class.clone(),
                 )}
             >
                 {
-                    if let Some(left_element) = ctx.props().left_element.clone() {
+                    if let Some(left_element) = left_element.clone() {
                         html! {
                             <span
                                 class="bp3-input-left-container"
@@ -137,7 +156,7 @@ impl Component for InputGroup {
                                 {left_element}
                             </span>
                         }
-                    } else if let Some(icon) = ctx.props().left_icon {
+                    } else if let Some(icon) = left_icon {
                         html! {
                             <Icon icon={icon} />
                         }
@@ -146,19 +165,19 @@ impl Component for InputGroup {
                     }
                 }
                 <input
-                    ref={ctx.props().input_ref.clone()}
+                    ref={input_ref.clone()}
                     class="bp3-input"
-                    type={ctx.props().input_type.as_str()}
-                    placeholder={ctx.props().placeholder.clone()}
-                    disabled={ctx.props().disabled}
-                    oninput={ctx.props().oninput.clone()}
-                    onkeyup={ctx.props().onkeyup.clone()}
-                    onkeydown={ctx.props().onkeydown.clone()}
-                    value={ctx.props().value.clone()}
-                    style={input_style}
+                    type={input_type.as_str()}
+                    placeholder={placeholder.clone()}
+                    disabled={*disabled}
+                    {oninput}
+                    {onkeyup}
+                    {onkeydown}
+                    {value}
+                    {style}
                 />
                 {
-                    if let Some(right_element) = ctx.props().right_element.clone() {
+                    if let Some(right_element) = right_element.clone() {
                         html! {
                             <span
                                 class="bp3-input-action"

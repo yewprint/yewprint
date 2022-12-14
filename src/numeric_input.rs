@@ -42,9 +42,9 @@ where
     #[prop_or_default]
     pub large: bool,
     #[prop_or_default]
-    pub class: String,
+    pub class: Classes,
     #[prop_or_default]
-    pub placeholder: String,
+    pub placeholder: AttrValue,
     #[prop_or_default]
     pub left_icon: Option<IconName>,
     #[prop_or_default]
@@ -120,7 +120,7 @@ where
         }
     }
 
-    fn changed(&mut self, ctx: &Context<Self>) -> bool {
+    fn changed(&mut self, ctx: &Context<Self>, _old_props: &Self::Properties) -> bool {
         self.input = ctx.props().value.to_string();
         true
     }
@@ -132,14 +132,24 @@ where
             disabled,
             disable_buttons,
             buttons_on_the_left,
-            ..
-        } = *ctx.props();
+            large,
+            placeholder,
+            left_icon,
+            left_element,
+            right_element,
+            fill,
+            bounds,
+            class,
+            intent,
+            onchange: _,
+        } = &ctx.props();
 
-        let bounds = &ctx.props().bounds;
-        let button_up_disabled = disabled || bounds.clamp(value + increment, increment) == value;
-        let button_down_disabled = disabled || bounds.clamp(value - increment, increment) == value;
+        let button_up_disabled =
+            *disabled || bounds.clamp(*value + *increment, *increment) == *value;
+        let button_down_disabled =
+            *disabled || bounds.clamp(*value - *increment, *increment) == *value;
 
-        let buttons = if disable_buttons {
+        let buttons = if *disable_buttons {
             html!()
         } else {
             html! {
@@ -148,11 +158,13 @@ where
                         icon={IconName::ChevronUp}
                         disabled={button_up_disabled}
                         onclick={ctx.link().callback(|_| Msg::Up)}
+                        {intent}
                     />
                     <Button
                         icon={IconName::ChevronDown}
                         disabled={button_down_disabled}
                         onclick={ctx.link().callback(|_| Msg::Down)}
+                        {intent}
                     />
                 </ButtonGroup>
             }
@@ -160,12 +172,12 @@ where
 
         let input_group = html! {
             <InputGroup
-                placeholder={ctx.props().placeholder.clone()}
-                large={ctx.props().large}
-                disabled={ctx.props().disabled}
-                left_icon={ctx.props().left_icon}
-                left_element={ctx.props().left_element.clone()}
-                right_element={ctx.props().right_element.clone()}
+                {placeholder}
+                {large}
+                {disabled}
+                {left_icon}
+                left_element={left_element.clone()}
+                right_element={right_element.clone()}
                 value={self.input.clone()}
                 oninput={ctx.link().callback(|e: InputEvent| {
                     let value = e.target_unchecked_into::<HtmlInputElement>().value();
@@ -183,12 +195,12 @@ where
             />
         };
 
-        if buttons_on_the_left {
+        if *buttons_on_the_left {
             html! {
                 <ControlGroup
-                    class={classes!("bp3-numeric-input")}
-                    fill={ctx.props().fill}
-                    large={ctx.props().large}
+                    class={classes!("bp3-numeric-input", class.clone())}
+                    {fill}
+                    {large}
                 >
                     {buttons}
                     {input_group}
@@ -197,9 +209,9 @@ where
         } else {
             html! {
                 <ControlGroup
-                    class={classes!("bp3-numeric-input")}
-                    fill={ctx.props().fill}
-                    large={ctx.props().large}
+                    class={classes!("bp3-numeric-input", class.clone())}
+                    {fill}
+                    {large}
                 >
                     {input_group}
                     {buttons}

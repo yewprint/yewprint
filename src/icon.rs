@@ -1,4 +1,5 @@
 use crate::Intent;
+use implicit_clone::ImplicitClone;
 use yew::prelude::*;
 
 include!(concat!(env!("OUT_DIR"), "/icon_svg_paths.rs"));
@@ -12,15 +13,17 @@ impl Default for IconName {
     }
 }
 
+impl ImplicitClone for IconName {}
+
 #[derive(Clone, PartialEq, Properties)]
 pub struct IconProps {
     pub icon: IconName,
     #[prop_or_default]
     pub class: Classes,
     #[prop_or_default]
-    pub title: Option<String>,
+    pub title: Option<AttrValue>,
     #[prop_or_default]
-    pub color: Option<String>,
+    pub color: Option<AttrValue>,
     #[prop_or_default]
     pub intent: Option<Intent>,
     #[prop_or(16)]
@@ -30,34 +33,47 @@ pub struct IconProps {
 }
 
 #[function_component(Icon)]
-pub fn icon(props: &IconProps) -> Html {
-    let paths = if props.icon_size == ICON_SIZE_STANDARD {
-        icon_svg_paths_16(props.icon)
+pub fn icon(
+    IconProps {
+        icon,
+        class,
+        title,
+        color: fill,
+        intent,
+        icon_size,
+        onclick,
+    }: &IconProps,
+) -> Html {
+    let paths = if *icon_size == ICON_SIZE_STANDARD {
+        icon_svg_paths_16(*icon)
     } else {
-        icon_svg_paths_20(props.icon)
+        icon_svg_paths_20(*icon)
     };
-    let pixel_grid_size = if props.icon_size >= ICON_SIZE_LARGE {
+    let pixel_grid_size = if *icon_size >= ICON_SIZE_LARGE {
         ICON_SIZE_LARGE
     } else {
         ICON_SIZE_STANDARD
     };
-    let icon_string = format!("{:?}", props.icon);
+    let icon_string = AttrValue::from(format!("{:?}", icon));
+    let width = AttrValue::from(format!("{icon_size}"));
+    let height = width.clone();
 
     html! {
         <span
-            class={classes!("bp3-icon", props.class.clone(), props.intent)}
-            onclick={props.onclick.clone()}
+            class={classes!("bp3-icon", class.clone(), intent)}
+            {onclick}
         >
             <svg
-                fill={props.color.clone()}
-                data-icon={icon_string.clone()}
-                width={props.icon_size.to_string()}
-                height={props.icon_size.to_string()}
-                viewBox={format!("0 0 {x} {x}", x=pixel_grid_size)}
+                {fill}
+                data-icon={&icon_string}
+                {width}
+                {height}
+                viewBox={format!("0 0 {pixel_grid_size} {pixel_grid_size}")}
             >
-                <desc>{props.title.clone().unwrap_or(icon_string)}</desc>
+                <desc>{title.clone().unwrap_or(icon_string)}</desc>
                 {
-                    paths.iter()
+                    paths
+                        .iter()
                         .map(|x| html! {
                             <path d={*x} fillRule="evenodd" />
                         })

@@ -64,6 +64,7 @@ pub use text_area::*;
 #[cfg(feature = "tree")]
 pub use tree::*;
 
+use implicit_clone::ImplicitClone;
 use yew::Classes;
 
 // See https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/buttons
@@ -86,6 +87,8 @@ pub enum Intent {
     Warning,
     Danger,
 }
+
+impl ImplicitClone for Intent {}
 
 impl From<Intent> for Classes {
     fn from(intent: Intent) -> Self {
@@ -146,19 +149,27 @@ impl Elevation {
 
 impl Default for Elevation {
     fn default() -> Self {
-        Elevation::Level0
+        Self::Level0
     }
 }
+
+impl ImplicitClone for Elevation {}
 
 impl From<Elevation> for Classes {
     fn from(elevation: Elevation) -> Self {
         use Elevation::*;
-        Classes::from(match elevation {
+        Self::from(match elevation {
             Level0 => "bp3-elevation-0",
             Level1 => "bp3-elevation-1",
             Level2 => "bp3-elevation-2",
             Level3 => "bp3-elevation-3",
             Level4 => "bp3-elevation-4",
         })
+    }
+}
+
+impl From<&Elevation> for Classes {
+    fn from(elevation: &Elevation) -> Self {
+        Self::from(*elevation)
     }
 }
