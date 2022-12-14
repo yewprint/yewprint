@@ -1,6 +1,7 @@
 use crate::collapse::Collapse;
 use crate::icon::{Icon, IconName};
 use crate::Intent;
+use gloo::timers::callback::Timeout;
 use id_tree::*;
 use std::cell::{Ref, RefCell, RefMut};
 use std::collections::hash_map::DefaultHasher;
@@ -202,6 +203,8 @@ impl<T: 'static + Clone + PartialEq> Tree<T> {
 struct TreeNode {
     handler_caret_click: Callback<MouseEvent>,
     handler_click: Callback<MouseEvent>,
+    // NOTE: to prevent event bubbling, see https://github.com/yewstack/yew/issues/3041
+    callback_timeout: Option<Timeout>,
 }
 
 #[derive(Clone, Properties)]
@@ -256,6 +259,7 @@ impl Component for TreeNode {
         TreeNode {
             handler_caret_click: ctx.link().callback(TreeNodeMessage::CaretClick),
             handler_click: ctx.link().callback(TreeNodeMessage::Click),
+            callback_timeout: None,
         }
     }
 
@@ -264,21 +268,20 @@ impl Component for TreeNode {
             return false;
         }
 
+        let node_id = ctx.props().node_id.clone();
         match msg {
             TreeNodeMessage::CaretClick(event) => {
                 if ctx.props().is_expanded {
-                    if let Some(on_collapse) = ctx.props().on_collapse.as_ref() {
-                        event.stop_propagation();
-                        on_collapse.emit((ctx.props().node_id.clone(), event));
+                    if let Some(on_collapse) = ctx.props().on_collapse.clone() {
+                        self.register_callback(on_collapse, (node_id, event));
                     }
-                } else if let Some(on_expand) = ctx.props().on_expand.as_ref() {
-                    event.stop_propagation();
-                    on_expand.emit((ctx.props().node_id.clone(), event));
+                } else if let Some(on_expand) = ctx.props().on_expand.clone() {
+                    self.register_callback(on_expand, (node_id, event));
                 }
             }
             TreeNodeMessage::Click(event) => {
-                if let Some(onclick) = ctx.props().onclick.as_ref() {
-                    onclick.emit((ctx.props().node_id.clone(), event));
+                if let Some(onclick) = ctx.props().onclick.clone() {
+                    self.register_callback(onclick, (node_id, event));
                 }
             }
         }
@@ -301,16 +304,16 @@ impl Component for TreeNode {
                 >
                     {
                         if ctx.props().has_caret {
-                            let mut class = Classes::from("bp3-tree-node-caret");
-                            class.push(if ctx.props().is_expanded {
-                                "bp3-tree-node-caret-open"
-                            } else {
-                                "bp3-tree-node-caret-closed"
-                            });
-
                             html! {
                                 <Icon
-                                    class={classes!(class.to_string())}
+                                    class={classes!(
+                                        "bp3-tree-node-caret",
+                                        if ctx.props().is_expanded {
+                                            "bp3-tree-node-caret-open"
+                                        } else {
+                                            "bp3-tree-node-caret-closed"
+                                        },
+                                    )}
                                     icon={IconName::ChevronRight}
                                     onclick={self.handler_caret_click.clone()}
                                 />
@@ -346,6 +349,19 @@ impl Component for TreeNode {
                     </ul>
                 </Collapse>
             </li>
+        }
+    }
+
+    fn rendered(&mut self, _ctx: &Context<Self>, _first_render: bool) {
+        self.callback_timeout.take();
+    }
+}
+
+impl TreeNode {
+    fn register_callback<IN: 'static>(&mut self, callback: Callback<IN>, value: IN) {
+        if self.callback_timeout.is_none() {
+            self.callback_timeout
+                .replace(Timeout::new(0, move || callback.emit(value)));
         }
     }
 }
