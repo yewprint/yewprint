@@ -3,7 +3,6 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use implicit_clone::unsync::IArray;
-use once_cell::unsync::Lazy;
 use web_sys::HtmlInputElement;
 use yew::prelude::*;
 use yewprint::{HtmlSelect, Icon, InputGroup, Intent, Slider, Text, H1, H5};
@@ -20,14 +19,16 @@ pub enum IconDocMsg {
     SearchIcon(String),
 }
 
-// TODO make sure it's not constantly re-initialized
-const ICON_LIST: Lazy<Vec<(String, Icon)>> = Lazy::new(|| {
-    Icon::ALL
-        .iter()
-        .cloned()
-        .map(|x| (format!("{:?}", x).to_lowercase(), x))
-        .collect()
-});
+thread_local! {
+    static ICON_LIST: Vec<(String, Icon)> = {
+        gloo::console::log!("init");
+        Icon::ALL
+            .iter()
+            .cloned()
+            .map(|x| (format!("{:?}", x).to_lowercase(), x))
+            .collect()
+    };
+}
 
 impl Component for IconDoc {
     type Message = IconDocMsg;
@@ -62,24 +63,25 @@ impl Component for IconDoc {
 
         let search_string = self.search_string.to_lowercase();
         let icon_list = ICON_LIST
-            .iter()
-            .filter_map(|(icon_name, icon)| {
-                icon_name
-                    .contains(&search_string)
-                    .then_some(icon)
-                    .map(|icon| {
-                        html! {
-                            <div class={classes!("docs-icon-list-item")}>
-                                <Icon
-                                    {icon}
-                                    size=20
-                                />
-                                <Text>{format!("{:?}", icon)}</Text>
-                            </div>
-                        }
-                    })
-            })
-            .collect::<Html>();
+            .with(|list| list
+                .iter()
+                .filter_map(|(icon_name, icon)| {
+                    icon_name
+                        .contains(&search_string)
+                        .then_some(icon)
+                        .map(|icon| {
+                            html! {
+                                <div class={classes!("docs-icon-list-item")}>
+                                    <Icon
+                                        {icon}
+                                        size=20
+                                    />
+                                    <Text>{format!("{:?}", icon)}</Text>
+                                </div>
+                            }
+                        })
+                })
+                .collect::<Html>());
 
         html! {
             <div>
@@ -138,10 +140,11 @@ crate::build_example_prop_component! {
                                     .as_deref()
                                     .and_then(|x| {
                                         ICON_LIST
-                                            .iter()
-                                            .find_map(move |(icon_name, icon)| {
-                                                (icon_name == x).then_some(icon.clone())
-                                            })
+                                            .with(|list| list
+                                                .iter()
+                                                .find_map(move |(icon_name, icon)| {
+                                                    (icon_name == x).then_some(icon.clone())
+                                                }))
                                     });
 
                                 ExampleProps {
