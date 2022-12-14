@@ -3,7 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use yew::prelude::*;
-use yewprint::{Button, IconName, Switch, H1, H5};
+use yewprint::{Button, Icon, Switch, H1, H5};
 
 pub struct HtmlSelectDoc {
     callback: Callback<ExampleProps>,
@@ -101,7 +101,7 @@ crate::build_example_prop_component! {
                     />
                     <H5>{"Example"}</H5>
                     <Button
-                        icon={IconName::Refresh}
+                        icon={Icon::Refresh}
                         onclick={self.update_props(ctx, |props, _| ExampleProps {
                             reset: props.reset.wrapping_add(1),
                             ..props

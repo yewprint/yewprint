@@ -1,5 +1,5 @@
 use yew::prelude::*;
-use yewprint::{Button, Callout, IconName, Intent, NumericInput};
+use yewprint::{Button, Callout, Icon, Intent, NumericInput};
 
 pub struct Example {
     value: i32,
@@ -74,7 +74,7 @@ impl Component for Example {
                 onchange={ctx.link().callback(|x| Msg::UpdateValue(x))}
                 {disable_buttons}
                 {buttons_on_the_left}
-                left_icon={left_icon.then_some(IconName::Dollar)}
+                left_icon={left_icon.then_some(Icon::Dollar)}
                 {intent}
             />
             <NumericInput<i32>
@@ -88,11 +88,11 @@ impl Component for Example {
                 onchange={ctx.link().callback(|x| Msg::UpdateValueTwo(x))}
                 {disable_buttons}
                 {buttons_on_the_left}
-                left_icon={left_icon.then_some(IconName::Dollar)}
+                left_icon={left_icon.then_some(Icon::Dollar)}
                 {intent}
             />
             <Button
-                icon={IconName::Refresh}
+                icon={Icon::Refresh}
                 onclick={ctx.link().callback(|_| Msg::Reset)}
             >
                 {"Reset at 4"}

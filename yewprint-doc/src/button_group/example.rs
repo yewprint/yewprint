@@ -1,5 +1,5 @@
 use yew::prelude::*;
-use yewprint::{Button, ButtonGroup, IconName};
+use yewprint::{Button, ButtonGroup, Icon};
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct ExampleProps {
@@ -19,9 +19,9 @@ pub fn example(props: &ExampleProps) -> Html {
             vertical={props.vertical}
             style={"margin:0;"}
         >
-            <Button icon={IconName::Database}> {"Queries"}</Button>
-            <Button icon={IconName::Function}>{"Functions"}</Button>
-            <Button icon={IconName::Cog}>{"Options"}</Button>
+            <Button icon={Icon::Database}> {"Queries"}</Button>
+            <Button icon={Icon::Function}>{"Functions"}</Button>
+            <Button icon={Icon::Cog}>{"Options"}</Button>
         </ButtonGroup>
     }
 }

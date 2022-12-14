@@ -1,6 +1,6 @@
 use yew::prelude::*;
 use yewprint::id_tree::{InsertBehavior, Node, NodeId, TreeBuilder};
-use yewprint::{Icon, IconName, Intent, NodeData, Tree, TreeData};
+use yewprint::{Icon, Intent, NodeData, Tree, TreeData};
 
 pub struct Example {
     tree: TreeData<i32>,
@@ -31,7 +31,7 @@ impl Component for Example {
         let dir1 = tree
             .insert(
                 Node::new(NodeData {
-                    icon: Some(IconName::FolderClose),
+                    icon: Icon::FolderClose,
                     label: "Big directory".into(),
                     has_caret: true,
                     data: 1,
@@ -44,7 +44,7 @@ impl Component for Example {
             let dir2 = tree
                 .insert(
                     Node::new(NodeData {
-                        icon: Some(IconName::FolderClose),
+                        icon: Icon::FolderClose,
                         label: format!("Directory {}", i + 1).into(),
                         has_caret: true,
                         data: 1,
@@ -56,7 +56,7 @@ impl Component for Example {
             for i in 0..10 {
                 tree.insert(
                     Node::new(NodeData {
-                        icon: Some(IconName::Document),
+                        icon: Icon::Document,
                         label: format!("File {}", i + 1).into(),
                         data: i,
                         ..Default::default()
@@ -68,10 +68,10 @@ impl Component for Example {
         }
         tree.insert(
             Node::new(NodeData {
-                icon: Some(IconName::Tag),
+                icon: Icon::Tag,
                 icon_intent: Some(Intent::Primary),
                 label: "Outer file".into(),
-                secondary_label: Some(html!(<Icon icon={IconName::EyeOpen} />)),
+                secondary_label: Some(html!(<Icon icon={Icon::EyeOpen} />)),
                 data: 3,
                 ..Default::default()
             }),
@@ -93,11 +93,11 @@ impl Component for Example {
                 let node = tree.get_mut(&node_id).unwrap();
                 let data = node.data_mut();
                 data.is_expanded ^= true;
-                data.icon = Some(if data.is_expanded {
-                    IconName::FolderOpen
+                data.icon = if data.is_expanded {
+                    Icon::FolderOpen
                 } else {
-                    IconName::FolderClose
-                })
+                    Icon::FolderClose
+                };
             }
             Msg::SelectNode(node_id) => {
                 let mut tree = self.tree.borrow_mut();

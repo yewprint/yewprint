@@ -1,5 +1,5 @@
-use crate::icon::ICON_SIZE_LARGE;
-use crate::{Icon, IconName, Intent};
+use crate::icon::IconSize;
+use crate::{Icon, Intent};
 use yew::prelude::*;
 use yew::virtual_dom::AttrValue;
 
@@ -10,7 +10,7 @@ pub struct CalloutProps {
     #[prop_or(false)]
     pub without_icon: bool,
     #[prop_or_default]
-    pub icon: Option<IconName>,
+    pub icon: Option<Icon>,
     #[prop_or_default]
     pub intent: Option<Intent>,
     #[prop_or_default]
@@ -31,31 +31,29 @@ pub fn callout(
 ) -> Html {
     let icon = if *without_icon {
         None
-    } else {
-        icon.or_else(|| {
-            intent.map(|intent| match intent {
-                Intent::Primary => IconName::InfoSign,
-                Intent::Success => IconName::Tick,
-                Intent::Warning => IconName::WarningSign,
-                Intent::Danger => IconName::Error,
-            })
+    } else if let Some(icon) = icon.clone() {
+        Some(icon)
+    } else if let Some(intent) = intent {
+        Some(match intent {
+            Intent::Primary => Icon::InfoSign,
+            Intent::Success => Icon::Tick,
+            Intent::Warning => Icon::WarningSign,
+            Intent::Danger => Icon::Error,
         })
+    } else {
+        None
     };
 
     html! {
         <div
             class={classes!(
                 "bp3-callout",
-                icon.map(|_| "bp3-callout-icon"),
+                icon.is_some().then_some("bp3-callout-icon"),
                 intent,
                 class.clone(),
             )}
         >
-            {
-                icon.iter()
-                    .map(|icon| html!{<Icon {icon} icon_size={ICON_SIZE_LARGE}/>})
-                    .collect::<Html>()
-            }
+            <Icon {icon} size={IconSize::LARGE} />
             {
                 title.iter()
                     .map(|title| html!{<h4 class={"bp3-heading"}>{title}</h4>})

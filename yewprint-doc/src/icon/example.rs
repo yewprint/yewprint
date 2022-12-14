@@ -1,22 +1,18 @@
 use yew::prelude::*;
-use yewprint::{Icon, IconName, Intent};
+use yewprint::{Icon, Intent};
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct ExampleProps {
-    pub icon_name: IconName,
+    pub icon: Icon,
     pub intent: Option<Intent>,
-    pub icon_size: i32,
+    pub size: i32,
 }
 
 #[function_component(Example)]
-pub fn example(props: &ExampleProps) -> Html {
+pub fn example(ExampleProps { icon, intent, size }: &ExampleProps) -> Html {
     html! {
         <div>
-            <Icon
-                icon={props.icon_name}
-                intent={props.intent}
-                icon_size={props.icon_size}
-            />
+            <Icon {icon} {intent} {size} />
         </div>
     }
 }

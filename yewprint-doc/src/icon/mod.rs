@@ -3,10 +3,10 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use implicit_clone::unsync::IArray;
-use once_cell::sync::Lazy;
+use once_cell::unsync::Lazy;
 use web_sys::HtmlInputElement;
 use yew::prelude::*;
-use yewprint::{HtmlSelect, Icon, IconName, InputGroup, Intent, Slider, Text, H1, H5};
+use yewprint::{HtmlSelect, Icon, InputGroup, Intent, Slider, Text, H1, H5};
 
 pub struct IconDoc {
     callback: Callback<ExampleProps>,
@@ -20,10 +20,12 @@ pub enum IconDocMsg {
     SearchIcon(String),
 }
 
-static ICON_LIST: Lazy<Vec<(String, IconName)>> = Lazy::new(|| {
-    IconName::ALL
+// TODO make sure it's not constantly re-initialized
+const ICON_LIST: Lazy<Vec<(String, Icon)>> = Lazy::new(|| {
+    Icon::ALL
         .iter()
-        .map(|x| (format!("{:?}", x).to_lowercase(), *x))
+        .cloned()
+        .map(|x| (format!("{:?}", x).to_lowercase(), x))
         .collect()
 });
 
@@ -35,9 +37,9 @@ impl Component for IconDoc {
         IconDoc {
             callback: ctx.link().callback(|x| IconDocMsg::Example(x)),
             state: ExampleProps {
-                icon_name: IconName::Print,
+                icon: Icon::Print,
                 intent: None,
-                icon_size: 16,
+                size: 16,
             },
             search_string: Default::default(),
         }
@@ -64,13 +66,13 @@ impl Component for IconDoc {
             .filter_map(|(icon_name, icon)| {
                 icon_name
                     .contains(&search_string)
-                    .then_some(*icon)
+                    .then_some(icon)
                     .map(|icon| {
                         html! {
                             <div class={classes!("docs-icon-list-item")}>
                                 <Icon
                                     {icon}
-                                    icon_size=20
+                                    size=20
                                 />
                                 <Text>{format!("{:?}", icon)}</Text>
                             </div>
@@ -99,7 +101,7 @@ impl Component for IconDoc {
                         large=true
                         fill=true
                         round=true
-                        left_icon={IconName::Search}
+                        left_icon={Icon::Search}
                         placeholder="Search for icons..."
                         value={self.search_string.clone()}
                         oninput={ctx.link().callback(|e: InputEvent| {
@@ -131,24 +133,24 @@ crate::build_example_prop_component! {
                         <input
                             class="bp3-input"
                             onchange={self.update_props(ctx, |props, e: Event| {
-                                let icon_name = e.target_dyn_into::<HtmlInputElement>()
+                                let icon = e.target_dyn_into::<HtmlInputElement>()
                                     .map(|x| x.value().to_lowercase())
                                     .as_deref()
                                     .and_then(|x| {
                                         ICON_LIST
                                             .iter()
                                             .find_map(move |(icon_name, icon)| {
-                                                (icon_name == x).then_some(*icon)
+                                                (icon_name == x).then_some(icon.clone())
                                             })
                                     });
 
                                 ExampleProps {
-                                    icon_name: icon_name.unwrap_or_default(),
+                                    icon: icon.unwrap_or_default(),
                                     ..props
                                 }
                             })}
                             type="text"
-                            value={format!("{:?}", ctx.props().example_props.icon_name)}
+                            value={format!("{:?}", ctx.props().example_props.icon)}
                         />
                         <p
                             style="margin-top: 5px;"
@@ -175,14 +177,14 @@ crate::build_example_prop_component! {
                             {"Select icon size"}
                         </p>
                         <Slider<i32>
-                            selected={ctx.props().example_props.icon_size}
+                            selected={ctx.props().example_props.size}
                             values={option_labels}
-                            onchange={self.update_props(ctx, |props, icon_size| ExampleProps {
-                                icon_size,
+                            onchange={self.update_props(ctx, |props, size| ExampleProps {
+                                size,
                                 ..props
                             })}
                             value_label={
-                                format!("{}", ctx.props().example_props.icon_size)
+                                format!("{}", ctx.props().example_props.size)
                             }
                         />
                     </div>

@@ -15,8 +15,8 @@ pub fn example(props: &ExampleProps) -> Html {
             <Button>{"Create"}</Button>
             <Button>{"Delete"}</Button>
             <Divider vertical={props.vertical} />
-            // <Button icon=IconName::Add />
-            // <Button icon=IconName::Remove />
+            // <Button icon=Icon::Add />
+            // <Button icon=Icon::Remove />
         </ButtonGroup>
     }
 }

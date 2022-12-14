@@ -1,4 +1,4 @@
-use crate::{Icon, IconName, Intent, Spinner, ICON_SIZE_LARGE};
+use crate::{Icon, IconSize, Intent, Spinner};
 use yew::prelude::*;
 use yew::virtual_dom::AttrValue;
 
@@ -21,7 +21,7 @@ pub struct ButtonProps {
     #[prop_or_default]
     pub disabled: bool,
     #[prop_or_default]
-    pub icon: Option<IconName>,
+    pub icon: Option<Icon>,
     #[prop_or_default]
     pub intent: Option<Intent>,
     #[prop_or_default]
@@ -80,11 +80,12 @@ pub fn button(props: &ButtonProps) -> Html {
                     .then(|| html! {
                         <Spinner
                             class={classes!("bp3-button-spinner")}
-                            size={ICON_SIZE_LARGE as f32}
+                            size={IconSize::LARGE}
                         />
                     })
             }
-            {icon.map(|icon| html!(<Icon {icon} />))}
+            <Icon {icon} />
+            //{icon.map(|icon| html!(<Icon {icon} />))}
             {
                 (!children.is_empty())
                     .then(|| html! {

@@ -1,6 +1,6 @@
 use crate::{DocMenu, Logo};
 use yew::prelude::*;
-use yewprint::{Icon, IconName, Menu, MenuDivider, MenuItem};
+use yewprint::{Icon, Menu, MenuDivider, MenuItem};
 
 pub struct Example {}
 
@@ -26,7 +26,7 @@ impl Component for Example {
         };
 
         let share_icon = html! {
-            <Icon icon={IconName::Share} />
+            <Icon icon={Icon::Share} />
         };
 
         html! {
@@ -38,21 +38,21 @@ impl Component for Example {
                     />
                     <MenuDivider />
                     <MenuItem
-                        icon={IconName::NewTextBox}
+                        icon={Icon::NewTextBox}
                         text={html!("New text box")}
                         href={"#menu"}
                         onclick={ctx.link()
                             .callback(|_| Msg::GoToMenu(DocMenu::Menu))}
                     />
                     <MenuItem
-                        icon={IconName::NewObject}
+                        icon={Icon::NewObject}
                         text={html!("New object")}
                         href={"#menu"}
                         onclick={ctx.link()
                             .callback(|_| Msg::GoToMenu(DocMenu::Menu))}
                     />
                     <MenuItem
-                        icon={IconName::NewLink}
+                        icon={Icon::NewLink}
                         text={html!("New link")}
                         href={"#menu"}
                         onclick={ctx.link()
@@ -60,7 +60,7 @@ impl Component for Example {
                     />
                     <MenuDivider />
                     <MenuItem
-                        icon={IconName::Cog}
+                        icon={Icon::Cog}
                         text={html!("Settings")}
                         label={share_icon}
                         href={"#menu"}
@@ -71,7 +71,7 @@ impl Component for Example {
                 <Menu>
                     <MenuDivider title={html!("Edit")} />
                     <MenuItem
-                        icon={IconName::Cut}
+                        icon={Icon::Cut}
                         text={html!("Cut")}
                         label={html!("Ctrl+X")}
                         href={"#menu"}
@@ -79,7 +79,7 @@ impl Component for Example {
                             .callback(|_| Msg::GoToMenu(DocMenu::Menu))}
                     />
                     <MenuItem
-                        icon={IconName::Duplicate}
+                        icon={Icon::Duplicate}
                         text={html!("Copy")}
                         label={html!("Ctrl+C")}
                         href={"#menu"}
@@ -87,28 +87,28 @@ impl Component for Example {
                             .callback(|_| Msg::GoToMenu(DocMenu::Menu))}
                     />
                     <MenuItem
-                        icon={IconName::Clipboard}
+                        icon={Icon::Clipboard}
                         text={html!("Paste")}
                         label={html!("Ctrl+V")}
                         disabled=true
                     />
                     <MenuDivider title={html!("Text")} />
                     <MenuItem
-                        icon={IconName::AlignLeft}
+                        icon={Icon::AlignLeft}
                         text={html!("Alignment")}
                         href={"#menu"}
                         onclick={ctx.link()
                             .callback(|_| Msg::GoToMenu(DocMenu::Menu))}
                     />
                     <MenuItem
-                        icon={IconName::Style}
+                        icon={Icon::Style}
                         text={html!("Style")}
                         href={"#menu"}
                         onclick={ctx.link()
                             .callback(|_| Msg::GoToMenu(DocMenu::Menu))}
                     />
                     <MenuItem
-                        icon={IconName::Asterisk}
+                        icon={Icon::Asterisk}
                         text={html!("Miscellaneous")}
                         href={"#menu"}
                         onclick={ctx.link().callback(|_| Msg::GoToMenu(DocMenu::Menu))}

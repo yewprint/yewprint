@@ -1,7 +1,7 @@
 use implicit_clone::{unsync::IArray, ImplicitClone};
 use std::marker::PhantomData;
 
-use crate::{Icon, IconName};
+use crate::Icon;
 use web_sys::HtmlSelectElement;
 use yew::prelude::*;
 
@@ -118,7 +118,7 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for HtmlSelect<T> {
                 >
                     {option_children}
                 </select>
-                <Icon icon={IconName::DoubleCaretVertical}/>
+                <Icon icon={Icon::DoubleCaretVertical}/>
             </div>
         }
     }

@@ -1,4 +1,4 @@
-use crate::{Icon, IconName, Intent, H6};
+use crate::{Icon, Intent, H6};
 use yew::prelude::*;
 use yew::virtual_dom::AttrValue;
 
@@ -52,7 +52,7 @@ pub struct MenuItemProps {
     #[prop_or_default]
     pub intent: Option<Intent>,
     #[prop_or_default]
-    pub icon: Option<IconName>,
+    pub icon: Option<Icon>,
     #[prop_or_default]
     pub icon_html: Option<Html>,
     #[prop_or_default]
@@ -101,7 +101,7 @@ pub fn menu_item(
                         html
                     } else {
                         html! {
-                            <Icon icon={IconName::Blank} />
+                            <Icon icon={Icon::Blank} />
                         }
                     }
                 }

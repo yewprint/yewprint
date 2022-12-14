@@ -24,7 +24,7 @@ use crate::text_area::*;
 use crate::tree::*;
 use yew::prelude::*;
 use yew_router::prelude::*;
-use yewprint::{IconName, Menu, MenuItem};
+use yewprint::{Icon, Menu, MenuItem};
 
 #[function_component(AppRoot)]
 pub fn app_root() -> Html {
@@ -84,9 +84,9 @@ impl Component for App {
             "Dark theme"
         };
         let go_to_theme_icon = if self.dark_theme {
-            IconName::Flash
+            Icon::Flash
         } else {
-            IconName::Moon
+            Icon::Moon
         };
 
         let menu = html! {
