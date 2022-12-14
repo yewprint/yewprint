@@ -1,3 +1,5 @@
+mod icons;
+
 use std::{
     fs,
     path::{Path, PathBuf},
@@ -14,7 +16,9 @@ enum Cli {
     Watch(xtask_wasm::Watch),
     Start(xtask_wasm::DevServer),
     /// Update Blueprint CSS and docs-theme CSS.
-    UpdateCSS,
+    UpdateCss,
+    /// Update Blueprint icons.
+    UpdateIcons,
 }
 
 fn main() -> Result<()> {
@@ -47,7 +51,8 @@ fn main() -> Result<()> {
                 .not_found("index.html")
                 .start(xtask_wasm::default_dist_dir(false))?;
         }
-        Cli::UpdateCSS => download_css(true)?,
+        Cli::UpdateCss => download_css(true)?,
+        Cli::UpdateIcons => icons::generate_icons()?,
     }
 
     Ok(())
