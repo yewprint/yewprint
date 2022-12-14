@@ -8,7 +8,7 @@ use xtask_wasm::anyhow::{ensure, Context, Result};
 const LATEST_BLUEPRINT_WORKING_VERSION: &str = "3.33.0";
 
 pub(crate) fn generate_icons() -> Result<()> {
-    let js_file = Path::new("target/iconSvgPaths.js");
+    let js_file = Path::new("iconSvgPaths.js");
     let version = yewprint_css::download_from_npm_package(
         "@blueprintjs/icons",
         LATEST_BLUEPRINT_WORKING_VERSION,

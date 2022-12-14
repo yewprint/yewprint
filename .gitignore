@@ -1,3 +1,4 @@
 target
 /build
 /*.tgz
+/iconSvgPaths.js
