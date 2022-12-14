@@ -29,8 +29,6 @@ fn main() -> Result<()> {
         Cli::Dist(dist) => {
             log::info!("Generating package...");
 
-            download_css(false)?;
-
             let DistResult { dist_dir, .. } = dist
                 .static_dir_path("yewprint-doc/static")
                 .run("yewprint-doc")?;
