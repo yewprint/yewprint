@@ -62,9 +62,8 @@ impl Component for IconDoc {
         );
 
         let search_string = self.search_string.to_lowercase();
-        let icon_list = ICON_LIST
-            .with(|list| list
-                .iter()
+        let icon_list = ICON_LIST.with(|list| {
+            list.iter()
                 .filter_map(|(icon_name, icon)| {
                     icon_name
                         .contains(&search_string)
@@ -81,7 +80,8 @@ impl Component for IconDoc {
                             }
                         })
                 })
-                .collect::<Html>());
+                .collect::<Html>()
+        });
 
         html! {
             <div>

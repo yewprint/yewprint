@@ -33,15 +33,13 @@ pub fn callout(
         None
     } else if let Some(icon) = icon.clone() {
         Some(icon)
-    } else if let Some(intent) = intent {
-        Some(match intent {
+    } else {
+        intent.map(|intent| match intent {
             Intent::Primary => Icon::InfoSign,
             Intent::Success => Icon::Tick,
             Intent::Warning => Icon::WarningSign,
             Intent::Danger => Icon::Error,
         })
-    } else {
-        None
     };
 
     html! {

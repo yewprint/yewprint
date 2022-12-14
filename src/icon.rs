@@ -170,7 +170,7 @@ impl Component for Icon {
     }
 
     fn view(&self, ctx: &Context<Self>) -> Html {
-        self.render_with_props(&ctx.props())
+        self.render_with_props(ctx.props())
     }
 }
 
