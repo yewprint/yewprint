@@ -150,6 +150,7 @@ crate::build_example_prop_component! {
                             intent,
                             ..props
                         })}
+                        value={ctx.props().example_props.intent}
                     />
                 </div>
             }

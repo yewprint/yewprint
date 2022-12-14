@@ -838,8 +838,9 @@ dependencies = [
 
 [[package]]
 name = "implicit-clone"
-version = "0.3.4"
-source = "git+ssh://git@github.com/yewstack/implicit-clone.git#ecdab7ed7de8c4280a3e60be3bff6c7fa64e20ba"
+version = "0.3.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "40fc102e70475c320b185cd18c1e48bba2d7210b63970a4d581ef903e4368ef7"
 dependencies = [
  "indexmap",
 ]
