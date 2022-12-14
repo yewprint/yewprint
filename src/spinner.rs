@@ -58,7 +58,7 @@ pub fn spinner(props: &SpinnerProps) -> Html {
                     {width}
                     {height}
                     stroke-width={stroke_width.to_string()}
-                    {view_box}
+                    viewBox={view_box}
                 >
                     <path
                         class={classes!("bp3-spinner-track")}
