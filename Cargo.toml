@@ -9,7 +9,7 @@ repository = "https://github.com/yewprint/yewprint"
 homepage = "https://github.com/yewprint/yewprint"
 documentation = "https://docs.rs/yewprint"
 readme = "README.md"
-include = ["src/**/*.rs", "README.md", "LICENSE.Apache-2.0", "LICENSE.MIT", "build.rs"]
+include = ["src/**/*.rs", "README.md", "LICENSE.Apache-2.0", "LICENSE.MIT"]
 keywords = ["blueprint", "yew", "ui"]
 categories = ["gui"]
 
