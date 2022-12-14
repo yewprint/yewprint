@@ -2,7 +2,7 @@ use crate::Intent;
 use implicit_clone::ImplicitClone;
 use yew::prelude::*;
 
-include!(concat!(env!("OUT_DIR"), "/icon_svg_paths.rs"));
+include!("icon_svg_paths.rs");
 
 pub const ICON_SIZE_STANDARD: i32 = 16;
 pub const ICON_SIZE_LARGE: i32 = 20;
