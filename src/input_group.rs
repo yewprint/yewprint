@@ -1,4 +1,4 @@
-use crate::{Icon, IconName};
+use crate::Icon;
 use yew::prelude::*;
 
 const MIN_HORIZONTAL_PADDING: i32 = 10;
@@ -65,7 +65,7 @@ pub struct InputGroupProps {
     #[prop_or_default]
     pub placeholder: AttrValue,
     #[prop_or_default]
-    pub left_icon: Option<IconName>,
+    pub left_icon: Option<Icon>,
     #[prop_or_default]
     pub left_element: Option<Html>,
     #[prop_or_default]

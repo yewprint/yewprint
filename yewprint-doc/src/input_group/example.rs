@@ -1,7 +1,7 @@
 use gloo::dialogs::alert;
 use web_sys::HtmlInputElement;
 use yew::prelude::*;
-use yewprint::{Button, IconName, InputGroup, Tag};
+use yewprint::{Button, Icon, InputGroup, Tag};
 
 pub struct Example {
     histogram_value: String,
@@ -92,7 +92,7 @@ impl Component for Example {
                     small={ctx.props().small}
                     round={ctx.props().round}
                     disabled={ctx.props().disabled}
-                    left_icon={IconName::Filter}
+                    left_icon={Icon::Filter}
                     placeholder={"Filter histogram..."}
                     value={self.histogram_value.clone()}
                     oninput={ctx.link().callback(|e: InputEvent| {
@@ -121,7 +121,7 @@ impl Component for Example {
                     })}
                     right_element={{ html! {
                         <Button
-                            icon={IconName::Lock}
+                            icon={Icon::Lock}
                             minimal={true}
                             disabled={ctx.props().disabled}
                         />
@@ -133,7 +133,7 @@ impl Component for Example {
                     small={ctx.props().small}
                     round={ctx.props().round}
                     disabled={ctx.props().disabled}
-                    left_icon={IconName::Tag}
+                    left_icon={Icon::Tag}
                     placeholder={"Find tags"}
                     value={self.tags_value.clone()}
                     oninput={ctx.link().callback(|e: InputEvent| {

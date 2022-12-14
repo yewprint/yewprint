@@ -1,6 +1,6 @@
 use implicit_clone::unsync::IArray;
 use yew::prelude::*;
-use yewprint::{IconName, Intent, Tag};
+use yewprint::{Icon, Intent, Tag};
 
 pub struct Example {
     tags: Vec<String>,
@@ -84,13 +84,13 @@ impl Component for Example {
                     <Tag
                         active={ctx.props().active}
                         fill={ctx.props().fill}
-                        icon={ctx.props().icon.then_some(IconName::Print)}
+                        icon={ctx.props().icon.then_some(Icon::Print)}
                         intent={ctx.props().intent}
                         interactive={ctx.props().interactive}
                         large={ctx.props().large}
                         minimal={ctx.props().minimal}
                         multiline={ctx.props().multiline}
-                        right_icon={ctx.props().right_icon.then_some(IconName::Star)}
+                        right_icon={ctx.props().right_icon.then_some(Icon::Star)}
                         round={ctx.props().round}
                         onremove={remove}
                         onclick={ctx.link().callback(|_| ExampleMsg::Click)}

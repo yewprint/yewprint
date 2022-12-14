@@ -4,7 +4,7 @@ use crate::ExampleContainer;
 use example::*;
 use implicit_clone::unsync::{IArray, IString};
 use yew::prelude::*;
-use yewprint::{Button, ButtonGroup, HtmlSelect, IconName, Intent, Switch, H1, H5};
+use yewprint::{Button, ButtonGroup, HtmlSelect, Icon, Intent, Switch, H1, H5};
 
 pub struct TagDoc {
     callback: Callback<ExampleProps>,
@@ -190,7 +190,7 @@ crate::build_example_prop_component! {
                                 value={ctx.props().example_props.intent}
                             />
                             <Button
-                                icon={IconName::Refresh}
+                                icon={Icon::Refresh}
                                 onclick={self.update_props(ctx, |props, _| ExampleProps {
                                     reset_tags: props.reset_tags + 1,
                                     ..props.clone()

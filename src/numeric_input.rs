@@ -1,4 +1,4 @@
-use crate::{Button, ButtonGroup, ControlGroup, IconName, InputGroup, Intent};
+use crate::{Button, ButtonGroup, ControlGroup, Icon, InputGroup, Intent};
 use std::fmt::Display;
 use std::marker::PhantomData;
 use std::ops::{Add, Bound, RangeBounds, Sub};
@@ -46,7 +46,7 @@ where
     #[prop_or_default]
     pub placeholder: AttrValue,
     #[prop_or_default]
-    pub left_icon: Option<IconName>,
+    pub left_icon: Option<Icon>,
     #[prop_or_default]
     pub left_element: Option<Html>,
     #[prop_or_default]
@@ -155,13 +155,13 @@ where
             html! {
                 <ButtonGroup vertical=true class={classes!("bp3-fixed")}>
                     <Button
-                        icon={IconName::ChevronUp}
+                        icon={Icon::ChevronUp}
                         disabled={button_up_disabled}
                         onclick={ctx.link().callback(|_| Msg::Up)}
                         {intent}
                     />
                     <Button
-                        icon={IconName::ChevronDown}
+                        icon={Icon::ChevronDown}
                         disabled={button_down_disabled}
                         onclick={ctx.link().callback(|_| Msg::Down)}
                         {intent}

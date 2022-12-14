@@ -1,22 +1,22 @@
 use yew::prelude::*;
-use yewprint::{Button, ButtonGroup, Divider};
+use yewprint::{Button, ButtonGroup, Divider, Icon};
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct ExampleProps {
     pub vertical: bool,
 }
 #[function_component(Example)]
-pub fn example(props: &ExampleProps) -> Html {
+pub fn example(ExampleProps { vertical }: &ExampleProps) -> Html {
     html! {
-        <ButtonGroup vertical={props.vertical}>
+        <ButtonGroup minimal=true {vertical} >
             <Button>{"File"}</Button>
             <Button>{"Edit"}</Button>
-            <Divider vertical={props.vertical} />
+            <Divider />
             <Button>{"Create"}</Button>
             <Button>{"Delete"}</Button>
-            <Divider vertical={props.vertical} />
-            // <Button icon=IconName::Add />
-            // <Button icon=IconName::Remove />
+            <Divider />
+            <Button icon={Icon::Add} />
+            <Button icon={Icon::Remove} />
         </ButtonGroup>
     }
 }

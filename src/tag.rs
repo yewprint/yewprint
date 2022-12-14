@@ -1,4 +1,4 @@
-use crate::{Icon, IconName, Intent, Text};
+use crate::{Icon, Intent, Text};
 use yew::prelude::*;
 use yew::virtual_dom::AttrValue;
 
@@ -12,7 +12,7 @@ pub struct TagProps {
     #[prop_or_default]
     pub fill: bool,
     #[prop_or_default]
-    pub icon: Option<IconName>,
+    pub icon: Option<Icon>,
     #[prop_or_default]
     pub intent: Option<Intent>,
     #[prop_or_default]
@@ -28,7 +28,7 @@ pub struct TagProps {
     #[prop_or_default]
     pub onremove: Option<Callback<MouseEvent>>,
     #[prop_or_default]
-    pub right_icon: Option<IconName>,
+    pub right_icon: Option<Icon>,
     #[prop_or_default]
     pub round: bool,
     #[prop_or_default]
@@ -60,18 +60,6 @@ pub fn tag(
         style,
     }: &TagProps,
 ) -> Html {
-    let icon = icon.map(|icon| {
-        html! {
-            <Icon {icon} />
-        }
-    });
-
-    let right_icon = right_icon.map(|icon| {
-        html! {
-            <Icon {icon} />
-        }
-    });
-
     let remove_button = onremove.clone().map(|onclick| {
         html! {
             <button
@@ -79,7 +67,7 @@ pub fn tag(
                 {onclick}
                 tabindex={interactive.then_some("0")}
             >
-                <Icon icon={IconName::SmallCross} />
+                <Icon icon={Icon::SmallCross} />
             </button>
         }
     });
@@ -100,7 +88,7 @@ pub fn tag(
             {style}
             {onclick}
         >
-            {icon}
+            <Icon {icon} />
             <Text
                 class={classes!("bp3-fill")}
                 ellipsize={!multiline}
@@ -109,7 +97,7 @@ pub fn tag(
             >
                 {children.clone()}
             </Text>
-            {right_icon}
+            <Icon icon={right_icon} />
             {remove_button}
         </span>
     }

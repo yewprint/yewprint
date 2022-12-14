@@ -30,16 +30,17 @@ pub(crate) fn generate_icons() -> Result<()> {
     for map in re_map.captures_iter(icon_svg_paths.as_str()) {
         src.push_str("fn icon_svg_paths_");
         src.push_str(&map[1]);
-        src.push_str("(icon: IconName) -> &'static [&'static str] { match icon {\n");
+        src.push_str("(icon: &Icon) -> &'static [&'static str] { match icon {\n");
         for item in re_item.captures_iter(&map[2]) {
             let key = item[1].to_upper_camel_case();
-            src.push_str("IconName::");
+            src.push_str("Icon::");
             src.push_str(&key);
             src.push_str(" => &");
             src.push_str(&item[2]);
             src.push_str(",\n");
             keys.insert(key);
         }
+        src.push_str("Icon::Custom(_) => &[],\n");
         src.push_str(" }}\n\n");
     }
 
@@ -48,19 +49,20 @@ pub(crate) fn generate_icons() -> Result<()> {
     let mut keys: Vec<_> = keys.iter().collect();
     keys.sort();
     src.push_str(
-        "#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]\n\
-         pub enum IconName {\n",
+        "#[derive(Debug, Clone, PartialEq)]\n\
+         pub enum Icon {\n",
     );
     for icon in &keys {
         src.push_str(icon);
         src.push_str(",\n");
     }
+    src.push_str("Custom(Html),\n");
     src.push_str("}\n\n");
 
-    src.push_str("impl IconName {\n");
-    src.push_str("pub const ALL: &[IconName] = &[\n");
+    src.push_str("impl Icon {\n");
+    src.push_str("pub const ALL: &[Icon] = &[\n");
     for icon in keys {
-        src.push_str("IconName::");
+        src.push_str("Icon::");
         src.push_str(icon);
         src.push_str(",\n");
     }

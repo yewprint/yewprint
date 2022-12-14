@@ -1,5 +1,5 @@
 use yew::prelude::*;
-use yewprint::{Button, Collapse, IconName, Intent};
+use yewprint::{Button, Collapse, Icon, Intent};
 
 pub struct ExampleContainer {
     collapsed: bool,
@@ -53,7 +53,7 @@ impl Component for ExampleContainer {
                 </div>
                 <div class={classes!("docs-source")}>
                     <Button
-                        icon={IconName::Code}
+                        icon={Icon::Code}
                         fill={{true}}
                         intent={{Intent::Primary}}
                         minimal={{true}}

@@ -1,4 +1,4 @@
-use crate::{Button, IconName};
+use crate::{Button, Icon};
 use gloo::timers::callback::Timeout;
 use implicit_clone::ImplicitClone;
 use std::cell::RefCell;
@@ -282,7 +282,7 @@ impl Component for Panel {
                 <Button
                     class={classes!("bp3-panel-stack-header-back")}
                     style={"padding-right:0"}
-                    icon={IconName::ChevronLeft}
+                    icon={Icon::ChevronLeft}
                     minimal={true}
                     small={true}
                     onclick={onclose.reform(|_| ())}

@@ -2463,7 +2463,6 @@ dependencies = [
  "console_error_panic_hook",
  "gloo",
  "implicit-clone",
- "once_cell",
  "syntect",
  "ureq",
  "wasm-bindgen",

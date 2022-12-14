@@ -1,5 +1,5 @@
 use crate::collapse::Collapse;
-use crate::icon::{Icon, IconName};
+use crate::icon::Icon;
 use crate::Intent;
 use gloo::timers::callback::Timeout;
 use id_tree::*;
@@ -66,7 +66,7 @@ pub struct TreeProps<T: Clone + PartialEq> {
 pub struct NodeData<T> {
     pub disabled: bool,
     pub has_caret: bool,
-    pub icon: Option<IconName>,
+    pub icon: Icon,
     pub icon_color: Option<AttrValue>,
     pub icon_intent: Option<Intent>,
     pub is_expanded: bool,
@@ -81,7 +81,7 @@ impl<T: Default> Default for NodeData<T> {
         Self {
             disabled: false,
             has_caret: false,
-            icon: None,
+            icon: Default::default(),
             icon_color: None,
             icon_intent: None,
             is_expanded: false,
@@ -98,7 +98,7 @@ impl<T: Clone> Clone for NodeData<T> {
         Self {
             disabled: self.disabled,
             has_caret: self.has_caret,
-            icon: self.icon,
+            icon: self.icon.clone(),
             icon_color: self.icon_color.clone(),
             icon_intent: self.icon_intent,
             is_expanded: self.is_expanded,
@@ -178,7 +178,7 @@ impl<T: 'static + Clone + PartialEq> Tree<T> {
                     <TreeNode
                         disabled={data.disabled}
                         has_caret={data.has_caret}
-                        icon={data.icon}
+                        icon={data.icon.clone()}
                         icon_color={data.icon_color.clone()}
                         icon_intent={data.icon_intent}
                         is_expanded={data.is_expanded}
@@ -212,7 +212,7 @@ struct TreeNodeProps {
     node_id: NodeId,
     disabled: bool,
     has_caret: bool,
-    icon: Option<IconName>,
+    icon: Icon,
     icon_color: Option<AttrValue>,
     icon_intent: Option<Intent>,
     is_expanded: bool,
@@ -314,7 +314,7 @@ impl Component for TreeNode {
                                             "bp3-tree-node-caret-closed"
                                         },
                                     )}
-                                    icon={IconName::ChevronRight}
+                                    icon={Icon::ChevronRight}
                                     onclick={self.handler_caret_click.clone()}
                                 />
                             }
@@ -326,7 +326,7 @@ impl Component for TreeNode {
                     }
                     <Icon
                         class={classes!("bp3-tree-node-icon")}
-                        icon={ctx.props().icon.unwrap_or(IconName::Blank)}
+                        icon={ctx.props().icon.clone()}
                         color={ctx.props().icon_color.clone()}
                         intent={ctx.props().icon_intent}
                     />

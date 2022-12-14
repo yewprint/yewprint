@@ -1,6 +1,6 @@
 use implicit_clone::{unsync::IArray, ImplicitClone};
 use yew::prelude::*;
-use yewprint::{Button, ControlGroup, HtmlSelect, IconName, InputGroup};
+use yewprint::{Button, ControlGroup, HtmlSelect, Icon, InputGroup};
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct ExampleProps {
@@ -25,7 +25,7 @@ pub fn example(ExampleProps { fill, vertical }: &ExampleProps) -> Html {
                 ].into_iter().collect::<IArray<_>>()}
             />
             <InputGroup placeholder="Find filters..." />
-            <Button icon={IconName::ArrowRight} />
+            <Button icon={Icon::ArrowRight} />
         </ControlGroup>
     }
 }
