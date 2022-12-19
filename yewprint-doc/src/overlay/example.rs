@@ -71,9 +71,7 @@ impl Component for Example {
                         <Card elevation={Elevation::Level4} style="height: 100%">
                             <H3>{"I'm an Overlay!"}</H3>
                             <p>{"This is a simple container with some inline styles to position \
-                            it on the screen. Its CSS transitions are customized for this example \
-                            only to demonstrate how easily custom transitions can be \
-                            implemented."}</p>
+                            it on the screen."}</p>
                             <p>{"Click the \"Make me scroll\" button below to make this overlay's \
                             content really tall, which will make the overlay's container \
                             (but not the page) scrollable"}</p>

@@ -5,6 +5,11 @@ use wasm_bindgen::JsCast;
 use web_sys::{Element, HtmlElement, NodeList};
 use yew::prelude::*;
 
+// TODO:
+//  -  use without <Portal/>
+//  -  enforce focus inside the overlay
+//  -  CSS transitions
+
 #[derive(Debug)]
 pub struct Overlay {
     start_focus_trap: NodeRef,
