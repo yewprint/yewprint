@@ -23,6 +23,8 @@ pub struct ButtonProps {
     #[prop_or_default]
     pub icon: Option<Icon>,
     #[prop_or_default]
+    pub right_icon: Option<Icon>,
+    #[prop_or_default]
     pub intent: Option<Intent>,
     #[prop_or_default]
     pub title: Option<AttrValue>,
@@ -32,6 +34,8 @@ pub struct ButtonProps {
     pub class: Classes,
     #[prop_or_default]
     pub style: Option<AttrValue>,
+    #[prop_or_default]
+    pub button_ref: NodeRef,
     #[prop_or_default]
     pub children: Children,
 }
@@ -48,11 +52,13 @@ pub fn button(props: &ButtonProps) -> Html {
         active,
         disabled,
         icon,
+        right_icon,
         intent,
         title,
         onclick,
         class,
         style,
+        button_ref,
         children,
     } = props;
 
@@ -74,6 +80,7 @@ pub fn button(props: &ButtonProps) -> Html {
             {style}
             {title}
             onclick={(!disabled).then_some(onclick.clone())}
+            ref={button_ref.clone()}
         >
             {
                 loading
@@ -85,7 +92,6 @@ pub fn button(props: &ButtonProps) -> Html {
                     })
             }
             <Icon {icon} />
-            //{icon.map(|icon| html!(<Icon {icon} />))}
             {
                 (!children.is_empty())
                     .then(|| html! {
@@ -94,6 +100,7 @@ pub fn button(props: &ButtonProps) -> Html {
                         </span>
                     })
             }
+            <Icon icon={right_icon} />
         </button>
     }
 }

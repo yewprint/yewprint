@@ -11,6 +11,7 @@ use crate::icon::*;
 use crate::input_group::*;
 use crate::menu::*;
 use crate::numeric_input::*;
+use crate::overlay::*;
 use crate::panel_stack::*;
 use crate::progress_bar::*;
 use crate::radio::*;
@@ -22,6 +23,7 @@ use crate::tag::*;
 use crate::text::*;
 use crate::text_area::*;
 use crate::tree::*;
+use crate::DARK;
 use yew::prelude::*;
 use yew_router::prelude::*;
 use yewprint::{Icon, Menu, MenuItem};
@@ -35,9 +37,7 @@ pub fn app_root() -> Html {
     }
 }
 
-pub struct App {
-    dark_theme: bool,
-}
+pub struct App;
 
 pub enum Msg {
     ToggleLight,
@@ -49,17 +49,14 @@ impl Component for App {
     type Properties = ();
 
     fn create(_ctx: &Context<Self>) -> Self {
-        App {
-            dark_theme: web_sys::window()
-                .and_then(|x| x.match_media("(prefers-color-scheme: dark)").ok().flatten())
-                .map(|x| x.matches())
-                .unwrap_or(true),
-        }
+        Self
     }
 
     fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
-            Msg::ToggleLight => self.dark_theme ^= true,
+            Msg::ToggleLight => {
+                DARK.with(|x| x.replace(!*x.borrow()));
+            }
             Msg::GoToMenu(event, doc_menu) => {
                 event.prevent_default();
                 if let Some(navigator) = ctx.link().navigator() {
@@ -73,21 +70,15 @@ impl Component for App {
     }
 
     fn view(&self, ctx: &Context<Self>) -> Html {
-        let netlify_badge = if self.dark_theme {
+        let dark = DARK.with(|x| *x.borrow());
+
+        let netlify_badge = if dark {
             "https://www.netlify.com/img/global/badges/netlify-color-accent.svg"
         } else {
             "https://www.netlify.com/img/global/badges/netlify-color-bg.svg"
         };
-        let go_to_theme_label = if self.dark_theme {
-            "Light theme"
-        } else {
-            "Dark theme"
-        };
-        let go_to_theme_icon = if self.dark_theme {
-            Icon::Flash
-        } else {
-            Icon::Moon
-        };
+        let go_to_theme_label = if dark { "Light theme" } else { "Dark theme" };
+        let go_to_theme_icon = if dark { Icon::Flash } else { Icon::Moon };
 
         let menu = html! {
             <Menu>
@@ -174,6 +165,12 @@ impl Component for App {
                     href="/numeric-input"
                     onclick={ctx.link()
                         .callback(|e| Msg::GoToMenu(e, DocMenu::NumericInput))}
+                />
+                <MenuItem
+                    text={html!("Overlay")}
+                    href="/overlay"
+                    onclick={ctx.link()
+                        .callback(|e| Msg::GoToMenu(e, DocMenu::Overlay))}
                 />
                 <MenuItem
                     text={html!("PanelStack")}
@@ -279,7 +276,7 @@ impl Component for App {
         };
 
         html! {
-            <div class={classes!("docs-root", self.dark_theme.then_some("bp3-dark"))}>
+            <div class={classes!("docs-root", dark.then_some("bp3-dark"))}>
                 <div class={classes!("docs-app")}>
                     {{ navigation }}
                     <main class={classes!("docs-content-wrapper")} role="main">
@@ -308,6 +305,7 @@ fn switch(route: DocMenu) -> Html {
         DocMenu::InputGroup => html!(<InputGroupDoc />),
         DocMenu::Menu => html!(<MenuDoc />),
         DocMenu::NumericInput => html!(<NumericInputDoc />),
+        DocMenu::Overlay => html!(<OverlayDoc />),
         DocMenu::PanelStack => html!(<PanelStackDoc />),
         DocMenu::ProgressBar => html!(<ProgressBarDoc />),
         DocMenu::Radio => html!(<RadioDoc />),
@@ -350,6 +348,8 @@ pub enum DocMenu {
     Menu,
     #[at("/numeric-input")]
     NumericInput,
+    #[at("/overlay")]
+    Overlay,
     #[at("/panel-stack")]
     PanelStack,
     #[at("/progress-bar")]

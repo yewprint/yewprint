@@ -69,7 +69,7 @@ pub(crate) fn generate_icons() -> Result<()> {
     src.push_str("];\n");
     src.push('}');
 
-    fs::write(&dest_path, src).context("could not write into file")?;
+    fs::write(dest_path, src).context("could not write into file")?;
 
     Ok(())
 }

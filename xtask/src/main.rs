@@ -69,7 +69,7 @@ fn download_css(force: bool) -> Result<()> {
             "@blueprintjs/docs-theme",
             "3.11.1",
             Path::new("package/lib/css/docs-theme.css"),
-            &static_path.join("docs-theme.css"),
+            static_path.join("docs-theme.css"),
         )
         .context("while downloading CSS of @blueprintjs/docs-theme")?;
         log::info!("Docs Theme CSS updated to: {}", version);

@@ -23,6 +23,7 @@ mod input_group;
 mod logo;
 mod menu;
 mod numeric_input;
+mod overlay;
 mod panel_stack;
 mod progress_bar;
 mod radio;
@@ -38,6 +39,16 @@ mod tree;
 pub use app::*;
 pub use example::*;
 pub use logo::*;
+use std::cell::RefCell;
+
+thread_local! {
+    pub static DARK: RefCell<bool> = {
+        RefCell::new(web_sys::window()
+            .and_then(|x| x.match_media("(prefers-color-scheme: dark)").ok().flatten())
+            .map(|x| x.matches())
+            .unwrap_or(true))
+    }
+}
 
 #[macro_export]
 macro_rules! include_raw_html {
@@ -67,7 +78,7 @@ macro_rules! build_source_code_component {
             pub fn generate_url() -> String {
                 use std::path::Path;
 
-                let component_name = Path::new(file!())
+                let component = Path::new(file!())
                     .parent()
                     .unwrap()
                     .file_name()
@@ -75,10 +86,13 @@ macro_rules! build_source_code_component {
                     .to_str()
                     .unwrap();
 
-                format!(
-                    "https://github.com/yewprint/yewprint/blob/HEAD/src/{}.rs",
-                    component_name,
-                )
+                if let (Some(actor), Some(branch)) =
+                    (option_env!("GITHUB_ACTOR"), option_env!("GITHUB_HEAD_REF"))
+                {
+                    format!("https://github.com/{actor}/yewprint/blob/{branch}/src/{component}.rs")
+                } else {
+                    format!("https://github.com/yewprint/yewprint/blob/HEAD/src/{component}.rs")
+                }
             }
         }
 

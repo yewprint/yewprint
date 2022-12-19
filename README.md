@@ -100,9 +100,9 @@ Roadmap
  -  [x] [InputGroup](https://blueprintjs.com/docs/#core/components/text-inputs.input-group)
  -  [x] [TextArea](https://blueprintjs.com/docs/#core/components/text-inputs.text-area)
  -  [ ] [TagInput](https://blueprintjs.com/docs/#core/components/tag-input)
- -  [ ] [Overlay](https://blueprintjs.com/docs/#core/components/overlay)
+ -  [x] [Overlay](https://blueprintjs.com/docs/#core/components/overlay)
      -  depends on: Portal
- -  [ ] [Portal](https://blueprintjs.com/docs/#core/components/portal)
+ -  [x] [Portal](https://blueprintjs.com/docs/#core/components/portal)
  -  [ ] [Alert](https://blueprintjs.com/docs/#core/components/alert)
      -  depends on: Button, Dialog
  -  [ ] [Context menu](https://blueprintjs.com/docs/#core/components/context-menu)
