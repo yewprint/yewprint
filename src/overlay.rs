@@ -262,12 +262,14 @@ impl Drop for Overlay {
 }
 
 fn get_focusable_elements(node_ref: &NodeRef) -> Option<NodeList> {
-    node_ref
-        .cast::<Element>()
-        .and_then(|element| element.query_selector_all(
-        "a[href]:not([tabindex=\"-1\"]),button:not([disabled]):not([tabindex=\"-1\"]),\
-        details:not([tabindex=\"-1\"]),input:not([disabled]):not([tabindex=\"-1\"]),\
-        select:not([disabled]):not([tabindex=\"-1\"]),\
-        textarea:not([disabled]):not([tabindex=\"-1\"]),[tabindex]:not([tabindex=\"-1\"])",
-    ).ok())
+    node_ref.cast::<Element>().and_then(|element| {
+        element
+            .query_selector_all(
+                "a[href]:not([tabindex=\"-1\"]),button:not([disabled]):not([tabindex=\"-1\"]),\
+                details:not([tabindex=\"-1\"]),input:not([disabled]):not([tabindex=\"-1\"]),\
+                select:not([disabled]):not([tabindex=\"-1\"]),\
+                textarea:not([disabled]):not([tabindex=\"-1\"]),[tabindex]:not([tabindex=\"-1\"])",
+            )
+            .ok()
+    })
 }
