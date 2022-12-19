@@ -204,8 +204,8 @@ impl Component for Overlay {
                     ref={self.start_focus_trap.clone()}
                     tabindex=0
                     // NOTE: I am not 100% sure this is correct. In Blueprint they capture the
-                    //       Shift+Tab combination but it looks like it's more for historic reason...
-                    //       well, it seems to work on current Chrome and Firefox so...
+                    //       Shift+Tab combination but it looks like it's more for historic
+                    //       reason... well, it seems to work on current Chrome and Firefox so...
                     onfocus={ctx.link().callback(|_| Msg::FocusLastElement)}
                 />
                 {backdrop}
@@ -265,6 +265,9 @@ fn get_focusable_elements(node_ref: &NodeRef) -> Option<NodeList> {
     node_ref
         .cast::<Element>()
         .and_then(|element| element.query_selector_all(
-        r#"a[href]:not([tabindex="-1"]),button:not([disabled]):not([tabindex="-1"]),details:not([tabindex="-1"]),input:not([disabled]):not([tabindex="-1"]),select:not([disabled]):not([tabindex="-1"]),textarea:not([disabled]):not([tabindex="-1"]),[tabindex]:not([tabindex="-1"])"#,
+        "a[href]:not([tabindex=\"-1\"]),button:not([disabled]):not([tabindex=\"-1\"]),\
+        details:not([tabindex=\"-1\"]),input:not([disabled]):not([tabindex=\"-1\"]),\
+        select:not([disabled]):not([tabindex=\"-1\"]),\
+        textarea:not([disabled]):not([tabindex=\"-1\"]),[tabindex]:not([tabindex=\"-1\"])",
     ).ok())
 }
