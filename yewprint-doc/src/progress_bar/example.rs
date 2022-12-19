@@ -15,7 +15,7 @@ pub fn example(props: &ExampleProps) -> Html {
             animate={props.animate}
             stripes={props.stripes}
             intent={props.intent}
-            value=0.3
+            value=30_u8
         />
     }
 }
