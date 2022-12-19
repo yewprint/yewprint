@@ -86,9 +86,8 @@ macro_rules! build_source_code_component {
                     .to_str()
                     .unwrap();
 
-                if let (Some(branch), Some(repo)) =
-                    (option_env!("GITHUB_REF_NAME"), option_env!("GITHUB_REPOSITORY"))
-                {
+                if let Some(repo) = option_env!("GITHUB_REPOSITORY") {
+                    let branch = env!("GIT_BRANCH");
                     format!("https://github.com/{repo}/blob/{branch}/src/{component}.rs")
                 } else {
                     format!("https://github.com/yewprint/yewprint/blob/HEAD/src/{component}.rs")

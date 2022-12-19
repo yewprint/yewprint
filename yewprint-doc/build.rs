@@ -10,6 +10,8 @@ fn main() {
     let theme_set = ThemeSet::load_defaults();
     let out_dir = env::var_os("OUT_DIR").unwrap();
 
+    build_data::set_GIT_BRANCH();
+
     fn recursive<P: AsRef<Path>>(
         base_path: P,
         syntax_set: &SyntaxSet,
