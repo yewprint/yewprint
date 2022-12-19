@@ -78,7 +78,7 @@ macro_rules! build_source_code_component {
             pub fn generate_url() -> String {
                 use std::path::Path;
 
-                let component_name = Path::new(file!())
+                let component = Path::new(file!())
                     .parent()
                     .unwrap()
                     .file_name()
@@ -86,10 +86,13 @@ macro_rules! build_source_code_component {
                     .to_str()
                     .unwrap();
 
-                format!(
-                    "https://github.com/yewprint/yewprint/blob/HEAD/src/{}.rs",
-                    component_name,
-                )
+                if let (Some(branch), Some(repo)) =
+                    (option_env!("GITHUB_REF_NAME"), option_env!("GITHUB_REPOSITORY"))
+                {
+                    format!("https://github.com/{repo}/blob/{branch}/src/{component}.rs")
+                } else {
+                    format!("https://github.com/yewprint/yewprint/blob/HEAD/src/{component}.rs")
+                }
             }
         }
 
