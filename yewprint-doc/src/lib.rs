@@ -23,6 +23,7 @@ mod input_group;
 mod logo;
 mod menu;
 mod numeric_input;
+mod overlay;
 mod panel_stack;
 mod progress_bar;
 mod radio;
@@ -38,6 +39,16 @@ mod tree;
 pub use app::*;
 pub use example::*;
 pub use logo::*;
+use std::cell::RefCell;
+
+thread_local! {
+    pub static DARK: RefCell<bool> = {
+        RefCell::new(web_sys::window()
+            .and_then(|x| x.match_media("(prefers-color-scheme: dark)").ok().flatten())
+            .map(|x| x.matches())
+            .unwrap_or(true))
+    }
+}
 
 #[macro_export]
 macro_rules! include_raw_html {

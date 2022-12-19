@@ -12,7 +12,7 @@ pub struct CardProps {
     #[prop_or(false)]
     pub interactive: bool,
     #[prop_or_default]
-    pub style: AttrValue,
+    pub style: Option<AttrValue>,
     pub children: Children,
 }
 
