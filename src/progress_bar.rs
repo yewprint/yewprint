@@ -26,9 +26,7 @@ pub fn progress_bar(
     }: &ProgressBarProps,
 ) -> Html {
     let style = if let Some(value) = value {
-        // NOTE: nightly, issue #44095 for f32::clamp
-        // let percent = ((1000. * value).ceil() / 10.).clamp(0.,100.);
-        let percent = ((1000. * value).ceil() / 10.).max(0.).min(100.);
+        let percent = value * 100.0;
         AttrValue::from(format!("width: {}%;", percent))
     } else {
         "".into()

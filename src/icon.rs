@@ -14,7 +14,7 @@ impl IconSize {
     pub const LARGE: IconSize = IconSize(20.0);
 
     pub fn as_f64(&self) -> f64 {
-        self.0 as f64
+        self.0
     }
 
     pub fn as_f32(&self) -> f32 {
