@@ -2246,7 +2246,7 @@ dependencies = [
 
 [[package]]
 name = "yewprint-css"
-version = "0.2.1"
+version = "0.3.0"
 dependencies = [
  "anyhow",
  "flate2 1.0.25",
