@@ -8,6 +8,7 @@ use yew::prelude::*;
 #[derive(Debug)]
 pub struct HtmlSelect<T: Clone + PartialEq + 'static> {
     select_element: NodeRef,
+    update_selected: bool,
     phantom: PhantomData<T>,
 }
 
@@ -39,6 +40,7 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for HtmlSelect<T> {
     fn create(_ctx: &Context<Self>) -> Self {
         Self {
             select_element: NodeRef::default(),
+            update_selected: false,
             phantom: PhantomData,
         }
     }
@@ -57,18 +59,8 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for HtmlSelect<T> {
         false
     }
 
-    fn changed(&mut self, ctx: &Context<Self>, _old_props: &Self::Properties) -> bool {
-        if let Some(value) = ctx.props().value.as_ref() {
-            if let Some(select) = self.select_element.cast::<HtmlSelectElement>() {
-                if let Some(i) = ctx.props().options.iter().position(|(x, _)| &x == value) {
-                    if let Ok(i) = i.try_into() {
-                        if select.selected_index() != i {
-                            select.set_selected_index(i);
-                        }
-                    }
-                }
-            }
-        }
+    fn changed(&mut self, _ctx: &Context<Self>, _old_props: &Self::Properties) -> bool {
+        self.update_selected = true;
         true
     }
 
@@ -120,6 +112,23 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for HtmlSelect<T> {
                 </select>
                 <Icon icon={Icon::DoubleCaretVertical}/>
             </div>
+        }
+    }
+
+    fn rendered(&mut self, ctx: &Context<Self>, _first_render: bool) {
+        if self.update_selected {
+            self.update_selected = false;
+            if let Some(value) = ctx.props().value.as_ref() {
+                if let Some(select) = self.select_element.cast::<HtmlSelectElement>() {
+                    if let Some(i) = ctx.props().options.iter().position(|(x, _)| &x == value) {
+                        if let Ok(i) = i.try_into() {
+                            if select.selected_index() != i {
+                                select.set_selected_index(i);
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
