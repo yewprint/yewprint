@@ -11,11 +11,22 @@ use std::marker::PhantomData;
 use std::rc::Rc;
 use yew::prelude::*;
 
-#[derive(Clone)]
+#[derive(Debug)]
 pub struct TreeData<T> {
     tree: Rc<RefCell<id_tree::Tree<NodeData<T>>>>,
     version: usize,
 }
+
+impl<T> Clone for TreeData<T> {
+    fn clone(&self) -> Self {
+        Self {
+            tree: self.tree.clone(),
+            version: self.version,
+        }
+    }
+}
+
+impl<T> yew::html::ImplicitClone for TreeData<T> {}
 
 impl<T> PartialEq for TreeData<T> {
     fn eq(&self, other: &Self) -> bool {
@@ -63,6 +74,7 @@ pub struct TreeProps<T: Clone + PartialEq> {
     pub class: Classes,
 }
 
+#[derive(Debug)]
 pub struct NodeData<T> {
     pub disabled: bool,
     pub has_caret: bool,
