@@ -4,7 +4,8 @@
     dead_code,
     clippy::derive_partial_eq_without_eq,
     // Shadows lints linked to this issue: https://github.com/yewstack/yew/issues/2931
-    clippy::let_unit_value
+    clippy::let_unit_value,
+    clippy::uninlined_format_args
 )]
 
 mod app;
