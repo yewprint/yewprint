@@ -4,7 +4,8 @@
     dead_code,
     clippy::derive_partial_eq_without_eq,
     // Shadows lints linked to this issue: https://github.com/yewstack/yew/issues/2931
-    clippy::let_unit_value
+    clippy::let_unit_value,
+    clippy::uninlined_format_args
 )]
 
 mod app;
@@ -39,11 +40,11 @@ mod tree;
 pub use app::*;
 pub use example::*;
 pub use logo::*;
-use std::cell::RefCell;
+use std::cell::Cell;
 
 thread_local! {
-    pub static DARK: RefCell<bool> = {
-        RefCell::new(web_sys::window()
+    pub static DARK: Cell<bool> = {
+        Cell::new(web_sys::window()
             .and_then(|x| x.match_media("(prefers-color-scheme: dark)").ok().flatten())
             .map(|x| x.matches())
             .unwrap_or(true))

@@ -55,7 +55,7 @@ impl Component for App {
     fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             Msg::ToggleLight => {
-                DARK.with(|x| x.replace_with(|&mut x| !x));
+                DARK.with(|x| x.replace(!x.get()));
             }
             Msg::GoToMenu(event, doc_menu) => {
                 event.prevent_default();
@@ -70,7 +70,7 @@ impl Component for App {
     }
 
     fn view(&self, ctx: &Context<Self>) -> Html {
-        let dark = DARK.with(|x| *x.borrow());
+        let dark = DARK.with(|x| x.get());
 
         let netlify_badge = if dark {
             "https://www.netlify.com/img/global/badges/netlify-color-accent.svg"

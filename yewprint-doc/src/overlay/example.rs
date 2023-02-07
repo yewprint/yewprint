@@ -63,7 +63,7 @@ impl Component for Example {
                         onclose={ctx.link().callback(|_| Msg::Close)}
                         {backdrop}
                         class={classes!(
-                            DARK.with(|x| x.borrow().then_some("bp3-dark")),
+                            DARK.with(|x| x.get().then_some("bp3-dark")),
                             self.tall.then_some("docs-overlay-example-tall"),
                         )}
                         style="left: calc(50vw - 200px); margin: 10vh 0; top: 0; width: 400px;"
