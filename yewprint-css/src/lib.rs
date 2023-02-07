@@ -31,7 +31,7 @@ pub fn download_from_npm_package(
 
     let version = if version.is_empty() || version == "latest" {
         let info: PackageInfo =
-            ureq::get(format!("https://registry.npmjs.org/{}", package_name).as_str())
+            ureq::get(format!("https://registry.npmjs.org/{package_name}").as_str())
                 .call()?
                 .into_json()?;
 
