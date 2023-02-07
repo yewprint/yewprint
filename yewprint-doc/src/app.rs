@@ -55,7 +55,7 @@ impl Component for App {
     fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             Msg::ToggleLight => {
-                DARK.with(|x| x.replace(!*x.borrow()));
+                DARK.with(|x| x.replace_with(|&mut x| !x));
             }
             Msg::GoToMenu(event, doc_menu) => {
                 event.prevent_default();
