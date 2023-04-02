@@ -75,6 +75,7 @@ use yew::Classes;
 // See https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/buttons
 #[allow(dead_code)]
 const MOUSE_EVENT_BUTTONS_NONE: u16 = 0;
+#[allow(dead_code)]
 const MOUSE_EVENT_BUTTONS_PRIMARY: u16 = 1;
 #[allow(dead_code)]
 const MOUSE_EVENT_BUTTONS_SECONDARY: u16 = 2;
