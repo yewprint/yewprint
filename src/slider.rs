@@ -61,6 +61,10 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for Slider<T> {
             }
             Msg::StartChange { .. } => false,
             Msg::Mouse(event) if ctx.props().values.len() > 1 => {
+                if !self.is_moving {
+                    return false;
+                }
+
                 let track_rect = self.track_ref.cast::<Element>().expect("no track ref");
                 let tick_size = (track_rect.client_width() as f64)
                     / ctx.props().values.len().saturating_sub(1) as f64;
@@ -185,7 +189,12 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for Slider<T> {
                 onpointerdown={(ctx.props().values.len() > 1).then(
                     || ctx.link().batch_callback(
                         |event: PointerEvent| {
-                            vec![Msg::StartChange { pointer_id: event.pointer_id() }, Msg::Mouse(event)]
+                            let start = Msg::StartChange { pointer_id: event.pointer_id() };
+                            if event.pointer_type() == "mouse" {
+                                vec![start, Msg::Mouse(event)]
+                            } else {
+                                vec![]
+                            }
                         }
                     )
                 )}
@@ -278,6 +287,18 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for Slider<T> {
                                             / (ctx.props().values.len() as f64 - 1.0),
                                     )}
                                     onkeydown={ctx.link().callback(|event| Msg::Keyboard(event))}
+                                    onpointerdown={(ctx.props().values.len() > 1).then(
+                                        || ctx.link().batch_callback(
+                                            |event: PointerEvent| {
+                                                let start = Msg::StartChange { pointer_id: event.pointer_id() };
+                                                if event.pointer_type() == "touch" {
+                                                    vec![start, Msg::Mouse(event)]
+                                                } else {
+                                                    vec![]
+                                                }
+                                            }
+                                        )
+                                    )}
                                     tabindex=0
                                 >
                                     {value_label.clone()}
