@@ -222,7 +222,7 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for Slider<T> {
                     ctx.props().vertical.then_some("bp3-vertical"),
                 )}
                 ref={self.slider_ref.clone()}
-                style={"touch-action: pan-y; -webkit-touch-callout: none;"}
+                style={"touch-action: pan-y pinch-zoom; -webkit-touch-callout: none;"}
                 onpointerdown={(ctx.props().values.len() > 1).then(
                     || ctx.link().batch_callback(
                         |event: PointerEvent| {
