@@ -1,17 +1,19 @@
 use crate::Intent;
 use implicit_clone::{unsync::IArray, ImplicitClone};
 use std::marker::PhantomData;
-use wasm_bindgen::closure::Closure;
 use wasm_bindgen::JsCast;
 use web_sys::Element;
 use yew::prelude::*;
 
 pub struct Slider<T: ImplicitClone + PartialEq + 'static> {
-    mouse_move: Closure<dyn FnMut(MouseEvent)>,
-    mouse_up: Closure<dyn FnMut(MouseEvent)>,
+    slider_ref: NodeRef,
     handle_ref: NodeRef,
     track_ref: NodeRef,
     is_moving: bool,
+    // The value we had just before we started moving. We need to track it
+    // in case the gesture turns from something we handle (dragging left/right)
+    // into something the user-agent should be handling (pan-y = scrolling up/down)
+    value_before_move: Option<T>,
     focus_handle: bool,
     phantom: PhantomData<T>,
 }
@@ -31,10 +33,17 @@ pub struct SliderProps<T: ImplicitClone + PartialEq + 'static> {
     pub selected: Option<T>,
 }
 
+#[derive(Debug)]
 pub enum Msg {
-    StartChange,
-    Mouse(MouseEvent),
-    StopChange,
+    // started a gesture, either via mouse ("desktop") or touch ("mobile")
+    PointerDown { pointer_id: Option<i32> },
+    // pointer moved, we only track X for now (vertical isn't supported for now)
+    PointerMove { client_x: i32 },
+    // gesture cancelled: turns out we were scrolling or something
+    PointerCancel,
+    // gesture completed successfully
+    PointerUp,
+    // adjusting via keyboard, completely independent from mouse gestures
     Keyboard(KeyboardEvent),
 }
 
@@ -42,25 +51,13 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for Slider<T> {
     type Message = Msg;
     type Properties = SliderProps<T>;
 
-    fn create(ctx: &Context<Self>) -> Self {
-        let mouse_move = {
-            let link = ctx.link().clone();
-            Closure::wrap(Box::new(move |event: web_sys::MouseEvent| {
-                link.send_message(Msg::Mouse(event));
-            }) as Box<dyn FnMut(_)>)
-        };
-        let mouse_up = {
-            let link = ctx.link().clone();
-            Closure::wrap(Box::new(move |_event: web_sys::MouseEvent| {
-                link.send_message(Msg::StopChange);
-            }) as Box<dyn FnMut(_)>)
-        };
+    fn create(_ctx: &Context<Self>) -> Self {
         Self {
-            mouse_move,
-            mouse_up,
+            slider_ref: NodeRef::default(),
             handle_ref: NodeRef::default(),
             track_ref: NodeRef::default(),
             is_moving: false,
+            value_before_move: None,
             focus_handle: false,
             phantom: PhantomData,
         }
@@ -68,70 +65,66 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for Slider<T> {
 
     fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
-            Msg::StartChange if ctx.props().values.len() > 1 => {
-                let document = gloo::utils::document();
-                let event_target: &web_sys::EventTarget = document.as_ref();
+            Msg::PointerDown { pointer_id } if ctx.props().values.len() > 1 => {
+                if let Some(pointer_id) = pointer_id {
+                    if let Some(slider) = self.slider_ref.cast::<Element>() {
+                        slider.set_pointer_capture(pointer_id).unwrap();
+                    }
+                }
+
                 self.is_moving = true;
-                event_target
-                    .add_event_listener_with_callback(
-                        "mousemove",
-                        self.mouse_move.as_ref().unchecked_ref(),
-                    )
-                    .expect("No event listener to add");
-                event_target
-                    .add_event_listener_with_callback(
-                        "mouseup",
-                        self.mouse_up.as_ref().unchecked_ref(),
-                    )
-                    .expect("No event listener to add");
+                if let Some(selected) = ctx.props().selected.as_ref() {
+                    // save the current value in case we need to restore it
+                    self.value_before_move = Some(selected.clone());
+                }
 
                 true
             }
-            Msg::StartChange => false,
-            Msg::Mouse(event) if ctx.props().values.len() > 1 => {
-                if event.buttons() == crate::MOUSE_EVENT_BUTTONS_PRIMARY {
-                    let track_rect = self.track_ref.cast::<Element>().expect("no track ref");
-                    let tick_size = (track_rect.client_width() as f64)
-                        / ctx.props().values.len().saturating_sub(1) as f64;
-                    let pixel_delta =
-                        (event.client_x() as f64) - track_rect.get_bounding_client_rect().left();
+            Msg::PointerDown { .. } => false,
+            Msg::PointerMove { client_x } if ctx.props().values.len() > 1 => {
+                if !self.is_moving {
+                    return false;
+                }
 
-                    let position = (pixel_delta / tick_size).round() as usize;
+                let track_rect = self.track_ref.cast::<Element>().expect("no track ref");
+                let tick_size = (track_rect.client_width() as f64)
+                    / ctx.props().values.len().saturating_sub(1) as f64;
+                let pixel_delta = (client_x as f64) - track_rect.get_bounding_client_rect().left();
 
-                    let (value, _) = ctx.props().values.get(position).unwrap_or_else(|| {
-                        ctx.props()
-                            .values
-                            .last()
-                            .cloned()
-                            .expect("No value in the array")
-                    });
+                let position = (pixel_delta / tick_size).round() as usize;
 
-                    if Some(&value) != ctx.props().selected.as_ref() {
-                        ctx.props().onchange.emit(value);
-                    }
+                let (value, _) = ctx.props().values.get(position).unwrap_or_else(|| {
+                    ctx.props()
+                        .values
+                        .last()
+                        .cloned()
+                        .expect("No value in the array")
+                });
 
+                if Some(&value) != ctx.props().selected.as_ref() {
+                    ctx.props().onchange.emit(value);
+                }
+                true
+            }
+            Msg::PointerMove { .. } => false,
+            Msg::PointerCancel => {
+                self.is_moving = false;
+
+                if let Some(value_before_move) = self.value_before_move.take() {
+                    // there's a slight bug here: if the value was None before
+                    // the cancelled gesture started, we have no way to restore
+                    // it to None since `onchange` only accepts `T`, not `Option<T>`.
+                    // fixing this requires breaking the API
+                    ctx.props().onchange.emit(value_before_move);
                     true
                 } else {
                     false
                 }
             }
-            Msg::Mouse(_) => false,
-            Msg::StopChange => {
-                let document = gloo::utils::document();
-                let event_target: &web_sys::EventTarget = document.as_ref();
+            Msg::PointerUp => {
+                // gesture completed successfully
                 self.is_moving = false;
-                event_target
-                    .remove_event_listener_with_callback(
-                        "mousemove",
-                        self.mouse_move.as_ref().unchecked_ref(),
-                    )
-                    .expect("No event listener to remove");
-                event_target
-                    .remove_event_listener_with_callback(
-                        "mouseup",
-                        self.mouse_up.as_ref().unchecked_ref(),
-                    )
-                    .expect("No event listener to remove");
+                self.value_before_move = None;
                 true
             }
             Msg::Keyboard(event) if ctx.props().values.len() > 1 => match event.key().as_str() {
@@ -228,16 +221,70 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for Slider<T> {
                     "bp3-slider",
                     ctx.props().vertical.then_some("bp3-vertical"),
                 )}
-                onmousedown={(ctx.props().values.len() > 1).then(
+                ref={self.slider_ref.clone()}
+                style={"touch-action: pan-y pinch-zoom; -webkit-touch-callout: none;"}
+                onpointerdown={(ctx.props().values.len() > 1).then(
                     || ctx.link().batch_callback(
-                        |event: MouseEvent| {
-                            if event.buttons() ==
-                                crate::MOUSE_EVENT_BUTTONS_PRIMARY
-                            {
-                                vec![Msg::StartChange, Msg::Mouse(event)]
+                        |event: PointerEvent| {
+                            if event.is_primary() {
+                                let down = Msg::PointerDown {
+                                    pointer_id: Some(event.pointer_id())
+                                };
+                                if event.pointer_type() == "touch" {
+                                    // for touch devices, wait for some dragging
+                                    // to occur to know if we're dragging the
+                                    // slider or scrolling the page. this avoids
+                                    // some jumps on pointercancel, in most
+                                    // cases. it also doesn't affect "clicks"
+                                    // which do one-time adjustments.
+                                    vec![down]
+                                } else {
+                                    vec![down, Msg::PointerMove { client_x: event.client_x() }]
+                                }
                             } else {
                                 vec![]
                             }
+                        }
+                    )
+                )}
+                onpointermove={(ctx.props().values.len() > 1).then(
+                    || ctx.link().batch_callback(
+                        |event: PointerEvent| {
+                            if let Some(target) = event.target() {
+                                if let Some(el) = target.dyn_ref::<web_sys::Element>() {
+                                    if el.has_pointer_capture(event.pointer_id()) {
+                                        return vec![
+                                            Msg::PointerMove { client_x: event.client_x() }
+                                        ];
+                                    }
+                                }
+                            }
+                            vec![]
+                        }
+                    )
+                )}
+                onpointerup={(ctx.props().values.len() > 1).then(
+                    || ctx.link().callback(
+                        |_event: PointerEvent| {
+                            Msg::PointerUp
+                        }
+                    )
+                )}
+                onpointercancel={(ctx.props().values.len() > 1).then(
+                    || ctx.link().callback(
+                        |_event: PointerEvent| {
+                            Msg::PointerCancel
+                        }
+                    )
+                )}
+                onclick={(ctx.props().values.len() > 1).then(
+                    || ctx.link().batch_callback(
+                        |event: MouseEvent| {
+                            vec![
+                                Msg::PointerDown { pointer_id: None },
+                                Msg::PointerMove { client_x: event.client_x() },
+                                Msg::PointerUp
+                            ]
                         }
                     )
                 )}
@@ -304,18 +351,10 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for Slider<T> {
                                     )}
                                     ref={self.handle_ref.clone()}
                                     style={format!(
-                                        "left: calc({}% - 8px);",
+                                        "-webkit-touch-callout: none; left: calc({}% - 8px);",
                                         100.0 * (index as f64)
                                             / (ctx.props().values.len() as f64 - 1.0),
                                     )}
-                                    onmousedown={ctx.link().batch_callback(
-                                    |event: MouseEvent| {
-                                        if event.buttons() == crate::MOUSE_EVENT_BUTTONS_PRIMARY {
-                                            vec![Msg::StartChange]
-                                        } else {
-                                            vec![]
-                                        }
-                                    })}
                                     onkeydown={ctx.link().callback(|event| Msg::Keyboard(event))}
                                     tabindex=0
                                 >
