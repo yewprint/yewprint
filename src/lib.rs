@@ -4,7 +4,8 @@
     clippy::inconsistent_struct_constructor,
     clippy::type_complexity,
     clippy::derive_partial_eq_without_eq,
-    clippy::uninlined_format_args
+    clippy::uninlined_format_args,
+    clippy::derivable_impls
 )]
 
 mod button_group;
