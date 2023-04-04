@@ -36,7 +36,7 @@ pub struct SliderProps<T: ImplicitClone + PartialEq + 'static> {
 #[derive(Debug)]
 pub enum Msg {
     // started a gesture, either via mouse ("desktop") or touch ("mobile")
-    PointerDown { pointer_id: Option<i32> },
+    PointerDown,
     // pointer moved, we only track X for now (vertical isn't supported for now)
     PointerMove { client_x: i32 },
     // gesture cancelled: turns out we were scrolling or something
@@ -65,13 +65,7 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for Slider<T> {
 
     fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
-            Msg::PointerDown { pointer_id } if ctx.props().values.len() > 1 => {
-                if let Some(pointer_id) = pointer_id {
-                    if let Some(slider) = self.slider_ref.cast::<Element>() {
-                        slider.set_pointer_capture(pointer_id).unwrap();
-                    }
-                }
-
+            Msg::PointerDown if ctx.props().values.len() > 1 => {
                 self.is_moving = true;
                 if let Some(selected) = ctx.props().selected.as_ref() {
                     // save the current value in case we need to restore it
@@ -80,7 +74,7 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for Slider<T> {
 
                 true
             }
-            Msg::PointerDown { .. } => false,
+            Msg::PointerDown => false,
             Msg::PointerMove { client_x } if ctx.props().values.len() > 1 => {
                 if !self.is_moving {
                     return false;
@@ -223,30 +217,35 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for Slider<T> {
                 )}
                 ref={self.slider_ref.clone()}
                 style={"touch-action: pan-y pinch-zoom; -webkit-touch-callout: none;"}
-                onpointerdown={(ctx.props().values.len() > 1).then(
-                    || ctx.link().batch_callback(
-                        |event: PointerEvent| {
-                            if event.is_primary() {
-                                let down = Msg::PointerDown {
-                                    pointer_id: Some(event.pointer_id())
-                                };
-                                if event.pointer_type() == "touch" {
-                                    // for touch devices, wait for some dragging
-                                    // to occur to know if we're dragging the
-                                    // slider or scrolling the page. this avoids
-                                    // some jumps on pointercancel, in most
-                                    // cases. it also doesn't affect "clicks"
-                                    // which do one-time adjustments.
-                                    vec![down]
+                onpointerdown={{
+                    let slider_ref = self.slider_ref.clone();
+                    (ctx.props().values.len() > 1).then(
+                        move || ctx.link().batch_callback(
+                            move |event: PointerEvent| {
+                                if event.is_primary() {
+                                    if let Some(slider) = slider_ref.cast::<Element>() {
+                                        slider.set_pointer_capture(event.pointer_id()).unwrap();
+                                    }
+
+                                    let down = Msg::PointerDown;
+                                    if event.pointer_type() == "touch" {
+                                        // for touch devices, wait for some dragging
+                                        // to occur to know if we're dragging the
+                                        // slider or scrolling the page. this avoids
+                                        // some jumps on pointercancel, in most
+                                        // cases. it also doesn't affect "clicks"
+                                        // which do one-time adjustments.
+                                        vec![down]
+                                    } else {
+                                        vec![down, Msg::PointerMove { client_x: event.client_x() }]
+                                    }
                                 } else {
-                                    vec![down, Msg::PointerMove { client_x: event.client_x() }]
+                                    vec![]
                                 }
-                            } else {
-                                vec![]
                             }
-                        }
+                        )
                     )
-                )}
+                }}
                 onpointermove={(ctx.props().values.len() > 1).then(
                     || ctx.link().batch_callback(
                         |event: PointerEvent| {
@@ -281,7 +280,7 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for Slider<T> {
                     || ctx.link().batch_callback(
                         |event: MouseEvent| {
                             vec![
-                                Msg::PointerDown { pointer_id: None },
+                                Msg::PointerDown,
                                 Msg::PointerMove { client_x: event.client_x() },
                                 Msg::PointerUp
                             ]
