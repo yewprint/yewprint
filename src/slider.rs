@@ -68,7 +68,6 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for Slider<T> {
             Msg::PointerDown { pointer_id } if ctx.props().values.len() > 1 => {
                 if let Some(pointer_id) = pointer_id {
                     if let Some(slider) = self.slider_ref.cast::<Element>() {
-                        gloo::console::log!("capturing pointer for slider");
                         slider.set_pointer_capture(pointer_id).unwrap();
                     }
                 }
