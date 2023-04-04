@@ -36,7 +36,7 @@ pub struct SliderProps<T: ImplicitClone + PartialEq + 'static> {
 #[derive(Debug)]
 pub enum Msg {
     // started a gesture, either via mouse ("desktop") or touch ("mobile")
-    PointerDown { pointer_id: Option<i32> },
+    PointerDown,
     // pointer moved, we only track X for now (vertical isn't supported for now)
     PointerMove { client_x: i32 },
     // gesture cancelled: turns out we were scrolling or something
@@ -65,30 +65,16 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for Slider<T> {
 
     fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
-            Msg::PointerDown { pointer_id } if ctx.props().values.len() > 1 => {
-                if let Some(pointer_id) = pointer_id {
-                    if let Some(slider) = self.slider_ref.cast::<web_sys::HtmlElement>() {
-                        gloo::console::log!(format!(
-                            "capturing pointer for slider, pointer_id = {}",
-                            pointer_id
-                        ));
-                        slider.set_pointer_capture(pointer_id).unwrap();
-                    }
-                }
-
-                if !self.is_moving {
-                    gloo::console::log!(format!("is_moving switching to true"));
-                }
+            Msg::PointerDown if ctx.props().values.len() > 1 => {
                 self.is_moving = true;
-
                 if let Some(selected) = ctx.props().selected.as_ref() {
-                    gloo::console::log!("saving previous value");
+                    // save the current value in case we need to restore it
                     self.value_before_move = Some(selected.clone());
                 }
 
                 true
             }
-            Msg::PointerDown { .. } => false,
+            Msg::PointerDown => false,
             Msg::PointerMove { client_x } if ctx.props().values.len() > 1 => {
                 if !self.is_moving {
                     return false;
@@ -116,11 +102,13 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for Slider<T> {
             }
             Msg::PointerMove { .. } => false,
             Msg::PointerCancel => {
-                gloo::console::log!("cancelling move");
                 self.is_moving = false;
 
                 if let Some(value_before_move) = self.value_before_move.take() {
-                    gloo::console::log!("restoring previous value");
+                    // there's a slight bug here: if the value was None before
+                    // the cancelled gesture started, we have no way to restore
+                    // it to None since `onchange` only accepts `T`, not `Option<T>`.
+                    // fixing this requires breaking the API
                     ctx.props().onchange.emit(value_before_move);
                     true
                 } else {
@@ -128,9 +116,7 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for Slider<T> {
                 }
             }
             Msg::PointerUp => {
-                if self.is_moving {
-                    gloo::console::log!(format!("is_moving switching to false"));
-                }
+                // gesture completed successfully
                 self.is_moving = false;
                 self.value_before_move = None;
                 true
@@ -235,11 +221,7 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for Slider<T> {
                     || ctx.link().batch_callback(
                         |event: PointerEvent| {
                             if event.is_primary() {
-                                gloo::console::log!(format!(
-                                    "slider pointerdown, client_x = {}",
-                                    event.client_x()
-                                ));
-                                vec![Msg::PointerDown { pointer_id: Some(event.pointer_id()) }, Msg::PointerMove { client_x: event.client_x() }]
+                                vec![Msg::PointerDown, Msg::PointerMove { client_x: event.client_x() }]
                             } else {
                                 vec![]
                             }
@@ -252,13 +234,7 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for Slider<T> {
                             if let Some(target) = event.target() {
                                 if let Some(el) = target.dyn_ref::<web_sys::Element>() {
                                     if el.has_pointer_capture(event.pointer_id()) {
-                                        gloo::console::log!(format!(
-                                            "slider pointermove, has pointer capture, client_x = {}",
-                                            event.client_x()
-                                        ));
                                         return vec![Msg::PointerMove { client_x: event.client_x() }];
-                                    } else {
-                                        gloo::console::log!(format!("slider pointermove but does NOT have pointer capture"));
                                     }
                                 }
                             }
@@ -269,9 +245,6 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for Slider<T> {
                 onpointerup={(ctx.props().values.len() > 1).then(
                     || ctx.link().callback(
                         |_event: PointerEvent| {
-                            gloo::console::log!(format!(
-                                "slider pointerup",
-                            ));
                             Msg::PointerUp
                         }
                     )
@@ -279,9 +252,6 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for Slider<T> {
                 onpointercancel={(ctx.props().values.len() > 1).then(
                     || ctx.link().callback(
                         |_event: PointerEvent| {
-                            gloo::console::log!(format!(
-                                "slider pointercancel"
-                            ));
                             Msg::PointerCancel
                         }
                     )
@@ -289,11 +259,7 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for Slider<T> {
                 onclick={(ctx.props().values.len() > 1).then(
                     || ctx.link().batch_callback(
                         |event: MouseEvent| {
-                            gloo::console::log!(format!(
-                                "slider onclick",
-                            ));
-                            // simulating a pointerdown/pointermove/pointerup sequence
-                            vec![Msg::PointerDown { pointer_id: None }, Msg::PointerMove { client_x: event.client_x() }, Msg::PointerUp]
+                            vec![Msg::PointerDown, Msg::PointerMove { client_x: event.client_x() }, Msg::PointerUp]
                         }
                     )
                 )}
