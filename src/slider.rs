@@ -221,7 +221,17 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for Slider<T> {
                     || ctx.link().batch_callback(
                         |event: PointerEvent| {
                             if event.is_primary() {
-                                vec![Msg::PointerDown, Msg::PointerMove { client_x: event.client_x() }]
+                                if event.pointer_type() == "touch" {
+                                    // for touch devices, wait for some dragging
+                                    // to occur to know if we're dragging the
+                                    // slider or scrolling the page. this avoids
+                                    // some jumps on pointercancel, in most
+                                    // cases. it also doesn't affect "clicks"
+                                    // which do one-time adjustments.
+                                    vec![Msg::PointerDown]
+                                } else {
+                                    vec![Msg::PointerDown, Msg::PointerMove { client_x: event.client_x() }]
+                                }
                             } else {
                                 vec![]
                             }
