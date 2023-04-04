@@ -30,8 +30,8 @@ pub struct SliderProps<T: ImplicitClone + PartialEq + 'static> {
 
 #[derive(Debug)]
 pub enum Msg {
-    StartChange { pointer_id: i32 },
-    Mouse(PointerEvent),
+    StartChange { pointer_id: Option<i32> },
+    Mouse { client_x: i32 },
     StopChange,
     Keyboard(KeyboardEvent),
 }
@@ -53,14 +53,16 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for Slider<T> {
     fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             Msg::StartChange { pointer_id } if ctx.props().values.len() > 1 => {
-                if let Some(handle) = self.handle_ref.cast::<web_sys::HtmlElement>() {
-                    handle.set_pointer_capture(pointer_id).unwrap();
+                if let Some(pointer_id) = pointer_id {
+                    if let Some(handle) = self.handle_ref.cast::<web_sys::HtmlElement>() {
+                        handle.set_pointer_capture(pointer_id).unwrap();
+                    }
                 }
                 self.is_moving = true;
                 true
             }
             Msg::StartChange { .. } => false,
-            Msg::Mouse(event) if ctx.props().values.len() > 1 => {
+            Msg::Mouse { client_x } if ctx.props().values.len() > 1 => {
                 if !self.is_moving {
                     return false;
                 }
@@ -68,8 +70,7 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for Slider<T> {
                 let track_rect = self.track_ref.cast::<Element>().expect("no track ref");
                 let tick_size = (track_rect.client_width() as f64)
                     / ctx.props().values.len().saturating_sub(1) as f64;
-                let pixel_delta =
-                    (event.client_x() as f64) - track_rect.get_bounding_client_rect().left();
+                let pixel_delta = (client_x as f64) - track_rect.get_bounding_client_rect().left();
 
                 let position = (pixel_delta / tick_size).round() as usize;
 
@@ -190,8 +191,7 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for Slider<T> {
                     || ctx.link().batch_callback(
                         |event: PointerEvent| {
                             if event.is_primary() && event.pointer_type() == "mouse" {
-                                let start = Msg::StartChange { pointer_id: event.pointer_id() };
-                                vec![start, Msg::Mouse(event)]
+                                vec![Msg::StartChange { pointer_id: Some(event.pointer_id()) }, Msg::Mouse { client_x: event.client_x() }]
                             } else {
                                 vec![]
                             }
@@ -204,7 +204,7 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for Slider<T> {
                             if let Some(target) = event.target() {
                                 if let Some(el) = target.dyn_ref::<web_sys::Element>() {
                                     if el.has_pointer_capture(event.pointer_id()) {
-                                        return vec![Msg::Mouse(event)];
+                                        return vec![Msg::Mouse { client_x: event.client_x() }];
                                     }
                                 }
                             }
@@ -216,6 +216,13 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for Slider<T> {
                     || ctx.link().callback(
                         |_event: PointerEvent| {
                             Msg::StopChange
+                        }
+                    )
+                )}
+                onclick={(ctx.props().values.len() > 1).then(
+                    || ctx.link().batch_callback(
+                        |event: MouseEvent| {
+                            vec![Msg::StartChange { pointer_id: None }, Msg::Mouse { client_x: event.client_x() }, Msg::StopChange]
                         }
                     )
                 )}
@@ -291,8 +298,7 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for Slider<T> {
                                         || ctx.link().batch_callback(
                                             |event: PointerEvent| {
                                                 if event.is_primary() && event.pointer_type() == "touch" {
-                                                    let start = Msg::StartChange { pointer_id: event.pointer_id() };
-                                                    vec![start, Msg::Mouse(event)]
+                                                    vec![Msg::StartChange { pointer_id: Some(event.pointer_id()) }, Msg::Mouse { client_x: event.client_x() }]
                                                 } else {
                                                     vec![]
                                                 }
