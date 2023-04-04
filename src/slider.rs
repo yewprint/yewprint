@@ -189,8 +189,8 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for Slider<T> {
                 onpointerdown={(ctx.props().values.len() > 1).then(
                     || ctx.link().batch_callback(
                         |event: PointerEvent| {
-                            let start = Msg::StartChange { pointer_id: event.pointer_id() };
-                            if event.pointer_type() == "mouse" {
+                            if event.is_primary() && event.pointer_type() == "mouse" {
+                                let start = Msg::StartChange { pointer_id: event.pointer_id() };
                                 vec![start, Msg::Mouse(event)]
                             } else {
                                 vec![]
@@ -290,8 +290,8 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for Slider<T> {
                                     onpointerdown={(ctx.props().values.len() > 1).then(
                                         || ctx.link().batch_callback(
                                             |event: PointerEvent| {
-                                                let start = Msg::StartChange { pointer_id: event.pointer_id() };
-                                                if event.pointer_type() == "touch" {
+                                                if event.is_primary() && event.pointer_type() == "touch" {
+                                                    let start = Msg::StartChange { pointer_id: event.pointer_id() };
                                                     vec![start, Msg::Mouse(event)]
                                                 } else {
                                                     vec![]
