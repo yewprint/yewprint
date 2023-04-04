@@ -227,6 +227,9 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for Slider<T> {
                     || ctx.link().batch_callback(
                         |event: PointerEvent| {
                             if event.is_primary() {
+                                let down = Msg::PointerDown {
+                                    pointer_id: Some(event.pointer_id())
+                                };
                                 if event.pointer_type() == "touch" {
                                     // for touch devices, wait for some dragging
                                     // to occur to know if we're dragging the
@@ -234,9 +237,9 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for Slider<T> {
                                     // some jumps on pointercancel, in most
                                     // cases. it also doesn't affect "clicks"
                                     // which do one-time adjustments.
-                                    vec![Msg::PointerDown { pointer_id: Some(event.pointer_id()) }]
+                                    vec![down]
                                 } else {
-                                    vec![Msg::PointerDown { pointer_id: Some(event.pointer_id()) }, Msg::PointerMove { client_x: event.client_x() }]
+                                    vec![down, Msg::PointerMove { client_x: event.client_x() }]
                                 }
                             } else {
                                 vec![]
@@ -250,7 +253,9 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for Slider<T> {
                             if let Some(target) = event.target() {
                                 if let Some(el) = target.dyn_ref::<web_sys::Element>() {
                                     if el.has_pointer_capture(event.pointer_id()) {
-                                        return vec![Msg::PointerMove { client_x: event.client_x() }];
+                                        return vec![
+                                            Msg::PointerMove { client_x: event.client_x() }
+                                        ];
                                     }
                                 }
                             }
@@ -275,7 +280,11 @@ impl<T: ImplicitClone + PartialEq + 'static> Component for Slider<T> {
                 onclick={(ctx.props().values.len() > 1).then(
                     || ctx.link().batch_callback(
                         |event: MouseEvent| {
-                            vec![Msg::PointerDown { pointer_id: None }, Msg::PointerMove { client_x: event.client_x() }, Msg::PointerUp]
+                            vec![
+                                Msg::PointerDown { pointer_id: None },
+                                Msg::PointerMove { client_x: event.client_x() },
+                                Msg::PointerUp
+                            ]
                         }
                     )
                 )}
