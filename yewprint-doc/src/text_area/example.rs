@@ -7,16 +7,18 @@ pub struct ExampleProps {
     pub small: bool,
     pub large: bool,
     pub fill: bool,
+    pub grow_vertically: bool,
 }
 
 #[function_component(Example)]
 pub fn example(props: &ExampleProps) -> Html {
     html! {
-        <div style="width: 200px; height: 50px">
+        <div style="width: 200px; min-height: 50px">
             <TextArea intent={props.intent}
                       large={props.large}
                       fill={props.fill}
                       small={props.small}
+                      grow_vertically={props.grow_vertically}
             />
         </div>
     }

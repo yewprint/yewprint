@@ -1,4 +1,6 @@
 use crate::Intent;
+use wasm_bindgen::JsCast;
+use web_sys::HtmlTextAreaElement;
 use yew::prelude::*;
 
 #[derive(Clone, PartialEq, Properties)]
@@ -7,7 +9,8 @@ pub struct TextAreaProps {
     pub class: Classes,
     #[prop_or_default]
     pub fill: bool,
-    //TODO pub grow_vertically: bool,
+    #[prop_or_default]
+    pub grow_vertically: bool,
     #[prop_or_default]
     pub r#ref: NodeRef,
     #[prop_or_default]
@@ -25,6 +28,7 @@ pub fn text_area(
     TextAreaProps {
         class,
         fill,
+        grow_vertically,
         r#ref,
         intent,
         large,
@@ -32,6 +36,22 @@ pub fn text_area(
         onchange,
     }: &TextAreaProps,
 ) -> Html {
+    let oninput = {
+        let grow_vertically = *grow_vertically;
+        Callback::from(move |e: InputEvent| {
+            if grow_vertically {
+                let input = e
+                    .target()
+                    .and_then(|t| t.dyn_into::<HtmlTextAreaElement>().ok());
+                if let Some(input) = input {
+                    input
+                        .style()
+                        .set_property("height", &format!("{}px", input.scroll_height()))
+                        .unwrap();
+                }
+            }
+        })
+    };
     html! {
         <textarea
             class={classes!(
@@ -44,6 +64,7 @@ pub fn text_area(
             )}
             ref={r#ref}
             {onchange}
+            {oninput}
         />
     }
 }

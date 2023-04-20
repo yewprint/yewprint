@@ -23,6 +23,7 @@ impl Component for TextAreaDoc {
                 large: false,
                 small: false,
                 fill: false,
+                grow_vertically: true,
             },
         }
     }
@@ -90,6 +91,14 @@ crate::build_example_prop_component! {
                         })}
                         checked={ctx.props().example_props.small}
                         label={html!("Small")}
+                    />
+                    <Switch
+                        onclick={self.update_props(ctx, |props, _| ExampleProps {
+                            grow_vertically: !props.grow_vertically,
+                            ..props
+                        })}
+                        checked={ctx.props().example_props.grow_vertically}
+                        label={html!("Grow vertically")}
                     />
                     <HtmlSelect<Option<Intent>>
                         options={[
