@@ -8,6 +8,7 @@ pub struct ExampleProps {
     pub large: bool,
     pub fill: bool,
     pub grow_vertically: bool,
+    pub text: String,
 }
 
 #[function_component(Example)]
@@ -19,6 +20,7 @@ pub fn example(props: &ExampleProps) -> Html {
                       fill={props.fill}
                       small={props.small}
                       grow_vertically={props.grow_vertically}
+                      value={Some(props.text.clone())}
             />
         </div>
     }

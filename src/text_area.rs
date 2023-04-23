@@ -21,6 +21,15 @@ pub struct TextAreaProps {
     pub small: bool,
     #[prop_or_default]
     pub onchange: Callback<Event>,
+    #[prop_or_default]
+    pub value: Option<String>,
+}
+
+fn resize(input: &HtmlTextAreaElement) {
+    input
+        .style()
+        .set_property("height", &format!("{}px", input.scroll_height()))
+        .unwrap();
 }
 
 #[function_component(TextArea)]
@@ -34,8 +43,19 @@ pub fn text_area(
         large,
         small,
         onchange,
+        value,
     }: &TextAreaProps,
 ) -> Html {
+    {
+        let node_ref = r#ref.clone();
+        use_effect_with_deps(
+            move |node_ref| {
+                let input = node_ref.cast::<HtmlTextAreaElement>().unwrap();
+                resize(&input);
+            },
+            node_ref,
+        );
+    }
     let oninput = {
         let grow_vertically = *grow_vertically;
         Callback::from(move |e: InputEvent| {
@@ -44,10 +64,7 @@ pub fn text_area(
                     .target()
                     .and_then(|t| t.dyn_into::<HtmlTextAreaElement>().ok());
                 if let Some(input) = input {
-                    input
-                        .style()
-                        .set_property("height", &format!("{}px", input.scroll_height()))
-                        .unwrap();
+                    resize(&input);
                 }
             }
         })
@@ -65,6 +82,7 @@ pub fn text_area(
             ref={r#ref}
             {onchange}
             {oninput}
+            value={value.clone()}
         />
     }
 }

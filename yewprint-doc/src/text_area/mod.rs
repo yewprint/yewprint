@@ -3,6 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use implicit_clone::unsync::IArray;
+use web_sys::HtmlInputElement;
 use yew::prelude::*;
 use yewprint::{HtmlSelect, Intent, Switch, H1, H5};
 
@@ -24,6 +25,7 @@ impl Component for TextAreaDoc {
                 small: false,
                 fill: false,
                 grow_vertically: true,
+                text: "Hello, world!".into(),
             },
         }
     }
@@ -113,6 +115,25 @@ crate::build_example_prop_component! {
                             ..props
                         })}
                         value={ctx.props().example_props.intent}
+                    />
+                    <input
+                        class="bp3-input"
+                        onchange={self.update_props(ctx, |props, e: Event| {
+                                if let Some(input) = e.target_dyn_into::<HtmlInputElement>() {
+                                    ExampleProps {
+                                        text: input.value().into(),
+                                        ..props
+                                    }
+                                } else {
+                                    ExampleProps {
+                                        text: "Hello, world!".into(),
+                                        ..props
+                                    }
+                                }
+                            }
+                        )}
+                        type="text"
+                        value={ctx.props().example_props.text.clone()}
                     />
                 </div>
             }
