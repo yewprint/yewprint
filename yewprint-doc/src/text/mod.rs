@@ -73,6 +73,11 @@ crate::build_example_prop_component! {
                         checked={ctx.props().example_props.ellipsize}
                         label={html!("Ellipsize")}
                     />
+                    <p
+                        style="margin-top: 5px;"
+                    >
+                        {"Value:"}
+                    </p>
                     <input
                         class="bp3-input"
                         onchange={self.update_props(ctx, |props, e: Event| {

@@ -102,6 +102,11 @@ crate::build_example_prop_component! {
                         checked={ctx.props().example_props.grow_vertically}
                         label={html!("Grow vertically")}
                     />
+                    <p
+                        style="margin-top: 5px;"
+                    >
+                        {"Select intent:"}
+                    </p>
                     <HtmlSelect<Option<Intent>>
                         options={[
                             (None, "None".into()),
@@ -116,6 +121,11 @@ crate::build_example_prop_component! {
                         })}
                         value={ctx.props().example_props.intent}
                     />
+                    <p
+                        style="margin-top: 5px;"
+                    >
+                        {"Default value:"}
+                    </p>
                     <input
                         class="bp3-input"
                         onchange={self.update_props(ctx, |props, e: Event| {
