@@ -3,6 +3,7 @@ mod example;
 use crate::ExampleContainer;
 use example::*;
 use implicit_clone::unsync::IArray;
+use web_sys::HtmlInputElement;
 use yew::prelude::*;
 use yewprint::{HtmlSelect, Intent, Switch, H1, H5};
 
@@ -23,6 +24,8 @@ impl Component for TextAreaDoc {
                 large: false,
                 small: false,
                 fill: false,
+                grow_vertically: true,
+                text: "Hello, world!".into(),
             },
         }
     }
@@ -91,6 +94,19 @@ crate::build_example_prop_component! {
                         checked={ctx.props().example_props.small}
                         label={html!("Small")}
                     />
+                    <Switch
+                        onclick={self.update_props(ctx, |props, _| ExampleProps {
+                            grow_vertically: !props.grow_vertically,
+                            ..props
+                        })}
+                        checked={ctx.props().example_props.grow_vertically}
+                        label={html!("Grow vertically")}
+                    />
+                    <p
+                        style="margin-top: 5px;"
+                    >
+                        {"Select intent:"}
+                    </p>
                     <HtmlSelect<Option<Intent>>
                         options={[
                             (None, "None".into()),
@@ -104,6 +120,30 @@ crate::build_example_prop_component! {
                             ..props
                         })}
                         value={ctx.props().example_props.intent}
+                    />
+                    <p
+                        style="margin-top: 5px;"
+                    >
+                        {"Default value:"}
+                    </p>
+                    <input
+                        class="bp3-input"
+                        onchange={self.update_props(ctx, |props, e: Event| {
+                                if let Some(input) = e.target_dyn_into::<HtmlInputElement>() {
+                                    ExampleProps {
+                                        text: input.value().into(),
+                                        ..props
+                                    }
+                                } else {
+                                    ExampleProps {
+                                        text: "Hello, world!".into(),
+                                        ..props
+                                    }
+                                }
+                            }
+                        )}
+                        type="text"
+                        value={ctx.props().example_props.text.clone()}
                     />
                 </div>
             }

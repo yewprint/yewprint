@@ -1,4 +1,6 @@
 use crate::Intent;
+use wasm_bindgen::JsCast;
+use web_sys::HtmlTextAreaElement;
 use yew::prelude::*;
 
 #[derive(Clone, PartialEq, Properties)]
@@ -7,7 +9,8 @@ pub struct TextAreaProps {
     pub class: Classes,
     #[prop_or_default]
     pub fill: bool,
-    //TODO pub grow_vertically: bool,
+    #[prop_or_default]
+    pub grow_vertically: bool,
     #[prop_or_default]
     pub r#ref: NodeRef,
     #[prop_or_default]
@@ -18,6 +21,15 @@ pub struct TextAreaProps {
     pub small: bool,
     #[prop_or_default]
     pub onchange: Callback<Event>,
+    #[prop_or_default]
+    pub value: Option<String>,
+}
+
+fn resize(input: &HtmlTextAreaElement) {
+    input
+        .style()
+        .set_property("height", &format!("{}px", input.scroll_height()))
+        .unwrap();
 }
 
 #[function_component(TextArea)]
@@ -25,13 +37,38 @@ pub fn text_area(
     TextAreaProps {
         class,
         fill,
+        grow_vertically,
         r#ref,
         intent,
         large,
         small,
         onchange,
+        value,
     }: &TextAreaProps,
 ) -> Html {
+    {
+        let node_ref = r#ref.clone();
+        use_effect_with_deps(
+            move |node_ref| {
+                let input = node_ref.cast::<HtmlTextAreaElement>().unwrap();
+                resize(&input);
+            },
+            node_ref,
+        );
+    }
+    let oninput = {
+        let grow_vertically = *grow_vertically;
+        Callback::from(move |e: InputEvent| {
+            if grow_vertically {
+                let input = e
+                    .target()
+                    .and_then(|t| t.dyn_into::<HtmlTextAreaElement>().ok());
+                if let Some(input) = input {
+                    resize(&input);
+                }
+            }
+        })
+    };
     html! {
         <textarea
             class={classes!(
@@ -44,6 +81,8 @@ pub fn text_area(
             )}
             ref={r#ref}
             {onchange}
+            {oninput}
+            value={value.clone()}
         />
     }
 }
