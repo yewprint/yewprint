@@ -103,11 +103,11 @@ Roadmap
  -  [x] [Overlay](https://blueprintjs.com/docs/#core/components/overlay)
      -  depends on: Portal
  -  [x] [Portal](https://blueprintjs.com/docs/#core/components/portal)
- -  [ ] [Alert](https://blueprintjs.com/docs/#core/components/alert)
+ -  [x] [Alert](https://blueprintjs.com/docs/#core/components/alert)
      -  depends on: Button, Dialog
  -  [ ] [Context menu](https://blueprintjs.com/docs/#core/components/context-menu)
      -  depends on: Popover
- -  [ ] [Dialog](https://blueprintjs.com/docs/#core/components/dialog)
+ -  [x] [Dialog](https://blueprintjs.com/docs/#core/components/dialog)
      -  depends on: Icon, Overlay, Button
  -  [ ] [Drawer](https://blueprintjs.com/docs/#core/components/drawer)
      -  depends on: Icon, Overlay, Button
