@@ -37,6 +37,12 @@ pub struct ButtonProps {
     #[prop_or_default]
     pub button_ref: NodeRef,
     #[prop_or_default]
+    pub left_element: Option<Html>,
+    #[prop_or_default]
+    pub right_element: Option<Html>,
+    #[prop_or_default]
+    pub aria_label: Option<AttrValue>,
+    #[prop_or_default]
     pub children: Children,
 }
 
@@ -59,6 +65,9 @@ pub fn button(props: &ButtonProps) -> Html {
         class,
         style,
         button_ref,
+        left_element,
+        right_element,
+        aria_label,
         children,
     } = props;
 
@@ -79,6 +88,7 @@ pub fn button(props: &ButtonProps) -> Html {
             )}
             {style}
             {title}
+            aria-label={aria_label}
             onclick={(!disabled).then_some(onclick.clone())}
             ref={button_ref.clone()}
         >
@@ -92,6 +102,7 @@ pub fn button(props: &ButtonProps) -> Html {
                     })
             }
             <Icon {icon} />
+            {left_element.clone()}
             {
                 (!children.is_empty())
                     .then(|| html! {
@@ -101,6 +112,7 @@ pub fn button(props: &ButtonProps) -> Html {
                     })
             }
             <Icon icon={right_icon} />
+            {right_element.clone()}
         </button>
     }
 }

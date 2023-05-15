@@ -29,6 +29,9 @@ pub struct OverlayProps {
     pub class: Classes,
     #[prop_or_default]
     pub style: Option<AttrValue>,
+    // NOTE: this should have been false by default
+    #[prop_or(true)]
+    pub scrollable: bool,
     #[prop_or_default]
     pub open: bool,
     #[prop_or(true)]
@@ -185,6 +188,7 @@ impl Component for Overlay {
         let Self::Properties {
             class,
             style,
+            scrollable,
             open,
             backdrop,
             onclose: _,
@@ -232,7 +236,7 @@ impl Component for Overlay {
                 <div
                     class={classes!(
                         "bp3-overlay",
-                        "bp3-overlay-scroll-container",
+                        scrollable.then_some("bp3-overlay-scroll-container"),
                         open.then_some("bp3-overlay-open"),
                     )}
                     aria-live="polite"

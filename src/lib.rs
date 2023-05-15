@@ -8,6 +8,7 @@
     clippy::derivable_impls
 )]
 
+mod alert;
 mod button_group;
 mod buttons;
 mod callout;
@@ -15,6 +16,7 @@ mod card;
 mod checkbox;
 mod collapse;
 mod control_group;
+mod dialog;
 mod divider;
 mod html_elements;
 mod html_select;
@@ -38,6 +40,7 @@ mod text_area;
 #[cfg(feature = "tree")]
 mod tree;
 
+pub use alert::*;
 pub use button_group::*;
 pub use buttons::*;
 pub use callout::*;
@@ -45,6 +48,7 @@ pub use card::*;
 pub use checkbox::*;
 pub use collapse::*;
 pub use control_group::*;
+pub use dialog::*;
 pub use divider::*;
 pub use html_elements::*;
 pub use html_select::*;
