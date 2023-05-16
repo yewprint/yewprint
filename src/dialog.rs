@@ -132,3 +132,50 @@ impl Component for Dialog {
         }
     }
 }
+
+#[derive(Clone, PartialEq, Properties)]
+pub struct DialogFooterProps {
+    #[prop_or_default]
+    pub class: Classes,
+    #[prop_or_default]
+    pub style: Option<AttrValue>,
+    #[prop_or(false)]
+    pub minimal: bool,
+    #[prop_or_default]
+    pub actions: Option<Html>,
+    #[prop_or_default]
+    pub children: Children,
+}
+
+#[function_component(DialogFooter)]
+pub fn dialog_footer(props: &DialogFooterProps) -> Html {
+    let DialogFooterProps {
+        class,
+        style,
+        minimal,
+        actions,
+        children,
+    } = props;
+
+    let actions_html = actions.clone().map(|html| {
+        html! {
+            <div class="bp3-dialog-footer-actions">{html}</div>
+        }
+    });
+
+    html! {
+        <div
+            class={classes!(
+                "bp3-dialog-footer",
+                (!minimal).then_some("bp3-dialog-footer-fixed"),
+                class.clone(),
+            )}
+            {style}
+        >
+            <div class="bp3-dialog-footer-main-section">
+                {for children.iter()}
+            </div>
+            {actions_html}
+        </div>
+    }
+}

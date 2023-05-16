@@ -17,6 +17,7 @@ mod card;
 mod checkbox;
 mod collapse;
 mod control_group;
+mod dialog;
 mod divider;
 mod example;
 mod html_select;

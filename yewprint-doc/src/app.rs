@@ -6,6 +6,7 @@ use crate::card::*;
 use crate::checkbox::*;
 use crate::collapse::*;
 use crate::control_group::*;
+use crate::dialog::*;
 use crate::divider::*;
 use crate::html_select::*;
 use crate::icon::*;
@@ -136,6 +137,12 @@ impl Component for App {
                     onclick={ctx.link()
                         .callback(|e| Msg::GoToMenu(e, DocMenu::ControlGroup))}
                     />
+                <MenuItem
+                    text={html!("Dialog")}
+                    href="/dialog"
+                    onclick={ctx.link()
+                        .callback(|e| Msg::GoToMenu(e, DocMenu::Dialog))}
+                />
                 <MenuItem
                     text={html!("Divider")}
                     href="/divider"
@@ -306,6 +313,7 @@ fn switch(route: DocMenu) -> Html {
         DocMenu::Checkbox => html!(<CheckboxDoc />),
         DocMenu::Collapse => html!(<CollapseDoc />),
         DocMenu::ControlGroup => html!(<ControlGroupDoc />),
+        DocMenu::Dialog => html! (<DialogDoc />),
         DocMenu::Divider => html!(<DividerDoc />),
         DocMenu::HtmlSelect => html!(<HtmlSelectDoc />),
         DocMenu::Icon => html!(<IconDoc />),
@@ -345,10 +353,12 @@ pub enum DocMenu {
     Collapse,
     #[at("/control-group")]
     ControlGroup,
-    #[at("/html-select")]
-    HtmlSelect,
+    #[at("/dialog")]
+    Dialog,
     #[at("/divider")]
     Divider,
+    #[at("/html-select")]
+    HtmlSelect,
     #[at("/icon")]
     Icon,
     #[at("/input-group")]
