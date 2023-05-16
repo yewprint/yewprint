@@ -1,5 +1,5 @@
 use yew::prelude::*;
-use yewprint::{AnchorButton, Button, Dark, Dialog, DialogBody, DialogFooter, Icon, Intent};
+use yewprint::{AnchorButton, Button, Dialog, DialogBody, DialogFooter, Icon, Intent};
 
 pub struct Example {
     show_dialog: bool,
@@ -60,7 +60,6 @@ impl Component for Example {
                 <Dialog
                     open={self.show_dialog}
                     onclose={ctx.link().callback(|_| Msg::Close)}
-                    class={Dark.classes()}
                 >
                     <div style="margin: 0px 20px;">
                         <div class="bp3-popover2-target" aria-haspopup="true">
@@ -77,7 +76,6 @@ impl Component for Example {
                 <Dialog
                     open={self.show_dialog_with_title}
                     onclose={ctx.link().callback(|_| Msg::Close)}
-                    class={Dark.classes()}
                     title={html!("Embracing disruptive approach")}
                     icon={Icon::InfoSign}
                 >
@@ -96,7 +94,6 @@ impl Component for Example {
                 <Dialog
                     open={self.show_dialog_with_title_and_footer}
                     onclose={ctx.link().callback(|_| Msg::Close)}
-                    class={Dark.classes()}
                     title={html!("Embracing disruptive approach")}
                     icon={Icon::InfoSign}
                 >

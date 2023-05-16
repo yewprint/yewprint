@@ -224,7 +224,11 @@ impl Dark {
     }
 
     pub fn classes(&self) -> Classes {
-        if self.get() {
+        self.classes_with_override(None)
+    }
+
+    pub fn classes_with_override(&self, force: impl Into<Option<bool>>) -> Classes {
+        if force.into().unwrap_or(self.get()) {
             thread_local! {
                 static CLASSES: Classes = classes!("bp3-dark");
             }

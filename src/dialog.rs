@@ -11,6 +11,8 @@ pub struct Dialog {
 #[derive(Debug, PartialEq, Properties)]
 pub struct DialogProps {
     #[prop_or_default]
+    pub dark: Option<bool>,
+    #[prop_or_default]
     pub class: Classes,
     #[prop_or_default]
     pub style: Option<AttrValue>,
@@ -70,6 +72,7 @@ impl Component for Dialog {
 
     fn view(&self, ctx: &Context<Self>) -> Html {
         let Self::Properties {
+            dark,
             class,
             style,
             open,
@@ -112,6 +115,7 @@ impl Component for Dialog {
         html! {
             <Overlay
                 {container_ref}
+                {dark}
                 class={classes!("bp3-dialog-container")}
                 {open}
                 {onclose}

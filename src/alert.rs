@@ -9,6 +9,8 @@ pub struct Alert {
 #[derive(Debug, PartialEq, Properties)]
 pub struct AlertProps {
     #[prop_or_default]
+    pub dark: Option<bool>,
+    #[prop_or_default]
     pub class: Classes,
     #[prop_or_default]
     pub style: Option<AttrValue>,
@@ -75,6 +77,7 @@ impl Component for Alert {
 
     fn view(&self, ctx: &Context<Self>) -> Html {
         let Self::Properties {
+            dark,
             class,
             style,
             open,
@@ -100,6 +103,7 @@ impl Component for Alert {
 
         html! {
             <Dialog
+                {dark}
                 class={classes!("bp3-alert", class.clone())}
                 {style}
                 {open}

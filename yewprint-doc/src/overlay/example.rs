@@ -1,5 +1,5 @@
 use yew::prelude::*;
-use yewprint::{Button, Card, Dark, Elevation, Icon, Intent, Overlay, H3};
+use yewprint::{Button, Card, Elevation, Icon, Intent, Overlay, H3};
 
 pub struct Example {
     open: bool,
@@ -58,7 +58,6 @@ impl Component for Example {
                         open={self.open}
                         onclose={ctx.link().callback(|_| Msg::Close)}
                         {backdrop}
-                        class={Dark.classes()}
                         style="left: calc(50vw - 200px); margin: 10vh 0; top: 0; width: 400px;"
                     >
                         <Card elevation={Elevation::Level4} style="height: 100%">

@@ -1,4 +1,4 @@
-use crate::Portal;
+use crate::{Dark, Portal};
 use gloo::timers::callback::Timeout;
 use wasm_bindgen::closure::Closure;
 use wasm_bindgen::JsCast;
@@ -25,6 +25,8 @@ pub struct Overlay {
 
 #[derive(Debug, PartialEq, Properties)]
 pub struct OverlayProps {
+    #[prop_or_default]
+    pub dark: Option<bool>,
     #[prop_or_default]
     pub class: Classes,
     #[prop_or_default]
@@ -188,6 +190,7 @@ impl Component for Overlay {
 
     fn view(&self, ctx: &Context<Self>) -> Html {
         let Self::Properties {
+            dark,
             class,
             style,
             scrollable,
@@ -242,6 +245,7 @@ impl Component for Overlay {
                         "bp3-overlay",
                         scrollable.then_some("bp3-overlay-scroll-container"),
                         open.then_some("bp3-overlay-open"),
+                        Dark.classes_with_override(*dark),
                     )}
                     aria-live="polite"
                     onkeydown={ctx.link().callback(Msg::OnKeyDown)}

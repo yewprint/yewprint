@@ -1,6 +1,6 @@
 use gloo::timers::callback::Timeout;
 use yew::prelude::*;
-use yewprint::{Alert, Button, Dark, Icon, Intent};
+use yewprint::{Alert, Button, Icon, Intent};
 
 pub struct Example {
     open_error: bool,
@@ -79,7 +79,6 @@ impl Component for Example {
                     open={self.open_error}
                     onclose={ctx.link().callback(|res| Msg::Close(res))}
                     loading={self.loading}
-                    class={Dark.classes()}
                 >
                     <p>{"Couldn't create the file because the containing folder doesn't \
                     exist anymore. You will be assimilated."}</p>
@@ -93,7 +92,6 @@ impl Component for Example {
                     open={self.open_deletion}
                     onclose={ctx.link().callback(|res| Msg::Close(res))}
                     loading={self.loading}
-                    class={Dark.classes()}
                     icon={Icon::Trash}
                     intent={Intent::Danger}
                     confirm_button={html!("Move to Trash")}
