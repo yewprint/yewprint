@@ -79,8 +79,7 @@ impl Component for Example {
                     open={self.open_error}
                     onclose={ctx.link().callback(|res| Msg::Close(res))}
                     loading={self.loading}
-                    class={classes!(Dark.classes())}
-                    style="left: calc(50vw - 200px); margin: 10vh 0; top: 0; width: 400px;"
+                    class={Dark.classes()}
                 >
                     <p>{"Couldn't create the file because the containing folder doesn't \
                     exist anymore. You will be assimilated."}</p>
@@ -94,12 +93,11 @@ impl Component for Example {
                     open={self.open_deletion}
                     onclose={ctx.link().callback(|res| Msg::Close(res))}
                     loading={self.loading}
-                    class={classes!(Dark.classes())}
+                    class={Dark.classes()}
                     icon={Icon::Trash}
                     intent={Intent::Danger}
                     confirm_button={html!("Move to Trash")}
                     cancel_button={html!("Cancel")}
-                    style="left: calc(50vw - 200px); margin: 10vh 0; top: 0; width: 400px;"
                 >
                     <p>{"Are you sure you want to move "}<b>{"filename"}</b>{" to Trash? \
                     You will be able to restore it later, but it will become Borg."}</p>

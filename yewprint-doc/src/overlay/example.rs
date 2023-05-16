@@ -58,7 +58,7 @@ impl Component for Example {
                         open={self.open}
                         onclose={ctx.link().callback(|_| Msg::Close)}
                         {backdrop}
-                        class={classes!(Dark.classes())}
+                        class={Dark.classes()}
                         style="left: calc(50vw - 200px); margin: 10vh 0; top: 0; width: 400px;"
                     >
                         <Card elevation={Elevation::Level4} style="height: 100%">
