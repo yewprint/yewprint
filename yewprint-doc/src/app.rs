@@ -24,10 +24,9 @@ use crate::tag::*;
 use crate::text::*;
 use crate::text_area::*;
 use crate::tree::*;
-use crate::DARK;
 use yew::prelude::*;
 use yew_router::prelude::*;
-use yewprint::{Icon, Menu, MenuItem};
+use yewprint::{Dark, Icon, Menu, MenuItem};
 
 #[function_component(AppRoot)]
 pub fn app_root() -> Html {
@@ -56,7 +55,7 @@ impl Component for App {
     fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             Msg::ToggleLight => {
-                DARK.with(|x| x.replace(!x.get()));
+                Dark.toggle();
             }
             Msg::GoToMenu(event, doc_menu) => {
                 event.prevent_default();
@@ -71,7 +70,7 @@ impl Component for App {
     }
 
     fn view(&self, ctx: &Context<Self>) -> Html {
-        let dark = DARK.with(|x| x.get());
+        let dark = Dark.get();
 
         let netlify_badge = if dark {
             "https://www.netlify.com/img/global/badges/netlify-color-accent.svg"
@@ -283,7 +282,7 @@ impl Component for App {
         };
 
         html! {
-            <div class={classes!("docs-root", dark.then_some("bp3-dark"))}>
+            <div class={classes!("docs-root", Dark.classes())}>
                 <div class={classes!("docs-app")}>
                     {{ navigation }}
                     <main class={classes!("docs-content-wrapper")} role="main">

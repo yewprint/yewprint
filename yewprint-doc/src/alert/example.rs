@@ -1,7 +1,6 @@
-use crate::DARK;
 use gloo::timers::callback::Timeout;
 use yew::prelude::*;
-use yewprint::{Alert, Button, Icon, Intent};
+use yewprint::{Alert, Button, Dark, Icon, Intent};
 
 pub struct Example {
     open_error: bool,
@@ -80,9 +79,7 @@ impl Component for Example {
                     open={self.open_error}
                     onclose={ctx.link().callback(|res| Msg::Close(res))}
                     loading={self.loading}
-                    class={classes!(
-                        DARK.with(|x| x.get().then_some("bp3-dark")),
-                    )}
+                    class={classes!(Dark.classes())}
                     style="left: calc(50vw - 200px); margin: 10vh 0; top: 0; width: 400px;"
                 >
                     <p>{"Couldn't create the file because the containing folder doesn't \
@@ -97,9 +94,7 @@ impl Component for Example {
                     open={self.open_deletion}
                     onclose={ctx.link().callback(|res| Msg::Close(res))}
                     loading={self.loading}
-                    class={classes!(
-                        DARK.with(|x| x.get().then_some("bp3-dark")),
-                    )}
+                    class={classes!(Dark.classes())}
                     icon={Icon::Trash}
                     intent={Intent::Danger}
                     confirm_button={html!("Move to Trash")}

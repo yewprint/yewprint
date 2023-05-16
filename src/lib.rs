@@ -75,6 +75,8 @@ pub use text_area::*;
 pub use tree::*;
 
 use implicit_clone::ImplicitClone;
+use std::cell::Cell;
+use yew::classes;
 use yew::Classes;
 
 // See https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/buttons
@@ -182,5 +184,55 @@ impl From<Elevation> for Classes {
 impl From<&Elevation> for Classes {
     fn from(elevation: &Elevation) -> Self {
         Self::from(*elevation)
+    }
+}
+
+pub struct Dark;
+
+impl Dark {
+    pub fn with<T>(&self, f: impl FnOnce(&Cell<bool>) -> T) -> T {
+        thread_local! {
+            static DARK: Cell<bool> = {
+                Cell::new(web_sys::window()
+                    .and_then(|x| x.match_media("(prefers-color-scheme: dark)").ok().flatten())
+                    .map(|x| x.matches())
+                    .unwrap_or(true))
+            }
+        }
+        DARK.with(f)
+    }
+
+    pub fn get(&self) -> bool {
+        self.with(|x| x.get())
+    }
+
+    pub fn set(&self, value: bool) {
+        self.with(|x| x.set(value))
+    }
+
+    pub fn replace(&self, value: bool) -> bool {
+        self.with(|x| x.replace(value))
+    }
+
+    pub fn toggle(&self) -> bool {
+        self.with(|x| {
+            let value = x.get();
+            x.set(!value);
+            value
+        })
+    }
+
+    pub fn classes(&self) -> Classes {
+        if self.get() {
+            thread_local! {
+                static CLASSES: Classes = classes!("bp3-dark");
+            }
+            CLASSES.with(|x| x.clone())
+        } else {
+            thread_local! {
+                static CLASSES: Classes = classes!();
+            }
+            CLASSES.with(|x| x.clone())
+        }
     }
 }

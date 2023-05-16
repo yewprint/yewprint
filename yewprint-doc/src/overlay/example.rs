@@ -1,6 +1,5 @@
-use crate::DARK;
 use yew::prelude::*;
-use yewprint::{Button, Card, Elevation, Icon, Intent, Overlay, H3};
+use yewprint::{Button, Card, Dark, Elevation, Icon, Intent, Overlay, H3};
 
 pub struct Example {
     open: bool,
@@ -59,10 +58,7 @@ impl Component for Example {
                         open={self.open}
                         onclose={ctx.link().callback(|_| Msg::Close)}
                         {backdrop}
-                        class={classes!(
-                            DARK.with(|x| x.get().then_some("bp3-dark")),
-                            self.tall.then_some("docs-overlay-example-tall"),
-                        )}
+                        class={classes!(Dark.classes())}
                         style="left: calc(50vw - 200px); margin: 10vh 0; top: 0; width: 400px;"
                     >
                         <Card elevation={Elevation::Level4} style="height: 100%">

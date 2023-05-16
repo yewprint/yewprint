@@ -41,16 +41,6 @@ mod tree;
 pub use app::*;
 pub use example::*;
 pub use logo::*;
-use std::cell::Cell;
-
-thread_local! {
-    pub static DARK: Cell<bool> = {
-        Cell::new(web_sys::window()
-            .and_then(|x| x.match_media("(prefers-color-scheme: dark)").ok().flatten())
-            .map(|x| x.matches())
-            .unwrap_or(true))
-    }
-}
 
 #[macro_export]
 macro_rules! include_raw_html {
