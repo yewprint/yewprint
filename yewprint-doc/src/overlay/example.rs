@@ -5,7 +5,6 @@ use yewprint::{Button, Card, Elevation, Icon, Intent, Overlay, H3};
 pub struct Example {
     open: bool,
     tall: bool,
-    show_button_ref: NodeRef,
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -27,7 +26,6 @@ impl Component for Example {
         Example {
             open: false,
             tall: false,
-            show_button_ref: NodeRef::default(),
         }
     }
 
@@ -54,7 +52,6 @@ impl Component for Example {
                 <div>
                     <Button
                         onclick={ctx.link().callback(|_| Msg::Open)}
-                        button_ref={self.show_button_ref.clone()}
                     >
                         {"Show overlay"}
                     </Button>

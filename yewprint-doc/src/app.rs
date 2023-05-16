@@ -1,3 +1,4 @@
+use crate::alert::*;
 use crate::button_group::*;
 use crate::buttons::*;
 use crate::callout::*;
@@ -87,6 +88,12 @@ impl Component for App {
                     onclick={ctx.link()
                         .callback(|_| Msg::ToggleLight)}
                     icon={go_to_theme_icon}
+                />
+                <MenuItem
+                    text={html!("Alert")}
+                    href="/alert"
+                    onclick={ctx.link()
+                        .callback(|e| Msg::GoToMenu(e, DocMenu::Alert))}
                 />
                 <MenuItem
                     text={html!("Button")}
@@ -292,6 +299,7 @@ impl Component for App {
 
 fn switch(route: DocMenu) -> Html {
     match route {
+        DocMenu::Alert => html! (<AlertDoc />),
         DocMenu::Button | DocMenu::Home => html! (<ButtonDoc />),
         DocMenu::ButtonGroup => html! (<ButtonGroupDoc />),
         DocMenu::Callout => html!(<CalloutDoc />),
@@ -322,6 +330,8 @@ fn switch(route: DocMenu) -> Html {
 
 #[derive(PartialEq, Eq, Hash, Clone, Copy, Routable)]
 pub enum DocMenu {
+    #[at("/alert")]
+    Alert,
     #[at("/button-group")]
     ButtonGroup,
     #[at("/button")]

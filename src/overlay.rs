@@ -39,6 +39,8 @@ pub struct OverlayProps {
     #[prop_or_default]
     pub onclose: Callback<()>,
     #[prop_or_default]
+    pub container_ref: NodeRef,
+    #[prop_or_default]
     pub children: Children,
 }
 
@@ -192,6 +194,7 @@ impl Component for Overlay {
             open,
             backdrop,
             onclose: _,
+            container_ref,
             children,
         } = ctx.props();
 
@@ -234,6 +237,7 @@ impl Component for Overlay {
         html! {
             <Portal>
                 <div
+                    ref={container_ref}
                     class={classes!(
                         "bp3-overlay",
                         scrollable.then_some("bp3-overlay-scroll-container"),

@@ -110,18 +110,23 @@ impl Component for Dialog {
         });
 
         html! {
-            <Overlay {open} {onclose} scrollable=true backdrop=true>
-                <div ref={container_ref} class={classes!("bp3-dialog-container")}>
-                    <div
-                        class={classes!("bp3-dialog", class.clone())}
-                        role="dialog"
-                        aria-labelledby={aria_labelledby}
-                        aria-describedby={aria_describedby}
-                        {style}
-                    >
-                        {header}
-                        {for children.iter()}
-                    </div>
+            <Overlay
+                {container_ref}
+                class={classes!("bp3-dialog-container")}
+                {open}
+                {onclose}
+                scrollable=true
+                backdrop=true
+            >
+                <div
+                    class={classes!("bp3-dialog", class.clone())}
+                    role="dialog"
+                    aria-labelledby={aria_labelledby}
+                    aria-describedby={aria_describedby}
+                    {style}
+                >
+                    {header}
+                    {for children.iter()}
                 </div>
             </Overlay>
         }

@@ -71,6 +71,8 @@ pub fn button(props: &ButtonProps) -> Html {
         children,
     } = props;
 
+    let disabled = *disabled || *loading;
+
     html! {
         <button
             class={classes!(

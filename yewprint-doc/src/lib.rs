@@ -8,6 +8,7 @@
     clippy::uninlined_format_args
 )]
 
+mod alert;
 mod app;
 mod button_group;
 mod buttons;

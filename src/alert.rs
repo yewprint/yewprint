@@ -49,18 +49,25 @@ impl Component for Alert {
 
     fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
         let Self::Properties { onclose, .. } = ctx.props();
+        let Self::Properties { loading, .. } = ctx.props();
 
         match msg {
             Msg::OnCancel => {
-                onclose.emit(false);
+                if !loading {
+                    onclose.emit(false);
+                }
                 false
             }
             Msg::OnConfirmClick(_event) => {
-                onclose.emit(true);
+                if !loading {
+                    onclose.emit(true);
+                }
                 false
             }
             Msg::OnCancelClick(_event) => {
-                onclose.emit(false);
+                if !loading {
+                    onclose.emit(false);
+                }
                 false
             }
         }
