@@ -179,3 +179,39 @@ pub fn dialog_footer(props: &DialogFooterProps) -> Html {
         </div>
     }
 }
+
+#[derive(Clone, PartialEq, Properties)]
+pub struct DialogBodyProps {
+    #[prop_or_default]
+    pub class: Classes,
+    #[prop_or_default]
+    pub style: Option<AttrValue>,
+    #[prop_or(true)]
+    pub use_overflow_scroll_container: bool,
+    #[prop_or_default]
+    pub children: Children,
+}
+
+#[function_component(DialogBody)]
+pub fn dialog_body(props: &DialogBodyProps) -> Html {
+    let DialogBodyProps {
+        class,
+        style,
+        use_overflow_scroll_container,
+        children,
+    } = props;
+
+    html! {
+        <div
+            role="dialogbody"
+            class={classes!(
+                "bp3-dialog-body",
+                use_overflow_scroll_container.then_some("bp3-dialog-body-scroll-container"),
+                class.clone(),
+            )}
+            {style}
+        >
+            {for children.iter()}
+        </div>
+    }
+}

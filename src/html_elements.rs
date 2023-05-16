@@ -42,5 +42,3 @@ build_component!(Label, label, "bp3-label");
 build_component!(Pre, pre, "bp3-pre");
 build_component!(Ol, ol, "bp3-ol");
 build_component!(Ul, ul, "bp3-ul");
-
-build_component!(DialogBody, div, "bp3-dialog-body");
