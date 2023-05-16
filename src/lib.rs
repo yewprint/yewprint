@@ -5,7 +5,8 @@
     clippy::type_complexity,
     clippy::derive_partial_eq_without_eq,
     clippy::uninlined_format_args,
-    clippy::derivable_impls
+    clippy::derivable_impls,
+    clippy::enum_variant_names
 )]
 
 mod alert;
