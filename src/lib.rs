@@ -193,14 +193,17 @@ pub struct Dark;
 impl Dark {
     pub fn with<T>(&self, f: impl FnOnce(&Cell<bool>) -> T) -> T {
         thread_local! {
-            static DARK: Cell<bool> = {
-                Cell::new(web_sys::window()
-                    .and_then(|x| x.match_media("(prefers-color-scheme: dark)").ok().flatten())
-                    .map(|x| x.matches())
-                    .unwrap_or(true))
-            }
+            static DARK: Cell<bool> = Cell::new(false);
         }
         DARK.with(f)
+    }
+
+    pub fn auto_detect(&self) {
+        let prefers_dark = web_sys::window()
+            .and_then(|x| x.match_media("(prefers-color-scheme: dark)").ok().flatten())
+            .map(|x| x.matches())
+            .unwrap_or(true);
+        self.set(prefers_dark);
     }
 
     pub fn get(&self) -> bool {

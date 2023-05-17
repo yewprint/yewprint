@@ -145,6 +145,7 @@ pub fn run_app() -> Result<(), wasm_bindgen::JsValue> {
     #[cfg(feature = "console_error_panic_hook")]
     console_error_panic_hook::set_once();
 
+    yewprint::Dark.auto_detect();
     yew::Renderer::<app::AppRoot>::new().render();
 
     Ok(())
