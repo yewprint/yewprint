@@ -3,6 +3,8 @@ use yew::prelude::*;
 #[derive(Properties, PartialEq)]
 pub struct ChildrenOnlyProps {
     #[prop_or_default]
+    pub id: Option<AttrValue>,
+    #[prop_or_default]
     pub class: Classes,
     #[prop_or_default]
     pub children: Children,
@@ -11,9 +13,15 @@ pub struct ChildrenOnlyProps {
 macro_rules! build_component {
     ($name:ident, $tag:tt, $class:literal) => {
         #[function_component($name)]
-        pub fn $tag(ChildrenOnlyProps { class, children }: &ChildrenOnlyProps) -> Html {
+        pub fn $tag(
+            ChildrenOnlyProps {
+                id,
+                class,
+                children,
+            }: &ChildrenOnlyProps,
+        ) -> Html {
             html! {
-                <$tag class={classes!($class, class.clone())}>
+                <$tag {id} class={classes!($class, class.clone())}>
                     {children.clone()}
                 </$tag>
             }

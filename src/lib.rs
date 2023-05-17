@@ -5,9 +5,11 @@
     clippy::type_complexity,
     clippy::derive_partial_eq_without_eq,
     clippy::uninlined_format_args,
-    clippy::derivable_impls
+    clippy::derivable_impls,
+    clippy::enum_variant_names
 )]
 
+mod alert;
 mod button_group;
 mod buttons;
 mod callout;
@@ -15,6 +17,7 @@ mod card;
 mod checkbox;
 mod collapse;
 mod control_group;
+mod dialog;
 mod divider;
 mod html_elements;
 mod html_select;
@@ -38,6 +41,7 @@ mod text_area;
 #[cfg(feature = "tree")]
 mod tree;
 
+pub use alert::*;
 pub use button_group::*;
 pub use buttons::*;
 pub use callout::*;
@@ -45,6 +49,7 @@ pub use card::*;
 pub use checkbox::*;
 pub use collapse::*;
 pub use control_group::*;
+pub use dialog::*;
 pub use divider::*;
 pub use html_elements::*;
 pub use html_select::*;
@@ -71,6 +76,8 @@ pub use text_area::*;
 pub use tree::*;
 
 use implicit_clone::ImplicitClone;
+use std::cell::Cell;
+use yew::classes;
 use yew::Classes;
 
 // See https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/buttons
@@ -178,5 +185,59 @@ impl From<Elevation> for Classes {
 impl From<&Elevation> for Classes {
     fn from(elevation: &Elevation) -> Self {
         Self::from(*elevation)
+    }
+}
+
+pub struct Dark;
+
+impl Dark {
+    pub fn with<T>(&self, f: impl FnOnce(&Cell<bool>) -> T) -> T {
+        thread_local! {
+            static DARK: Cell<bool> = {
+                Cell::new(web_sys::window()
+                    .and_then(|x| x.match_media("(prefers-color-scheme: dark)").ok().flatten())
+                    .map(|x| x.matches())
+                    .unwrap_or(true))
+            }
+        }
+        DARK.with(f)
+    }
+
+    pub fn get(&self) -> bool {
+        self.with(|x| x.get())
+    }
+
+    pub fn set(&self, value: bool) {
+        self.with(|x| x.set(value))
+    }
+
+    pub fn replace(&self, value: bool) -> bool {
+        self.with(|x| x.replace(value))
+    }
+
+    pub fn toggle(&self) -> bool {
+        self.with(|x| {
+            let value = x.get();
+            x.set(!value);
+            value
+        })
+    }
+
+    pub fn classes(&self) -> Classes {
+        self.classes_with_override(None)
+    }
+
+    pub fn classes_with_override(&self, force: impl Into<Option<bool>>) -> Classes {
+        if force.into().unwrap_or(self.get()) {
+            thread_local! {
+                static CLASSES: Classes = classes!("bp3-dark");
+            }
+            CLASSES.with(|x| x.clone())
+        } else {
+            thread_local! {
+                static CLASSES: Classes = classes!();
+            }
+            CLASSES.with(|x| x.clone())
+        }
     }
 }

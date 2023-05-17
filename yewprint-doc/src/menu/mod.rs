@@ -15,10 +15,6 @@ impl Component for MenuDoc {
         MenuDoc
     }
 
-    fn update(&mut self, _ctx: &Context<Self>, _msg: Self::Message) -> bool {
-        true
-    }
-
     fn view(&self, _ctx: &Context<Self>) -> Html {
         let source = crate::include_raw_html!(
             concat!(env!("OUT_DIR"), "/", file!(), ".html"),

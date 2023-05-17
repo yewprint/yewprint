@@ -73,6 +73,12 @@ impl IntoPropValue<f64> for IconSize {
     }
 }
 
+impl IntoPropValue<IconSize> for Option<IconSize> {
+    fn into_prop_value(self) -> IconSize {
+        self.unwrap_or_default()
+    }
+}
+
 impl Default for Icon {
     #[inline]
     fn default() -> Self {
@@ -97,6 +103,8 @@ impl Icon {
             intent,
             size,
             onclick,
+            aria_hidden,
+            tab_index,
         }: &IconProps,
     ) -> Html {
         if let Icon::Custom(html) = icon {
@@ -117,10 +125,14 @@ impl Icon {
         let width = AttrValue::from(format!("{size}"));
         let height = width.clone();
 
+        let aria_hidden = aria_hidden.or(title.is_some().then_some(true));
+
         html! {
             <span
                 class={classes!("bp3-icon", class.clone(), intent)}
                 {onclick}
+                aria-hidden={aria_hidden.and_then(|x| x.then_some(AttrValue::Static("true")))}
+                tabIndex={tab_index.map(|x| x.to_string())}
             >
                 <svg
                     {fill}
@@ -159,6 +171,10 @@ pub struct IconProps {
     pub size: IconSize,
     #[prop_or_default]
     pub onclick: Callback<MouseEvent>,
+    #[prop_or_default]
+    pub aria_hidden: Option<bool>,
+    #[prop_or_default]
+    pub tab_index: Option<isize>,
 }
 
 impl Component for Icon {

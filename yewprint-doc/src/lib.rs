@@ -8,6 +8,7 @@
     clippy::uninlined_format_args
 )]
 
+mod alert;
 mod app;
 mod button_group;
 mod buttons;
@@ -16,6 +17,7 @@ mod card;
 mod checkbox;
 mod collapse;
 mod control_group;
+mod dialog;
 mod divider;
 mod example;
 mod html_select;
@@ -40,16 +42,6 @@ mod tree;
 pub use app::*;
 pub use example::*;
 pub use logo::*;
-use std::cell::Cell;
-
-thread_local! {
-    pub static DARK: Cell<bool> = {
-        Cell::new(web_sys::window()
-            .and_then(|x| x.match_media("(prefers-color-scheme: dark)").ok().flatten())
-            .map(|x| x.matches())
-            .unwrap_or(true))
-    }
-}
 
 #[macro_export]
 macro_rules! include_raw_html {

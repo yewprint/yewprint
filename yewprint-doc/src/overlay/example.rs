@@ -1,11 +1,9 @@
-use crate::DARK;
 use yew::prelude::*;
 use yewprint::{Button, Card, Elevation, Icon, Intent, Overlay, H3};
 
 pub struct Example {
     open: bool,
     tall: bool,
-    show_button_ref: NodeRef,
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -27,7 +25,6 @@ impl Component for Example {
         Example {
             open: false,
             tall: false,
-            show_button_ref: NodeRef::default(),
         }
     }
 
@@ -54,7 +51,6 @@ impl Component for Example {
                 <div>
                     <Button
                         onclick={ctx.link().callback(|_| Msg::Open)}
-                        button_ref={self.show_button_ref.clone()}
                     >
                         {"Show overlay"}
                     </Button>
@@ -63,7 +59,6 @@ impl Component for Example {
                         onclose={ctx.link().callback(|_| Msg::Close)}
                         {backdrop}
                         class={classes!(
-                            DARK.with(|x| x.get().then_some("bp3-dark")),
                             self.tall.then_some("docs-overlay-example-tall"),
                         )}
                         style="left: calc(50vw - 200px); margin: 10vh 0; top: 0; width: 400px;"

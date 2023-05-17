@@ -1,3 +1,4 @@
+use crate::alert::*;
 use crate::button_group::*;
 use crate::buttons::*;
 use crate::callout::*;
@@ -5,6 +6,7 @@ use crate::card::*;
 use crate::checkbox::*;
 use crate::collapse::*;
 use crate::control_group::*;
+use crate::dialog::*;
 use crate::divider::*;
 use crate::html_select::*;
 use crate::icon::*;
@@ -23,10 +25,9 @@ use crate::tag::*;
 use crate::text::*;
 use crate::text_area::*;
 use crate::tree::*;
-use crate::DARK;
 use yew::prelude::*;
 use yew_router::prelude::*;
-use yewprint::{Icon, Menu, MenuItem};
+use yewprint::{Dark, Icon, Menu, MenuItem};
 
 #[function_component(AppRoot)]
 pub fn app_root() -> Html {
@@ -55,7 +56,7 @@ impl Component for App {
     fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             Msg::ToggleLight => {
-                DARK.with(|x| x.replace(!x.get()));
+                Dark.toggle();
             }
             Msg::GoToMenu(event, doc_menu) => {
                 event.prevent_default();
@@ -70,7 +71,7 @@ impl Component for App {
     }
 
     fn view(&self, ctx: &Context<Self>) -> Html {
-        let dark = DARK.with(|x| x.get());
+        let dark = Dark.get();
 
         let netlify_badge = if dark {
             "https://www.netlify.com/img/global/badges/netlify-color-accent.svg"
@@ -87,6 +88,12 @@ impl Component for App {
                     onclick={ctx.link()
                         .callback(|_| Msg::ToggleLight)}
                     icon={go_to_theme_icon}
+                />
+                <MenuItem
+                    text={html!("Alert")}
+                    href="/alert"
+                    onclick={ctx.link()
+                        .callback(|e| Msg::GoToMenu(e, DocMenu::Alert))}
                 />
                 <MenuItem
                     text={html!("Button")}
@@ -130,6 +137,12 @@ impl Component for App {
                     onclick={ctx.link()
                         .callback(|e| Msg::GoToMenu(e, DocMenu::ControlGroup))}
                     />
+                <MenuItem
+                    text={html!("Dialog")}
+                    href="/dialog"
+                    onclick={ctx.link()
+                        .callback(|e| Msg::GoToMenu(e, DocMenu::Dialog))}
+                />
                 <MenuItem
                     text={html!("Divider")}
                     href="/divider"
@@ -276,7 +289,7 @@ impl Component for App {
         };
 
         html! {
-            <div class={classes!("docs-root", dark.then_some("bp3-dark"))}>
+            <div class={classes!("docs-root", Dark.classes())}>
                 <div class={classes!("docs-app")}>
                     {{ navigation }}
                     <main class={classes!("docs-content-wrapper")} role="main">
@@ -292,6 +305,7 @@ impl Component for App {
 
 fn switch(route: DocMenu) -> Html {
     match route {
+        DocMenu::Alert => html! (<AlertDoc />),
         DocMenu::Button | DocMenu::Home => html! (<ButtonDoc />),
         DocMenu::ButtonGroup => html! (<ButtonGroupDoc />),
         DocMenu::Callout => html!(<CalloutDoc />),
@@ -299,6 +313,7 @@ fn switch(route: DocMenu) -> Html {
         DocMenu::Checkbox => html!(<CheckboxDoc />),
         DocMenu::Collapse => html!(<CollapseDoc />),
         DocMenu::ControlGroup => html!(<ControlGroupDoc />),
+        DocMenu::Dialog => html! (<DialogDoc />),
         DocMenu::Divider => html!(<DividerDoc />),
         DocMenu::HtmlSelect => html!(<HtmlSelectDoc />),
         DocMenu::Icon => html!(<IconDoc />),
@@ -322,6 +337,8 @@ fn switch(route: DocMenu) -> Html {
 
 #[derive(PartialEq, Eq, Hash, Clone, Copy, Routable)]
 pub enum DocMenu {
+    #[at("/alert")]
+    Alert,
     #[at("/button-group")]
     ButtonGroup,
     #[at("/button")]
@@ -336,10 +353,12 @@ pub enum DocMenu {
     Collapse,
     #[at("/control-group")]
     ControlGroup,
-    #[at("/html-select")]
-    HtmlSelect,
+    #[at("/dialog")]
+    Dialog,
     #[at("/divider")]
     Divider,
+    #[at("/html-select")]
+    HtmlSelect,
     #[at("/icon")]
     Icon,
     #[at("/input-group")]
