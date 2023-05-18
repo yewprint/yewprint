@@ -1,4 +1,4 @@
-# <a href="https://yewprint.rm.rs"><img src="./yewprint-doc/src/logo.svg" height="32" /></a> <a href="https://yewprint.rm.rs">Yewprint</a> ![Rust](https://github.com/yewprint/yewprint/workflows/Rust/badge.svg) [![Netlify Status](https://api.netlify.com/api/v1/badges/17f076ed-49e5-4185-921e-5c5759de2fdb/deploy-status)](https://app.netlify.com/sites/epic-poincare-f8adaa/deploys) [![Discord](https://img.shields.io/discord/701068342760570933)](https://discord.gg/NAFcwhp) [![API Docs](https://img.shields.io/badge/docs.rs-yewprint-green)](https://docs.rs/yewprint/)
+# <a href="https://yewprint.rm.rs"><img src="./yewprint-doc/src/logo.svg" height="32" /></a> <a href="https://yewprint.rm.rs">Yewprint</a> <img src="./workflows/rust-logo-blk.svg" height="32" /> [![Netlify Status](https://api.netlify.com/api/v1/badges/17f076ed-49e5-4185-921e-5c5759de2fdb/deploy-status)](https://app.netlify.com/sites/epic-poincare-f8adaa/deploys) [![Discord](https://img.shields.io/discord/701068342760570933)](https://discord.gg/NAFcwhp) [![API Docs](https://img.shields.io/badge/docs.rs-yewprint-green)](https://docs.rs/yewprint/)
 
 
 It's [Blueprint](https://blueprintjs.com), but for
