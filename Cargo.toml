@@ -28,6 +28,3 @@ yew-callbacks = "0.2.1"
 
 [workspace]
 members = ["yewprint-css", "yewprint-doc", "xtask"]
-
-[patch.crates-io]
-yew = { path = "/home/cecile/repos/yew/packages/yew" }
