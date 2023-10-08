@@ -48,13 +48,10 @@ pub fn text_area(
 ) -> Html {
     {
         let node_ref = r#ref.clone();
-        use_effect_with_deps(
-            move |node_ref| {
-                let input = node_ref.cast::<HtmlTextAreaElement>().unwrap();
-                resize(&input);
-            },
-            node_ref,
-        );
+        use_effect_with(node_ref, move |node_ref| {
+            let input = node_ref.cast::<HtmlTextAreaElement>().unwrap();
+            resize(&input);
+        });
     }
     let oninput = {
         let grow_vertically = *grow_vertically;

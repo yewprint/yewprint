@@ -12,7 +12,7 @@ pub fn example(props: &ExampleProps) -> Html {
     html! {
         <div style="width: 150px; height: 20px">
             <Text ellipsize={props.ellipsize}>
-                {&props.text}
+                {&*props.text}
             </Text>
         </div>
     }

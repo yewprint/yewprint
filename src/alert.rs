@@ -3,7 +3,7 @@ use yew::prelude::*;
 
 #[derive(Debug)]
 pub struct Alert {
-    cb: MsgCallbacks<Self>,
+    cb: AlertMsgCallbacks<Self>,
 }
 
 #[derive(Debug, PartialEq, Properties)]
@@ -33,7 +33,7 @@ pub struct AlertProps {
 }
 
 #[derive(yew_callbacks::Callbacks)]
-pub enum Msg {
+pub enum AlertMsg {
     OnCancel,
     OnConfirmClick(MouseEvent),
     OnCancelClick(MouseEvent),
@@ -41,7 +41,7 @@ pub enum Msg {
 
 impl Component for Alert {
     type Properties = AlertProps;
-    type Message = Msg;
+    type Message = AlertMsg;
 
     fn create(ctx: &Context<Self>) -> Self {
         Self {
@@ -54,19 +54,19 @@ impl Component for Alert {
         let Self::Properties { loading, .. } = ctx.props();
 
         match msg {
-            Msg::OnCancel => {
+            AlertMsg::OnCancel => {
                 if !loading {
                     onclose.emit(false);
                 }
                 false
             }
-            Msg::OnConfirmClick(_event) => {
+            AlertMsg::OnConfirmClick(_event) => {
                 if !loading {
                     onclose.emit(true);
                 }
                 false
             }
-            Msg::OnCancelClick(_event) => {
+            AlertMsg::OnCancelClick(_event) => {
                 if !loading {
                     onclose.emit(false);
                 }

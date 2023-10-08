@@ -5,7 +5,7 @@ pub struct ExampleContainer {
     collapsed: bool,
 }
 
-pub enum Msg {
+pub enum ExampleContainerMsg {
     ToggleSource,
 }
 
@@ -18,7 +18,7 @@ pub struct ExampleContainerProps {
 }
 
 impl Component for ExampleContainer {
-    type Message = Msg;
+    type Message = ExampleContainerMsg;
     type Properties = ExampleContainerProps;
 
     fn create(_ctx: &Context<Self>) -> Self {
@@ -27,7 +27,7 @@ impl Component for ExampleContainer {
 
     fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
-            Msg::ToggleSource => self.collapsed ^= true,
+            ExampleContainerMsg::ToggleSource => self.collapsed ^= true,
         }
         true
     }
@@ -57,7 +57,7 @@ impl Component for ExampleContainer {
                         fill={{true}}
                         intent={{Intent::Primary}}
                         minimal={{true}}
-                        onclick={ctx.link().callback(|_| Msg::ToggleSource)}
+                        onclick={ctx.link().callback(|_| ExampleContainerMsg::ToggleSource)}
                     >
                         {"View source"}
                     </Button>

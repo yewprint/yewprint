@@ -46,7 +46,7 @@ pub struct OverlayProps {
     pub children: Children,
 }
 
-pub enum Msg {
+pub enum OverlayMsg {
     OnKeyDown(KeyboardEvent),
     OnClick(MouseEvent),
     FocusFirstElement,
@@ -56,13 +56,13 @@ pub enum Msg {
 
 impl Component for Overlay {
     type Properties = OverlayProps;
-    type Message = Msg;
+    type Message = OverlayMsg;
 
     fn create(ctx: &Context<Self>) -> Self {
         let content_ref = NodeRef::default();
 
         let document_focus_closure = {
-            let callback = ctx.link().callback(|_| Msg::FocusFirstElement);
+            let callback = ctx.link().callback(|_| OverlayMsg::FocusFirstElement);
             let content_ref = content_ref.clone();
             Closure::new(Box::new(move |_event| {
                 let active_element_in_content = content_ref
@@ -146,15 +146,15 @@ impl Component for Overlay {
 
     fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
-            Msg::OnKeyDown(event) => {
+            OverlayMsg::OnKeyDown(event) => {
                 if event.key() == "Escape" {
                     ctx.props().onclose.emit(());
                 }
                 false
             }
-            Msg::OnClick(_event) => {
+            OverlayMsg::OnClick(_event) => {
                 if self.callback_timeout.is_none() {
-                    let callback = ctx.link().callback(|_| Msg::Close);
+                    let callback = ctx.link().callback(|_| OverlayMsg::Close);
                     self.callback_timeout
                         .replace(Timeout::new(0, move || callback.emit(())));
                 } else {
@@ -162,7 +162,7 @@ impl Component for Overlay {
                 }
                 false
             }
-            Msg::FocusFirstElement => {
+            OverlayMsg::FocusFirstElement => {
                 // always delay focus manipulation to just before repaint to prevent scroll jumping
                 gloo::utils::window()
                     .request_animation_frame(
@@ -171,7 +171,7 @@ impl Component for Overlay {
                     .unwrap();
                 false
             }
-            Msg::FocusLastElement => {
+            OverlayMsg::FocusLastElement => {
                 // always delay focus manipulation to just before repaint to prevent scroll jumping
                 gloo::utils::window()
                     .request_animation_frame(
@@ -180,7 +180,7 @@ impl Component for Overlay {
                     .unwrap();
                 false
             }
-            Msg::Close => {
+            OverlayMsg::Close => {
                 self.callback_timeout.take();
                 ctx.props().onclose.emit(());
                 false
@@ -216,14 +216,14 @@ impl Component for Overlay {
                     // NOTE: I am not 100% sure this is correct. In Blueprint they capture the
                     //       Shift+Tab combination but it looks like it's more for historic
                     //       reason... well, it seems to work on current Chrome and Firefox so...
-                    onfocus={ctx.link().callback(|_| Msg::FocusLastElement)}
+                    onfocus={ctx.link().callback(|_| OverlayMsg::FocusLastElement)}
                 />
                 {backdrop}
                 <div
                     class={classes!("bp3-overlay-content", class.clone())}
                     {style}
                     ref={self.content_ref.clone()}
-                    onclick={ctx.link().callback(Msg::OnClick)}
+                    onclick={ctx.link().callback(OverlayMsg::OnClick)}
                 >
                     {for children.iter()}
                 </div>
@@ -231,7 +231,7 @@ impl Component for Overlay {
                     class="bp3-overlay-end-focus-trap"
                     ref={self.start_focus_trap.clone()}
                     tabindex=0
-                    onfocus={ctx.link().callback(|_| Msg::FocusFirstElement)}
+                    onfocus={ctx.link().callback(|_| OverlayMsg::FocusFirstElement)}
                 />
                 </>
             }
@@ -248,8 +248,8 @@ impl Component for Overlay {
                         Dark.classes_with_override(*dark),
                     )}
                     aria-live="polite"
-                    onkeydown={ctx.link().callback(Msg::OnKeyDown)}
-                    onclick={ctx.link().callback(Msg::OnClick)}
+                    onkeydown={ctx.link().callback(OverlayMsg::OnKeyDown)}
+                    onclick={ctx.link().callback(OverlayMsg::OnClick)}
                 >
                     {inner}
                 </div>
@@ -262,7 +262,7 @@ impl Component for Overlay {
 
         if *open && !self.initial_open {
             self.initial_open = true;
-            ctx.link().send_message(Msg::FocusFirstElement);
+            ctx.link().send_message(OverlayMsg::FocusFirstElement);
         }
     }
 }
