@@ -60,9 +60,9 @@ impl Component for Example {
             }
             Msg::UpdatePassword(value) => {
                 self.password_strength = match value.len() {
-                    n if n == 0 => html!(),
-                    n if n < 4 => html!(<Tag>{"weak"}</Tag>),
-                    n if n < 8 => html!(<Tag>{"medium"}</Tag>),
+                    0 => html!(),
+                    1..=4 => html!(<Tag>{"weak"}</Tag>),
+                    5..=8 => html!(<Tag>{"medium"}</Tag>),
                     _ => html!(<Tag>{"strong"}</Tag>),
                 };
 

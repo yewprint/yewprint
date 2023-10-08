@@ -5,7 +5,7 @@ use yew::prelude::*;
 #[derive(Debug)]
 pub struct Dialog {
     title_id: AttrValue,
-    cb: MsgCallbacks<Self>,
+    cb: DialogMsgCallbacks<Self>,
 }
 
 #[derive(Debug, PartialEq, Properties)]
@@ -37,13 +37,13 @@ pub struct DialogProps {
 }
 
 #[derive(yew_callbacks::Callbacks)]
-pub enum Msg {
+pub enum DialogMsg {
     OnClose(MouseEvent),
 }
 
 impl Component for Dialog {
     type Properties = DialogProps;
-    type Message = Msg;
+    type Message = DialogMsg;
 
     fn create(ctx: &Context<Self>) -> Self {
         thread_local! {
@@ -63,7 +63,7 @@ impl Component for Dialog {
 
     fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
-            Msg::OnClose(_event) => {
+            DialogMsg::OnClose(_event) => {
                 ctx.props().onclose.emit(());
                 false
             }

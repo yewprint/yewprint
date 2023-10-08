@@ -65,7 +65,7 @@ where
     pub buttons_on_the_left: bool,
 }
 
-pub enum Msg {
+pub enum NumericInputMsg {
     InputUpdate(String),
     Up,
     Down,
@@ -83,7 +83,7 @@ where
         + PartialOrd
         + 'static,
 {
-    type Message = Msg;
+    type Message = NumericInputMsg;
     type Properties = NumericInputProps<T>;
 
     fn create(_ctx: &Context<Self>) -> Self {
@@ -107,16 +107,16 @@ where
         };
 
         match msg {
-            Msg::InputUpdate(new_value) => {
+            NumericInputMsg::InputUpdate(new_value) => {
                 if let Ok(new_value) = new_value.trim().parse::<T>() {
                     update_value(new_value)
                 } else {
                     false
                 }
             }
-            Msg::Up => update_value(ctx.props().value + ctx.props().increment),
-            Msg::Down => update_value(ctx.props().value - ctx.props().increment),
-            Msg::Noop => false,
+            NumericInputMsg::Up => update_value(ctx.props().value + ctx.props().increment),
+            NumericInputMsg::Down => update_value(ctx.props().value - ctx.props().increment),
+            NumericInputMsg::Noop => false,
         }
     }
 
@@ -157,13 +157,13 @@ where
                     <Button
                         icon={Icon::ChevronUp}
                         disabled={button_up_disabled}
-                        onclick={ctx.link().callback(|_| Msg::Up)}
+                        onclick={ctx.link().callback(|_| NumericInputMsg::Up)}
                         {intent}
                     />
                     <Button
                         icon={Icon::ChevronDown}
                         disabled={button_down_disabled}
-                        onclick={ctx.link().callback(|_| Msg::Down)}
+                        onclick={ctx.link().callback(|_| NumericInputMsg::Down)}
                         {intent}
                     />
                 </ButtonGroup>
@@ -181,15 +181,15 @@ where
                 value={self.input.clone()}
                 oninput={ctx.link().callback(|e: InputEvent| {
                     let value = e.target_unchecked_into::<HtmlInputElement>().value();
-                    Msg::InputUpdate(value)
+                    NumericInputMsg::InputUpdate(value)
                 })}
                 onkeydown={ctx.link().callback(|e: KeyboardEvent| {
                     if e.key() == "ArrowUp" {
-                        Msg::Up
+                        NumericInputMsg::Up
                     } else if e.key() == "ArrowDown" {
-                        Msg::Down
+                        NumericInputMsg::Down
                     } else {
-                        Msg::Noop
+                        NumericInputMsg::Noop
                     }
                 })}
             />
