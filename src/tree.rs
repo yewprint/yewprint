@@ -307,7 +307,8 @@ impl Component for TreeNode {
         html! {
             <li class={classes!(
                 "bp3-tree-node",
-                ctx.props().is_selected.then_some("bp3-tree-node-selected")
+                ctx.props().is_selected.then_some("bp3-tree-node-selected"),
+                ctx.props().disabled.then_some("bp3-disabled"),
             )}>
                 <div
                     class="bp3-tree-node-content"
@@ -328,6 +329,8 @@ impl Component for TreeNode {
                                     )}
                                     icon={Icon::ChevronRight}
                                     onclick={self.handler_caret_click.clone()}
+                                    aria_hidden=true
+                                    tab_index={-1}
                                 />
                             }
                         } else {

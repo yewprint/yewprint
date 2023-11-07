@@ -71,7 +71,8 @@ impl Component for Example {
                 icon: Icon::Tag,
                 icon_intent: Some(Intent::Primary),
                 label: "Outer file".into(),
-                secondary_label: Some(html!(<Icon icon={Icon::EyeOpen} />)),
+                secondary_label: Some(html!(<Icon icon={Icon::Lock} />)),
+                disabled: true,
                 data: 3,
                 ..Default::default()
             }),
