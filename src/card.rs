@@ -8,7 +8,7 @@ pub struct CardProps {
     #[prop_or_default]
     pub elevation: Elevation,
     #[prop_or_default]
-    pub onclick: Callback<MouseEvent>,
+    pub onclick: Option<Callback<MouseEvent>>,
     #[prop_or(false)]
     pub interactive: bool,
     #[prop_or_default]
@@ -35,7 +35,8 @@ pub fn card(
                 interactive.then_some("bp3-interactive"),
                 class.clone(),
             )}
-            {onclick}
+            // TODO why do I need to unwrap()? looks like an issue in Yew
+            onclick={onclick.clone().unwrap_or_default()}
             {style}
         >
             {children.clone()}
