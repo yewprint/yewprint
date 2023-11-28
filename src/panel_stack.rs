@@ -94,7 +94,7 @@ impl PanelStackState {
 
 impl PartialEq for PanelStackState {
     fn eq(&self, other: &Self) -> bool {
-        self.version == other.version
+        Rc::ptr_eq(&self.opened_panels, &other.opened_panels) && self.version == other.version
     }
 }
 
