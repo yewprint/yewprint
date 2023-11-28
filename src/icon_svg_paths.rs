@@ -1685,7 +1685,7 @@ Custom(Html),
 }
 
 impl Icon {
-pub const ALL: &[Icon] = &[
+pub const ALL: &'static [Icon] = &[
 Icon::Add,
 Icon::AddClip,
 Icon::AddColumnLeft,

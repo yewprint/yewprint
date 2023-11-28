@@ -60,7 +60,7 @@ pub(crate) fn generate_icons() -> Result<()> {
     src.push_str("}\n\n");
 
     src.push_str("impl Icon {\n");
-    src.push_str("pub const ALL: &[Icon] = &[\n");
+    src.push_str("pub const ALL: &'static [Icon] = &[\n");
     for icon in keys {
         src.push_str("Icon::");
         src.push_str(icon);
