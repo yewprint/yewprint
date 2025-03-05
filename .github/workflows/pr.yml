@@ -11,17 +11,20 @@ jobs:
   checks:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
+
     - uses: Swatinem/rust-cache@v2
       with:
         cache-on-failure: true
-    - run: cargo test --workspace --all-features --verbose
-    - uses: actions/checkout@v2
-    - run: rustup install --profile default nightly
-    # NOTE: we use nightly here to enable the options error_on_line_overflow and
-    #       error_on_unformatted
-    - uses: actions-rs/clippy-check@v1
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        args: --all --all-features --tests -- -D warnings
-    - run: cargo +nightly fmt -- --check
+
+    - name: Tests
+      run: cargo test --workspace --all-features --verbose
+
+    - name: install Rust nightly
+      uses: dtolnay/rust-toolchain@nightly
+
+    - name: Lints
+      run: cargo clippy --all --all-features --tests -- -D warnings
+
+    - name: Format
+      run: cargo +nightly fmt -- --check
