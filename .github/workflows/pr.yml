@@ -20,11 +20,13 @@ jobs:
     - name: Tests
       run: cargo test --workspace --all-features --verbose
 
-    - name: install Rust nightly
-      uses: dtolnay/rust-toolchain@nightly
-
     - name: Lints
       run: cargo clippy --all --all-features --tests -- -D warnings
+
+      # NOTE: we use nightly here to enable the options `error_on_line_overflow`
+      # and `error_on_unformatted`
+    - name: install Rust nightly
+      uses: dtolnay/rust-toolchain@nightly
 
     - name: Format
       run: cargo +nightly fmt -- --check
