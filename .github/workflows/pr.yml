@@ -28,7 +28,7 @@ jobs:
     - name: install Rust nightly
       uses: dtolnay/rust-toolchain@nightly
       with:
-        component: rustfmt
+        components: rustfmt
 
     - name: Format
       run: cargo +nightly fmt -- --check
