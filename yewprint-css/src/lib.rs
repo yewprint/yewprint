@@ -33,14 +33,15 @@ pub fn download_from_npm_package(
         let info: PackageInfo =
             ureq::get(format!("https://registry.npmjs.org/{package_name}").as_str())
                 .call()?
-                .into_json()?;
+                .body_mut()
+                .read_json::<PackageInfo>()?;
 
         info.dist_tags.latest
     } else {
         version.to_string()
     };
 
-    let resp = ureq::get(
+    let mut resp = ureq::get(
         format!(
             "https://registry.npmjs.org/{}/-/{}-{}.tgz",
             package_name,
@@ -54,7 +55,7 @@ pub fn download_from_npm_package(
     )
     .call()?;
 
-    let mut archive = tar::Archive::new(flate2::read::GzDecoder::new(resp.into_reader()));
+    let mut archive = tar::Archive::new(flate2::read::GzDecoder::new(resp.body_mut().as_reader()));
 
     let blueprint_css = archive.entries()?.find(|entry| {
         entry
