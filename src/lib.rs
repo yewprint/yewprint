@@ -193,7 +193,7 @@ pub struct Dark;
 impl Dark {
     pub fn with<T>(&self, f: impl FnOnce(&Cell<bool>) -> T) -> T {
         thread_local! {
-            static DARK: Cell<bool> = Cell::new(false);
+            static DARK: Cell<bool> = const { Cell::new(false) };
         }
         DARK.with(f)
     }

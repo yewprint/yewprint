@@ -32,7 +32,7 @@ fn main() {
                     .join(&path)
                     .with_file_name("mod.rs.html");
                 let src =
-                    syntect::html::highlighted_snippet_for_file(&path, syntax_set, theme).unwrap();
+                    syntect::html::highlighted_html_for_file(&path, syntax_set, theme).unwrap();
 
                 let _ = std::fs::create_dir_all(dest_path.parent().unwrap());
                 fs::write(&dest_path, src.trim_end()).unwrap();
