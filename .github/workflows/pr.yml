@@ -25,6 +25,6 @@ jobs:
 
     # NOTE: we use nightly here to enable the options `error_on_line_overflow`
     # and `error_on_unformatted`
-    - run: rustup install nightly
+    - run: rustup install nightly --profile minimal --component rustfmt
 
     - run: cargo +nightly fmt -- --check
