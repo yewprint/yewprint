@@ -17,18 +17,14 @@ jobs:
       with:
         cache-on-failure: true
 
-    - name: Tests
-      run: cargo test --workspace --all-features --verbose
+    - run: cargo test --workspace --all-features --verbose
+      env:
+        GITHUB_PR_SOURCE_REPOSITORY: ${{ github.event.pull_request.head.repo.full_name }}
 
-    - name: Lints
-      run: cargo clippy --all --all-features --tests -- -D warnings
+    - run: cargo clippy --all --all-features --tests -- -D warnings
 
-      # NOTE: we use nightly here to enable the options `error_on_line_overflow`
-      # and `error_on_unformatted`
-    - name: install Rust nightly
-      uses: dtolnay/rust-toolchain@nightly
-      with:
-        components: rustfmt
+    # NOTE: we use nightly here to enable the options `error_on_line_overflow`
+    # and `error_on_unformatted`
+    - run: rustup install nightly --profile minimal --component rustfmt
 
-    - name: Format
-      run: cargo +nightly fmt -- --check
+    - run: cargo +nightly fmt -- --check
