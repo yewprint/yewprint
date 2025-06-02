@@ -17,6 +17,8 @@ jobs:
       with:
         cache-on-failure: true
 
+    - run: export
+
     - name: Tests
       run: cargo test --workspace --all-features --verbose
 
