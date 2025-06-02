@@ -79,11 +79,11 @@ macro_rules! build_source_code_component {
                     .to_str()
                     .unwrap();
 
-                if let (Some(actor), Some(branch)) = (
-                    option_env!("GITHUB_ACTOR").filter(|x| !x.is_empty()),
+                if let (Some(repo), Some(branch)) = (
+                    option_env!("GITHUB_PR_SOURCE_REPOSITORY").filter(|x| !x.is_empty()),
                     option_env!("GITHUB_HEAD_REF").filter(|x| !x.is_empty()),
                 ) {
-                    format!("https://github.com/{actor}/yewprint/blob/{branch}/src/{component}.rs")
+                    format!("https://github.com/{repo}/blob/{branch}/src/{component}.rs")
                 } else {
                     format!("https://github.com/yewprint/yewprint/blob/HEAD/src/{component}.rs")
                 }
