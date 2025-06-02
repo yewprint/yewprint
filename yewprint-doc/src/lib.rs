@@ -126,9 +126,7 @@ macro_rules! build_source_code_component {
             #[test]
             fn check_url() {
                 let url = SourceCodeUrl::generate_url();
-                let response = ureq::get(&url).call().expect("can send request");
-
-                assert_eq!(response.status(), 200, "could not get url: {url}")
+                assert!(ureq::get(&url).call().is_ok(), "could not get url: {url}");
             }
         }
     };
