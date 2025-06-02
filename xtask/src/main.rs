@@ -7,7 +7,7 @@ use std::{
 };
 use xtask_wasm::{
     anyhow::{Context, Result},
-    clap, DistResult,
+    clap,
 };
 
 #[derive(clap::Parser)]
@@ -33,7 +33,7 @@ fn main() -> Result<()> {
         Cli::Dist(dist) => {
             log::info!("Generating package...");
 
-            let DistResult { dist_dir, .. } = dist
+            let dist_dir = dist
                 .static_dir_path("yewprint-doc/static")
                 .run("yewprint-doc")?;
 
